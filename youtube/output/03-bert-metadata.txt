@@ -1,0 +1,23 @@
+TYTUŁ:
+BERT: Jak Google nauczył maszyny rozumieć kontekst | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł Google AI Language z 2018 roku "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" – model, który zrewolucjonizował przetwarzanie języka naturalnego.
+
+W tym odcinku omawiamy:
+• Problem kontekstu w NLP: dlaczego maszyny znały słowa, ale nie rozumiały ich znaczenia
+• Ograniczenia poprzedników (GPT, ELMo): jednokierunkowość jako główna przeszkoda
+• Innowacja nr 1 – Masked Language Model (MLM): genialna gra w zgadywanie zamaskowanych słów
+• Strategia maskowania 80/10/10: klucz do uniknięcia rozbieżności trening-zastosowanie
+• Innowacja nr 2 – Next Sentence Prediction (NSP): nauka logiki narracji
+• Wyniki: 11 nowych rekordów SOTA, pierwszy system pokonujący ludzi w SQuAD
+• Paradygmat pre-training + fine-tuning: demokratyzacja NLP
+• Badania ablacyjne: dowód na znaczenie dwukierunkowości i NSP
+• Efekt skali: większe modele = lepsze wyniki nawet na małych zbiorach danych
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/1810.04805
+
+Autorzy: Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova (Google AI Language, 2018)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #BERT #Google #NLP #Transformer #PreTraining #FineTuning #LanguageModels #ArtificialIntelligence #SztucznaInteligencja #DeepDive #NaturalLanguageProcessing #MLM #NSP #PL

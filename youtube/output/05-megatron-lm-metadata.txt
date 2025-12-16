@@ -1,0 +1,23 @@
+TYTUŁ:
+Megatron-LM: Jak NVIDIA Przełamała Barierę Pamięci GPU | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł NVIDIA z 2019 roku "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism" – technika, która otworzyła erę gigantycznych modeli językowych.
+
+W tym odcinku omawiamy:
+• Paradoks skalowania AI: jak zmieścić "ocean wiedzy w szklance pamięci" GPU
+• Ograniczenia Pipeline Parallelism (GPipe) i Mesh TensorFlow: problem "bąbelków" i nieefektywności
+• Innowacja Intralayer Model Parallelism: równoległe obliczenia wewnątrz warstwy Transformer
+• Strategia podziału bloków MLP i Self-Attention: kolumnowy vs wierszowy podział macierzy
+• AllReduce: tylko 2 operacje komunikacji na warstwę – klucz do wydajności
+• Wyniki: 8.3 miliarda parametrów, 512 GPU V100, 76% efektywności skalowania
+• Nowe rekordy SOTA: WikiText-103 (Perplexity 10.8), LAMBADA (66.5% celności)
+• Odkrycie przy okazji: jak przestawienie LayerNorm naprawiło niestabilność BERT
+• Dziedzictwo: fundament dla Turing-NLG, GPT-3, PaLM i BLOOM
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/1909.08053
+
+Autorzy: Mohammad Shoeybi, Mostofa Patwary, Raul Puri, Patrick LeGresley, Jared Casper, Bryan Catanzaro (NVIDIA, 2019)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #MegatronLM #NVIDIA #NLP #Transformer #ModelParallelism #DistributedTraining #LanguageModels #ArtificialIntelligence #SztucznaInteligencja #DeepDive #GPT2 #BERT #GPU #ScalableAI #PL

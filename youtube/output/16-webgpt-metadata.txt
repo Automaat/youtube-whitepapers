@@ -1,0 +1,21 @@
+TYTUŁ:
+WebGPT: Jak OpenAI nauczyło AI szukać w internecie | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku omawiamy przełomową pracę WebGPT od OpenAI, która pokazuje jak nauczyć model językowy GPT-3 korzystania z prawdziwej przeglądarki internetowej, aby udzielać odpowiedzi popartych cytatami ze źródeł.
+
+W tym odcinku omawiamy:
+• 🧠 Problem halucynacji i nieaktualności wiedzy w dużych modelach językowych
+• 🔍 Jak OpenAI podłączyło GPT-3 do wyszukiwarki Microsoft Bing
+• 📝 System cytatów - przejście od "Zaufaj mi" do "Oto moje dowody"
+• 🎓 Metody treningu: Behavior Cloning, Reward Modeling i Rejection Sampling
+• 📊 Wyniki: WebGPT pokonuje ludzi w 56-69% przypadków na zbiorze ELI5
+• ✅ Test TruthfulQA - odporność na popularne mity i przesądy
+• ⚠️ Ryzyka: automation bias, confirmation bias i cherry-picking
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2112.09332
+
+Autorzy: Reiichiro Nakano, Jacob Hilton, Suchir Balaji, Jeff Wu, Long Ouyang, Christina Kim, Christopher Hesse, Shantanu Jain, Vineet Kosaraju, William Saunders, Xu Jiang, Karl Cobbe, Tyna Eloundou, Gretchen Krueger, Kevin Button, Matthew Knight, Benjamin Chess, John Schulman (OpenAI)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #WebGPT #OpenAI #GPT3 #NLP #InformationRetrieval #RLHF #RewardModeling #TruthfulQA #AIResearch #SztucznaInteligencja

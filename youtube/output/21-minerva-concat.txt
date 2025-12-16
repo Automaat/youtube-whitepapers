@@ -1,0 +1,27 @@
+ffconcat version 1.0
+file ../slides/21-minerva/slide-01.png
+duration 46.0
+file ../slides/21-minerva/slide-02.png
+duration 65.0
+file ../slides/21-minerva/slide-03.png
+duration 82.0
+file ../slides/21-minerva/slide-04.png
+duration 60.0
+file ../slides/21-minerva/slide-05.png
+duration 76.0
+file ../slides/21-minerva/slide-06.png
+duration 29.0
+file ../slides/21-minerva/slide-07.png
+duration 131.0
+file ../slides/21-minerva/slide-08.png
+duration 49.0
+file ../slides/21-minerva/slide-09.png
+duration 102.0
+file ../slides/21-minerva/slide-10.png
+duration 100.0
+file ../slides/21-minerva/slide-11.png
+duration 204.55
+file ../slides/21-minerva/slide-12.png
+duration 55.0
+file ../slides/last-slide.png
+duration 5.0

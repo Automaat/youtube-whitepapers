@@ -1,0 +1,22 @@
+TYTUŁ:
+ZeRO: Jak Microsoft Przełamał Barierę Pamięci GPU | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł Microsoftu z 2019 roku "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models" – technologia, która zrewolucjonizowała trenowanie gigantycznych modeli językowych poprzez eliminację redundancji w pamięci GPU.
+
+W tym odcinku omawiamy:
+• Problem muru pamięci: dlaczego model GPT-2 (3 GB wag) potrzebuje 24 GB pamięci do treningu
+• Ograniczenia Data Parallelism (DP) i Model Parallelism (MP): redundancja vs komunikacyjny koszmar
+• Anatomia pamięci GPU: 16 bajtów na parametr przez stany optymalizatora Adam
+• Trzy etapy ZeRO-DP: partycjonowanie stanów optymalizatora (4x), gradientów (8x) i parametrów (64x redukcji)
+• ZeRO-R: zarządzanie aktywacjami, buforami i defragmentacja pamięci
+• Superliniowa skalowalność: jak uwolniona pamięć pozwala na większe batch sizes
+• Demokratyzacja AI: trenowanie modeli 13B parametrów bez skomplikowanego model parallelism
+• Turing-NLG: 17 miliardów parametrów – największy model językowy w momencie publikacji
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/1910.02054
+
+Autorzy: Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, Yuxiong He (Microsoft, 2019)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #ZeRO #Microsoft #DeepSpeed #NLP #Transformer #DistributedTraining #LanguageModels #ArtificialIntelligence #SztucznaInteligencja #DeepDive #GPUMemory #DataParallelism #ModelParallelism #TuringNLG #AdamOptimizer #MixedPrecision #ScalableAI #PL

@@ -1,0 +1,20 @@
+TYTUŁ:
+Codex - Jak AI Nauczyło Się Programować | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomową pracę OpenAI przedstawiającą model Codex - technologię stojącą za GitHub Copilot. Autorzy pokazują, jak specjalistyczny fine-tuning modelu GPT na 159GB kodu z GitHuba przekształcił go w narzędzie zdolne do generowania działającego kodu z opisów w języku naturalnym.
+
+W tym odcinku omawiamy:
+• Syntezę programów - od science fiction do rzeczywistości dzięki Codex
+• Benchmark HumanEval - 164 problemy programistyczne do oceny poprawności funkcjonalnej
+• Metrykę pass@k - rewolucyjne podejście do mierzenia skuteczności generowania kodu
+• Wyniki: skok z 0% (GPT-3) do 28.8% (Codex) przy jednej próbie
+• Ograniczenia modelu - problemy z wiązaniem zmiennych i misalignment
+• Ryzyka bezpieczeństwa - nadmierne zaufanie i generowanie kodu z lukami
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2107.03374
+
+Autorzy: Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan i zespół OpenAI
+
+TAGI:
+#AI #MachineLearning #DeepLearning #Codex #GitHubCopilot #OpenAI #GPT #CodeGeneration #NLP #ProgramSynthesis #HumanEval #SztucznaInteligencja #Programowanie

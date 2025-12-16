@@ -1,0 +1,21 @@
+TYTUŁ:
+InstructGPT: Jak 1.3B parametrów pokonało 175B? Rewolucja RLHF | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku zagłębiamy się w przełomową pracę InstructGPT od OpenAI, która zdefiniowała na nowo jak trenować modele językowe, by naprawdę rozumiały nasze intencje.
+
+W tym odcinku omawiamy:
+• Problem niedopasowania (misalignment) wielkich modeli językowych i framework 3H (Helpful, Honest, Harmless)
+• Szokujący wynik: model 1.3B parametrów preferowany przez ludzi nad GPT-3 (175B) - ponad 100x różnica!
+• Trójetapowy proces RLHF: Supervised Fine-Tuning → Reward Model → PPO
+• Wyniki: 85% preferencji, redukcja halucynacji z 41% do 21%, 25% mniej toksycznych treści
+• "Podatek od dopasowania" (alignment tax) i eleganckie rozwiązanie PPO-PTX
+• Generalizacja do zadań poza danymi treningowymi (np. kod)
+• Ograniczenia i "problem 40 ewaluatorów" - czyje wartości reprezentuje AI?
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2203.02155
+
+Autorzy: Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Christiano, Jan Leike, Ryan Lowe (OpenAI)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #InstructGPT #RLHF #OpenAI #GPT3 #LanguageModels #AIAlignment #ReinforcementLearning #PPO #NLP #AIBezpieczeństwo #SztucznaInteligencja #LLM

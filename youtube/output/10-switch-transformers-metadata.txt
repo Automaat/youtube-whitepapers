@@ -1,0 +1,21 @@
+TYTUŁ:
+Switch Transformers: Bilion Parametrów przy Stałym Koszcie Obliczeniowym | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł Google Research z 2021 roku "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity" – technika, która zmieniła paradygmat skalowania modeli AI z brutalnej siły na inteligentną efektywność strukturalną.
+
+W tym odcinku omawiamy:
+• Problem gęstych modeli (Dense): 100% parametrów aktywnych dla każdego tokena = astronomiczne koszty
+• Architektura Mixture of Experts (MoE): komitet wyspecjalizowanych ekspertów zamiast jednego molocha
+• Innowacja Switch: rewolucyjna prostota routingu Top-1 (jeden token = jeden ekspert)
+• Mechanizmy stabilizacji: Expert Capacity, Auxiliary Loss, precyzyjna inicjalizacja wag
+• Wyniki: 7x szybszy trening przy identycznym koszcie FLOPs, model z 1.6 biliona parametrów
+• Techniki praktyczne: Expert Dropout dla fine-tuningu, destylacja wiedzy (99% kompresja, ~30% zachowanej jakości)
+• Przyszłość: heterogeniczni eksperci i dynamiczna alokacja zasobów obliczeniowych
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2101.03961
+
+Autorzy: William Fedus, Barret Zoph, Noam Shazeer (Google Research, 2021)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #SwitchTransformers #MixtureOfExperts #MoE #Google #NLP #Transformer #SparseModels #DistributedTraining #LanguageModels #ArtificialIntelligence #SztucznaInteligencja #DeepDive #T5 #ScalableAI #Sparsity #ExpertRouting #PL

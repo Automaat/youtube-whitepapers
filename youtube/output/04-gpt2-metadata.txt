@@ -1,0 +1,21 @@
+TYTUŁ:
+GPT-2: Narodziny Modeli Językowych Nowej Generacji | Deep Dive
+
+OPIS:
+🎙️ Dogłębna analiza przełomowej pracy OpenAI z 2019 roku "Language Models Are Unsupervised Multitask Learners", która zapoczątkowała rewolucję Wielkich Modeli Językowych (LLM).
+
+W tym odcinku omawiamy:
+• Zmianę paradygmatu: od wąskich specjalistów do uniwersalnych modeli językowych
+• Nienadzorowane uczenie wielozadaniowe - jak z jednego prostego zadania (przewidywanie następnego słowa) wyłaniają się złożone umiejętności
+• WebText: 40GB jakościowych danych z Reddita i celowe wykluczenie Wikipedii
+• Architektura Transformer i skala: od 117M do 1.5B parametrów
+• Rewolucyjne wyniki zero-shot: tłumaczenie, czytanie ze zrozumieniem, odpowiadanie na pytania
+• Dowody na prawdziwą generalizację vs zapamiętywanie (Bloom Filters, krzywe uczenia)
+• Emergentne właściwości i metapoznanie modelu
+
+📄 Oryginalny artykuł: https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf
+
+Autorzy: Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever (OpenAI)
+
+TAGI:
+#GPT2 #OpenAI #AI #MachineLearning #DeepLearning #NLP #LanguageModels #LLM #Transformer #ZeroShot #EmergentAbilities #ArtificialIntelligence #SztucznaInteligencja #NeuralNetworks #BPE

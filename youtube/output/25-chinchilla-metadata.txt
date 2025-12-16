@@ -1,0 +1,21 @@
+TYTUŁ:
+Chinchilla: Jak DeepMind zmienił zasady wyścigu AI | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł "Training Compute-Optimal Large Language Models" od DeepMind, który udowodnił że dotychczasowe gigantyczne modele językowe były znacząco niedotrenowane.
+
+W tym odcinku omawiamy:
+• Dlaczego przez lata branża AI podążała za błędną filozofią "większe znaczy lepsze"
+• Prawa skalowania Kaplana i ich wpływ na rozwój modeli językowych
+• Fundamentalne pytanie DeepMind: jak optymalnie zbalansować rozmiar modelu i ilość danych
+• Metodologię eksperymentu: 400+ modeli i profile Izo-FLOP
+• Porównanie Chinchilla (70B) vs Gopher (280B) - jak 4x mniejszy model wygrał
+• Wyniki benchmarków: MMLU, RACE-h, BIG-bench i dlaczego to zmienia wszystko
+• Nowy paradygmat: od wyścigu na parametry do wyścigu na dane
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2203.15556
+
+Autorzy: Jordan Hoffmann et al. (DeepMind)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #Chinchilla #DeepMind #LLM #NLP #ScalingLaws #GPT #Gopher #TransformerModels #ComputeOptimal #AIResearch #SztucznaInteligencja

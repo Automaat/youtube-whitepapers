@@ -1,0 +1,22 @@
+TYTUŁ:
+GLaM: Jak osiągnąć wydajność GPT-3 przy 1/3 kosztów energetycznych? | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku analizujemy przełomowy artykuł GLaM (Generalist Language Model), który pokazuje jak budować wydajniejsze modele językowe dzięki architekturze Mixture of Experts (MoE).
+
+W tym odcinku omawiamy:
+• 🔋 Kryzys skalowalności AI - dlaczego modele gęste jak GPT-3 napotykają barierę energetyczną
+• 🧠 Architektura Mixture of Experts (MoE) - jak działa "korporacja ekspertów" zamiast jednego "Pana Gęstego"
+• ⚙️ Funkcja bramkująca (Gating Function) - inteligentny router kierujący tokeny do odpowiednich specjalistów
+• 📊 GLaM w liczbach - 1.2 biliona parametrów, ale tylko 8% aktywnych przy każdym zapytaniu
+• 💰 Redukcja kosztów - 64.6% mniej energii na trening, 48.6% mniej FLOPs na inferencję
+• 🏆 Wyniki benchmarków - jak GLaM pobił GPT-3 na TriviaQA z 1 przykładem vs 64
+• 📚 Jakość danych > ilość - kluczowy eksperyment pokazujący przewagę czystych danych
+• ⚖️ Kompromisy architektury - wymagania pamięciowe i dla kogo MoE się opłaca
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2112.06905
+
+Autorzy: Nan Du, Yanping Huang, Andrew M. Dai, Simon Tong, Dmitry Lepikhin i zespół (Google)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #GLaM #MixtureOfExperts #MoE #GPT3 #NLP #LLM #SparseModels #EfficientAI #Google #TransformerModels #LanguageModels #AIResearch #SztucznaInteligencja

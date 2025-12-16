@@ -1,0 +1,22 @@
+TYTUŁ:
+GPT-1: Artykuł, Który Zmienił AI Na Zawsze | Deep Dive
+
+OPIS:
+🎙️ Omawiamy przełomowy artykuł OpenAI z 2018 roku "Improving Language Understanding by Generative Pre-Training" – dokument założycielski całej ery GPT.
+
+W tym odcinku omawiamy:
+• Problemy NLP przed 2018: fragmentacja zadań, głód danych, ograniczony transfer wiedzy
+• Rewolucyjne podejście pre-train + fine-tune: jeden uniwersalny model bazowy
+• Dlaczego Transformer, a nie LSTM? Znaczenie długiego kontekstu i self-attention
+• Genialna sztuczka: zmiana formatu danych zamiast architektury modelu
+• Wyniki: 9 z 12 benchmarków pobitych (+8.9% na Story Cloze, +5.7% na RACE)
+• Analiza transferu warstw i emergentne zdolności zero-shot
+• Badania ablacyjne: -14.8% bez pre-treningu, -5.6% z LSTM
+• Dziedzictwo GPT-1: fundament BERT, GPT-2, GPT-3 i całej rewolucji GenAI
+
+📄 Oryginalny artykuł: https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf
+
+Autorzy: Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever (OpenAI, 2018)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #GPT #OpenAI #NLP #Transformer #PreTraining #FineTuning #LanguageModels #ArtificialIntelligence #SztucznaInteligencja #DeepDive #PL

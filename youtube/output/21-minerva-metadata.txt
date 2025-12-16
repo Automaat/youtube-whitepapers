@@ -1,0 +1,22 @@
+TYTUŁ:
+Minerva: Ucząc Maszyny Języka Matematyki | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku omawiamy przełomowy model Minerva od Google Research, który osiąga zaawansowane rozumowanie matematyczne i naukowe. Analizujemy jak duże modele językowe mogą nauczyć się "języka matematyki" dzięki specjalistycznym danym treningowym.
+
+W tym odcinku omawiamy:
+• Dlaczego rozumowanie ilościowe (quantitative reasoning) jest tak trudne dla LLM-ów
+• Anatomia wyzwania: 4 kluczowe umiejętności potrzebne do rozwiązywania zadań matematycznych
+• Specjalna "dieta treningowa" Minervy: 38,5 miliarda tokenów danych technicznych
+• Technika głosowania większościowego (Majority Voting) jako sposób na zwiększenie dokładności
+• Wyniki: od 6,9% do 50,3% na benchmarku MATH (poziom olimpiad matematycznych)
+• Czy Minerva to myśliciel czy plagiator? 3 testy weryfikujące
+• Ograniczenia: brak formalnej weryfikacji, narzędzi zewnętrznych i przejrzystości
+• Wizja przyszłości: hybrydowe systemy łączące rozumowanie z precyzją narzędzi
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2206.14858
+
+Autorzy: Aitor Lewkowycz, Anders Andreassen, David Dohan, Ethan Dyer, Henryk Michalewski, et al. (Google Research)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #Minerva #GoogleResearch #MathematicalReasoning #LLM #QuantitativeReasoning #STEM #LanguageModels #SztucznaInteligencja #Matematyka

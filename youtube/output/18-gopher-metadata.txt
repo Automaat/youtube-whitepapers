@@ -1,0 +1,21 @@
+TYTUŁ:
+Gopher: Model 280 Miliardów Parametrów od DeepMind | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku omawiamy przełomowy artykuł "Scaling Language Models: Methods, Analysis & Insights from Training Gopher" od DeepMind - naukową ekspedycję na szczyt skalowania modeli językowych, która pokazuje co naprawdę dzieje się gdy model osiąga skalę 280 miliardów parametrów.
+
+W tym odcinku omawiamy:
+• 🔧 Wyzwania inżynieryjne: jak zmieścić 2.5TB model na procesorach TPU z 16GB pamięci
+• 📚 Zbiór danych MassiveText: 10.5TB tekstu z 27% udziałem książek
+• 🚀 Przełomowe wyniki: 71.6% na RACE-h, 60% na MMLU - wyprzedzając prognozy ekspertów o rok
+• ⚠️ Ograniczenia skali: gdzie większy model nie znaczy lepszy (matematyka, rozumowanie)
+• 🔄 Paradoks toksyczności: większe modele lepiej generują I wykrywają szkodliwe treści
+• 💡 Kluczowa lekcja: jak prosty prompt "bądź pomocny" całkowicie odwraca trendy toksyczności
+• 🧬 Uprzedzenia: gender bias, dialect bias i dlaczego sama skala nie jest panaceum
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2112.11446
+
+Autorzy: Jack W. Rae, Sebastian Borgeaud, Trevor Cai, Katie Millican, Jordan Hoffmann i zespół (DeepMind)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #Gopher #DeepMind #LLM #NLP #ScalingLaws #TransformerModels #AIResearch #LanguageModels #MMLU #Benchmarks #AIEthics #SztucznaInteligencja
