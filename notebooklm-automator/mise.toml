@@ -1,0 +1,44 @@
+[tools]
+python = "3.13"
+uv = "latest"
+
+[env]
+VIRTUAL_ENV = "{{config_root}}/.venv"
+
+[tasks.install]
+description = "Install dependencies"
+run = "uv sync && uv run playwright install chromium"
+
+[tasks.lint]
+description = "Run linter"
+run = "uv run ruff check src/"
+
+[tasks.format]
+description = "Format code"
+run = "uv run ruff format src/"
+
+[tasks.check]
+description = "Run lint and format check"
+run = "uv run ruff check src/ && uv run ruff format --check src/"
+
+[tasks.cli]
+description = "Run notebooklm-automator CLI"
+run = "uv run notebooklm-automator"
+
+[tasks.init]
+description = "Initialize Chrome profile"
+run = "uv run notebooklm-automator init"
+
+[tasks.login]
+description = "Launch Chrome for Google login"
+run = "uv run notebooklm-automator login"
+
+[tasks.notebook]
+description = "Create notebook with URL source: mise run notebook -- NAME SOURCE_URL"
+run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --source {{arg(i=1)}}"
+# Example: mise run notebook -- "Raft Paper" "https://raft.github.io/raft.pdf"
+
+[tasks.notebook-file]
+description = "Create notebook from local file: mise run notebook-file -- NAME FILE_PATH"
+run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --file {{arg(i=1)}}"
+# Example: mise run notebook-file -- "Raft Paper" "../whitepapers/distributed-computing/73-raft.pdf"
