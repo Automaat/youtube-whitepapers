@@ -1,0 +1,306 @@
+# YouTube Whitepapers
+
+Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
+
+**Tech Stack:** Python 3, Bash, ffmpeg, whisper, pdftoppm, pngquant
+
+**Primary Tasks:** Video generation sessions, Python automation scripts
+
+---
+
+## Project Structure
+
+```
+youtube-whitepapers/
+├── generate-prompt.py          # Generate Claude Code prompts for video creation
+├── transcribe.sh               # Batch transcription with Whisper
+├── whitepapers/
+│   ├── llm/                    # LLM research papers
+│   └── distributed-computing/  # Distributed systems papers
+└── youtube/
+    ├── pl/                     # Polish language assets
+    │   ├── audio/              # NotebookLM podcast audio (.m4a)
+    │   ├── slides/             # Presentation PDFs + extracted PNGs
+    │   └── transcripts/        # Whisper transcriptions (.json)
+    ├── output/                 # Final videos (.mp4) + metadata (.txt)
+    ├── thumbnails/             # Episode thumbnails (.png)
+    └── prompts/                # Claude Code prompt templates
+```
+
+---
+
+## Naming Convention
+
+**ALWAYS use:** `{XX}-{category}-{paper-name}`
+
+- `XX` = 2-digit episode number (01, 02, ... 99)
+- `category` = paper category (llm, distributed-computing, security, etc.)
+- `paper-name` = lowercase, hyphenated identifier
+
+**Examples:**
+```
+01-llm-attention-is-all-you-need
+15-llm-glam
+42-distributed-computing-raft
+```
+
+**Apply to ALL files:** audio, slides, transcripts, thumbnails, output videos, metadata
+
+---
+
+## Video Generation Workflow
+
+### Critical: Timing Alignment
+
+**Main pain point is timing misalignment.** Follow this process exactly:
+
+1. **Extract slides from PDF**
+   ```bash
+   pdftoppm -png -r 150 slides/{ep}.pdf slides/{ep}/slide
+   ```
+
+2. **Read each slide image** - understand content/topic of every slide
+
+3. **Analyze transcript timestamps**
+   - Read `transcripts/{ep}.json` carefully
+   - Note exact timestamps where topics change
+   - Map each topic to corresponding slide
+
+4. **Create timing table BEFORE generating video**
+   ```
+   | Slide | Start    | End      | Topic                    |
+   |-------|----------|----------|--------------------------|
+   | 1     | 0:00     | 1:23     | Introduction             |
+   | 2     | 1:23     | 3:45     | Architecture overview    |
+   ```
+
+5. **Verify timing logic**
+   - Slides should transition when speaker changes topic
+   - No slide should be shown for less than 5 seconds
+   - No slide should exceed 3 minutes unless justified
+
+6. **Generate video with ffmpeg**
+   ```bash
+   ffmpeg -y -f concat -safe 0 -i concat.txt -i audio.m4a \
+     -c:v libx264 -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
+     -pix_fmt yuv420p -c:a aac -b:a 192k output.mp4
+   ```
+
+7. **Verify duration**
+   ```bash
+   # Audio duration
+   ffprobe -v error -show_entries format=duration -of csv=p=0 audio.m4a
+   # Video duration (should be audio + 5s)
+   ffprobe -v error -show_entries format=duration -of csv=p=0 output.mp4
+   ```
+
+### Output Requirements
+
+- **5-second silent outro** using `slides/last-slide.png`
+- **Video duration** = audio duration + 5 seconds (±0.5s tolerance)
+- **Polish metadata** in `output/{ep}-metadata.txt`:
+  ```
+  TYTUŁ:
+  [Polish title] | Deep Dive
+
+  OPIS:
+  [Polish description]
+
+  W tym odcinku omawiamy:
+  • [Topic 1]
+  • [Topic 2]
+
+  📄 Oryginalny artykuł: [arxiv URL]
+
+  TAGI:
+  #AI #MachineLearning #DeepLearning
+  ```
+
+---
+
+## Timing Alignment Rules
+
+**NEVER:**
+- Guess slide timings without reading transcript
+- Use uniform durations for all slides
+- Skip the timing verification step
+- Generate video without creating timing table first
+
+**ALWAYS:**
+- Read transcript JSON for exact timestamps
+- Match slide content to what speaker discusses
+- Show timing table before proceeding
+- Verify final video duration matches expected
+
+**If timing seems off:**
+1. Re-read relevant transcript section
+2. Identify topic boundaries
+3. Adjust timing table
+4. Regenerate concat.txt
+5. Regenerate video
+
+---
+
+## Python Conventions
+
+### Style
+
+- **Use:** pathlib for all file operations
+- **Use:** type hints for function signatures
+- **Use:** early returns for error handling
+
+### Example Pattern (from generate-prompt.py)
+
+```python
+from pathlib import Path
+
+def find_episode(ep_num: str) -> Path | None:
+    """Find audio file matching episode number."""
+    audio_dir = SCRIPT_DIR / "audio"
+    matches = list(audio_dir.glob(f"{ep_num}-*.m4a"))
+    return matches[0] if matches else None
+
+def check_file(path: Path, label: str) -> None:
+    """Print file status."""
+    status = "✅" if path.exists() else "❌"
+    print(f"{status} {label}: {path}")
+```
+
+### New Scripts
+
+- Place at project root
+- Use `#!/usr/bin/env python3`
+- Include docstring describing purpose
+- Use emoji for status output (✅ ❌ 🔄 📋)
+
+---
+
+## Bash Conventions
+
+### Style
+
+- **Always:** `set -e` at start
+- **Use:** `SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"`
+- **Use:** emoji for output feedback
+- **Use:** xargs for parallel operations
+
+### Example Pattern (from transcribe.sh)
+
+```bash
+#!/bin/bash
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PARALLEL_JOBS="${1:-3}"
+
+echo "🎙️ Starting transcription..."
+
+find "$AUDIO_DIR" -name "*.m4a" | sort | \
+    xargs -P "$PARALLEL_JOBS" -I {} bash -c 'transcribe_file "$1"' _ {}
+
+echo "🎉 Complete!"
+```
+
+---
+
+## External Tools
+
+### Commands Reference
+
+```bash
+# Transcription (Polish)
+whisper audio.m4a --model small --language pl --output_format json
+
+# PDF to PNG extraction
+pdftoppm -png -r 150 input.pdf output_prefix
+
+# Image compression (if >1MB)
+convert input.png -quality 85 -resize 1920x1080\> output.png
+pngquant --quality=70-80 --ext .png --force input.png
+
+# Video generation
+ffmpeg -y -f concat -safe 0 -i concat.txt -i audio.m4a \
+  -c:v libx264 -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
+  -pix_fmt yuv420p -c:a aac -b:a 192k output.mp4
+
+# Duration check
+ffprobe -v error -show_entries format=duration -of csv=p=0 file.mp4
+```
+
+### Improvements Welcome
+
+Suggest optimizations to ffmpeg/tool commands when you identify:
+- Performance improvements
+- Quality enhancements
+- File size reductions
+
+---
+
+## Common Commands
+
+```bash
+# Transcribe all new audio files
+./transcribe.sh
+
+# Transcribe with more parallelization
+./transcribe.sh 4
+
+# Generate prompt for episode
+./generate-prompt.py 01
+
+# Check video duration
+ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/output/*.mp4
+```
+
+---
+
+## Anti-Patterns
+
+❌ **NEVER:**
+- Generate video without reading slides first
+- Use placeholder timings
+- Skip duration verification
+- Hardcode paths (use pathlib/variables)
+- Create metadata without reading transcript
+- Assume slide order matches topic order in podcast
+
+✅ **ALWAYS:**
+- Read all inputs before generating outputs
+- Create timing table before video generation
+- Verify durations match expectations
+- Use consistent naming convention
+- Show progress with emoji status output
+
+---
+
+## Project-Specific Context
+
+### Categories
+
+Current paper categories:
+- `llm` - Language models (GPT, BERT, LLaMA, etc.)
+- `distributed-computing` - Distributed systems papers
+- `security` - Security research (planned)
+
+### Language Support
+
+- **Current:** Polish (`youtube/pl/`)
+- **Planned:** English version (future)
+
+### Growth
+
+Project is actively growing:
+- Episode numbers will exceed 63
+- New categories will be added
+- Multi-language support planned
+
+---
+
+## Requirements
+
+Install these tools:
+
+```bash
+pip install openai-whisper
+brew install ffmpeg poppler pngquant jq imagemagick
+```
