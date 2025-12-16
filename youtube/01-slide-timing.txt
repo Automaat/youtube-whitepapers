@@ -1,0 +1,15 @@
+# Slide timing for 01-attention-is-all-you-need
+# Format: slide_number|start_time|end_time|topic
+1|0|40|Intro - Attention is All You Need
+2|40|115|Problem - RNN/LSTM limitations
+3|115|165|Vanishing gradient, LSTM attempts
+4|165|255|Long-range dependencies issue
+5|255|330|Self-attention concept
+6|330|380|Self-attention benefits (parallelization)
+7|380|435|Architecture overview (encoder-decoder)
+8|435|500|Encoder/Decoder details
+9|500|560|Multi-head attention
+10|560|630|Positional encoding
+11|630|700|Results - BLEU scores
+12|700|800|Training efficiency
+13|800|981|Impact and future
