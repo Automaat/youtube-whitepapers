@@ -1,0 +1,22 @@
+TYTUŁ:
+UL2: Jeden Model, Który Rządzi Wszystkimi — Unifying Language Learning Paradigms | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku zagłębiamy się w przełomową pracę Google Brain, która rzuca wyzwanie fundamentalnemu założeniu świata AI: że modele językowe muszą być wąsko specjalizowane. UL2 (Unifying Language Learning Paradigms) to nie tylko nowy model — to rewolucyjna metoda treningowa, która pokazuje, że wszechstronność może być lepsza niż specjalizacja.
+
+W tym odcinku omawiamy:
+• Problem "Zoo Modeli" — dlaczego do tej pory musieliśmy wybierać między poetą (GPT) a analitykiem (T5)
+• Mixture of Denoisers (MoD) — innowacyjna metoda treningowa łącząca trzy typy "ćwiczeń" dla AI
+• R-Denoiser, S-Denoiser i X-Denoiser — jak trenować model do rozumienia, generowania i ekstremalnej rekonstrukcji
+• Mode Switching — sprytny mechanizm tokenów [R], [S], [X] pozwalający sterować zachowaniem modelu
+• 9/9 zwycięstw i +76.1% wydajności — wyniki w bezpośrednich porównaniach z modelami T5 i GPT
+• UL2 20B vs GPT-3 175B — jak 9x mniejszy model pokonał giganta w trybie zero-shot na SuperGLUE
+• Chain of Thought — pierwsza publicznie dostępna zdolność "myślenia na głos"
+• Demokratyzacja AI — dlaczego ta praca zmienia zasady gry dla mniejszych instytucji badawczych
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2205.05131
+
+Autorzy: Yi Tay, Mostafa Dehghani, Vinh Q. Tran, Xavier Garcia, Dara Bahri, Tal Schuster, Huaixiu Steven Zheng, Neil Houlsby, Donald Metzler (Google Research)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #UL2 #GoogleBrain #LLM #NLP #Transformers #SztucznaInteligencja #ModelJezykowy #MixtureOfDenoisers #GPT3 #T5 #ChainOfThought

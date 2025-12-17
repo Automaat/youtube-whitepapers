@@ -74,6 +74,12 @@ class Selectors:
     AUDIO_OVERVIEW_BTN = 'button:has-text("Audio Overview")'
     AUDIO_GENERATE_BTN = 'button:has-text("Generate"), button:has-text("Create")'
     AUDIO_CUSTOMIZE_BTN = 'button:has-text("Customize")'
+    AUDIO_PROMPT_INPUT = (
+        'textarea[aria-label*="instruction"], '
+        'textarea[placeholder*="instruction"], '
+        "textarea"
+    )
+    AUDIO_LANGUAGE_DROPDOWN = 'button[aria-label*="language"], [role="listbox"], select'
     AUDIO_READY_INDICATOR = (
         '[data-audio-status="ready"], '
         'button[aria-label="Play"], '

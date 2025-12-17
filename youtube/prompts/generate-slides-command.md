@@ -7,10 +7,10 @@ Run this in a fresh Claude Code session for each transcript:
 ## Command:
 
 ```
-Read the transcript file at milestone-papers/youtube/transcripts/[EPISODE].json and create a detailed NotebookLM prompt for generating 11 presentation slides in English.
+Read the transcript file at ./youtube/transcripts/6 and create a detailed NotebookLM prompt for generating 11 presentation slides.
 
 Requirements:
-- Audience: technical ML/AI experts
+- Audience: technical Software Engineering experts
 - 11 slides total
 - Slides 1-10: title + 4-6 detailed bullet points covering paper content
 - Slide 11: Question slide - extract the question asked at the end of the podcast transcript (display only the question text)
@@ -28,6 +28,17 @@ Output format - a complete prompt ready to paste into NotebookLM:
 
 Generate 11 presentation slides based on the podcast about [PAPER NAME].
 
+## Visual Style
+- Minimal, clean design with dark blue headers
+- White/light gray background
+- Sans-serif typography throughout
+- Simple outline icons only (no stock photos, no AI-generated images)
+- Consistent layout: title at top, bullets left-aligned
+- Same spacing and margins across all slides
+- Use diagrams/flowcharts for technical concepts where appropriate
+
+---
+
 ### Slide 1: [Title]
 Content to include:
 - [detailed point 1]
@@ -40,7 +51,7 @@ Content to include:
 ### Slide 11: Question for You
 Display only the question asked at the end of the podcast (find it in the transcript).
 
-When done save to ./milestone-papers/youtube/prompts/slides/
+When done save to ./youtube/prompts/slides/
 ```
 
 ---

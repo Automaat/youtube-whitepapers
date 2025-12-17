@@ -13,7 +13,7 @@ import typer
 from rich.console import Console
 from rich.logging import RichHandler
 
-from src.audio import AudioManager
+from src.audio import AudioManager, AudioStatus
 from src.browser import BrowserManager, browser_session
 from src.config import settings
 from src.notebook import NotebookManager
@@ -180,36 +180,47 @@ audio_app = typer.Typer(help="Audio Overview commands")
 app.add_typer(audio_app, name="audio")
 
 
+PROMPT_FILE = (
+    Path(__file__).parent.parent.parent
+    / "youtube/prompts/notebooklm-research-paper-podcast.md"
+)
+
+
 @audio_app.command("generate")
 def audio_generate(
     notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
-    output: Annotated[Path, typer.Option("--output", "-o")],
-    timeout: Annotated[
-        int,
-        typer.Option("--timeout", "-t", help="Generation timeout in seconds"),
-    ] = 900,
+    language: Annotated[
+        str,
+        typer.Option("--language", "-l", help="Audio language (e.g., Polish, English)"),
+    ] = "Polish",
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
-    """Generate Audio Overview and download."""
+    """Start Audio Overview generation with custom prompt and language."""
     setup_logging(verbose)
 
-    async def run() -> Path | None:
+    # Load prompt from file
+    if not PROMPT_FILE.exists():
+        console.print(f"[red]Prompt file not found:[/] {PROMPT_FILE}")
+        raise typer.Exit(1)
+    prompt = PROMPT_FILE.read_text().strip()
+
+    async def run() -> bool:
         async with browser_session() as (manager, page):
             if not await manager.is_logged_in(page):
                 console.print("[red]Not logged in. Run 'login' first.[/]")
-                return None
+                return False
 
             notebook = NotebookManager()
             if not await notebook.open_notebook(page, notebook_url):
                 console.print("[red]Failed to open notebook[/]")
-                return None
+                return False
 
             audio = AudioManager()
-            return await audio.generate_and_download(page, output, timeout)
+            return await audio.generate(page, prompt=prompt, language=language)
 
-    result = asyncio.run(run())
-    if result:
-        console.print(f"[green]Audio saved:[/] {result}")
+    success = asyncio.run(run())
+    if success:
+        console.print(f"[green]Audio generation started[/] (language: {language})")
     else:
         raise typer.Exit(1)
 
@@ -233,6 +244,48 @@ def audio_status(
 
     status = asyncio.run(run())
     console.print(f"Audio status: [bold]{status}[/]")
+
+
+@audio_app.command("download")
+def audio_download(
+    notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
+    output: Annotated[Path, typer.Option("--output", "-o")],
+    timeout: Annotated[
+        int,
+        typer.Option("--timeout", "-t", help="Wait timeout in seconds"),
+    ] = 900,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Wait for audio generation and download when ready."""
+    setup_logging(verbose)
+
+    async def run() -> Path | None:
+        async with browser_session() as (manager, page):
+            if not await manager.is_logged_in(page):
+                console.print("[red]Not logged in. Run 'login' first.[/]")
+                return None
+
+            notebook = NotebookManager()
+            if not await notebook.open_notebook(page, notebook_url):
+                console.print("[red]Failed to open notebook[/]")
+                return None
+
+            audio = AudioManager()
+            status = await audio.get_status(page)
+
+            if status != AudioStatus.READY:
+                console.print(f"[yellow]Status: {status.value}, waiting...[/]")
+                if not await audio.wait_for_completion(page, timeout):
+                    console.print("[red]Audio generation timed out or failed[/]")
+                    return None
+
+            return await audio.download(page, output)
+
+    result = asyncio.run(run())
+    if result:
+        console.print(f"[green]Audio saved:[/] {result}")
+    else:
+        raise typer.Exit(1)
 
 
 # --- Slides Commands ---

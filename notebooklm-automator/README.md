@@ -36,15 +36,32 @@ mise run login
 ### Create notebook with source
 
 ```bash
-uv run notebooklm-automator notebook create \
-  --name "GLaM Paper" \
-  --source "https://arxiv.org/abs/2112.06905"
+mise run notebook-file -- "66 flp" "../whitepapers/distributed-computing/66-flp-impossibility.pdf"
 ```
 
-### Generate audio
+### Audio commands
+
+Start audio generation (async, doesn't wait):
 
 ```bash
 uv run notebooklm-automator audio generate \
+  --notebook-url "https://notebooklm.google.com/notebook/xxx" \
+  --language Polish
+```
+
+Uses prompt from `youtube/prompts/notebooklm-research-paper-podcast.md`. Default language: Polish.
+
+Check status:
+
+```bash
+uv run notebooklm-automator audio status \
+  --notebook-url "https://notebooklm.google.com/notebook/xxx"
+```
+
+Download when ready (waits if still generating):
+
+```bash
+uv run notebooklm-automator audio download \
   --notebook-url "https://notebooklm.google.com/notebook/xxx" \
   --output ./audio/15-glam.m4a
 ```

@@ -42,3 +42,18 @@ run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --source 
 description = "Create notebook from local file: mise run notebook-file -- NAME FILE_PATH"
 run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --file {{arg(i=1)}}"
 # Example: mise run notebook-file -- "Raft Paper" "../whitepapers/distributed-computing/73-raft.pdf"
+
+[tasks.audio-generate]
+description = "Start audio generation: mise run audio-generate -- NOTEBOOK_URL [LANGUAGE]"
+run = "uv run notebooklm-automator audio generate --notebook-url {{arg(i=0)}} --language {{arg(i=1, default='Polish')}}"
+# Example: mise run audio-generate -- "https://notebooklm.google.com/notebook/xxx"
+
+[tasks.audio-download]
+description = "Download audio: mise run audio-download -- NOTEBOOK_URL OUTPUT_PATH"
+run = "uv run notebooklm-automator audio download --notebook-url {{arg(i=0)}} --output {{arg(i=1)}}"
+# Example: mise run audio-download -- "https://notebooklm.google.com/notebook/xxx" "./audio/15-glam.m4a"
+
+[tasks.audio-status]
+description = "Check audio status: mise run audio-status -- NOTEBOOK_URL"
+run = "uv run notebooklm-automator audio status --notebook-url {{arg(i=0)}}"
+# Example: mise run audio-status -- "https://notebooklm.google.com/notebook/xxx"

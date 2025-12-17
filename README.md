@@ -65,7 +65,7 @@ Save to: `thumbnails/XX-paper-name.png`
 
 Compress if >2MB:
 ```bash
-pngquant 200 --force --output thumbnails/XX-paper-name-optimized.png thumbnails/XX-paper-name.png
+convert thumbnails/XX-paper-name.png -quality 80 -colors 256 thumbnails/XX-paper-name-optimized.png
 ```
 
 ### 5. Generate Video
@@ -164,7 +164,7 @@ Examples:
 - **whisper** - Audio transcription (`pip install openai-whisper`)
 - **ffmpeg** - Video generation (`brew install ffmpeg`)
 - **poppler** - PDF to PNG (`brew install poppler`)
-- **pngquant** - PNG compression (`brew install pngquant`)
+- **imagemagick** - Image processing (`brew install imagemagick`)
 - **jq** - JSON processing (`brew install jq`)
 
 ## Quick Start Example

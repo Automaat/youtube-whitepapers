@@ -54,11 +54,18 @@ class AudioManager:
 
         return AudioStatus.NOT_STARTED
 
-    async def generate(self, page: Page) -> bool:
+    async def generate(
+        self,
+        page: Page,
+        prompt: str | None = None,
+        language: str | None = None,
+    ) -> bool:
         """Start audio overview generation.
 
         Args:
             page: Browser page on a notebook
+            prompt: Custom instructions for audio generation
+            language: Language for audio (e.g., "Polish", "English")
 
         Returns:
             True if generation started
@@ -72,6 +79,30 @@ class AudioManager:
             await asyncio.sleep(1)
         except Exception:
             logger.debug("Audio Overview section might already be open")
+
+        # If prompt or language specified, use customize flow
+        if prompt or language:
+            try:
+                await page.click(Selectors.AUDIO_CUSTOMIZE_BTN, timeout=5000)
+                await asyncio.sleep(1)
+                logger.info("Opened customize dialog")
+
+                # Enter prompt if provided
+                if prompt:
+                    await page.fill(Selectors.AUDIO_PROMPT_INPUT, prompt, timeout=5000)
+                    logger.info("Entered custom prompt")
+
+                # Select language if provided
+                if language:
+                    # Click language dropdown and select option
+                    await page.click(Selectors.AUDIO_LANGUAGE_DROPDOWN, timeout=5000)
+                    await asyncio.sleep(0.5)
+                    lang_option = f'[role="option"]:has-text("{language}"), button:has-text("{language}")'
+                    await page.click(lang_option, timeout=5000)
+                    logger.info("Selected language: %s", language)
+
+            except Exception as e:
+                logger.warning("Customization failed: %s", e)
 
         # Click Generate button
         try:
