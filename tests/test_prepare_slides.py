@@ -406,6 +406,13 @@ class TestFullWorkflow:
                 output_dir.mkdir(exist_ok=True)
                 (output_dir / "slide-01.png").write_bytes(b"fake png")
                 result.stdout = ""
+            elif cmd[0] == "convert":
+                # Create output file (last argument)
+                from pathlib import Path
+
+                out_path = Path(cmd[-1])
+                out_path.write_bytes(b"fake scaled png")
+                result.stdout = ""
             elif cmd[0] == "identify":
                 call_count[0] += 1
                 # First call for slide, second for thumbnail, third for last-slide, etc.

@@ -3,6 +3,7 @@
 
 Extracts slides from PDF and ensures thumbnail/last-slide match dimensions.
 This prevents ffmpeg concat demuxer from dropping frames due to resolution changes.
+Also compresses images exceeding 1.9MB threshold.
 """
 
 import subprocess
@@ -10,6 +11,7 @@ import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent.parent
+COMPRESS_THRESHOLD = 1.9 * 1024 * 1024  # 1.9MB in bytes
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
 ASSETS_DIR = YOUTUBE_DIR / "pl"
 THUMBNAILS_DIR = YOUTUBE_DIR / "thumbnails"
@@ -19,6 +21,70 @@ LAST_SLIDE = ASSETS_DIR / "slides" / "last-slide.png"
 def run_cmd(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess:
     """Run command and return result."""
     return subprocess.run(cmd, capture_output=True, text=True, check=check)
+
+
+def format_size(size_bytes: int) -> str:
+    """Format bytes to human-readable string."""
+    if size_bytes >= 1024**2:
+        return f"{size_bytes / 1024**2:.1f}MB"
+    elif size_bytes >= 1024:
+        return f"{size_bytes / 1024:.1f}KB"
+    return f"{size_bytes}B"
+
+
+def compress_image(src: Path, quality: int = 80, colors: int = 256) -> tuple[int, int]:
+    """Compress PNG image in-place. Returns (old_size, new_size)."""
+    old_size = src.stat().st_size
+    tmp_path = src.with_suffix(".tmp.png")
+
+    cmd = [
+        "convert",
+        str(src),
+        "-quality",
+        str(quality),
+        "-colors",
+        str(colors),
+        str(tmp_path),
+    ]
+
+    result = run_cmd(cmd, check=False)
+    if result.returncode != 0:
+        if tmp_path.exists():
+            tmp_path.unlink()
+        raise RuntimeError(f"Compression failed: {result.stderr}")
+
+    new_size = tmp_path.stat().st_size
+
+    # Only replace if smaller
+    if new_size < old_size:
+        tmp_path.replace(src)
+    else:
+        tmp_path.unlink()
+        new_size = old_size
+
+    return old_size, new_size
+
+
+def compress_large_images(images: list[Path]) -> None:
+    """Compress images exceeding threshold."""
+    large = [(img, img.stat().st_size) for img in images if img.stat().st_size > COMPRESS_THRESHOLD]
+
+    if not large:
+        print(f"   ✅ All images under {format_size(int(COMPRESS_THRESHOLD))}")
+        return
+
+    print(f"   🔄 Compressing {len(large)} images > {format_size(int(COMPRESS_THRESHOLD))}")
+
+    for img, _ in large:
+        try:
+            old_size, new_size = compress_image(img)
+            if new_size < old_size:
+                savings = (1 - new_size / old_size) * 100
+                print(f"      {img.name}: {format_size(old_size)} → {format_size(new_size)} ({savings:.0f}% smaller)")
+            else:
+                print(f"      {img.name}: {format_size(old_size)} (already optimal)")
+        except RuntimeError as e:
+            print(f"      ❌ {img.name}: {e}")
 
 
 def get_image_dimensions(image_path: Path) -> tuple[int, int]:
@@ -182,6 +248,10 @@ def main() -> int:
 
     if dimensions_ok:
         print(f"   ✅ All {len(all_images)} images have consistent dimensions")
+
+    # Compress large images
+    print("🔄 Checking file sizes...")
+    compress_large_images(all_images)
 
     # Summary
     print()

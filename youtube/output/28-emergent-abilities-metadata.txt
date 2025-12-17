@@ -1,0 +1,20 @@
+TYTUŁ:
+Emergent Abilities of Large Language Models | Deep Dive
+
+OPIS:
+🎙️ Czy modele AI mogą nagle nabyć nowych zdolności, których nie miały wcześniej? W tym odcinku zgłębiamy fascynujący artykuł "Emergent Abilities of Large Language Models", który rzuca wyzwanie prostej mantrze "im większy, tym lepszy" i pokazuje, że skalowanie modeli językowych przypomina przejścia fazowe w fizyce.
+
+W tym odcinku omawiamy:
+• Czym są zdolności emergentne i jak je zdefiniować
+• Analogia przejścia fazowego - jak zmiana ilościowa prowadzi do zmiany jakościowej
+• Few-shot prompting jako protokół testowy dla emergencji
+• Konkretne dowody: arytmetyka, Word in Context, Chain of Thought
+• Paradoks instruction finetuning - techniki, które szkodzą mniejszym modelom
+• Emergentne ryzyka - ciemna strona skalowania
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2206.07682
+
+Autorzy: Jason Wei, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph, Sebastian Borgeaud, Dani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, Ed H. Chi, Tatsunori Hashimoto, Oriol Vinyals, Percy Liang, Jeff Dean, William Fedus (Google Research, Stanford University, DeepMind)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #LLM #EmergentAbilities #GPT #PaLM #Skalowanie #NLP #SztucznaInteligencja #PrzejscieFazowe #ChainOfThought #FewShotLearning

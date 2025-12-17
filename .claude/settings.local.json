@@ -114,7 +114,10 @@
       "Bash(do pngquant --quality=70-80 --ext .png --force \"$f\")",
       "Bash(pip install:*)",
       "Bash(pytest:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(git push)",
+      "Bash(python scripts/generate_prompt.py:*)",
+      "Bash(git commit -s -S -m \"$(cat <<''EOF''\nfix generate_prompt.py KeyError for ep_num\n\n- pass ep_num to template.format()\n- fix template to use {ep_num} for mise run prepare command\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
