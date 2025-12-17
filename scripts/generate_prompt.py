@@ -53,6 +53,7 @@ def main() -> None:
     ep_name = audio_file.stem
 
     print(f"📋 Episode: {ep_name}")
+    print(f"📋 Episode number: {ep_num}")
     print("━" * 40)
     print()
     print("Required files:")
@@ -65,7 +66,7 @@ def main() -> None:
     print("━" * 40)
     print()
     template = load_template()
-    print(template.format(ep_name=ep_name))
+    print(template.format(ep_name=ep_name, ep_num=ep_num))
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ Tasks:
 1. **Prepare slides (extracts PDF + ensures image consistency)**
 
    ```bash
-   mise run prepare -- {ep_name}
+   mise run prepare -- {ep_num}
    ```
 
    This creates youtube/pl/slides/{ep_name}/ with:
