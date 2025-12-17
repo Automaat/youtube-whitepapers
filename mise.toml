@@ -23,9 +23,9 @@ run = "python scripts/prepare_slides.py {{arg(i=0)}}"
 
 [tasks.video]
 description = "Generate video from concat.txt: mise run video -- EPISODE_NUM"
-run = "python scripts/generate_video.py {{arg(i=0)}} {{arg(i=1)}} {{arg(i=2)}}"
+run = "python scripts/generate_video.py {{arg(i=0)}} {{option(name='skip-verify', short='s')}}"
 # Example: mise run video -- 28
-# Example: mise run video -- 28 --skip-verify
+# Example: mise run video -- 28 -s
 
 [tasks.compress]
 description = "Compress PNG files: mise run compress -- PATH [--threshold SIZE]"
