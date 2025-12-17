@@ -16,6 +16,7 @@ youtube-whitepapers/
 │   ├── compress_images.py      # Batch PNG compression (>threshold)
 │   ├── generate_video.py       # Generate video from concat.txt + audio
 │   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
+│   ├── rename_thumbnails.py    # Rename thumbnails to match whitepapers + compress
 │   ├── transcribe.py           # Batch transcription with Whisper
 │   ├── verify_concat.py        # Verify concat.txt (files, duration, structure)
 │   └── verify_video.py         # Verify video (no black frames, correct duration)
@@ -301,6 +302,10 @@ mise run video -- 28 --skip-verify
 # Compress large PNG files
 mise run compress -- youtube/thumbnails/
 mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
+
+# Rename thumbnails to match whitepaper names + compress
+mise run rename-thumbnails            # Rename + compress to <1.9MB
+mise run rename-thumbnails --dry-run  # Preview changes
 
 # Verify concat.txt before generating video
 mise run verify-concat -- 28                 # Basic checks

@@ -35,6 +35,19 @@ raw = true
 # Example: mise run verify-concat -- 28
 # Example: mise run verify-concat -- 28 --check-dims
 
+[tasks.rename-audio]
+description = "Rename audio files to match whitepaper names"
+run = "python scripts/rename_audio.py"
+
+[tasks.rename-slides]
+description = "Rename slides dirs/PDFs to match whitepaper names"
+run = "python scripts/rename_slides.py"
+
+[tasks.rename-thumbnails]
+description = "Rename thumbnails to match whitepaper names and compress"
+run = "python scripts/rename_thumbnails.py"
+raw = true
+
 [tasks.lint]
 description = "Run ruff linter"
 run = "ruff check scripts/ tests/"

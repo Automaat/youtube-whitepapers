@@ -10,6 +10,7 @@ youtube-whitepapers/
 │   ├── compress_images.py    # Batch PNG compression (>threshold)
 │   ├── generate_video.py     # Generate video from concat.txt + audio
 │   ├── prepare_slides.py     # Extract/normalize slides from PDF
+│   ├── rename_thumbnails.py  # Rename thumbnails to match whitepapers
 │   ├── transcribe.py         # Batch transcription with Whisper
 │   └── verify_video.py       # Verify video quality
 ├── tests/                    # Pytest test suite
@@ -69,11 +70,10 @@ Save slides to: `slides/XX-paper-name.pdf`
 Generate thumbnail in NotebookLM or externally.
 Save to: `youtube/thumbnails/XX-paper-name.png`
 
-Compress if >2MB:
+Rename numeric thumbnails to match whitepaper names and compress:
 ```bash
-mise run compress -- youtube/thumbnails/ --threshold 2MB
-# Or dry-run first:
-mise run compress -- youtube/thumbnails/ --threshold 2MB --dry-run
+mise run rename-thumbnails            # Rename + compress to <1.9MB
+mise run rename-thumbnails --dry-run  # Preview changes
 ```
 
 ### 5. Generate Video
