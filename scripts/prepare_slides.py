@@ -197,15 +197,25 @@ def main() -> int:
         print("❌ No slides extracted")
         return 1
 
-    # Normalize slides to sRGB colorspace
-    print("🔄 Normalizing colorspace to sRGB...")
-    for slide in slides:
-        ensure_rgb(slide)
-    print(f"   ✅ Normalized {len(slides)} slides")
-
     # Get reference dimensions from first slide
     width, height = get_image_dimensions(slides[0])
-    print(f"   📐 Slide dimensions: {width}x{height}")
+    print(f"   📐 Reference dimensions: {width}x{height}")
+
+    # Normalize slides: sRGB colorspace + consistent dimensions
+    print("🔄 Normalizing slides...")
+    scaled_count = 0
+    for slide in slides:
+        slide_w, slide_h = get_image_dimensions(slide)
+        if (slide_w, slide_h) != (width, height):
+            print(f"   📐 Scaling {slide.name}: {slide_w}x{slide_h} → {width}x{height}")
+            scale_image(slide, slide, width, height)
+            scaled_count += 1
+        else:
+            ensure_rgb(slide)
+
+    if scaled_count > 0:
+        print(f"   ✅ Scaled {scaled_count} slides to match reference")
+    print(f"   ✅ Normalized {len(slides)} slides")
 
     # Scale and copy thumbnail
     print("🔄 Preparing thumbnail...")
