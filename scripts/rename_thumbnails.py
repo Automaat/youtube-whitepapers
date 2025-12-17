@@ -68,6 +68,31 @@ def compress_image(src: Path, quality: int, colors: int) -> tuple[int, int]:
     return old_size, new_size
 
 
+def create_optimized(src: Path, width: int = 1280, height: int = 720) -> Path:
+    """Create optimized version at specified dimensions. Returns output path."""
+    out_path = src.with_stem(f"{src.stem}-optimized")
+
+    cmd = [
+        "convert",
+        str(src),
+        "-resize",
+        f"{width}x{height}^",
+        "-gravity",
+        "center",
+        "-extent",
+        f"{width}x{height}",
+        "-quality",
+        "90",
+        str(out_path),
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        raise RuntimeError(f"Optimized creation failed: {result.stderr}")
+
+    return out_path
+
+
 def find_numeric_thumbnails() -> list[tuple[Path, int]]:
     """Find thumbnails with numeric-only names (e.g., 64.png)."""
     pattern = re.compile(r"^(\d+)\.png$")
@@ -80,6 +105,23 @@ def find_numeric_thumbnails() -> list[tuple[Path, int]]:
             results.append((path, ep_num))
 
     return sorted(results, key=lambda x: x[1])
+
+
+def find_missing_optimized() -> list[Path]:
+    """Find thumbnails with proper names but missing -optimized version."""
+    pattern = re.compile(r"^(\d+)-[a-z0-9-]+\.png$")
+    results = []
+
+    for path in THUMBNAILS_DIR.glob("*.png"):
+        if "-optimized" in path.stem:
+            continue
+        if not pattern.match(path.name):
+            continue
+        opt_path = path.with_stem(f"{path.stem}-optimized")
+        if not opt_path.exists():
+            results.append(path)
+
+    return sorted(results)
 
 
 def find_whitepaper_name(ep_num: int) -> str | None:
@@ -143,12 +185,16 @@ Examples:
         return 1
 
     thumbnails = find_numeric_thumbnails()
+    missing_optimized = find_missing_optimized()
 
-    if not thumbnails:
-        print("✅ No numeric thumbnails found to rename")
+    if not thumbnails and not missing_optimized:
+        print("✅ Nothing to do")
         return 0
 
-    print(f"🔍 Found {len(thumbnails)} numeric thumbnails")
+    if thumbnails:
+        print(f"🔍 Found {len(thumbnails)} numeric thumbnails to rename")
+    if missing_optimized:
+        print(f"🔍 Found {len(missing_optimized)} thumbnails missing optimized version")
     print("━" * 60)
 
     if args.dry_run:
@@ -174,6 +220,7 @@ Examples:
             size = path.stat().st_size
             if size > threshold and not args.skip_compress:
                 print(f"   {format_size(size)} → would compress")
+            print(f"   Would create: {ep_num}-{paper_name}-optimized.png (1280x720)")
             renamed_count += 1
         else:
             print(f"🔄 {path.name} → {new_name}")
@@ -200,15 +247,46 @@ Examples:
                     except RuntimeError as e:
                         print(f"   ❌ Compression failed: {e}")
 
+            try:
+                opt_path = create_optimized(new_path)
+                opt_size = opt_path.stat().st_size
+                print(f"   📐 Created {opt_path.name} ({format_size(opt_size)})")
+            except RuntimeError as e:
+                print(f"   ❌ Optimized creation failed: {e}")
+
+    optimized_count = 0
+    for path in missing_optimized:
+        rel_path = path.relative_to(SCRIPT_DIR) if path.is_relative_to(SCRIPT_DIR) else path
+
+        if args.dry_run:
+            print(f"📁 {rel_path.name}")
+            print(f"   Would create: {path.stem}-optimized.png (1280x720)")
+            optimized_count += 1
+        else:
+            print(f"🔄 {rel_path.name}")
+            try:
+                opt_path = create_optimized(path)
+                opt_size = opt_path.stat().st_size
+                print(f"   📐 Created {opt_path.name} ({format_size(opt_size)})")
+                optimized_count += 1
+            except RuntimeError as e:
+                print(f"   ❌ Optimized creation failed: {e}")
+
     print()
     print("━" * 60)
 
     if args.dry_run:
-        print(f"📊 Would rename {renamed_count} thumbnails")
+        if renamed_count:
+            print(f"📊 Would rename {renamed_count} thumbnails")
+        if optimized_count:
+            print(f"📊 Would create {optimized_count} optimized versions")
     else:
-        print(f"📊 Renamed {renamed_count} thumbnails")
-        if not args.skip_compress:
-            print(f"   Compressed {compressed_count} files, saved {format_size(total_saved)}")
+        if renamed_count:
+            print(f"📊 Renamed {renamed_count} thumbnails")
+            if not args.skip_compress:
+                print(f"   Compressed {compressed_count} files, saved {format_size(total_saved)}")
+        if optimized_count:
+            print(f"📊 Created {optimized_count} optimized versions")
 
     return 0
 
