@@ -5,16 +5,23 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 ## Directory Structure
 
 ```
-youtube/
-├── audio/                    # NotebookLM podcast audio files (.m4a)
-├── transcripts/              # Whisper transcriptions (.json)
-├── slides/                   # Presentation PDFs and extracted PNGs
-├── thumbnails/               # Video thumbnails (.png)
-├── output/                   # Final videos (.mp4) and metadata (.txt)
-├── prompts/                  # Claude Code prompts for automation
-├── transcribe.sh             # Batch transcription script
-├── generate-prompt.sh        # Generate Claude Code prompt for video
-└── README.md
+youtube-whitepapers/
+├── scripts/                  # Python automation scripts
+│   ├── compress_images.py    # Batch PNG compression (>threshold)
+│   ├── generate_prompt.py    # Generate Claude Code prompts
+│   ├── generate_video.py     # Generate video from concat.txt + audio
+│   ├── prepare_slides.py     # Extract/normalize slides from PDF
+│   ├── transcribe.py         # Batch transcription with Whisper
+│   └── verify_video.py       # Verify video quality
+├── tests/                    # Pytest test suite
+├── mise.toml                 # Task runner configuration
+└── youtube/
+    ├── pl/                   # Polish language assets
+    │   ├── audio/            # NotebookLM podcast audio (.m4a)
+    │   ├── slides/           # Presentation PDFs + extracted PNGs
+    │   └── transcripts/      # Whisper transcriptions (.json)
+    ├── output/               # Final videos (.mp4) + metadata (.txt)
+    └── thumbnails/           # Video thumbnails (.png)
 ```
 
 ## Full Workflow
@@ -32,12 +39,12 @@ Naming convention: `{number}-{paper-name}.m4a` (e.g., `02-gpt.m4a`)
 
 Run batch transcription (uses Whisper, Polish language):
 ```bash
-./transcribe.sh
+mise run transcribe
 # Or with custom parallelization:
-./transcribe.sh 4  # 4 parallel jobs
+mise run transcribe -- 4
 ```
 
-Output: `transcripts/XX-paper-name.json`
+Output: `youtube/pl/transcripts/XX-paper-name.json`
 
 ### 3. Generate Slides (NotebookLM)
 
@@ -61,37 +68,34 @@ Save slides to: `slides/XX-paper-name.pdf`
 ### 4. Add Thumbnail
 
 Generate thumbnail in NotebookLM or externally.
-Save to: `thumbnails/XX-paper-name.png`
+Save to: `youtube/thumbnails/XX-paper-name.png`
 
 Compress if >2MB:
 ```bash
-convert thumbnails/XX-paper-name.png -quality 80 -colors 256 thumbnails/XX-paper-name-optimized.png
+mise run compress -- youtube/thumbnails/ --threshold 2MB
+# Or dry-run first:
+mise run compress -- youtube/thumbnails/ --threshold 2MB --dry-run
 ```
 
 ### 5. Generate Video
 
-#### Generate Claude Code prompt:
+#### Prepare slides:
 ```bash
-./generate-prompt.sh XX
-# Example:
-./generate-prompt.sh 02
+mise run prepare -- 28  # Extracts PDF, normalizes images
 ```
 
-This outputs:
-- File status check (✅/❌)
-- Paper URL
-- Ready-to-copy Claude Code prompt
+#### Generate video (after creating concat.txt):
+```bash
+mise run video -- 28
+# Or skip verification:
+mise run video -- 28 --skip-verify
+```
 
-#### Run in Claude Code:
-Copy the generated prompt and run in a fresh Claude Code session.
-
-The prompt will:
-1. Extract slides from PDF to PNG
-2. Analyze transcript for slide timing
-3. Match slides to transcript content
-4. Generate video with ffmpeg
-5. Create metadata file with Polish title/description
-6. Compress thumbnail if needed
+#### Or use Claude Code prompt:
+```bash
+mise run prompt -- 28
+```
+Copy the generated prompt and run in Claude Code session to create concat.txt with proper timings.
 
 ### 6. Output
 
@@ -170,16 +174,20 @@ Examples:
 ## Quick Start Example
 
 ```bash
-# 1. Transcribe new audio (if not done)
-./transcribe.sh
+# 1. Transcribe new audio
+mise run transcribe
 
-# 2. Generate prompt for episode 02
-./generate-prompt.sh 02
+# 2. Prepare slides for episode
+mise run prepare -- 28
 
-# 3. Copy output and run in Claude Code
+# 3. Generate Claude Code prompt (for timing analysis)
+mise run prompt -- 28
 
-# 4. Upload to YouTube:
-#    - Video: output/02-gpt.mp4
-#    - Metadata: output/02-gpt-metadata.txt
-#    - Thumbnail: thumbnails/02-gpt.png (or optimized version)
+# 4. After creating concat.txt, generate video
+mise run video -- 28
+
+# 5. Upload to YouTube:
+#    - Video: youtube/output/28-paper-name.mp4
+#    - Metadata: youtube/output/28-paper-name-metadata.txt
+#    - Thumbnail: youtube/thumbnails/28-paper-name.png
 ```

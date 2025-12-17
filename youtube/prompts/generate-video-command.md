@@ -25,29 +25,18 @@ Tasks:
    - Create precise slide timing that matches when topics change in the podcast
    - Map each slide to start/end timestamps based on content alignment
 
-3. **Generate video with ffmpeg**
-   - Create concat.txt with **absolute paths** and durations
+3. **Generate video**
+
+   Create concat.txt with **absolute paths** and durations:
    - **5-second thumbnail intro**: thumbnail.png for 5s (during audio start)
    - **5-second silent outro**: last-slide.png for 5s after audio ends
    - Video = audio duration + 5 seconds
-   - Get audio duration first:
 
-     ```bash
-     ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/pl/audio/{ep_name}.m4a
-     ```
+   ```bash
+   mise run video -- {ep_num}
+   ```
 
-   - Generate video (replace DURATION with audio_duration + 5):
-
-     ```bash
-     ffmpeg -y -f concat -safe 0 -i concat.txt -i youtube/pl/audio/{ep_name}.m4a \
-       -c:v libx264 -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
-       -pix_fmt yuv420p -af "apad=pad_dur=5" -c:a aac -b:a 192k \
-       -t DURATION youtube/output/{ep_name}.mp4
-     ```
-
-   - Key flags:
-     - `-af "apad=pad_dur=5"`: Adds 5s silence after audio ends
-     - `-t DURATION`: Ensures exact output duration
+   This runs ffmpeg and verifies output (duration + black frame detection).
 
 4. **Create metadata file**
    - Generate Polish title and description based on transcript content
@@ -77,17 +66,12 @@ Tasks:
      #AI #MachineLearning #DeepLearning #[relevant tags]
      ```
 
-5. **Verify video**
+5. **Verify video** (automatic with step 3, or manual)
 
    ```bash
    mise run verify -- youtube/output/{ep_name}.mp4 youtube/pl/audio/{ep_name}.m4a
    ```
 
-   Script checks:
-   - Duration: video = audio + 5s (±0.5s tolerance)
-   - No black frames in first 3 seconds (should show thumbnail)
-   - No black frames in last 3 seconds (should show last-slide.png)
-
-   If verification fails: fix concat file and regenerate video.
+   If verification fails: fix concat.txt and rerun `mise run video`.
 
 Show the final slide timing table and confirm video was generated successfully.

@@ -13,7 +13,9 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 ```
 youtube-whitepapers/
 ├── scripts/                    # Python automation scripts
+│   ├── compress_images.py      # Batch PNG compression (>threshold)
 │   ├── generate_prompt.py      # Generate Claude Code prompts for video creation
+│   ├── generate_video.py       # Generate video from concat.txt + audio
 │   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
 │   ├── transcribe.py           # Batch transcription with Whisper
 │   └── verify_video.py         # Verify video (no black frames, correct duration)
@@ -107,18 +109,21 @@ This script:
    - No slide should be shown for less than 5 seconds
    - No slide should exceed 3 minutes unless justified
 
-6. **Generate video with ffmpeg**
+6. **Generate video** (use script or manual ffmpeg)
    ```bash
+   # Recommended: use generate_video.py (auto-verifies)
+   mise run video -- 28
+
+   # Or manual ffmpeg:
    ffmpeg -y -f concat -safe 0 -i concat.txt -i audio.m4a \
      -c:v libx264 -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
      -pix_fmt yuv420p -c:a aac -b:a 192k output.mp4
    ```
 
-7. **Verify duration**
+7. **Verify duration** (automatic with generate_video.py)
    ```bash
-   # Audio duration
+   # Manual verification:
    ffprobe -v error -show_entries format=duration -of csv=p=0 audio.m4a
-   # Video duration (should be audio + 5s)
    ffprobe -v error -show_entries format=duration -of csv=p=0 output.mp4
    ```
 
@@ -288,6 +293,14 @@ mise run transcribe -- 4
 
 # Prepare slides for an episode
 mise run prepare -- 26
+
+# Generate video from concat.txt
+mise run video -- 28
+mise run video -- 28 --skip-verify
+
+# Compress large PNG files
+mise run compress -- youtube/thumbnails/
+mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
 
 # Generate prompt for episode
 mise run prompt -- 01

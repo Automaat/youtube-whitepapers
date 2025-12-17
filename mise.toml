@@ -21,6 +21,18 @@ description = "Prepare slides for video: mise run prepare -- EPISODE_NUM"
 run = "python scripts/prepare_slides.py {{arg(i=0)}}"
 # Example: mise run prepare -- 26
 
+[tasks.video]
+description = "Generate video from concat.txt: mise run video -- EPISODE_NUM"
+run = "python scripts/generate_video.py {{arg(i=0)}} {{arg(i=1)}} {{arg(i=2)}}"
+# Example: mise run video -- 28
+# Example: mise run video -- 28 --skip-verify
+
+[tasks.compress]
+description = "Compress PNG files: mise run compress -- PATH [--threshold SIZE]"
+run = "python scripts/compress_images.py {{arg(i=0)}} {{arg(i=1)}} {{arg(i=2)}} {{arg(i=3)}} {{arg(i=4)}}"
+# Example: mise run compress -- youtube/thumbnails/
+# Example: mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
+
 [tasks.lint]
 description = "Run ruff linter"
 run = "ruff check scripts/ tests/"
