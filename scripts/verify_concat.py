@@ -135,17 +135,44 @@ def verify_duration(
     audio_duration = get_audio_duration(audio_path)
     expected_duration = audio_duration + 5.0
 
+    # ffmpeg concat demuxer behavior:
+    # - Each image transition adds 1 frame (0.033s at 30fps)
+    # - The last image without duration gets extended to match audio
+    #
+    # Empirical observation from ep35: 14 images, expected 1065.39s, got 1070.40s
+    # Difference: 5.01s ≈ 14 * 0.36s per image
+    #
+    # Conservative estimate: 0.36s per image (approximately 10 frames at 30fps)
+    num_images = len(entries)
+    ffmpeg_overhead = num_images * 0.36  # ~10 frames per image transition at 30fps
+    predicted_video = total_duration + ffmpeg_overhead
+
     messages.append(f"Audio duration:    {audio_duration:.2f}s")
     messages.append(f"Concat duration:   {total_duration:.2f}s")
-    messages.append(f"Expected:          {expected_duration:.2f}s (audio + 5s)")
+    messages.append(f"FFmpeg overhead:   ~{ffmpeg_overhead:.2f}s ({num_images} images)")
+    messages.append(f"Predicted video:   {predicted_video:.2f}s")
+    messages.append(f"Target video:      {expected_duration:.2f}s (audio + 5s)")
 
-    diff = total_duration - expected_duration
-    ok = abs(diff) <= tolerance
+    # Check if concat + overhead matches target
+    predicted_diff = predicted_video - expected_duration
+
+    # The "ideal" concat duration should account for ffmpeg overhead
+    ideal_concat = expected_duration - ffmpeg_overhead
+    concat_diff = total_duration - ideal_concat
+
+    # We're OK if predicted video is within tolerance of target
+    ok = abs(predicted_diff) <= tolerance
 
     if ok:
-        messages.append(f"✅ Duration OK (diff: {diff:+.2f}s)")
+        messages.append(f"✅ Duration OK (predicted diff: {predicted_diff:+.2f}s)")
     else:
-        messages.append(f"❌ Duration mismatch: {diff:+.2f}s")
+        messages.append(f"❌ Predicted video will be {predicted_diff:+.2f}s off target")
+        if predicted_diff > 0:
+            messages.append(f"   → Reduce concat duration by {predicted_diff:.2f}s")
+            messages.append(f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)")
+        else:
+            messages.append(f"   → Increase concat duration by {abs(predicted_diff):.2f}s")
+            messages.append(f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)")
 
     return ok, messages
 

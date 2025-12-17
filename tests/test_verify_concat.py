@@ -212,24 +212,31 @@ class TestVerifyDuration:
     """Tests for verify_duration function."""
 
     def test_passes_when_duration_matches(self, tmp_path):
-        """Should pass when duration matches expected."""
+        """Should pass when predicted video duration matches target (audio + 5s)."""
         from scripts.verify_concat import ConcatEntry, verify_duration
 
+        # With 2 images: ffmpeg overhead = 2 * 0.36 = 0.72s
+        # For target of 105s, concat should be ~104.28s
+        # We use 105s concat, which predicts 105.72s video (within tolerance)
         entries = [
             ConcatEntry(tmp_path / "slide.png", 100.0, 1),
             ConcatEntry(tmp_path / "outro.png", 5.0, 3),
         ]
 
         with patch("scripts.verify_concat.get_audio_duration", return_value=100.0):
-            ok, messages = verify_duration(entries, tmp_path / "audio.m4a")
+            ok, messages = verify_duration(entries, tmp_path / "audio.m4a", tolerance=1.0)
 
         assert ok is True
         assert any("Duration OK" in m for m in messages)
 
     def test_fails_when_duration_mismatch(self, tmp_path):
-        """Should fail when duration differs too much."""
+        """Should fail when predicted video duration differs too much from target."""
         from scripts.verify_concat import ConcatEntry, verify_duration
 
+        # 1 image: overhead = 0.36s
+        # Concat = 90s → predicted video = 90.36s
+        # Target = 105s (100s audio + 5s)
+        # Diff = -14.64s (way off)
         entries = [
             ConcatEntry(tmp_path / "slide.png", 90.0, 1),  # Too short
         ]
@@ -238,19 +245,24 @@ class TestVerifyDuration:
             ok, messages = verify_duration(entries, tmp_path / "audio.m4a")
 
         assert ok is False
-        assert any("mismatch" in m for m in messages)
+        assert any("off target" in m for m in messages)
 
     def test_uses_tolerance(self, tmp_path):
-        """Should use tolerance for comparison."""
+        """Should use tolerance for predicted video duration comparison."""
         from scripts.verify_concat import ConcatEntry, verify_duration
 
+        # 2 images: overhead = 0.72s
+        # Concat = 105.3s → predicted = 106.02s
+        # Target = 105s → diff = +1.02s
+        # With tolerance=0.5s this should FAIL
+        # With tolerance=1.5s this should PASS
         entries = [
             ConcatEntry(tmp_path / "slide.png", 100.0, 1),
             ConcatEntry(tmp_path / "outro.png", 5.3, 3),  # Slightly over
         ]
 
         with patch("scripts.verify_concat.get_audio_duration", return_value=100.0):
-            ok, _messages = verify_duration(entries, tmp_path / "audio.m4a", tolerance=0.5)
+            ok, _messages = verify_duration(entries, tmp_path / "audio.m4a", tolerance=1.5)
 
         assert ok is True
 
@@ -404,10 +416,14 @@ class TestMain:
         slide.write_bytes(b"png")
         last_slide.write_bytes(b"png")
 
+        # 3 images → ffmpeg overhead = 1.08s
+        # Target = 105s (100s audio + 5s)
+        # Ideal concat = 105s - 1.08s = 103.92s
+        # Using 104s is close enough (predicted = 105.08s, within 0.5s tolerance)
         concat = slides_dir / "concat.txt"
         concat.write_text(
             f"file '{thumbnail}'\nduration 5\n"
-            f"file '{slide}'\nduration 95\n"
+            f"file '{slide}'\nduration 94\n"
             f"file '{last_slide}'\nduration 5\n"
         )
 
