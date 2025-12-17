@@ -2,7 +2,7 @@
 
 Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
-**Tech Stack:** Python 3, Bash, ffmpeg, whisper, pdftoppm, pngquant
+**Tech Stack:** Python 3, Bash, ffmpeg, whisper, pdftoppm, imagemagick
 
 **Primary Tasks:** Video generation sessions, Python automation scripts
 
@@ -12,8 +12,14 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
 ```
 youtube-whitepapers/
-├── generate-prompt.py          # Generate Claude Code prompts for video creation
-├── transcribe.sh               # Batch transcription with Whisper
+├── scripts/                    # Python automation scripts
+│   ├── generate_prompt.py      # Generate Claude Code prompts for video creation
+│   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
+│   ├── transcribe.py           # Batch transcription with Whisper
+│   └── verify_video.py         # Verify video (no black frames, correct duration)
+├── tests/                      # Pytest test suite
+├── pyproject.toml              # Project config (ruff, pytest)
+├── mise.toml                   # Task runner configuration
 ├── whitepapers/
 │   ├── llm/                    # LLM research papers
 │   └── distributed-computing/  # Distributed systems papers
@@ -50,13 +56,35 @@ youtube-whitepapers/
 
 ## Video Generation Workflow
 
+### Critical: Image Format Consistency
+
+**All images in concat MUST have identical dimensions and format.** ffmpeg concat demuxer drops frames when image parameters change.
+
+**Common failure modes:**
+- ❌ Thumbnail at 1920x1080, slides at 2867x1600 → black/missing frames at start
+- ❌ Mixing RGB and grayscale images → filter graph reconfiguration
+- ❌ Different colorspaces between images → ffmpeg filter errors
+
+**Solution:** Use `scripts/prepare_slides.py` to ensure consistency:
+```bash
+mise run prepare -- 26  # Prepares episode 26
+```
+
+This script:
+
+1. Extracts slides from PDF using pdftoppm
+2. Normalizes all slides to sRGB colorspace (prevents ffmpeg errors)
+3. Scales thumbnail to match slide dimensions
+4. Scales last-slide.png to match slide dimensions
+5. Copies all files to `youtube/pl/slides/{ep}/` folder
+
 ### Critical: Timing Alignment
 
 **Main pain point is timing misalignment.** Follow this process exactly:
 
-1. **Extract slides from PDF**
+1. **Prepare slides** (handles image consistency automatically)
    ```bash
-   pdftoppm -png -r 150 slides/{ep}.pdf slides/{ep}/slide
+   mise run prepare -- {ep_number}
    ```
 
 2. **Read each slide image** - understand content/topic of every slide
@@ -149,7 +177,7 @@ youtube-whitepapers/
 - **Use:** type hints for function signatures
 - **Use:** early returns for error handling
 
-### Example Pattern (from generate-prompt.py)
+### Example Pattern (from scripts/generate_prompt.py)
 
 ```python
 from pathlib import Path
@@ -168,10 +196,12 @@ def check_file(path: Path, label: str) -> None:
 
 ### New Scripts
 
-- Place at project root
+- Place in `scripts/` directory
+- Use snake_case naming (e.g., `my_script.py`)
 - Use `#!/usr/bin/env python3`
 - Include docstring describing purpose
 - Use emoji for status output (✅ ❌ 🔄 📋)
+- Add corresponding tests in `tests/`
 
 ---
 
@@ -184,7 +214,7 @@ def check_file(path: Path, label: str) -> None:
 - **Use:** emoji for output feedback
 - **Use:** xargs for parallel operations
 
-### Example Pattern (from transcribe.sh)
+### Example Pattern
 
 ```bash
 #!/bin/bash
@@ -214,9 +244,20 @@ whisper audio.m4a --model small --language pl --output_format json
 # PDF to PNG extraction
 pdftoppm -png -r 150 input.pdf output_prefix
 
-# Image compression (if >1MB)
-convert input.png -quality 85 -resize 1920x1080\> output.png
-pngquant --quality=70-80 --ext .png --force input.png
+# ImageMagick - get dimensions
+identify -format "%wx%h" image.png
+
+# ImageMagick - scale with padding
+convert input.png -colorspace sRGB -resize WxH -background black -gravity center -extent WxH output.png
+
+# ImageMagick - normalize colorspace (in-place)
+mogrify -colorspace sRGB image.png
+
+# ImageMagick - compress PNG
+convert input.png -quality 80 -colors 256 output.png
+
+# ImageMagick - check brightness (for black frame detection)
+magick image.png -colorspace Gray -format "%[fx:mean]" info:
 
 # Video generation
 ffmpeg -y -f concat -safe 0 -i concat.txt -i audio.m4a \
@@ -240,13 +281,28 @@ Suggest optimizations to ffmpeg/tool commands when you identify:
 
 ```bash
 # Transcribe all new audio files
-./transcribe.sh
+mise run transcribe
 
 # Transcribe with more parallelization
-./transcribe.sh 4
+mise run transcribe -- 4
+
+# Prepare slides for an episode
+mise run prepare -- 26
 
 # Generate prompt for episode
-./generate-prompt.py 01
+mise run prompt -- 01
+
+# Verify a generated video
+mise run verify -- youtube/output/26-opt.mp4 youtube/pl/audio/26-opt.m4a
+
+# Run linter
+mise run lint
+
+# Format code
+mise run format
+
+# Run tests
+mise run test
 
 # Check video duration
 ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/output/*.mp4
@@ -302,5 +358,8 @@ Install these tools:
 
 ```bash
 pip install openai-whisper
-brew install ffmpeg poppler pngquant jq imagemagick
+brew install ffmpeg poppler jq imagemagick
+
+# Development dependencies
+pip install ruff pytest pytest-mock
 ```
