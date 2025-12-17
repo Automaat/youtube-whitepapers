@@ -25,12 +25,27 @@ Tasks:
    - Create precise slide timing that matches when topics change in the podcast
    - Map each slide to start/end timestamps based on content alignment
 
-3. **Generate video**
+3. **Create concat.txt**
 
    Create concat.txt with **absolute paths** and durations:
    - **5-second thumbnail intro**: thumbnail.png for 5s (during audio start)
    - **5-second silent outro**: last-slide.png for 5s after audio ends
    - Video = audio duration + 5 seconds
+
+4. **Verify concat.txt** (before generating video)
+
+   ```bash
+   mise run verify-concat -- {ep_num}
+   mise run verify-concat -- {ep_num} --check-dims  # Also verify image dimensions
+   ```
+
+   This checks:
+   - All referenced files exist
+   - Total duration = audio + 5s (±0.5s tolerance)
+   - Structure (thumbnail first, last-slide at end)
+   - No very short (<3s) or very long (>180s) slides
+
+5. **Generate video**
 
    ```bash
    mise run video -- {ep_num}
@@ -38,7 +53,7 @@ Tasks:
 
    This runs ffmpeg and verifies output (duration + black frame detection).
 
-4. **Create metadata file**
+6. **Create metadata file**
    - Generate Polish title and description based on transcript content
    - Include link to original paper (search for arxiv link or paper name)
    - Save to: youtube/output/{ep_name}-metadata.txt
@@ -66,7 +81,7 @@ Tasks:
      #AI #MachineLearning #DeepLearning #[relevant tags]
      ```
 
-5. **Verify video** (automatic with step 3, or manual)
+7. **Verify video** (automatic with step 5, or manual)
 
    ```bash
    mise run verify -- youtube/output/{ep_name}.mp4 youtube/pl/audio/{ep_name}.m4a

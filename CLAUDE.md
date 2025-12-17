@@ -18,6 +18,7 @@ youtube-whitepapers/
 │   ├── generate_video.py       # Generate video from concat.txt + audio
 │   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
 │   ├── transcribe.py           # Batch transcription with Whisper
+│   ├── verify_concat.py        # Verify concat.txt (files, duration, structure)
 │   └── verify_video.py         # Verify video (no black frames, correct duration)
 ├── tests/                      # Pytest test suite
 ├── pyproject.toml              # Project config (ruff, pytest)
@@ -304,6 +305,10 @@ mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
 
 # Generate prompt for episode
 mise run prompt -- 01
+
+# Verify concat.txt before generating video
+mise run verify-concat -- 28                 # Basic checks
+mise run verify-concat -- 28 --check-dims    # Also check image dimensions
 
 # Verify a generated video
 mise run verify -- youtube/output/26-opt.mp4 youtube/pl/audio/26-opt.m4a

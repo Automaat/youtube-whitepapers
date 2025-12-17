@@ -33,6 +33,13 @@ run = "python scripts/compress_images.py {{arg(i=0)}} {{arg(i=1)}} {{arg(i=2)}} 
 # Example: mise run compress -- youtube/thumbnails/
 # Example: mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
 
+[tasks.verify-concat]
+description = "Verify concat.txt: mise run verify-concat -- EPISODE_NUM [--check-dims]"
+run = "python scripts/verify_concat.py"
+raw = true
+# Example: mise run verify-concat -- 28
+# Example: mise run verify-concat -- 28 --check-dims
+
 [tasks.lint]
 description = "Run ruff linter"
 run = "ruff check scripts/ tests/"
