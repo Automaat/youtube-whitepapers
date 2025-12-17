@@ -8,7 +8,6 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 youtube-whitepapers/
 ├── scripts/                  # Python automation scripts
 │   ├── compress_images.py    # Batch PNG compression (>threshold)
-│   ├── generate_prompt.py    # Generate Claude Code prompts
 │   ├── generate_video.py     # Generate video from concat.txt + audio
 │   ├── prepare_slides.py     # Extract/normalize slides from PDF
 │   ├── transcribe.py         # Batch transcription with Whisper
@@ -91,11 +90,13 @@ mise run video -- 28
 mise run video -- 28 --skip-verify
 ```
 
-#### Or use Claude Code prompt:
+#### Or use Claude Code slash command
+
 ```bash
-mise run prompt -- 28
+/generate-video 28
 ```
-Copy the generated prompt and run in Claude Code session to create concat.txt with proper timings.
+
+This runs the full video generation workflow with proper timings.
 
 ### 6. Output
 
@@ -180,10 +181,8 @@ mise run transcribe
 # 2. Prepare slides for episode
 mise run prepare -- 28
 
-# 3. Generate Claude Code prompt (for timing analysis)
-mise run prompt -- 28
-
-# 4. After creating concat.txt, generate video
+# 3. Run Claude Code slash command (or generate video manually)
+# /generate-video 28
 mise run video -- 28
 
 # 5. Upload to YouTube:

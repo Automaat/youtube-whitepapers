@@ -14,7 +14,6 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 youtube-whitepapers/
 ├── scripts/                    # Python automation scripts
 │   ├── compress_images.py      # Batch PNG compression (>threshold)
-│   ├── generate_prompt.py      # Generate Claude Code prompts for video creation
 │   ├── generate_video.py       # Generate video from concat.txt + audio
 │   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
 │   ├── transcribe.py           # Batch transcription with Whisper
@@ -183,7 +182,7 @@ This script:
 - **Use:** type hints for function signatures
 - **Use:** early returns for error handling
 
-### Example Pattern (from scripts/generate_prompt.py)
+### Example Pattern
 
 ```python
 from pathlib import Path
@@ -302,9 +301,6 @@ mise run video -- 28 --skip-verify
 # Compress large PNG files
 mise run compress -- youtube/thumbnails/
 mise run compress -- youtube/thumbnails/ --threshold 1MB --dry-run
-
-# Generate prompt for episode
-mise run prompt -- 01
 
 # Verify concat.txt before generating video
 mise run verify-concat -- 28                 # Basic checks

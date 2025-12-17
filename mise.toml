@@ -6,11 +6,6 @@ description = "Verify video: mise run verify -- VIDEO AUDIO"
 run = "python scripts/verify_video.py {{arg(i=0)}} {{arg(i=1)}}"
 # Example: mise run verify -- youtube/output/01-attention.mp4 youtube/pl/audio/01-attention.m4a
 
-[tasks.prompt]
-description = "Generate prompt for episode: mise run prompt -- EPISODE_NUM"
-run = "python scripts/generate_prompt.py {{arg(i=0)}}"
-# Example: mise run prompt -- 01
-
 [tasks.transcribe]
 description = "Transcribe audio files"
 run = "python scripts/transcribe.py {{arg(i=0, default='3')}}"

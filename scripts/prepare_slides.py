@@ -265,7 +265,7 @@ def main() -> int:
         print(f"      {s.name}")
     print(f"      last-slide.png ({width}x{height})")
     print()
-    print("Next: Generate video with Claude Code using ./generate-prompt.py")
+    print("Next: Generate video with Claude Code using /generate-video")
 
     return 0
 

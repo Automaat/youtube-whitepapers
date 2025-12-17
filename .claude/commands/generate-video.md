@@ -1,6 +1,8 @@
-Generate a YouTube video for episode {ep_name}.
+Generate a YouTube video for episode number $ARGUMENTS.
 
-Input files:
+First, find the episode name by looking for audio file matching `youtube/pl/audio/$ARGUMENTS-*.m4a` and extract the full episode name (filename without extension).
+
+Input files (use discovered episode name):
 
 - Audio: youtube/pl/audio/{ep_name}.m4a
 - Slides PDF: youtube/pl/slides/{ep_name}.pdf
@@ -11,7 +13,7 @@ Tasks:
 1. **Prepare slides (extracts PDF + ensures image consistency)**
 
    ```bash
-   mise run prepare -- {ep_num}
+   mise run prepare -- $ARGUMENTS
    ```
 
    This creates youtube/pl/slides/{ep_name}/ with:
@@ -35,8 +37,8 @@ Tasks:
 4. **Verify concat.txt** (before generating video)
 
    ```bash
-   mise run verify-concat -- {ep_num}
-   mise run verify-concat -- {ep_num} --check-dims  # Also verify image dimensions
+   mise run verify-concat -- $ARGUMENTS
+   mise run verify-concat -- $ARGUMENTS --check-dims  # Also verify image dimensions
    ```
 
    This checks:
@@ -48,7 +50,7 @@ Tasks:
 5. **Generate video**
 
    ```bash
-   mise run video -- {ep_num}
+   mise run video -- $ARGUMENTS
    ```
 
    This runs ffmpeg and verifies output (duration + black frame detection).
