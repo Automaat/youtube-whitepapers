@@ -150,7 +150,7 @@ This script:
      -pix_fmt yuv420p -c:a aac -b:a 192k output.mp4
    ```
 
-7. **Verify duration** (automatic with generate_video.py)
+9. **Verify duration** (automatic with generate_video.py)
 
    ```bash
    # Manual verification:

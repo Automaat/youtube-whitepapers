@@ -1,6 +1,7 @@
 Generate 11 presentation slides based on the podcast about Dapper, Google's Large-Scale Distributed Systems Tracing Infrastructure.
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -12,6 +13,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 ---
 
 ## Slide 1: Introduction to Dapper - Google's Distributed Tracing System
+
 - First production distributed tracing system at Google scale
 - Deployed across all Google services and data centers
 - Designed to answer "why is this slow?" and "where are requests going?"
@@ -19,6 +21,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Handles massive scale: billions of requests per day across thousands of services
 
 ## Slide 2: Core Design Philosophy and Requirements
+
 - Ubiquitous deployment - must work everywhere automatically
 - Continuous monitoring - always on, not just during incidents
 - Low overhead - negligible performance impact on production systems
@@ -27,6 +30,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Scalability - trace collection and analysis must scale with Google infrastructure
 
 ## Slide 3: Fundamental Concepts - Traces and Spans
+
 - Trace: complete history of a single request across all services
 - Span: single operation within a trace (like a branch in execution tree)
 - Each span contains: operation name, start/end timestamps, parent span ID
@@ -35,6 +39,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Annotations allow custom metadata within spans for debugging
 
 ## Slide 4: Instrumentation Strategy and Implementation
+
 - Instrumented at RPC library level - transparent to application code
 - Works with internal Google RPC framework and HTTP infrastructure
 - Thread-local storage used to track current span context
@@ -43,6 +48,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Handles various communication patterns: RPC, storage systems, schedulers
 
 ## Slide 5: Sampling Strategy and Performance Impact
+
 - Adaptive sampling: 1 in 1024 requests traced by default
 - Trade-off: complete coverage vs. low overhead
 - Measured overhead: less than 0.01% CPU usage in production
@@ -51,6 +57,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Even with sampling, sufficient coverage for rare events and debugging
 
 ## Slide 6: Data Collection and Storage Pipeline
+
 - Three-stage pipeline: collection, storage, analysis
 - Daemons on each host collect span data from local processes
 - Central repository receives and indexes traces
@@ -59,6 +66,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Query API allows lookup by trace ID, service name, or timestamp range
 
 ## Slide 7: Real-World Use Cases - Performance Debugging
+
 - Identifying slow database queries across distributed calls
 - Finding unexpected dependencies between services
 - Detecting redundant RPC calls and optimization opportunities
@@ -67,6 +75,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Network issues and misconfigured services discovered through trace analysis
 
 ## Slide 8: Advanced Applications - Resource Attribution
+
 - Operators noticed unusual disk activity in data centers
 - Used Dapper to trace I/O operations back to originating services
 - Discovered service making excessive log writes
@@ -75,6 +84,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Critical for capacity planning and infrastructure optimization
 
 ## Slide 9: Behavior Analysis and Invariant Checking
+
 - Verify system behaves according to expected patterns
 - Example: detect if requests timeout before retrying (vs. exponential backoff)
 - Identify services not respecting rate limits or SLOs
@@ -83,6 +93,7 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Helps validate architectural assumptions at scale
 
 ## Slide 10: Beyond Performance - Security and Compliance
+
 - Dapper doesn't eliminate need for specialized monitoring tools
 - Complementary to metrics, logs, and application-specific instrumentation
 - Security use case: verify encryption used on all service-to-service calls
@@ -91,4 +102,5 @@ Generate 11 presentation slides based on the podcast about Dapper, Google's Larg
 - Platform for understanding systems, not just debugging tool
 
 ## Slide 11: Question for You
+
 If you have a complete, reliable, and always up-to-date map of all interactions in your complex ecosystem, what other critical business questions—far beyond just performance or security—could you finally start answering definitively?

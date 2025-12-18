@@ -97,7 +97,7 @@ class TestScaleImage:
         cmd = mock_run.call_args[0][0]
         assert cmd[0] == "convert"
         assert "/src.png" in cmd
-        assert "1920x1080" in cmd
+        assert "1920x1080!" in cmd
         assert "-colorspace" in cmd
         assert "sRGB" in cmd
 

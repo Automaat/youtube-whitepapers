@@ -1,6 +1,7 @@
 Generate 11 presentation slides based on the podcast about the FLP Impossibility Result (Fischer, Lynch, and Paterson, 1985).
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -12,6 +13,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 ---
 
 ## Slide 1: The Consensus Problem
+
 - Distributed systems must agree on a single value (transaction commit/abort)
 - Example: flight booking across airline, bank, and reservation servers
 - Critical requirement: all processes must reach the same decision
@@ -20,6 +22,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Challenge begins when one process fails or goes silent
 
 ## Slide 2: The Asynchronous System Model
+
 - No assumptions about process execution speed (arbitrarily fast or slow)
 - No assumptions about network delay (messages arrive eventually, but when?)
 - No synchronized clocks across processes
@@ -28,6 +31,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - This uncertainty is the root of impossibility
 
 ## Slide 3: The FLP Impossibility Result
+
 - Fischer, Lynch, and Paterson (1985): "Impossibility of Distributed Consensus with One Faulty Process"
 - Main claim: no deterministic algorithm can guarantee consensus in asynchronous systems
 - Applies even if only ONE process can fail (not 10, not half - just one)
@@ -36,6 +40,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Fundamental limitation, not engineering failure
 
 ## Slide 4: System States - Univalent vs Bivalent
+
 - Configuration = snapshot of all process states + in-flight messages
 - Univalent state: only one possible future outcome (0-valent or 1-valent)
 - Decision already determined, even if not all processes know yet
@@ -44,6 +49,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Understanding states is key to proof structure
 
 ## Slide 5: The Impossibility Proof - Part 1
+
 - Every non-trivial consensus protocol must start with at least one bivalent state
 - If no bivalent start state exists, outcome would be predetermined before communication
 - Logical necessity: decision cannot be fixed before processes interact
@@ -52,6 +58,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Foundation for demonstrating perpetual indecision
 
 ## Slide 6: The Impossibility Proof - Part 2
+
 - From any bivalent state, can always construct scenario leading to another bivalent state
 - "Perfect storm" manipulation: delay critical message while allowing others through
 - System processes non-critical operations but remains undecided
@@ -60,6 +67,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - System circles indefinitely without reaching decision
 
 ## Slide 7: The Proof Conclusion
+
 - Theoretical sabotage through message delivery order (not crashes or false data)
 - Never violates rules, but never finishes work either
 - For every deterministic algorithm, there exists unlucky execution scenario
@@ -68,6 +76,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Mathematical impossibility proven for pure asynchronous model
 
 ## Slide 8: Why Does Anything Work in Practice?
+
 - Real systems "cheat" by relaxing asynchronous model assumptions
 - Most common: timeouts (wait max 30 seconds, then abort)
 - Pragmatic compromise: messages can be slow but not infinitely slow
@@ -76,6 +85,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Trade mathematical purity for real-world functionality
 
 ## Slide 9: Practical Workarounds
+
 - Failure detectors: modules that suspect processes of failure
 - Operate on probability, not certainty (can make mistakes)
 - Declare process dead based on missing heartbeat/pulse
@@ -84,6 +94,7 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Enables decision-making through conscious guessing
 
 ## Slide 10: Modern Impact and Legacy
+
 - Contrast with Byzantine Generals Problem (synchronous systems with time bounds)
 - FLP identified complete lack of time assumptions as the killer ingredient
 - Foundation for Paxos, Raft algorithms (backbone of Google, Amazon, Microsoft cloud)
@@ -92,4 +103,5 @@ Generate 11 presentation slides based on the podcast about the FLP Impossibility
 - Understanding impossibility enabled building what IS possible
 
 ## Slide 11: Question for You
+
 Co jeśli proces zamiast się wyłączyć, zacznie wariować i działać w sposób złośliwy, wysyłając sprzeczne, fałszywe informacje do różnych części systemu - jednej mówiąc "zatwierdzamy", a drugiej "odrzucamy"?

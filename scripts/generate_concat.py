@@ -120,11 +120,11 @@ def main():
 
     # Show summary
     total_duration = sum(d for _, d in slide_durations) + 10  # +10 for intro/outro
-    print(f"\n📊 Summary:")
-    print(f"   Thumbnail intro: 5s")
+    print("\n📊 Summary:")
+    print("   Thumbnail intro: 5s")
     for slide, duration in slide_durations:
         print(f"   {slide}: {duration}s")
-    print(f"   Silent outro: 5s")
+    print("   Silent outro: 5s")
     print(f"   Total concat: {total_duration}s")
 
     return 0

@@ -1,11 +1,9 @@
 """Tests for generate_concat.py"""
 
-import pytest
-from pathlib import Path
 from scripts.generate_concat import (
     generate_concat,
-    parse_durations_string,
     parse_durations_json,
+    parse_durations_string,
 )
 
 
@@ -70,8 +68,7 @@ def test_parse_durations_json(tmp_path):
     """Test parsing durations from JSON file."""
     json_file = tmp_path / "timings.json"
     json_file.write_text(
-        '[{"slide": "slide-01", "duration": 180}, '
-        '{"slide": "slide-02", "duration": 150.5}]'
+        '[{"slide": "slide-01", "duration": 180}, {"slide": "slide-02", "duration": 150.5}]'
     )
 
     result = parse_durations_json(json_file)
