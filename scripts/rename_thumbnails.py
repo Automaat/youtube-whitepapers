@@ -109,7 +109,7 @@ def find_numeric_thumbnails() -> list[tuple[Path, int]]:
 
 def find_missing_optimized() -> list[Path]:
     """Find thumbnails with proper names but missing -optimized version."""
-    pattern = re.compile(r"^(\d+)-[a-z0-9-]+\.png$")
+    pattern = re.compile(r"^(\d+)-[a-zA-Z0-9-]+\.png$")
     results = []
 
     for path in THUMBNAILS_DIR.glob("*.png"):
