@@ -1,5 +1,9 @@
 # YouTube Video Generation Pipeline
 
+![cookie_superhero](cookie_superhero.png)
+
+**Channel:** [Głęboki Odczyt](https://www.youtube.com/@GlebokiOdczyt) | **Request episode:** [Create issue](https://github.com/Automaat/youtube-whitepapers/issues/new) with whitepaper link
+
 Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
 ## Directory Structure
