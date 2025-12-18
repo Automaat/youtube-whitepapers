@@ -234,9 +234,7 @@ Examples:
                 size = new_path.stat().st_size
                 if size > threshold:
                     try:
-                        old_size, new_size = compress_image(
-                            new_path, args.quality, args.colors
-                        )
+                        old_size, new_size = compress_image(new_path, args.quality, args.colors)
                         if new_size < old_size:
                             savings = old_size - new_size
                             total_saved += savings

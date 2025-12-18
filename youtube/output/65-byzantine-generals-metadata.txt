@@ -1,0 +1,24 @@
+TYTUŁ:
+Problem Bizantyjskich Generałów | Deep Dive
+
+OPIS:
+🎙️ Jak rozproszone systemy osiągają konsensus, gdy niektóre komponenty mogą być wadliwe lub złośliwe? Problem Bizantyjskich Generałów to fundamentalny problem informatyki teoretycznej, który znajduje zastosowanie w blockchain, lotnictwie i systemach rozproszonych.
+
+W tym odcinku omawiamy:
+• Metaforę bizantyjskich generałów i problem osiągnięcia konsensusu
+• Warunki spójności interaktywnej (IC1, IC2)
+• Różnicę między błędem bizantyjskim a zwykłą awarią
+• Dowód niemożliwości: próg 1/3 zdrajców
+• Algorytm OM(M) - rozwiązanie rekurencyjne z głosowaniem większościowym
+• Algorytm SM - rozwiązanie z podpisami cyfrowymi
+• Zastosowania w avionice, blockchain i systemach rozproszonych
+• Perspektywy problemu bizantyjskiego w erze AI
+
+📄 Oryginalny artykuł: https://lamport.azurewebsites.net/pubs/byz.pdf
+
+Autorzy: Leslie Lamport, Robert Shostak, Marshall Pease (SRI International, 1982)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#DistributedSystems #ByzantineGenerals #Consensus #Blockchain #FaultTolerance #LeslieLamport #ComputerScience #SystemsEngineering #BFT #Algorithms

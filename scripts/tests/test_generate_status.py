@@ -232,7 +232,9 @@ class TestGenerateStatus:
             ),
             patch("scripts.generate_status.SCRIPT_DIR", project_with_whitepapers),
             patch("scripts.generate_status.YOUTUBE_DIR", project_with_whitepapers / "youtube"),
-            patch("scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"),
+            patch(
+                "scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"
+            ),
             patch(
                 "scripts.generate_status.ARCHIVE_DIR", project_with_whitepapers / "archive" / "pl"
             ),
@@ -282,7 +284,9 @@ class TestGenerateStatus:
             ),
             patch("scripts.generate_status.SCRIPT_DIR", project_with_whitepapers),
             patch("scripts.generate_status.YOUTUBE_DIR", project_with_whitepapers / "youtube"),
-            patch("scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"),
+            patch(
+                "scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"
+            ),
             patch(
                 "scripts.generate_status.ARCHIVE_DIR", project_with_whitepapers / "archive" / "pl"
             ),
@@ -343,7 +347,9 @@ class TestGenerateStatus:
             ),
             patch("scripts.generate_status.SCRIPT_DIR", project_with_whitepapers),
             patch("scripts.generate_status.YOUTUBE_DIR", project_with_whitepapers / "youtube"),
-            patch("scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"),
+            patch(
+                "scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"
+            ),
             patch(
                 "scripts.generate_status.ARCHIVE_DIR", project_with_whitepapers / "archive" / "pl"
             ),
@@ -404,7 +410,9 @@ class TestGenerateStatus:
             ),
             patch("scripts.generate_status.SCRIPT_DIR", project_with_whitepapers),
             patch("scripts.generate_status.YOUTUBE_DIR", project_with_whitepapers / "youtube"),
-            patch("scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"),
+            patch(
+                "scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"
+            ),
             patch(
                 "scripts.generate_status.ARCHIVE_DIR", project_with_whitepapers / "archive" / "pl"
             ),
@@ -455,7 +463,9 @@ class TestMain:
             ),
             patch("scripts.generate_status.SCRIPT_DIR", project_with_whitepapers),
             patch("scripts.generate_status.YOUTUBE_DIR", project_with_whitepapers / "youtube"),
-            patch("scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"),
+            patch(
+                "scripts.generate_status.ASSETS_DIR", project_with_whitepapers / "youtube" / "pl"
+            ),
             patch(
                 "scripts.generate_status.ARCHIVE_DIR", project_with_whitepapers / "archive" / "pl"
             ),

@@ -51,11 +51,13 @@ def scan_whitepapers() -> list[dict]:
             ep_num = match.group(1).zfill(2)
             paper_name = match.group(2)
 
-            papers.append({
-                "episode": ep_num,
-                "name": paper_name,
-                "category": category,
-            })
+            papers.append(
+                {
+                    "episode": ep_num,
+                    "name": paper_name,
+                    "category": category,
+                }
+            )
 
     return papers
 
@@ -107,7 +109,9 @@ def generate_status() -> dict:
 
         # Skip status updates for archived episodes - preserve all existing fields
         if old_paper.get("archived"):
-            paper.update({k: v for k, v in old_paper.items() if k not in ("episode", "name", "category")})
+            paper.update(
+                {k: v for k, v in old_paper.items() if k not in ("episode", "name", "category")}
+            )
             continue
 
         for field in PRESERVED_FIELDS:

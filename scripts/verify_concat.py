@@ -168,10 +168,14 @@ def verify_duration(
         messages.append(f"❌ Predicted video will be {predicted_diff:+.2f}s off target")
         if predicted_diff > 0:
             messages.append(f"   → Reduce concat duration by {predicted_diff:.2f}s")
-            messages.append(f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)")
+            messages.append(
+                f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)"
+            )
         else:
             messages.append(f"   → Increase concat duration by {abs(predicted_diff):.2f}s")
-            messages.append(f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)")
+            messages.append(
+                f"   → Target concat: {ideal_concat:.2f}s (current: {total_duration:.2f}s)"
+            )
 
     return ok, messages
 
@@ -197,9 +201,7 @@ def verify_structure(entries: list[ConcatEntry]) -> list[str]:
     # Check for very short durations (< 3s)
     for entry in entries:
         if 0 < entry.duration < 3:
-            errors.append(
-                f"⚠️  Very short duration ({entry.duration}s) for {entry.file_path.name}"
-            )
+            errors.append(f"⚠️  Very short duration ({entry.duration}s) for {entry.file_path.name}")
 
     # Check for very long durations (> 180s / 3 min)
     for entry in entries:

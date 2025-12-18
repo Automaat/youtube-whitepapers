@@ -132,6 +132,13 @@ def get_playlist_id(category: str) -> str | None:
     return None
 
 
+def sanitize_youtube_text(text: str) -> str:
+    """Remove/replace characters not allowed in YouTube metadata."""
+    # YouTube disallows < and > in descriptions
+    text = text.replace("<", "").replace(">", "")
+    return text
+
+
 def parse_metadata(metadata_path: Path) -> dict:
     """Parse metadata file into title, description, tags."""
     content = metadata_path.read_text(encoding="utf-8")
@@ -141,12 +148,12 @@ def parse_metadata(metadata_path: Path) -> dict:
     # Parse TYTUŁ:
     title_match = re.search(r"TYTUŁ:\s*\n(.+?)(?:\n\n|\nOPIS:|\Z)", content, re.DOTALL)
     if title_match:
-        result["title"] = title_match.group(1).strip()
+        result["title"] = sanitize_youtube_text(title_match.group(1).strip())
 
     # Parse OPIS:
     desc_match = re.search(r"OPIS:\s*\n(.+?)(?:\n\nTAGI:|\nTAGI:|\Z)", content, re.DOTALL)
     if desc_match:
-        result["description"] = desc_match.group(1).strip()
+        result["description"] = sanitize_youtube_text(desc_match.group(1).strip())
 
     # Parse TAGI:
     tags_match = re.search(r"TAGI:\s*\n?(.+?)(?:\Z|\n\n)", content, re.DOTALL)

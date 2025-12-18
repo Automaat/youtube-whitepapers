@@ -266,7 +266,9 @@ class TestMain:
         img.write_bytes(b"x" * 3 * 1024 * 1024)
         original_size = img.stat().st_size
 
-        with patch("sys.argv", ["compress_images.py", str(tmp_path), "--threshold", "1MB", "--dry-run"]):
+        with patch(
+            "sys.argv", ["compress_images.py", str(tmp_path), "--threshold", "1MB", "--dry-run"]
+        ):
             result = main()
 
         assert result == 0

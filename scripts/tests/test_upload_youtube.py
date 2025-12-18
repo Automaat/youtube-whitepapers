@@ -138,9 +138,7 @@ class TestParseMetadata:
         from scripts.upload_youtube import parse_metadata
 
         metadata_file = tmp_path / "test-metadata.txt"
-        metadata_file.write_text(
-            "TYTUŁ:\nTitle\n\nOPIS:\nLine 1\nLine 2\n• Bullet\n\nTAGI:\n#test"
-        )
+        metadata_file.write_text("TYTUŁ:\nTitle\n\nOPIS:\nLine 1\nLine 2\n• Bullet\n\nTAGI:\n#test")
 
         result = parse_metadata(metadata_file)
 
@@ -345,9 +343,7 @@ class TestUploadVideo:
             patch("scripts.upload_youtube.settings", mock_settings),
             patch("googleapiclient.http.MediaFileUpload"),
         ):
-            upload_video(
-                mock_youtube, Path("/fake/video.mp4"), "Title", "Desc", ["tag"], "private"
-            )
+            upload_video(mock_youtube, Path("/fake/video.mp4"), "Title", "Desc", ["tag"], "private")
 
         call_kwargs = mock_youtube.videos().insert.call_args[1]
         assert call_kwargs["body"]["snippet"]["defaultLanguage"] == "pl"

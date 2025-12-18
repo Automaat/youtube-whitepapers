@@ -282,9 +282,7 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28"]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, None)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, None)),
         ):
             result = main()
 
@@ -303,9 +301,7 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28"]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)),
         ):
             result = main()
 
@@ -335,9 +331,7 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28", "--concat", str(custom_concat)]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)),
             patch("scripts.generate_video.run_cmd", return_value=mock_result),
             patch("scripts.generate_video.get_duration", side_effect=duration_values),
             patch("scripts.generate_video.check_black_frames", return_value=(True, True)),
@@ -365,9 +359,7 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28", "--skip-verify"]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)),
             patch("scripts.generate_video.run_cmd", return_value=mock_result),
             patch("scripts.generate_video.get_duration", return_value=100.0),
             patch("scripts.generate_video.OUTPUT_DIR", tmp_path),
@@ -404,9 +396,7 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28"]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)),
             patch("scripts.generate_video.run_cmd", side_effect=mock_run_cmd),
             patch("scripts.generate_video.OUTPUT_DIR", tmp_path),
         ):
@@ -433,11 +423,11 @@ class TestMain:
 
         with (
             patch("sys.argv", ["generate_video.py", "28"]),
-            patch(
-                "scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)
-            ),
+            patch("scripts.generate_video.find_episode_files", return_value=(slides_dir, audio)),
             patch("scripts.generate_video.run_cmd", return_value=mock_result),
-            patch("scripts.generate_video.get_duration", side_effect=[100.0, 90.0]),  # Wrong duration
+            patch(
+                "scripts.generate_video.get_duration", side_effect=[100.0, 90.0]
+            ),  # Wrong duration
             patch("scripts.generate_video.check_black_frames", return_value=(True, True)),
             patch("scripts.generate_video.OUTPUT_DIR", tmp_path),
         ):

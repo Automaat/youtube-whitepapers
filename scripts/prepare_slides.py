@@ -82,7 +82,9 @@ def compress_large_images(images: list[Path]) -> None:
             old_size, new_size = compress_image(img)
             if new_size < old_size:
                 savings = (1 - new_size / old_size) * 100
-                print(f"      {img.name}: {format_size(old_size)} → {format_size(new_size)} ({savings:.0f}% smaller)")
+                print(
+                    f"      {img.name}: {format_size(old_size)} → {format_size(new_size)} ({savings:.0f}% smaller)"
+                )
             else:
                 print(f"      {img.name}: {format_size(old_size)} (already optimal)")
         except RuntimeError as e:
@@ -99,20 +101,14 @@ def get_image_dimensions(image_path: Path) -> tuple[int, int]:
 
 
 def scale_image(src: Path, dst: Path, width: int, height: int) -> None:
-    """Scale image to exact dimensions with padding using ImageMagick."""
+    """Scale image to exact dimensions using ImageMagick (force resize, no padding)."""
     cmd = [
         "convert",
         str(src),
         "-colorspace",
         "sRGB",
         "-resize",
-        f"{width}x{height}",
-        "-background",
-        "black",
-        "-gravity",
-        "center",
-        "-extent",
-        f"{width}x{height}",
+        f"{width}x{height}!",
         str(dst),
     ]
     result = run_cmd(cmd, check=False)

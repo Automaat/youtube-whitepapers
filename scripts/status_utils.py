@@ -113,7 +113,16 @@ def archive_episode_status(ep_num: str | int) -> None:
 def update_summary(status: dict[str, Any]) -> None:
     """Recalculate summary counts from papers list."""
     papers = status.get("papers", [])
-    fields = ["notebook_created", "audio", "slides", "transcript", "thumbnail", "video", "uploaded", "archived"]
+    fields = [
+        "notebook_created",
+        "audio",
+        "slides",
+        "transcript",
+        "thumbnail",
+        "video",
+        "uploaded",
+        "archived",
+    ]
 
     summary = {"total": len(papers)}
     for field in fields:

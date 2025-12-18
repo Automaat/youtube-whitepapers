@@ -174,7 +174,9 @@ Examples:
 
                 if new_size < old_size:
                     savings = (1 - new_size / old_size) * 100
-                    print(f"   ✅ {format_size(old_size)} → {format_size(new_size)} ({savings:.1f}% smaller)")
+                    print(
+                        f"   ✅ {format_size(old_size)} → {format_size(new_size)} ({savings:.1f}% smaller)"
+                    )
                     compressed_count += 1
                 else:
                     print(f"   ⏭️  {format_size(old_size)} (already optimal)")
@@ -191,7 +193,9 @@ Examples:
         if total_old > 0:
             total_savings = (1 - total_new / total_old) * 100 if total_new < total_old else 0
             print(f"📊 Compressed {compressed_count}/{len(large_images)} files")
-            print(f"   Total: {format_size(total_old)} → {format_size(total_new)} ({total_savings:.1f}% saved)")
+            print(
+                f"   Total: {format_size(total_old)} → {format_size(total_new)} ({total_savings:.1f}% saved)"
+            )
         else:
             print("📊 No files compressed")
 

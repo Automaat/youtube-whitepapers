@@ -188,7 +188,7 @@
       "slides": true,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "66",
@@ -198,7 +198,7 @@
       "slides": true,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "67",
@@ -534,13 +534,15 @@
       "episode": "01",
       "name": "attention-is-all-you-need",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "02",
       "name": "gpt",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "03",
@@ -618,7 +620,8 @@
       "episode": "15",
       "name": "glam",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "16",
@@ -696,7 +699,8 @@
       "episode": "28",
       "name": "emergent-abilities",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "video": true
     },
     {
       "episode": "29",
@@ -858,81 +862,49 @@
       "episode": "55",
       "name": "olmo",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "56",
       "name": "mamba2",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "57",
       "name": "llama3",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "58",
       "name": "fineweb",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "59",
       "name": "olmoe",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "60",
       "name": "qwen2.5",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "61",
       "name": "deepseek-v3",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "62",
       "name": "deepseek-r1",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "63",
@@ -941,8 +913,9 @@
       "audio": true,
       "slides": true,
       "transcript": true,
-      "thumbnail": false,
-      "video": false
+      "thumbnail": true,
+      "video": true,
+      "uploaded": true
     },
     {
       "episode": "117",
@@ -1348,13 +1321,13 @@
   "summary": {
     "total": 156,
     "notebook_created": 0,
-    "audio": 31,
-    "slides": 15,
-    "transcript": 31,
-    "thumbnail": 61,
-    "video": 0,
-    "uploaded": 0,
-    "archived": 54
+    "audio": 23,
+    "slides": 7,
+    "transcript": 26,
+    "thumbnail": 54,
+    "video": 4,
+    "uploaded": 1,
+    "archived": 62
   },
-  "updated": "2025-12-18T12:08:09+00:00"
+  "updated": "2025-12-18T14:19:04+00:00"
 }

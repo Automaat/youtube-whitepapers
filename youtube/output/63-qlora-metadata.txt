@@ -1,0 +1,27 @@
+TYTUŁ:
+QLoRA: Dostrajanie Gigantycznych Modeli na Jednej Karcie GPU | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku badamy przełomową technikę QLoRA, która umożliwia dostrajanie modeli o 65 miliardach parametrów na pojedynczej karcie GPU z 48GB pamięci - zamiast wymaganych 780GB! Autorzy łączą kwantyzację 4-bitową z adapterami LoRA, wprowadzając kluczowe innowacje: NF4 (4-bitowy typ danych zoptymalizowany pod rozkład normalny), podwójną kwantyzację oraz stronicowane optymalizatory.
+
+W tym odcinku omawiamy:
+• Problem: Dostrajanie modeli językowych poza zasięgiem większości zespołów (wymagania pamięciowe >780GB)
+• Kwantyzacja: Redukcja precyzji wag z 16-bit do 4-bit przy zachowaniu jakości
+• LoRA (Low-Rank Adapters): Dostrajanie tylko niewielkiej części parametrów zamiast całego modelu
+• Przełom QLoRA: Połączenie 4-bitowego modelu bazowego z trenowalnymi adapterami
+• NF4: Teoretycznie optymalny typ danych dla wag o rozkładzie normalnym
+• Podwójna kwantyzacja: Kompresowanie metadanych o kompresji
+• Stronicowane optymalizatory: Ochrona przed skokami zużycia pamięci GPU
+• Wyniki: Guanaco 65B osiąga 99.3% wydajności ChatGPT na benchmarku Vicuna
+• Wnioski: Jakość danych ważniejsza niż ich ilość
+• Wpływ: Demokratyzacja dostępu do najnowocześniejszych modeli językowych
+• Ograniczenia: Słabości w matematyce i podatność na prompt injection
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2305.14314
+
+Autorzy: Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, Luke Zettlemoyer (University of Washington)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#AI #MachineLearning #DeepLearning #QLoRA #LoRA #Kwantyzacja #FineTuning #LLM #DużeModeleJęzykowe #Guanaco #Optymalizacja #NF4 #GłębokiOdczyt #Podcast

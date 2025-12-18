@@ -7,6 +7,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from status_utils import update_episode_status
+
 SCRIPT_DIR = Path(__file__).parent.parent
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
 ASSETS_DIR = YOUTUBE_DIR / "pl"
@@ -157,9 +159,7 @@ Examples:
     )
     parser.add_argument("episode", help="Episode number (e.g., 28)")
     parser.add_argument("--concat", type=Path, help="Custom concat.txt path")
-    parser.add_argument(
-        "--skip-verify", action="store_true", help="Skip verification step"
-    )
+    parser.add_argument("--skip-verify", action="store_true", help="Skip verification step")
     args = parser.parse_args()
 
     ep_num = args.episode
@@ -225,6 +225,7 @@ Examples:
         print()
         print("━" * 50)
         print(f"✅ Video created: {safe_relative(output_file, SCRIPT_DIR)}")
+        update_episode_status(ep_num, "video", True)
         return 0
 
     print()
@@ -259,6 +260,7 @@ Examples:
     print("━" * 50)
     if all_ok:
         print(f"✅ Video created and verified: {safe_relative(output_file, SCRIPT_DIR)}")
+        update_episode_status(ep_num, "video", True)
         return 0
     else:
         print(f"⚠️  Video created but verification failed: {safe_relative(output_file, SCRIPT_DIR)}")

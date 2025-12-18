@@ -16,9 +16,7 @@ class YouTubeSettings:
     client_secret_file: str = "client_secret.json"
     token_file: str = "token.json"
 
-    playlist_llm: str | None = field(
-        default_factory=lambda: os.environ.get("YOUTUBE_PLAYLIST_LLM")
-    )
+    playlist_llm: str | None = field(default_factory=lambda: os.environ.get("YOUTUBE_PLAYLIST_LLM"))
     playlist_distributed_computing: str | None = field(
         default_factory=lambda: os.environ.get("YOUTUBE_PLAYLIST_DISTRIBUTED_COMPUTING")
     )

@@ -53,10 +53,7 @@ class TestParseConcat:
 
         concat = tmp_path / "concat.txt"
         concat.write_text(
-            "file '/path/to/slide1.png'\n"
-            "duration 10\n"
-            "file '/path/to/slide2.png'\n"
-            "duration 20\n"
+            "file '/path/to/slide1.png'\nduration 10\nfile '/path/to/slide2.png'\nduration 20\n"
         )
 
         entries = parse_concat(concat)
@@ -83,9 +80,7 @@ class TestParseConcat:
         from scripts.verify_concat import parse_concat
 
         concat = tmp_path / "concat.txt"
-        concat.write_text(
-            "file '/path/slide1.png'\nduration 10\n" "file '/path/last-slide.png'\n"
-        )
+        concat.write_text("file '/path/slide1.png'\nduration 10\nfile '/path/last-slide.png'\n")
 
         entries = parse_concat(concat)
 
@@ -97,9 +92,7 @@ class TestParseConcat:
         from scripts.verify_concat import parse_concat
 
         concat = tmp_path / "concat.txt"
-        concat.write_text(
-            "\nfile '/path/slide.png'\n\nduration 10\n\n"
-        )
+        concat.write_text("\nfile '/path/slide.png'\n\nduration 10\n\n")
 
         entries = parse_concat(concat)
 

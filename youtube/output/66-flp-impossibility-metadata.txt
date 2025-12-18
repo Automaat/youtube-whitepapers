@@ -1,0 +1,23 @@
+TYTUŁ:
+Twierdzenie FLP: Dlaczego Konsensus Jest Niemożliwy | Deep Dive
+
+OPIS:
+🎙️ Witamy w głębokim odczycie klasycznej pracy, która na zawsze zmieniła sposób myślenia o systemach rozproszonych. W 1985 roku Michael J. Fischer, Nancy A. Lynch i Michael S. Paterson udowodnili coś szokującego: osiągnięcie konsensusu w pełni asynchronicznym systemie rozproszonym jest niemożliwe, jeśli nawet jeden proces może ulec awarii.
+
+W tym odcinku omawiamy:
+• Problem konsensusu i jego fundamentalne znaczenie dla systemów rozproszonych
+• Model asynchroniczny i jego kluczowe założenia (brak globalnego czasu, nieograniczone opóźnienia)
+• Twierdzenie FLP i jego matematyczny dowód niemożliwości
+• Różnica między stanami uniwarentnymi a biwałentnymi
+• Jak systemy rzeczywiste obchodzą to teoretyczne ograniczenie (timeouty, detektory awarii)
+• Wpływ FLP na algorytmy konsensusu: Paxos, Raft i blockchain
+• Różnica między awarią typu "crash-stop" a Problemem Bizantyjskich Generałów
+
+📄 Oryginalny artykuł: https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf
+
+Autorzy: Michael J. Fischer, Nancy A. Lynch, Michael S. Paterson
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#SystemyRozproszone #TwierdzenieFLP #Konsensus #InformatykaRozproszona #Algorytmy #Paxos #Raft #Blockchain #DetektoryAwarii #ModelAsynchroniczny #ComputerScience #DistributedSystems #FLP #Byzantine

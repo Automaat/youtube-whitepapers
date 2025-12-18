@@ -89,6 +89,8 @@ Tasks:
 
      Autorzy: [Author names] ([Institution])
 
+     💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
      TAGI:
      #AI #MachineLearning #DeepLearning #[relevant tags]
      ```
