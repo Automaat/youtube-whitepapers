@@ -183,6 +183,62 @@ Examples:
 - **imagemagick** - Image processing (`brew install imagemagick`)
 - **jq** - JSON processing (`brew install jq`)
 
+Install Python dependencies:
+
+```bash
+mise run install
+```
+
+## YouTube Upload Setup
+
+Automated upload requires Google Cloud OAuth credentials.
+
+### 1. Create Google Cloud Project
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create new project or select existing
+3. Enable **YouTube Data API v3**:
+   - APIs & Services → Library → search "YouTube Data API v3" → Enable
+
+### 2. Create OAuth Credentials
+
+1. APIs & Services → Credentials → Create Credentials → OAuth client ID
+2. Application type: **Desktop app**
+3. Download JSON → rename to `client_secret.json`
+4. Move to `.youtube-credentials/client_secret.json`
+
+### 3. Configure Playlists (optional)
+
+Set playlist IDs via environment variables:
+
+```bash
+export YOUTUBE_PLAYLIST_LLM="PLxxxxxxxxxx"
+export YOUTUBE_PLAYLIST_DISTRIBUTED_COMPUTING="PLyyyyyyyyyy"
+export YOUTUBE_PLAYLIST_SECURITY="PLzzzzzzzzzz"
+```
+
+Or create `youtube/config.json`:
+
+```json
+{
+  "playlists": {
+    "llm": "PLxxxxxxxxxx",
+    "distributed-computing": "PLyyyyyyyyyy",
+    "security": "PLzzzzzzzzzz"
+  }
+}
+```
+
+### 4. Upload Video
+
+```bash
+mise run upload -- 28           # Upload episode 28 (private)
+mise run upload -- 28 --dry-run # Validate without uploading
+mise run upload -- 28 --privacy unlisted
+```
+
+First run opens browser for Google OAuth. Token saved to `.youtube-credentials/token.json`.
+
 ## Quick Start Example
 
 ```bash

@@ -39,3 +39,6 @@ Thumbs.db
 *.log
 tmp/
 colors.txt
+
+# YouTube API credentials
+.youtube-credentials/
