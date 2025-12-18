@@ -1,0 +1,22 @@
+TYTUŁ:
+OLMo: Pierwszy Prawdziwie Otwarty Model Językowy | Głęboki Odczyt
+
+OPIS:
+🎙️ OLMo (Open Language Model) to przełomowy projekt Allen Institute for AI, który redefiniuje znaczenie „otwartości" w sztucznej inteligencji. W przeciwieństwie do częściowo otwartych modeli jak LLaMA czy Mixtral, OLMo udostępnia kompletny ekosystem: pełny kod treningowy, 3 biliony tokenów danych Dolma, ponad 500 checkpointów treningowych oraz wszystkie narzędzia ewaluacyjne.
+
+W tym odcinku omawiamy:
+• Architekturę modelu: decoder-only Transformer bez biasów, SwiGLU, RoPE i non-parametric layer norm
+• Zbiór danych Dolma: transparentny korpus 3T tokenów z pełną dokumentacją źródeł
+• Infrastrukturę treningową: równoległy trening na NVIDIA A100 i AMD MI250X (PyTorch + FSDP)
+• Strategię ewaluacji: ciągły monitoring w czasie rzeczywistym i wykrywanie anomalii
+• Wyniki benchmarków: porównanie z LLaMA 2 7B i Falcon 7B na CommonSense Reasoning
+• Proces dekontaminacji: uczciwa ewaluacja na benchmark Paloma
+• Adaptację do asystenta: SFT + DPO → OLMo-7B-Instruct z poprawą bezpieczeństwa
+• Kompletny framework badawczy: narzędzia Catwalk, pełne logi Weights & Biases
+
+📄 Oryginalny artykuł: https://arxiv.org/abs/2402.00838
+
+Autorzy: Dirk Groeneveld, Iz Beltagy, Pete Walsh, Akshita Bhagia, Rodney Kinney, Oyvind Tafjord, et al. (Allen Institute for AI)
+
+TAGI:
+#AI #MachineLearning #DeepLearning #OpenSource #LLM #OLMo #AllenAI #NLP #Transformers #OpenScience #ResearchTransparency #LanguageModels #AIResearch
