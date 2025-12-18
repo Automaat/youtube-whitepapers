@@ -50,12 +50,12 @@ raw = true
 
 [tasks.lint]
 description = "Run ruff linter"
-run = "ruff check scripts/ tests/"
+run = "ruff check scripts/"
 
 [tasks.format]
 description = "Format code with ruff"
-run = "ruff format scripts/ tests/"
+run = "ruff format scripts/"
 
 [tasks.test]
 description = "Run tests"
-run = "pytest tests/ -v"
+run = "pytest scripts/tests/ -v"

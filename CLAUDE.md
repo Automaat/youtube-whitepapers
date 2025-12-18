@@ -40,10 +40,9 @@ youtube-whitepapers/
 
 ## Naming Convention
 
-**ALWAYS use:** `{XX}-{category}-{paper-name}`
+**ALWAYS use:** `{XX}-{paper-name}`
 
 - `XX` = 2-digit episode number (01, 02, ... 99)
-- `category` = paper category (llm, distributed-computing, security, etc.)
 - `paper-name` = lowercase, hyphenated identifier
 
 **Examples:**

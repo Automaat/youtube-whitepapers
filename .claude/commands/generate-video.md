@@ -2,11 +2,13 @@ Generate a YouTube video for episode number $ARGUMENTS.
 
 First, find the episode name by looking for audio file matching `youtube/pl/audio/$ARGUMENTS-*.m4a` and extract the full episode name (filename without extension).
 
-Input files (use discovered episode name):
+**Prerequisites (MUST exist before proceeding):**
 
 - Audio: youtube/pl/audio/{ep_name}.m4a
 - Slides PDF: youtube/pl/slides/{ep_name}.pdf
 - Transcript: youtube/pl/transcripts/{ep_name}.json
+
+**STOP immediately if any prerequisite file is missing.** Report which files are missing and do not proceed with video generation.
 
 Tasks:
 

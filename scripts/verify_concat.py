@@ -158,7 +158,6 @@ def verify_duration(
 
     # The "ideal" concat duration should account for ffmpeg overhead
     ideal_concat = expected_duration - ffmpeg_overhead
-    concat_diff = total_duration - ideal_concat
 
     # We're OK if predicted video is within tolerance of target
     ok = abs(predicted_diff) <= tolerance
