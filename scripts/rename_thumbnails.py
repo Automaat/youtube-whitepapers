@@ -7,6 +7,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from status_utils import update_episode_status
+
 SCRIPT_DIR = Path(__file__).parent.parent
 THUMBNAILS_DIR = SCRIPT_DIR / "youtube" / "thumbnails"
 WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers" / "distributed-computing"
@@ -225,6 +227,7 @@ Examples:
         else:
             print(f"🔄 {path.name} → {new_name}")
             path.rename(new_path)
+            update_episode_status(ep_num, "thumbnail", True)
             renamed_count += 1
 
             if not args.skip_compress:

@@ -5,6 +5,8 @@ import re
 import sys
 from pathlib import Path
 
+from status_utils import update_episode_status
+
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent
 
@@ -59,6 +61,7 @@ def rename_audio_files() -> int:
         new_path = audio_file.parent / new_name
         audio_file.rename(new_path)
         print(f"✅ {audio_file.name} -> {new_name}")
+        update_episode_status(ep_num, "audio", True)
         renamed += 1
 
     if renamed == 0:

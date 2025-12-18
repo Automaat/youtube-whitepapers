@@ -8,6 +8,8 @@ import shutil
 import sys
 from pathlib import Path
 
+from status_utils import archive_episode_status
+
 SCRIPT_DIR = Path(__file__).parent.parent
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
 ASSETS_DIR = YOUTUBE_DIR / "pl"
@@ -154,8 +156,10 @@ def main() -> int:
     print("━" * 50)
     if moved == total:
         print(f"✅ Archived {moved}/{total} items successfully")
+        archive_episode_status(ep_num)
     elif moved > 0:
         print(f"⚠️  Archived {moved}/{total} items (some skipped)")
+        archive_episode_status(ep_num)
     else:
         print("❌ No items archived")
 

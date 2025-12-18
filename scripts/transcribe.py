@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Parallel transcription script for NotebookLM podcasts using Whisper."""
 
+import re
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+from status_utils import update_episode_status
 
 SCRIPT_DIR = Path(__file__).parent.parent
 AUDIO_DIR = SCRIPT_DIR / "youtube/pl/audio"
@@ -90,6 +93,9 @@ def main() -> int:
                 print(f"⏭️  Skip: {name}")
             elif success:
                 print(f"✅ Done: {name}")
+                match = re.match(r"^(\d+)-", name)
+                if match:
+                    update_episode_status(match.group(1), "transcript", True)
             else:
                 print(f"❌ Failed: {name} - {msg}")
                 failed.append(path)

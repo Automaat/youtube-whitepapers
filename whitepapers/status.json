@@ -1,0 +1,1360 @@
+{
+  "papers": [
+    {
+      "episode": "100",
+      "name": "flink",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "101",
+      "name": "sinfonia",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "102",
+      "name": "bitcoin",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "103",
+      "name": "ethereum",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "104",
+      "name": "hotstuff",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "105",
+      "name": "tendermint",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "106",
+      "name": "bitcoin-ng",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "107",
+      "name": "ouroboros",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "108",
+      "name": "life-beyond-transactions",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "109",
+      "name": "harvest-yield",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "110",
+      "name": "note-distributed-computing",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "111",
+      "name": "quicksand",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "112",
+      "name": "sel4",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "113",
+      "name": "paxos-live",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "114",
+      "name": "mencius",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "115",
+      "name": "f1",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "116",
+      "name": "mesa",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "64",
+      "name": "lamport-clocks",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "65",
+      "name": "byzantine-generals",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "66",
+      "name": "flp-impossibility",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "67",
+      "name": "partial-synchrony",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "68",
+      "name": "cap-theorem",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "69",
+      "name": "cap-twelve-years",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "70",
+      "name": "paxos",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "71",
+      "name": "paxos-simple",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "72",
+      "name": "viewstamped-replication",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "73",
+      "name": "raft",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "74",
+      "name": "epaxos",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "75",
+      "name": "pbft",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "76",
+      "name": "gfs",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "77",
+      "name": "mapreduce",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "78",
+      "name": "bigtable",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "79",
+      "name": "chubby",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "80",
+      "name": "spanner",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "81",
+      "name": "percolator",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "82",
+      "name": "dremel",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "83",
+      "name": "dapper",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "84",
+      "name": "tail-at-scale",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "85",
+      "name": "borg-omega-k8s",
+      "category": "distributed-computing",
+      "audio": true,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "86",
+      "name": "dynamo",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "87",
+      "name": "aurora",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "88",
+      "name": "zookeeper",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "89",
+      "name": "kafka",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "90",
+      "name": "cassandra",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "91",
+      "name": "cocroachdb",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "92",
+      "name": "calvin",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "93",
+      "name": "lsm-tree",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "94",
+      "name": "consistent-hashing",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "95",
+      "name": "chord",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "96",
+      "name": "hdfs",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "97",
+      "name": "crdts",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "98",
+      "name": "swim",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "99",
+      "name": "epidemic-algorithms",
+      "category": "distributed-computing",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "01",
+      "name": "attention-is-all-you-need",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "02",
+      "name": "gpt",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "03",
+      "name": "bert",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "04",
+      "name": "gpt2",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "05",
+      "name": "megatron-lm",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "06",
+      "name": "t5",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "07",
+      "name": "zero",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "08",
+      "name": "scaling-laws",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "09",
+      "name": "gpt3",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "10",
+      "name": "switch-transformers",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "11",
+      "name": "codex",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "12",
+      "name": "foundation-models",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "13",
+      "name": "flan",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "14",
+      "name": "t0",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "15",
+      "name": "glam",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "16",
+      "name": "webgpt",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "17",
+      "name": "retro",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "18",
+      "name": "gopher",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "19",
+      "name": "chain-of-thought",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "20",
+      "name": "lamda",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "21",
+      "name": "minerva",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "22",
+      "name": "megatron-turing",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "23",
+      "name": "instructgpt",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "24",
+      "name": "palm",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "25",
+      "name": "chinchilla",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "26",
+      "name": "opt",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "27",
+      "name": "uL2",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "28",
+      "name": "emergent-abilities",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "29",
+      "name": "big-bench",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "30",
+      "name": "metalm",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "31",
+      "name": "sparrow",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "32",
+      "name": "flan-t5",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "33",
+      "name": "glm-130b",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "34",
+      "name": "helm",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "35",
+      "name": "bloom",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "36",
+      "name": "galactica",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "37",
+      "name": "opt-iml",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "38",
+      "name": "flan-collection",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "39",
+      "name": "llama",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "40",
+      "name": "kosmos-1",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "41",
+      "name": "hyena",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "42",
+      "name": "palm-e",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "43",
+      "name": "gpt4",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "44",
+      "name": "llava",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "45",
+      "name": "pythia",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "46",
+      "name": "dromedary",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "47",
+      "name": "palm2",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "48",
+      "name": "rwkv",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "49",
+      "name": "dpo",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "50",
+      "name": "tree-of-thoughts",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "51",
+      "name": "llama2",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "52",
+      "name": "mistral",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "53",
+      "name": "mamba",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "54",
+      "name": "deepseek-v2",
+      "category": "llm",
+      "archived": true
+    },
+    {
+      "episode": "55",
+      "name": "olmo",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "56",
+      "name": "mamba2",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "57",
+      "name": "llama3",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "58",
+      "name": "fineweb",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "59",
+      "name": "olmoe",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "60",
+      "name": "qwen2.5",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "61",
+      "name": "deepseek-v3",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "62",
+      "name": "deepseek-r1",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "63",
+      "name": "qlora",
+      "category": "llm",
+      "audio": true,
+      "slides": false,
+      "transcript": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "117",
+      "name": "shannon-secrecy-systems",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "118",
+      "name": "diffie-hellman",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "119",
+      "name": "rsa",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "120",
+      "name": "zero-knowledge-proofs",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "121",
+      "name": "random-oracles",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "122",
+      "name": "yao-garbled-circuits",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "123",
+      "name": "fully-homomorphic-encryption",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "124",
+      "name": "ware-report",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "125",
+      "name": "anderson-report",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "126",
+      "name": "bell-lapadula",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "127",
+      "name": "biba",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "128",
+      "name": "needham-schroeder",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "129",
+      "name": "dolev-yao",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "130",
+      "name": "trusting-trust",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "131",
+      "name": "smashing-the-stack",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "132",
+      "name": "rop",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "133",
+      "name": "cfi",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "134",
+      "name": "klee",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "135",
+      "name": "mirai-botnet",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "136",
+      "name": "stuxnet",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "137",
+      "name": "drebin",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "138",
+      "name": "tor",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "139",
+      "name": "differential-privacy-deep-learning",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "140",
+      "name": "onion-routing",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "141",
+      "name": "shamir-secret-sharing",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "142",
+      "name": "zerocash",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "143",
+      "name": "spectre",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "144",
+      "name": "meltdown",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "145",
+      "name": "rowhammer",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "146",
+      "name": "carlini-wagner",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "147",
+      "name": "adversarial-ml-secure",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "148",
+      "name": "adversarial-examples",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "149",
+      "name": "membership-inference",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "150",
+      "name": "model-inversion",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "151",
+      "name": "cloudburst",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "152",
+      "name": "vmware-esxi-escape",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "153",
+      "name": "bitcoin",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "154",
+      "name": "ethereum-yellow-paper",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "155",
+      "name": "oyente",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "156",
+      "name": "kyber",
+      "category": "security",
+      "audio": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail": false,
+      "video": false
+    }
+  ],
+  "summary": {
+    "total": 156,
+    "notebook_created": 0,
+    "audio": 31,
+    "slides": 0,
+    "transcript": 29,
+    "thumbnail": 61,
+    "video": 0,
+    "uploaded": 0,
+    "archived": 54
+  },
+  "updated": "2025-12-18T11:02:56+00:00"
+}
