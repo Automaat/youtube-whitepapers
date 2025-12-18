@@ -75,6 +75,11 @@ run = "python scripts/upload_youtube.py {{arg(i=0)}} {{option(name='dry-run')}} 
 # Example: mise run upload -- 28 --dry-run
 # Example: mise run upload -- 28 --privacy unlisted
 
+[tasks.archive]
+description = "Archive episode files after YouTube upload"
+run = "python scripts/archive_episode.py {{arg(i=0)}}"
+# Example: mise run archive -- 54
+
 [tasks.test]
 description = "Run tests"
 run = "pytest scripts/tests/ -v"
