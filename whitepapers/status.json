@@ -208,7 +208,7 @@
       "slides": true,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "68",
@@ -1325,9 +1325,9 @@
     "slides": 7,
     "transcript": 26,
     "thumbnail": 54,
-    "video": 4,
+    "video": 5,
     "uploaded": 1,
     "archived": 62
   },
-  "updated": "2025-12-18T14:19:04+00:00"
+  "updated": "2025-12-18T14:21:13+00:00"
 }
