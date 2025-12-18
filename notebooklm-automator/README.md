@@ -77,6 +77,18 @@ uv run notebooklm-automator audio download \
   --output ./audio/15-glam.m4a
 ```
 
+Batch download all ready audio from status.json:
+
+```bash
+# Preview episodes to download
+uv run notebooklm-automator audio batch-download --dry-run
+
+# Download all ready audio
+uv run notebooklm-automator audio batch-download
+```
+
+Filters episodes: `audio=false`, not `archived`, has `notebook_url`. Saves to `youtube/pl/audio/{ep}-{name}.m4a`.
+
 ### Generate slides
 
 ```bash

@@ -158,30 +158,82 @@ class AudioManager:
 
             await asyncio.sleep(poll_interval)
 
+    async def _open_audio_player(self, page: Page) -> bool:
+        """Click on generated audio item to open player."""
+        selectors = [
+            'button:has-text("Deep Dive")',
+            'a:has-text("Deep Dive")',
+            '[role="button"]:has-text("Deep Dive")',
+            'div:has-text("Deep Dive"):has-text("source") >> nth=0',
+        ]
+        for sel in selectors:
+            try:
+                item = page.locator(sel).first
+                if await item.is_visible(timeout=2000):
+                    await item.dblclick(timeout=3000)
+                    await asyncio.sleep(2)
+                    logger.info("Double-clicked audio item: %s", sel)
+                    return True
+            except Exception:
+                logger.debug("Audio item selector %s not found", sel)
+        return False
+
+    async def _click_download_button(self, page: Page) -> bool:
+        """Click download via 3-dot menu or direct button."""
+        menu_selectors = [
+            '[aria-label="More options"]',
+            '[aria-label="More actions"]',
+            '[aria-label*="More"]',
+            'button[aria-label*="menu" i]',
+        ]
+        for menu_sel in menu_selectors:
+            try:
+                menus = page.locator(menu_sel)
+                count = await menus.count()
+                logger.debug("Found %d elements for %s", count, menu_sel)
+                for i in range(count):
+                    menu = menus.nth(i)
+                    if await menu.is_visible(timeout=500):
+                        await menu.click(timeout=3000)
+                        await asyncio.sleep(0.5)
+                        download = page.locator(
+                            '[role="menuitem"]:has-text("Download"), '
+                            'button:has-text("Download"), '
+                            ':text("Download")'
+                        ).first
+                        if await download.is_visible(timeout=2000):
+                            await download.click(timeout=3000)
+                            return True
+                        await page.keyboard.press("Escape")
+                        await asyncio.sleep(0.3)
+            except Exception as e:
+                logger.debug("Menu selector %s failed: %s", menu_sel, e)
+
+        # Try direct download button as fallback
+        for selector in ['button[aria-label="Download"]', 'button:has-text("Download")']:
+            try:
+                locator = page.locator(selector).first
+                if await locator.is_visible(timeout=1000):
+                    await locator.click(timeout=3000)
+                    return True
+            except Exception:
+                logger.debug("Direct selector %s not found", selector)
+        return False
+
     async def download(self, page: Page, output_path: Path) -> Path | None:
-        """Download generated audio.
-
-        Args:
-            page: Browser page on a notebook
-            output_path: Where to save the audio file
-
-        Returns:
-            Path to downloaded file or None
-
-        """
+        """Download generated audio."""
         logger.info("Downloading audio to: %s", output_path)
-
-        # Ensure output directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Set up download handler
+        if not await self._open_audio_player(page):
+            logger.warning("Could not find generated audio item")
+
         async with page.expect_download() as download_info:
-            # Click download button
-            await page.click(Selectors.AUDIO_DOWNLOAD_BTN)
+            if not await self._click_download_button(page):
+                logger.error("Could not find download button")
+                return None
 
         download = await download_info.value
-
-        # Save to output path
         await download.save_as(output_path)
 
         if output_path.exists():

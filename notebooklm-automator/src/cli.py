@@ -433,6 +433,110 @@ def audio_download(
         raise typer.Exit(1)
 
 
+AUDIO_OUTPUT_DIR = Path(__file__).parent.parent.parent / "youtube" / "pl" / "audio"
+
+
+def _get_audio_output_path(episode: str, name: str) -> Path:
+    """Get output path for audio file."""
+    return AUDIO_OUTPUT_DIR / f"{episode.zfill(2)}-{name}.m4a"
+
+
+def _get_papers_missing_audio() -> list[dict[str, Any]]:
+    """Get papers from status.json that need audio download."""
+    if not STATUS_FILE.exists():
+        return []
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    papers = []
+    for paper in status.get("papers", []):
+        if paper.get("archived"):
+            continue
+        if paper.get("audio"):
+            continue
+        if not paper.get("notebook_url"):
+            continue
+        papers.append(paper)
+    return papers
+
+
+@audio_app.command("batch-download")
+def audio_batch_download(
+    dry_run: Annotated[
+        bool,
+        typer.Option("--dry-run", "-n", help="Preview without downloading"),
+    ] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Download ready audio for all episodes missing audio."""
+    setup_logging(verbose)
+
+    papers = _get_papers_missing_audio()
+    if not papers:
+        console.print("[yellow]No episodes missing audio[/]")
+        return
+
+    console.print(f"[bold]Found {len(papers)} episodes missing audio[/]")
+
+    if dry_run:
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+            output = _get_audio_output_path(ep, name)
+            console.print(f"  {ep}-{name}")
+            console.print(f"    [dim]URL: {url}[/]")
+            console.print(f"    [dim]Output: {output}[/]")
+        return
+
+    downloaded = 0
+    skipped = 0
+    failed = 0
+
+    async def run() -> tuple[int, int, int]:
+        nonlocal downloaded, skipped, failed
+        async with browser_session() as (manager, page):
+            if not await manager.is_logged_in(page):
+                console.print("[red]Not logged in. Run 'login' first.[/]")
+                return (0, 0, len(papers))
+
+            notebook_mgr = NotebookManager()
+            audio_mgr = AudioManager()
+            utils = _get_status_utils()
+
+            for paper in papers:
+                ep = paper.get("episode", "??")
+                name = paper.get("name", "unknown")
+                url = paper.get("notebook_url", "")
+
+                console.print(f"[bold]Processing {ep}-{name}...[/]")
+
+                if not await notebook_mgr.open_notebook(page, url):
+                    console.print("  [red]Failed to open notebook[/]")
+                    failed += 1
+                    continue
+
+                status = await audio_mgr.get_status(page)
+                if status != AudioStatus.READY:
+                    console.print(f"  [yellow]Audio not ready ({status.value}), skipping[/]")
+                    skipped += 1
+                    continue
+
+                output = _get_audio_output_path(ep, name)
+                result = await audio_mgr.download(page, output)
+                if result:
+                    size_mb = result.stat().st_size / (1024 * 1024)
+                    console.print(f"  [green]Downloaded: {result} ({size_mb:.1f} MB)[/]")
+                    utils.update_episode_status(ep, "audio", value=True)
+                    downloaded += 1
+                else:
+                    console.print("  [red]Download failed[/]")
+                    failed += 1
+
+        return (downloaded, skipped, failed)
+
+    downloaded, skipped, failed = asyncio.run(run())
+    console.print(f"\n[bold]Summary:[/] {downloaded} downloaded, {skipped} skipped, {failed} failed")
+
+
 # --- Slides Commands ---
 
 slides_app = typer.Typer(help="Slides generation commands")
