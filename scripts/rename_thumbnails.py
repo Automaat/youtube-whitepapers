@@ -11,7 +11,7 @@ from status_utils import update_episode_status
 
 SCRIPT_DIR = Path(__file__).parent.parent
 THUMBNAILS_DIR = SCRIPT_DIR / "youtube" / "thumbnails"
-WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers" / "distributed-computing"
+WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers"
 
 
 def parse_size(size_str: str) -> int:
@@ -111,7 +111,7 @@ def find_numeric_thumbnails() -> list[tuple[Path, int]]:
 
 def find_missing_optimized() -> list[Path]:
     """Find thumbnails with proper names but missing -optimized version."""
-    pattern = re.compile(r"^(\d+)-[a-zA-Z0-9-]+\.png$")
+    pattern = re.compile(r"^(\d+)-[a-zA-Z0-9.-]+\.png$")
     results = []
 
     for path in THUMBNAILS_DIR.glob("*.png"):
@@ -128,7 +128,7 @@ def find_missing_optimized() -> list[Path]:
 
 def find_whitepaper_name(ep_num: int) -> str | None:
     """Find whitepaper name for episode number."""
-    pattern = f"{ep_num}-*.pdf"
+    pattern = f"**/{ep_num}-*.pdf"
     matches = list(WHITEPAPERS_DIR.glob(pattern))
 
     if not matches:
