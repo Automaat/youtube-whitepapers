@@ -3,10 +3,14 @@
 from __future__ import annotations
 
 import asyncio
+import importlib.util
+import json
 import logging
+import shutil
+import tempfile
 
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 
@@ -20,6 +24,48 @@ from src.notebook import NotebookManager
 from src.slides import SlidesManager
 from src.sources import SourcesManager
 from src.ui_selectors import Selectors
+
+
+WHITEPAPERS_DIR = Path(__file__).parent.parent.parent / "whitepapers"
+STATUS_FILE = WHITEPAPERS_DIR / "status.json"
+
+
+def _get_status_utils() -> Any:
+    """Lazy load status_utils module from parent project."""
+    if not hasattr(_get_status_utils, "cached_module"):
+        module_path = Path(__file__).parent.parent.parent / "scripts" / "status_utils.py"
+        spec = importlib.util.spec_from_file_location("status_utils", module_path)
+        if spec and spec.loader:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            _get_status_utils.cached_module = module
+    return getattr(_get_status_utils, "cached_module", None)
+
+
+def find_paper_pdf(episode: str) -> tuple[Path, str] | None:
+    """Find PDF for episode number. Returns (pdf_path, name) or None."""
+    ep_str = episode.zfill(2)
+
+    if not STATUS_FILE.exists():
+        return None
+
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    for paper in status.get("papers", []):
+        if paper.get("episode") == ep_str:
+            name = paper.get("name", "")
+            category = paper.get("category", "")
+            if name and category:
+                pdf_path = WHITEPAPERS_DIR / category / f"{ep_str}-{name}.pdf"
+                if pdf_path.exists():
+                    return pdf_path, name
+    return None
+
+
+def update_notebook_status(episode: str, notebook_url: str) -> None:
+    """Update status.json with notebook_created and notebook_url."""
+    utils = _get_status_utils()
+    utils.update_episode_status(episode, "notebook_created", value=True)
+    utils.update_episode_field(episode, "notebook_url", notebook_url)
 
 
 app = typer.Typer(
@@ -62,35 +108,36 @@ def init(
 
 @app.command()
 def login(
-    port: Annotated[
-        int,
-        typer.Option("--port", "-p", help="Chrome debug port"),
-    ] = 9222,
     timeout: Annotated[
         int,
         typer.Option("--timeout", "-t", help="Login timeout in seconds"),
     ] = 300,
+    fresh: Annotated[
+        bool,
+        typer.Option("--fresh", help="Use temporary profile (for testing)"),
+    ] = False,
 ) -> None:
-    """Launch Chrome for manual Google login."""
+    """Launch browser for manual Google login."""
     setup_logging()
 
-    manager = BrowserManager()
-
-    console.print("[yellow]Launching Chrome...[/]")
-    manager.launch_chrome_debug(port)
-
+    console.print("[yellow]Launching browser...[/]")
     console.print("\n[bold]Please sign in to your Google account in the browser.[/]")
     console.print(f"[dim]Timeout: {timeout}s[/]\n")
 
-    async def wait_login() -> bool:
-        await asyncio.sleep(3)  # Wait for Chrome to start
-        await manager.connect_cdp(port)
-        page = await manager.get_page()
+    async def do_login() -> bool:
+        manager = BrowserManager()
+        if fresh:
+            temp_dir = Path(tempfile.mkdtemp(prefix="notebooklm-"))
+            console.print(f"[dim]Using temp profile: {temp_dir}[/]")
+            await manager.launch_with_profile(profile_dir=temp_dir, headless=False)
+        else:
+            await manager.launch_with_profile(headless=False)
+        page = await manager.navigate_to_notebooklm()
         result = await manager.wait_for_login(page, timeout)
         await manager.close()
         return result
 
-    success = asyncio.run(wait_login())
+    success = asyncio.run(do_login())
 
     if success:
         console.print("[green]Login successful![/]")
@@ -99,31 +146,91 @@ def login(
         raise typer.Exit(1)
 
 
+@app.command()
+def logout(
+    force: Annotated[
+        bool,
+        typer.Option("--force", "-f", help="Skip confirmation prompt"),
+    ] = False,
+    profile_dir: Annotated[
+        Path | None,
+        typer.Option("--profile-dir", "-p", help="Chrome profile directory"),
+    ] = None,
+) -> None:
+    """Logout by removing browser profile directory."""
+    profile = profile_dir or settings.chrome_profile_dir
+
+    if not profile.exists():
+        console.print(f"[yellow]Profile directory not found:[/] {profile}")
+        return
+
+    if not force:
+        confirm = typer.confirm(f"Remove browser profile at {profile}?")
+        if not confirm:
+            console.print("[dim]Cancelled[/]")
+            raise typer.Exit(0)
+
+    shutil.rmtree(profile)
+    console.print(f"[green]Logged out.[/] Removed: {profile}")
+    console.print("[dim]Run 'login' to authenticate again.[/]")
+
+
 # --- Notebook Commands ---
 
 notebook_app = typer.Typer(help="Notebook management commands")
 app.add_typer(notebook_app, name="notebook")
 
 
+def _resolve_notebook_inputs(
+    episode: str,
+    name: str | None,
+    source: str | None,
+    file: Path | None,
+) -> tuple[str, Path | None]:
+    """Resolve notebook name and PDF file from inputs. Exits on error."""
+    notebook_name = name
+    pdf_file = file
+
+    if not source and not file:
+        result = find_paper_pdf(episode)
+        if not result:
+            console.print(f"[red]Episode {episode} not found in status.json or PDF missing[/]")
+            raise typer.Exit(1)
+        pdf_file, paper_name = result
+        console.print(f"[dim]Found: {pdf_file}[/]")
+        notebook_name = notebook_name or f"{episode.zfill(2)} {paper_name}"
+
+    if not notebook_name:
+        console.print("[red]--name required when using --source or --file[/]")
+        raise typer.Exit(1)
+
+    if pdf_file and not pdf_file.exists():
+        console.print(f"[red]File not found:[/] {pdf_file}")
+        raise typer.Exit(1)
+
+    return notebook_name, pdf_file
+
+
 @notebook_app.command("create")
 def notebook_create(
-    name: Annotated[str, typer.Option("--name", "-n", help="Notebook name")],
+    episode: Annotated[str, typer.Argument(help="Episode number (finds PDF automatically)")],
+    name: Annotated[
+        str | None,
+        typer.Option("--name", "-n", help="Notebook name (default: from status.json)"),
+    ] = None,
     source: Annotated[
         str | None,
-        typer.Option("--source", "-s", help="Source URL"),
+        typer.Option("--source", "-s", help="Source URL (overrides auto PDF)"),
     ] = None,
     file: Annotated[
         Path | None,
-        typer.Option("--file", "-f", help="Local file to upload (PDF)"),
+        typer.Option("--file", "-f", help="Local file (overrides auto PDF)"),
     ] = None,
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
-    """Create a new notebook with optional source URL or file."""
+    """Create notebook from episode number. Finds PDF automatically from status.json."""
     setup_logging(verbose)
-
-    if file and not file.exists():
-        console.print(f"[red]File not found:[/] {file}")
-        raise typer.Exit(1)
+    notebook_name, pdf_file = _resolve_notebook_inputs(episode, name, source, file)
 
     async def run() -> str | None:
         async with browser_session() as (manager, page):
@@ -132,12 +239,12 @@ def notebook_create(
                 return None
 
             notebook = NotebookManager()
-            url = await notebook.create_notebook(page, name)
+            url = await notebook.create_notebook(page, notebook_name)
 
             if url:
                 sources = SourcesManager()
-                if file:
-                    await sources.add_file(page, file)
+                if pdf_file:
+                    await sources.add_file(page, pdf_file)
                     await sources.wait_for_processing(page)
                 elif source:
                     await sources.add_url(page, source)
@@ -148,15 +255,25 @@ def notebook_create(
     url = asyncio.run(run())
     if url:
         console.print(f"[green]Notebook created:[/] {url}")
+        update_notebook_status(episode, url)
+        console.print(f"[green]Status updated for episode {episode}[/]")
     else:
         raise typer.Exit(1)
+
+
+def _extract_episode_from_name(name: str) -> str | None:
+    """Extract episode number from notebook name like '72-viewstamped' or '65 generals'."""
+    import re
+    match = re.match(r"^(\d+)[\s\-]", name)
+    return match.group(1) if match else None
 
 
 @notebook_app.command("list")
 def notebook_list(
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+    sync: Annotated[bool, typer.Option("--sync", "-s", help="Update status.json with notebook URLs")] = False,
 ) -> None:
-    """List all notebooks."""
+    """List all notebooks. Use --sync to update status.json."""
     setup_logging(verbose)
 
     async def run() -> list[dict[str, str]]:
@@ -169,9 +286,37 @@ def notebook_list(
             return await notebook.list_notebooks(page)
 
     notebooks = asyncio.run(run())
+    updated = 0
+    skipped_archived = 0
+
+    # Load status once to check archived
+    utils = _get_status_utils()
+    status = utils.load_status()
+    papers = status.get("papers", [])
+
     for nb in notebooks:
         console.print(f"[bold]{nb['name']}[/]")
         console.print(f"  [dim]{nb['url']}[/]")
+
+        if sync:
+            episode = _extract_episode_from_name(nb["name"])
+            if episode:
+                # Skip archived episodes
+                paper = utils.find_paper_by_episode(papers, episode)
+                if paper and paper.get("archived"):
+                    skipped_archived += 1
+                    continue
+                try:
+                    update_notebook_status(episode, nb["url"])
+                    updated += 1
+                except Exception:
+                    pass  # Episode not in status.json
+
+    if sync:
+        msg = f"\n[green]Updated {updated} episodes in status.json[/]"
+        if skipped_archived:
+            msg += f" [dim](skipped {skipped_archived} archived)[/]"
+        console.print(msg)
 
 
 # --- Audio Commands ---
@@ -352,6 +497,10 @@ def pipeline(
         Path | None,
         typer.Option("--slides-prompt", help="Slides prompt file"),
     ] = None,
+    episode: Annotated[
+        str | None,
+        typer.Option("--episode", "-e", help="Episode number to update status"),
+    ] = None,
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
     """Run full pipeline: create notebook, add source, generate audio/slides."""
@@ -359,11 +508,11 @@ def pipeline(
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    async def run() -> bool:
+    async def run() -> str | None:
         async with browser_session() as (manager, page):
             if not await manager.is_logged_in(page):
                 console.print("[red]Not logged in. Run 'login' first.[/]")
-                return False
+                return None
 
             # Create notebook
             console.print(f"[yellow]Creating notebook:[/] {name}")
@@ -371,7 +520,7 @@ def pipeline(
             notebook_url = await notebook_mgr.create_notebook(page, name)
             if not notebook_url:
                 console.print("[red]Failed to create notebook[/]")
-                return False
+                return None
             console.print(f"[green]Notebook:[/] {notebook_url}")
 
             # Add source
@@ -407,10 +556,14 @@ def pipeline(
                 else:
                     console.print("[red]Slides generation failed[/]")
 
-            return True
+            return notebook_url
 
-    success = asyncio.run(run())
-    if not success:
+    notebook_url = asyncio.run(run())
+    if notebook_url:
+        if episode:
+            update_notebook_status(episode, notebook_url)
+            console.print(f"[green]Status updated for episode {episode}[/]")
+    else:
         raise typer.Exit(1)
 
 

@@ -10,15 +10,13 @@ from __future__ import annotations
 class Selectors:
     """UI selectors for NotebookLM automation."""
 
-    # Navigation & Auth
+    # Navigation & Auth - must be specific to logged-in state
     LOGGED_IN_INDICATOR = (
-        "[data-notebook-id], "
-        '[aria-label*="Create"], '
-        '[aria-label*="notebook"], '
-        'button:has-text("Create"), '
-        'button:has-text("New")'
+        'button:has-text("Create new"), '  # create button (logged-in only)
+        ':text("Recent notebooks"), '  # heading on home page
+        ':text("My notebooks")'  # tab on home page
     )
-    LOGIN_BUTTON = 'button:has-text("Sign in")'
+    LOGIN_BUTTON = 'button:has-text("Sign in"), button:has-text("Get started"), a:has-text("Sign in")'
 
     # Notebook management
     NEW_NOTEBOOK_BTN = (
@@ -34,7 +32,7 @@ class Selectors:
         'input[placeholder*="Untitled"], '
         'input[type="text"]'
     )
-    NOTEBOOK_LIST_ITEM = "[data-notebook-id], [data-id]"
+    NOTEBOOK_LIST_ITEM = "project-button"
 
     # Sources panel
     ADD_SOURCE_BTN = (

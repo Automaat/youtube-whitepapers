@@ -82,6 +82,26 @@ def update_episode_status(ep_num: str | int, field: str, value: bool) -> None:
     save_status(status)
 
 
+def update_episode_field(ep_num: str | int, field: str, value: Any) -> None:
+    """Update single field with any value type for an episode in status.json."""
+    status = load_status()
+    papers = status.get("papers", [])
+
+    ep_str = str(ep_num).zfill(2)
+    paper = find_paper_by_episode(papers, ep_str)
+
+    if paper:
+        paper[field] = value
+    else:
+        paper = {"episode": ep_str, "name": "", "category": "", field: value}
+        papers.append(paper)
+        papers.sort(key=lambda p: p.get("episode", ""))
+        status["papers"] = papers
+
+    update_summary(status)
+    save_status(status)
+
+
 def archive_episode_status(ep_num: str | int) -> None:
     """Mark episode as archived, keeping only episode/name/category/archived."""
     status = load_status()

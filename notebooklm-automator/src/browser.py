@@ -88,7 +88,6 @@ class BrowserManager:
         self._context = await pw.chromium.launch_persistent_context(
             user_data_dir=profile_dir,
             headless=headless,
-            channel="chrome",
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--disable-infobars",
@@ -128,6 +127,10 @@ class BrowserManager:
             f"--user-data-dir={profile_dir}",
             "--no-first-run",
             "--no-default-browser-check",
+            "--disable-sync",
+            "--disable-background-networking",
+            "--password-store=basic",
+            "--use-mock-keychain",
             settings.notebooklm_base_url,
         ]
 
@@ -196,17 +199,23 @@ class BrowserManager:
             True if logged in
 
         """
+        logger.debug("Checking login status, URL: %s", page.url)
+
         # If on a notebook page, we're logged in
         if "/notebook/" in page.url:
+            logger.debug("On notebook page, assuming logged in")
             return True
 
         try:
+            logger.debug("Looking for selector: %s", Selectors.LOGGED_IN_INDICATOR)
             await page.wait_for_selector(
                 Selectors.LOGGED_IN_INDICATOR,
                 timeout=5000,
             )
+            logger.debug("Selector found, logged in")
             return True
-        except Exception:
+        except Exception as e:
+            logger.debug("Selector not found: %s", e)
             return False
 
     async def wait_for_login(self, page: Page, timeout: int = 300) -> bool:
@@ -221,6 +230,7 @@ class BrowserManager:
 
         """
         logger.info("Waiting for manual login (timeout: %ds)...", timeout)
+        logger.debug("Looking for: %s", Selectors.LOGGED_IN_INDICATOR)
         try:
             await page.wait_for_selector(
                 Selectors.LOGGED_IN_INDICATOR,
@@ -230,6 +240,13 @@ class BrowserManager:
             return True
         except Exception:
             logger.warning("Login timeout")
+            # Debug: dump page info
+            logger.debug("Final URL: %s", page.url)
+            try:
+                await page.screenshot(path="/tmp/notebooklm-login-fail.png")
+                logger.debug("Screenshot saved to /tmp/notebooklm-login-fail.png")
+            except Exception as e:
+                logger.debug("Screenshot failed: %s", e)
             return False
 
     async def close(self, page: Page | None = None) -> None:

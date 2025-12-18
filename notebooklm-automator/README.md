@@ -33,12 +33,21 @@ mise run login
 
 1. Sign in with your Google account in the browser window.
 
-## Usage
-
-### Create notebook with source
+1. Logout (clears session):
 
 ```bash
-mise run notebook-file -- "66 flp" "../whitepapers/distributed-computing/66-flp-impossibility.pdf"
+mise run logout
+```
+
+## Usage
+
+### Create notebook from episode
+
+```bash
+# Auto-finds PDF from status.json
+uv run notebooklm-automator notebook create 66
+# or
+mise run notebook -- 66
 ```
 
 ### Audio commands

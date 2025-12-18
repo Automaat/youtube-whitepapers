@@ -142,8 +142,8 @@ class NotebookManager:
         """
         logger.info("Opening notebook: %s", url)
 
-        await page.goto(url, timeout=settings.page_load_timeout * 1000)
-        await page.wait_for_load_state("networkidle")
+        await page.goto(url, timeout=settings.page_load_timeout * 1000, wait_until="domcontentloaded")
+        await asyncio.sleep(2)  # Allow page to stabilize
 
         # Verify we're on a notebook page
         return "notebook" in page.url
@@ -172,15 +172,31 @@ class NotebookManager:
             List of notebooks with id, name, url
 
         """
-        await page.goto(settings.notebooklm_base_url)
-        await page.wait_for_load_state("networkidle")
+        await page.goto(settings.notebooklm_base_url, wait_until="domcontentloaded")
+        await page.wait_for_selector(Selectors.LOGGED_IN_INDICATOR, timeout=10000)
 
         notebooks = []
+
         elements = await page.query_selector_all(Selectors.NOTEBOOK_LIST_ITEM)
 
         for element in elements:
-            notebook_id = await element.get_attribute("data-notebook-id")
-            name = await element.inner_text()
+            # Extract notebook ID and title from project-button structure
+            data = await element.evaluate("""el => {
+                const btn = el.querySelector('button[aria-labelledby]');
+                const titleEl = el.querySelector('.project-button-title');
+                if (!btn || !titleEl) return null;
+                const labelledBy = btn.getAttribute('aria-labelledby') || '';
+                // Extract UUID from "project-{UUID}-title"
+                const match = labelledBy.match(/project-([a-f0-9-]+)-title/);
+                return {
+                    id: match ? match[1] : null,
+                    name: titleEl.textContent?.trim() || ''
+                };
+            }""")
+            if not data or not data.get("id"):
+                continue
+            notebook_id = data["id"]
+            name = data["name"]
             if notebook_id:
                 notebooks.append(
                     {

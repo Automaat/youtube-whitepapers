@@ -33,15 +33,14 @@ run = "uv run notebooklm-automator init"
 description = "Launch Chrome for Google login"
 run = "uv run notebooklm-automator login"
 
-[tasks.notebook]
-description = "Create notebook with URL source: mise run notebook -- NAME SOURCE_URL"
-run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --source {{arg(i=1)}}"
-# Example: mise run notebook -- "Raft Paper" "https://raft.github.io/raft.pdf"
+[tasks.logout]
+description = "Logout (remove Chrome profile)"
+run = "uv run notebooklm-automator logout --force"
 
-[tasks.notebook-file]
-description = "Create notebook from local file: mise run notebook-file -- NAME FILE_PATH"
-run = "uv run notebooklm-automator notebook create --name {{arg(i=0)}} --file {{arg(i=1)}}"
-# Example: mise run notebook-file -- "Raft Paper" "../whitepapers/distributed-computing/73-raft.pdf"
+[tasks.notebook]
+description = "Create notebook from episode number: mise run notebook -- EPISODE"
+run = "uv run notebooklm-automator notebook create {{arg(i=0)}}"
+# Example: mise run notebook -- 66
 
 [tasks.audio-generate]
 description = "Start audio generation: mise run audio-generate -- NOTEBOOK_URL [LANGUAGE]"
