@@ -174,51 +174,31 @@
       "episode": "64",
       "name": "lamport-clocks",
       "category": "distributed-computing",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "65",
       "name": "byzantine-generals",
       "category": "distributed-computing",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": true
+      "archived": true
     },
     {
       "episode": "66",
       "name": "flp-impossibility",
       "category": "distributed-computing",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": true
+      "archived": true
     },
     {
       "episode": "67",
       "name": "partial-synchrony",
       "category": "distributed-computing",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": true
+      "archived": true
     },
     {
       "episode": "68",
       "name": "cap-theorem",
       "category": "distributed-computing",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": false
+      "archived": true
     },
     {
       "episode": "69",
@@ -228,7 +208,8 @@
       "slides": true,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": true,
+      "uploaded": true
     },
     {
       "episode": "70",
@@ -910,12 +891,7 @@
       "episode": "63",
       "name": "qlora",
       "category": "llm",
-      "audio": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": true,
-      "uploaded": true
+      "archived": true
     },
     {
       "episode": "117",
@@ -1321,13 +1297,13 @@
   "summary": {
     "total": 156,
     "notebook_created": 0,
-    "audio": 23,
-    "slides": 7,
-    "transcript": 26,
-    "thumbnail": 54,
-    "video": 5,
+    "audio": 17,
+    "slides": 1,
+    "transcript": 20,
+    "thumbnail": 48,
+    "video": 2,
     "uploaded": 1,
-    "archived": 62
+    "archived": 68
   },
-  "updated": "2025-12-18T14:21:13+00:00"
+  "updated": "2025-12-18T15:48:16+00:00"
 }
