@@ -71,10 +71,14 @@ def check_exists(dirs: list[Path], pattern: str) -> bool:
 
 
 def check_slides_exist(dirs: list[Path], ep_name: str) -> bool:
-    """Check if slides directory exists for episode."""
+    """Check if slides exist for episode (PDF or extracted PNGs)."""
     for d in dirs:
         if not d.exists():
             continue
+        # Check for PDF file directly in slides dir
+        if (d / f"{ep_name}.pdf").exists():
+            return True
+        # Check for extracted PNGs in episode subdirectory
         slides_dir = d / ep_name
         if slides_dir.is_dir() and list(slides_dir.glob("*.png")):
             return True
@@ -100,13 +104,15 @@ def generate_status() -> dict:
         ep_name = f"{ep_num}-{paper['name']}"
 
         old_paper = existing_papers.get(ep_num, {})
+
+        # Skip status updates for archived episodes - preserve all existing fields
+        if old_paper.get("archived"):
+            paper.update({k: v for k, v in old_paper.items() if k not in ("episode", "name", "category")})
+            continue
+
         for field in PRESERVED_FIELDS:
             if field in old_paper:
                 paper[field] = old_paper[field]
-
-        if old_paper.get("archived"):
-            paper["archived"] = True
-            continue
 
         if old_paper.get("uploaded"):
             paper["uploaded"] = True

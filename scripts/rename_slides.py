@@ -5,6 +5,8 @@ import re
 import sys
 from pathlib import Path
 
+from status_utils import update_episode_status
+
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent
 
@@ -64,6 +66,7 @@ def rename_slides() -> int:
         new_path = item.parent / new_name
         item.rename(new_path)
         print(f"✅ {item.name}/ -> {new_name}/")
+        update_episode_status(ep_num, "slides", True)
         renamed += 1
 
     # Rename PDFs
@@ -84,6 +87,7 @@ def rename_slides() -> int:
         new_path = pdf.parent / new_name
         pdf.rename(new_path)
         print(f"✅ {pdf.name} -> {new_name}")
+        update_episode_status(ep_num, "slides", True)
         renamed += 1
 
     if renamed == 0:

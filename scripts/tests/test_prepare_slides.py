@@ -260,8 +260,10 @@ class TestMain:
         def mock_run_cmd(cmd, **_kwargs):
             result = MagicMock()
             result.returncode = 0
+            result.stdout = ""
+            result.stderr = ""
             if cmd[0] == "identify":
-                result.stdout = "100x100"
+                result.stdout = "1920x1080"
             elif cmd[0] == "pdftoppm":
                 # Create fake slide files
                 output_dir = (
@@ -269,6 +271,11 @@ class TestMain:
                 )
                 output_dir.mkdir(exist_ok=True)
                 (output_dir / "slide-01.png").write_bytes(b"fake png")
+            elif cmd[0] == "convert":
+                # Create output file (last argument)
+                out_path = Path(cmd[-1])
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                out_path.write_bytes(b"fake scaled png")
             return result
 
         with (
@@ -329,7 +336,7 @@ class TestFullWorkflow:
         def mock_run_cmd(cmd, **_kwargs):
             result = MagicMock()
             result.returncode = 0
-            result.stdout = "100x100"
+            result.stdout = "1920x1080"
             result.stderr = ""
 
             if cmd[0] == "pdftoppm":
@@ -337,6 +344,10 @@ class TestFullWorkflow:
                 output_dir.mkdir(exist_ok=True)
                 for i in range(1, 4):
                     (output_dir / f"slide-{i:02d}.png").write_bytes(b"fake png")
+            elif cmd[0] == "convert":
+                out_path = Path(cmd[-1])
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                out_path.write_bytes(b"fake scaled png")
 
             return result
 
@@ -366,12 +377,16 @@ class TestFullWorkflow:
         def mock_run_cmd(cmd, **_kwargs):
             result = MagicMock()
             result.returncode = 0
-            result.stdout = "100x100"  # All same dimensions
+            result.stdout = "1920x1080"  # All match target dimensions
             result.stderr = ""
 
             if cmd[0] == "pdftoppm":
                 output_dir.mkdir(exist_ok=True)
                 (output_dir / "slide-01.png").write_bytes(b"fake png")
+            elif cmd[0] == "convert":
+                out_path = Path(cmd[-1])
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                out_path.write_bytes(b"fake scaled png")
 
             return result
 

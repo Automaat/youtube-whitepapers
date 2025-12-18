@@ -157,6 +157,18 @@ class TestCheckSlidesExist:
 
         assert result is False
 
+    def test_returns_true_for_pdf_file(self, temp_project):
+        """Should return True when PDF file exists in slides directory."""
+        from scripts.generate_status import check_slides_exist
+
+        slides_dir = temp_project / "youtube" / "pl" / "slides"
+        slides_dir.mkdir(parents=True, exist_ok=True)
+        (slides_dir / "55-olmo.pdf").write_bytes(b"pdf")
+
+        result = check_slides_exist([slides_dir], "55-olmo")
+
+        assert result is True
+
 
 class TestCheckArchived:
     """Tests for check_archived function."""
