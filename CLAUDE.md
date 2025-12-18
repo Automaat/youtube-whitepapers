@@ -303,6 +303,9 @@ mise run transcribe
 # Transcribe with more parallelization
 mise run transcribe -- 4
 
+# Analyze transcript for slide generation
+mise run analyze-transcript -- 73
+
 # Prepare slides for an episode
 mise run prepare -- 26
 

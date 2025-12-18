@@ -15,6 +15,11 @@ description = "Transcribe audio files"
 run = "python scripts/transcribe.py {{arg(i=0, default='3')}}"
 # Example: mise run transcribe -- 4
 
+[tasks.analyze-transcript]
+description = "Analyze transcript for slide generation: mise run analyze-transcript -- EP_NUM"
+run = "python scripts/analyze_transcript.py {{arg(i=0)}}"
+# Example: mise run analyze-transcript -- 73
+
 [tasks.prepare]
 description = "Prepare slides for video: mise run prepare -- EPISODE_NUM"
 run = "python scripts/prepare_slides.py {{arg(i=0)}}"

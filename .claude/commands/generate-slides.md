@@ -1,20 +1,23 @@
 Generate NotebookLM slide prompts for episode number $ARGUMENTS.
 
-First, find the episode name by looking for transcript file matching `youtube/pl/transcripts/$ARGUMENTS-*.json` and extract the full episode name (filename without extension).
-
 **Prerequisites (MUST exist before proceeding):**
 
-- Transcript: youtube/pl/transcripts/{ep_name}.json
+- Transcript: youtube/pl/transcripts/{ep_num}-*.json
+
+**CRITICAL: DO NOT read transcript JSON directly - use only analysis output.**
 
 **STOP immediately if transcript is missing.**
 
 Tasks:
 
-1. **Read the transcript file**
-   - Analyze the full podcast content
-   - Identify main topics and their order
-   - Note specific technical terms, numbers, and results mentioned
-   - Find the question asked at the end of the podcast
+1. **Run transcript analysis**
+   - Execute: `mise run analyze-transcript -- $ARGUMENTS`
+   - Review the printed analysis showing:
+     - Episode name, duration, segment count
+     - Final question extracted from podcast
+     - Technical terms (sorted by frequency)
+     - Suggested 10-slide outline with timestamps and sample text
+   - Use this structured data to guide prompt creation
 
 2. **Create NotebookLM prompt**
 
@@ -44,15 +47,18 @@ Tasks:
    (each slide: title + 4-6 detailed bullet points)
 
    ## Slide 11: Question for You
-   [Extract exact question from end of podcast transcript]
+   [Single question translated from analysis output to English]
    ```
 
 3. **Content requirements**
+   - **Language: ENGLISH** - all slide titles, bullets, and question must be in English (translate from Polish transcript)
    - Audience: technical Software Engineering experts
-   - 11 slides total (slides 1-10 content, slide 11 question)
-   - Each content slide: title + 4-6 detailed bullet points
-   - Use original English names for technical terms, architectures, methods, and metrics
+   - 11 slides total (slides 1-10 content, slide 11 single question only)
+   - Each content slide (1-10): title + 4-6 detailed bullet points
+   - Slide 11: title "Question for You" + single question (no bullets)
+   - Use technical terms from analysis output (already sorted by frequency)
    - Include exact technical terms, specific numbers/results, key comparisons, named architectures
+   - Base content on suggested outline with sample text from analysis output
 
 4. **Save output**
    - Save the complete NotebookLM prompt to: youtube/prompts/slides/{ep_name}.md

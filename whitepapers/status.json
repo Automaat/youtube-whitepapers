@@ -534,13 +534,15 @@
       "episode": "01",
       "name": "attention-is-all-you-need",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "02",
       "name": "gpt",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "03",
@@ -618,7 +620,8 @@
       "episode": "15",
       "name": "glam",
       "category": "llm",
-      "archived": true
+      "archived": true,
+      "transcript": true
     },
     {
       "episode": "16",
@@ -1350,11 +1353,11 @@
     "notebook_created": 0,
     "audio": 31,
     "slides": 0,
-    "transcript": 29,
+    "transcript": 32,
     "thumbnail": 61,
     "video": 0,
     "uploaded": 0,
     "archived": 54
   },
-  "updated": "2025-12-18T11:02:56+00:00"
+  "updated": "2025-12-18T11:36:04+00:00"
 }
