@@ -22,6 +22,7 @@ def sample_status():
                 "name": "attention-is-all-you-need",
                 "category": "llm",
                 "notebook_created": True,
+                "notebook_url": "https://notebooklm.google.com/notebook/abc123",
                 "audio": True,
                 "transcript": True,
             },
@@ -204,7 +205,9 @@ class TestArchiveEpisodeStatus:
         assert paper["archived"] is True
         assert "audio" not in paper
         assert "transcript" not in paper
-        assert "notebook_created" not in paper  # only episode/name/category/archived kept
+        # PRESERVED_FIELDS are kept after archiving
+        assert paper["notebook_created"] is True
+        assert paper["notebook_url"] == "https://notebooklm.google.com/notebook/abc123"
 
     def test_creates_new_archived_entry(self, status_file):
         """Should create archived entry if paper not found."""

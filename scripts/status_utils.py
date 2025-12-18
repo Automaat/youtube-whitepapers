@@ -14,7 +14,7 @@ STATUS_FILE = SCRIPT_DIR / "whitepapers" / "status.json"
 WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers"
 
 PIPELINE_FIELDS = ["audio", "slides", "transcript", "thumbnail", "video", "uploaded"]
-PRESERVED_FIELDS = ["notebook_created"]
+PRESERVED_FIELDS = ["notebook_created", "notebook_url"]
 
 
 def load_status() -> dict[str, Any]:
@@ -111,13 +111,16 @@ def archive_episode_status(ep_num: str | int) -> None:
     paper = find_paper_by_episode(papers, ep_str)
 
     if paper:
-        # Keep only core fields
+        # Keep only core fields + preserved fields
         archived_paper = {
             "episode": paper.get("episode", ep_str),
             "name": paper.get("name", ""),
             "category": paper.get("category", ""),
             "archived": True,
         }
+        for field in PRESERVED_FIELDS:
+            if field in paper:
+                archived_paper[field] = paper[field]
         idx = papers.index(paper)
         papers[idx] = archived_paper
     else:

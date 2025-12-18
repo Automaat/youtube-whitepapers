@@ -6,6 +6,7 @@ import asyncio
 import importlib.util
 import json
 import logging
+import re
 import shutil
 import tempfile
 
@@ -21,7 +22,7 @@ from src.audio import AudioManager, AudioStatus
 from src.browser import BrowserManager, browser_session
 from src.config import settings
 from src.notebook import NotebookManager
-from src.slides import SlidesManager
+from src.slides import SlidesManager, SlidesStatus
 from src.sources import SourcesManager
 from src.ui_selectors import Selectors
 
@@ -213,7 +214,7 @@ def _resolve_notebook_inputs(
 
 @notebook_app.command("create")
 def notebook_create(
-    episode: Annotated[str, typer.Argument(help="Episode number (finds PDF automatically)")],
+    episode: Annotated[str, typer.Argument(help="Episode number or 'all' for batch creation")],
     name: Annotated[
         str | None,
         typer.Option("--name", "-n", help="Notebook name (default: from status.json)"),
@@ -226,10 +227,19 @@ def notebook_create(
         Path | None,
         typer.Option("--file", "-f", help="Local file (overrides auto PDF)"),
     ] = None,
+    dry_run: Annotated[
+        bool,
+        typer.Option("--dry-run", help="Preview without creating (only for 'all')"),
+    ] = False,
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
 ) -> None:
-    """Create notebook from episode number. Finds PDF automatically from status.json."""
+    """Create notebook from episode number or 'all' for batch creation."""
     setup_logging(verbose)
+
+    if episode.lower() == "all":
+        _notebook_create_all(dry_run)
+        return
+
     notebook_name, pdf_file = _resolve_notebook_inputs(episode, name, source, file)
 
     async def run() -> str | None:
@@ -261,9 +271,68 @@ def notebook_create(
         raise typer.Exit(1)
 
 
+def _notebook_create_all(dry_run: bool) -> None:
+    """Create notebooks for all papers missing notebooks."""
+    papers = _get_papers_missing_notebooks()
+    if not papers:
+        console.print("[yellow]No papers missing notebooks[/]")
+        return
+
+    console.print(f"[bold]Found {len(papers)} papers missing notebooks[/]")
+
+    if dry_run:
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            category = paper.get("category", "")
+            pdf_path = WHITEPAPERS_DIR / category / f"{ep.zfill(2)}-{name}.pdf"
+            console.print(f"  {ep}-{name}")
+            console.print(f"    [dim]PDF: {pdf_path}[/]")
+        return
+
+    created = 0
+    failed = 0
+
+    async def run() -> tuple[int, int]:
+        nonlocal created, failed
+        async with browser_session() as (manager, page):
+            if not await manager.is_logged_in(page):
+                console.print("[red]Not logged in. Run 'login' first.[/]")
+                return (0, len(papers))
+
+            notebook_mgr = NotebookManager()
+            sources_mgr = SourcesManager()
+
+            for paper in papers:
+                ep = paper.get("episode", "??")
+                name = paper.get("name", "unknown")
+                category = paper.get("category", "")
+                pdf_path = WHITEPAPERS_DIR / category / f"{ep.zfill(2)}-{name}.pdf"
+                notebook_name = f"{ep.zfill(2)} {name}"
+
+                console.print(f"[bold]Creating {ep}-{name}...[/]")
+
+                url = await notebook_mgr.create_notebook(page, notebook_name)
+                if not url:
+                    console.print("  [red]Failed to create notebook[/]")
+                    failed += 1
+                    continue
+
+                await sources_mgr.add_file(page, pdf_path)
+                await sources_mgr.wait_for_processing(page)
+
+                update_notebook_status(ep, url)
+                console.print(f"  [green]Created:[/] {url}")
+                created += 1
+
+        return (created, failed)
+
+    created, failed = asyncio.run(run())
+    console.print(f"\n[bold]Summary:[/] {created} created, {failed} failed")
+
+
 def _extract_episode_from_name(name: str) -> str | None:
     """Extract episode number from notebook name like '72-viewstamped' or '65 generals'."""
-    import re
     match = re.match(r"^(\d+)[\s\-]", name)
     return match.group(1) if match else None
 
@@ -301,16 +370,14 @@ def notebook_list(
         if sync:
             episode = _extract_episode_from_name(nb["name"])
             if episode:
-                # Skip archived episodes
                 paper = utils.find_paper_by_episode(papers, episode)
-                if paper and paper.get("archived"):
+                if not paper:
+                    continue
+                if paper.get("archived"):
                     skipped_archived += 1
                     continue
-                try:
-                    update_notebook_status(episode, nb["url"])
-                    updated += 1
-                except Exception:
-                    pass  # Episode not in status.json
+                update_notebook_status(episode, nb["url"])
+                updated += 1
 
     if sync:
         msg = f"\n[green]Updated {updated} episodes in status.json[/]"
@@ -458,6 +525,29 @@ def _get_papers_missing_audio() -> list[dict[str, Any]]:
     return papers
 
 
+def _get_papers_missing_notebooks() -> list[dict[str, Any]]:
+    """Get papers from status.json that need notebook creation."""
+    if not STATUS_FILE.exists():
+        return []
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    papers = []
+    for paper in status.get("papers", []):
+        if paper.get("archived"):
+            continue
+        if paper.get("notebook_created"):
+            continue
+        ep = paper.get("episode", "").zfill(2)
+        name = paper.get("name", "")
+        category = paper.get("category", "")
+        if not (ep and name and category):
+            continue
+        pdf_path = WHITEPAPERS_DIR / category / f"{ep}-{name}.pdf"
+        if not pdf_path.exists():
+            continue
+        papers.append(paper)
+    return papers
+
+
 @audio_app.command("batch-download")
 def audio_batch_download(
     dry_run: Annotated[
@@ -580,6 +670,142 @@ def slides_generate(
         console.print(f"[green]Slides saved:[/] {result}")
     else:
         raise typer.Exit(1)
+
+
+SLIDES_OUTPUT_DIR = Path(__file__).parent.parent.parent / "youtube" / "pl" / "slides"
+
+
+def _get_slides_output_path(episode: str, name: str) -> Path:
+    """Get output path for slides PDF."""
+    return SLIDES_OUTPUT_DIR / f"{episode.zfill(2)}-{name}.pdf"
+
+
+def _get_papers_needing_slides() -> list[dict[str, Any]]:
+    """Get papers that have audio but no slides."""
+    if not STATUS_FILE.exists():
+        return []
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    papers = []
+    for paper in status.get("papers", []):
+        if paper.get("archived"):
+            continue
+        if paper.get("slides"):
+            continue
+        if not paper.get("audio"):
+            continue
+        if not paper.get("notebook_url"):
+            continue
+        papers.append(paper)
+    return papers
+
+
+@slides_app.command("download")
+def slides_download(
+    notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
+    output: Annotated[Path, typer.Option("--output", "-o")],
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Download generated slides as PDF."""
+    setup_logging(verbose)
+
+    async def run() -> Path | None:
+        async with browser_session() as (manager, page):
+            if not await manager.is_logged_in(page):
+                console.print("[red]Not logged in. Run 'login' first.[/]")
+                return None
+
+            notebook = NotebookManager()
+            if not await notebook.open_notebook(page, notebook_url):
+                console.print("[red]Failed to open notebook[/]")
+                return None
+
+            slides = SlidesManager()
+            return await slides.download(page, output)
+
+    result = asyncio.run(run())
+    if result:
+        console.print(f"[green]Slides saved:[/] {result}")
+    else:
+        raise typer.Exit(1)
+
+
+@slides_app.command("batch-download")
+def slides_batch_download(
+    dry_run: Annotated[
+        bool,
+        typer.Option("--dry-run", "-n", help="Preview without downloading"),
+    ] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Download slides for all episodes with audio but no slides."""
+    setup_logging(verbose)
+
+    papers = _get_papers_needing_slides()
+    if not papers:
+        console.print("[yellow]No episodes needing slides download[/]")
+        return
+
+    console.print(f"[bold]Found {len(papers)} episodes needing slides[/]")
+
+    if dry_run:
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+            output = _get_slides_output_path(ep, name)
+            console.print(f"  {ep}-{name}")
+            console.print(f"    [dim]URL: {url}[/]")
+            console.print(f"    [dim]Output: {output}[/]")
+        return
+
+    downloaded = 0
+    skipped = 0
+    failed = 0
+
+    async def run() -> tuple[int, int, int]:
+        nonlocal downloaded, skipped, failed
+        async with browser_session() as (manager, page):
+            if not await manager.is_logged_in(page):
+                console.print("[red]Not logged in. Run 'login' first.[/]")
+                return (0, 0, len(papers))
+
+            notebook_mgr = NotebookManager()
+            slides_mgr = SlidesManager()
+            utils = _get_status_utils()
+
+            for paper in papers:
+                ep = paper.get("episode", "??")
+                name = paper.get("name", "unknown")
+                url = paper.get("notebook_url", "")
+
+                console.print(f"[bold]Processing {ep}-{name}...[/]")
+
+                if not await notebook_mgr.open_notebook(page, url):
+                    console.print("  [red]Failed to open notebook[/]")
+                    failed += 1
+                    continue
+
+                status = await slides_mgr.get_status(page)
+                if status != SlidesStatus.READY:
+                    console.print(f"  [yellow]Slides not ready ({status.value}), skipping[/]")
+                    skipped += 1
+                    continue
+
+                output = _get_slides_output_path(ep, name)
+                result = await slides_mgr.download(page, output)
+                if result:
+                    size_kb = result.stat().st_size / 1024
+                    console.print(f"  [green]Downloaded: {result} ({size_kb:.1f} KB)[/]")
+                    utils.update_episode_status(ep, "slides", value=True)
+                    downloaded += 1
+                else:
+                    console.print("  [red]Download failed[/]")
+                    failed += 1
+
+        return (downloaded, skipped, failed)
+
+    downloaded, skipped, failed = asyncio.run(run())
+    console.print(f"\n[bold]Summary:[/] {downloaded} downloaded, {skipped} skipped, {failed} failed")
 
 
 # --- Pipeline Command ---

@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -17,6 +18,13 @@ if TYPE_CHECKING:
 
 
 logger = logging.getLogger(__name__)
+
+
+class SlidesStatus(Enum):
+    """Slides generation status."""
+
+    NOT_FOUND = "not_found"
+    READY = "ready"
 
 
 class SlidesManager:
@@ -182,3 +190,105 @@ class SlidesManager:
 
         prompt = prompt_file.read_text()
         return await self.generate_slides(page, prompt, output_path, timeout)
+
+    async def get_status(self, page: Page) -> SlidesStatus:
+        """Check if slides are available in notebook."""
+        selectors = [
+            'button:has-text("Briefing doc")',
+            '[role="button"]:has-text("Briefing doc")',
+            'div:has-text("Briefing doc") >> nth=0',
+        ]
+        for sel in selectors:
+            try:
+                item = page.locator(sel).first
+                if await item.is_visible(timeout=2000):
+                    return SlidesStatus.READY
+            except Exception:
+                logger.debug("Slides status selector %s not found", sel)
+        return SlidesStatus.NOT_FOUND
+
+    async def _open_slides_panel(self, page: Page) -> bool:
+        """Click on Briefing doc to open slides panel."""
+        selectors = [
+            'button:has-text("Briefing doc")',
+            'a:has-text("Briefing doc")',
+            '[role="button"]:has-text("Briefing doc")',
+            'div:has-text("Briefing doc") >> nth=0',
+        ]
+        for sel in selectors:
+            try:
+                item = page.locator(sel).first
+                if await item.is_visible(timeout=2000):
+                    await item.dblclick(timeout=3000)
+                    await asyncio.sleep(2)
+                    logger.info("Double-clicked slides item: %s", sel)
+                    return True
+            except Exception:
+                logger.debug("Slides selector %s not found", sel)
+        return False
+
+    async def _click_download_button(self, page: Page) -> bool:
+        """Click download via 3-dot menu or direct button."""
+        menu_selectors = [
+            '[aria-label="More options"]',
+            '[aria-label="More actions"]',
+            '[aria-label*="More"]',
+            'button[aria-label*="menu" i]',
+        ]
+        for menu_sel in menu_selectors:
+            try:
+                menus = page.locator(menu_sel)
+                count = await menus.count()
+                logger.debug("Found %d elements for %s", count, menu_sel)
+                for i in range(count):
+                    menu = menus.nth(i)
+                    if await menu.is_visible(timeout=500):
+                        await menu.click(timeout=3000)
+                        await asyncio.sleep(0.5)
+                        download = page.locator(
+                            '[role="menuitem"]:has-text("Download"), '
+                            'button:has-text("Download"), '
+                            ':text("Download")'
+                        ).first
+                        if await download.is_visible(timeout=2000):
+                            await download.click(timeout=3000)
+                            return True
+                        await page.keyboard.press("Escape")
+                        await asyncio.sleep(0.3)
+            except Exception as e:
+                logger.debug("Menu selector %s failed: %s", menu_sel, e)
+
+        # Try direct download button as fallback
+        for selector in ['button[aria-label="Download"]', 'button:has-text("Download")']:
+            try:
+                locator = page.locator(selector).first
+                if await locator.is_visible(timeout=1000):
+                    await locator.click(timeout=3000)
+                    return True
+            except Exception:
+                logger.debug("Direct selector %s not found", selector)
+        return False
+
+    async def download(self, page: Page, output_path: Path) -> Path | None:
+        """Download generated slides as PDF."""
+        logger.info("Downloading slides to: %s", output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if not await self._open_slides_panel(page):
+            logger.warning("Could not find slides item")
+
+        async with page.expect_download() as download_info:
+            if not await self._click_download_button(page):
+                logger.error("Could not find download button")
+                return None
+
+        download = await download_info.value
+        await download.save_as(output_path)
+
+        if output_path.exists():
+            size_kb = output_path.stat().st_size / 1024
+            logger.info("Downloaded: %s (%.1f KB)", output_path, size_kb)
+            return output_path
+
+        logger.error("Download failed")
+        return None
