@@ -18,7 +18,7 @@ jobs:
         run: pip install ruff pytest pytest-mock
 
       - name: Lint
-        run: ruff check scripts/ tests/
+        run: ruff check scripts/
 
       - name: Test
-        run: pytest tests/ -v
+        run: pytest scripts/tests/ -v
