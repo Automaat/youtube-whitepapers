@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepare slides for video generation.
 
-Extracts slides from PDF and ensures thumbnail/last-slide match dimensions.
+Extracts slides from PDF and scales all images to full HD (1920x1080).
 This prevents ffmpeg concat demuxer from dropping frames due to resolution changes.
 Also compresses images exceeding 1.9MB threshold.
 """
@@ -12,6 +12,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent.parent
 COMPRESS_THRESHOLD = 1.9 * 1024 * 1024  # 1.9MB in bytes
+TARGET_WIDTH = 1920
+TARGET_HEIGHT = 1080
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
 ASSETS_DIR = YOUTUBE_DIR / "pl"
 THUMBNAILS_DIR = YOUTUBE_DIR / "thumbnails"
@@ -197,25 +199,19 @@ def main() -> int:
         print("❌ No slides extracted")
         return 1
 
-    # Get reference dimensions from first slide
-    width, height = get_image_dimensions(slides[0])
-    print(f"   📐 Reference dimensions: {width}x{height}")
+    # Target dimensions: full HD
+    width, height = TARGET_WIDTH, TARGET_HEIGHT
+    print(f"   📐 Target dimensions: {width}x{height} (Full HD)")
 
-    # Normalize slides: sRGB colorspace + consistent dimensions
-    print("🔄 Normalizing slides...")
-    scaled_count = 0
+    # Scale all slides to full HD
+    print("🔄 Scaling slides to Full HD...")
     for slide in slides:
         slide_w, slide_h = get_image_dimensions(slide)
         if (slide_w, slide_h) != (width, height):
-            print(f"   📐 Scaling {slide.name}: {slide_w}x{slide_h} → {width}x{height}")
-            scale_image(slide, slide, width, height)
-            scaled_count += 1
-        else:
-            ensure_rgb(slide)
+            print(f"   📐 {slide.name}: {slide_w}x{slide_h} → {width}x{height}")
+        scale_image(slide, slide, width, height)
 
-    if scaled_count > 0:
-        print(f"   ✅ Scaled {scaled_count} slides to match reference")
-    print(f"   ✅ Normalized {len(slides)} slides")
+    print(f"   ✅ Scaled {len(slides)} slides to Full HD")
 
     # Scale and copy thumbnail
     print("🔄 Preparing thumbnail...")
