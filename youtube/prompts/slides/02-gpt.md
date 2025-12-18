@@ -5,6 +5,7 @@ Generate 10 presentation slides based on the podcast about "Improving Language U
 ## Slide 1: The NLP Landscape Before GPT (2018)
 
 Content to include:
+
 - NLP was highly fragmented - each task required separate model built from scratch
 - Sentiment analysis, question answering, classification - all different architectures
 - Massive labeled datasets required for each task (hundreds of thousands of manually annotated examples)
@@ -15,6 +16,7 @@ Content to include:
 ## Slide 2: The Revolutionary Question - Pre-train + Fine-tune Paradigm
 
 Content to include:
+
 - Core insight: What if we create one powerful, universal base model?
 - Use all available unlabeled text (books, articles, internet) for pre-training
 - Analogy: "general university education first, then short intensive specialization"
@@ -25,6 +27,7 @@ Content to include:
 ## Slide 3: Stage 1 - Generative Pre-training (Unsupervised)
 
 Content to include:
+
 - Training objective: predict the next word in sequence
 - Dataset: BooksCorpus - over 7,000 unpublished books from various genres
 - Simple task that forces model to learn everything implicitly
@@ -35,6 +38,7 @@ Content to include:
 ## Slide 4: Stage 2 - Discriminative Fine-tuning (Supervised)
 
 Content to include:
+
 - Take pre-trained "well-read" model and show it specific task
 - Example: movie review classification (positive/negative)
 - Uses small, specialized labeled datasets
@@ -45,6 +49,7 @@ Content to include:
 ## Slide 5: Why Transformer Architecture (Not LSTM)?
 
 Content to include:
+
 - LSTM fundamental problem: short memory, struggles with long-range dependencies
 - LSTM could handle single sentence context but failed across paragraphs
 - Transformer uses self-attention mechanism - weighs importance of all words regardless of distance
@@ -56,6 +61,7 @@ Content to include:
 ## Slide 6: Input Transformation - Adapting Tasks to Model
 
 Content to include:
+
 - Elegant trick: change input data format instead of model architecture
 - Entailment task: concatenate premise + separator + hypothesis → verdict
 - Similarity task: process both orderings (A+B and B+A), sum representations for symmetric evaluation
@@ -67,6 +73,7 @@ Content to include:
 ## Slide 7: State-of-the-Art Results on 9/12 Benchmarks
 
 Content to include:
+
 - Story Cloze Test (commonsense reasoning): 75% → 83.9% (+8.9 percentage points)
 - RACE (reading comprehension for Chinese teenagers): +5.7% improvement
 - CoLA (grammatical correctness): jumped from 35 to 45.4 - deep linguistic intuition
@@ -77,6 +84,7 @@ Content to include:
 ## Slide 8: Layer Transfer Analysis and Zero-Shot Capabilities
 
 Content to include:
+
 - Experiment: how many layers to transfer from pre-trained to task model?
 - Previous belief: knowledge concentrated in early layers near embeddings
 - Reality: performance systematically improved with each additional layer (all 12)
@@ -89,6 +97,7 @@ Content to include:
 ## Slide 9: Ablation Studies - Proving What Matters
 
 Content to include:
+
 - Ablation 1: Removed pre-training, trained transformer from scratch on target tasks
   - Result: -14.8% average accuracy drop ("a chasm")
 - Ablation 2: Replaced transformer with LSTM, kept pre-train + fine-tune scheme
@@ -101,6 +110,7 @@ Content to include:
 ## Slide 10: Legacy and Fundamental Question
 
 Content to include:
+
 - Established completely new paradigm: pre-train + fine-tune
 - Shifted focus from clever data collection to efficient model/compute scaling
 - Without this paper: no GPT-2, GPT-3, ChatGPT, generative AI revolution

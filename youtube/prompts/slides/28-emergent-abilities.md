@@ -4,8 +4,10 @@ Generate 11 presentation slides based on the podcast about Emergent Abilities of
 
 ---
 
-### Slide 1: Introduction - The Scaling Illusion Shattered
+## Slide 1: Introduction - The Scaling Illusion Shattered
+
 Content to include:
+
 - The "bigger is better" mantra: long-held belief that model improvement is smooth and predictable
 - Engineers expected linear progress: add parameters, add data, watch metrics climb steadily
 - Reality: scaling isn't a smooth highway - it's a wild, uncharted terrain with sudden jumps
@@ -14,8 +16,10 @@ Content to include:
 
 ---
 
-### Slide 2: Defining Emergent Abilities - Two Critical Conditions
+## Slide 2: Defining Emergent Abilities - Two Critical Conditions
+
 Content to include:
+
 - Emergent ability definition requires TWO conditions to be met
 - Condition 1: The ability is practically absent in smaller models
 - Condition 2: The ability appears and becomes measurable only in larger models
@@ -25,8 +29,10 @@ Content to include:
 
 ---
 
-### Slide 3: Phase Transition - Physics Meets AI
+## Slide 3: Phase Transition - Physics Meets AI
+
 Content to include:
+
 - Authors draw explicit parallel to physics: phase transitions
 - Reference to Philip Anderson's famous essay "More is Different"
 - Core idea: quantitative change (more molecules, more parameters) leads to qualitative change
@@ -36,8 +42,10 @@ Content to include:
 
 ---
 
-### Slide 4: Measuring Scale - The X-Axis of Emergence
+## Slide 4: Measuring Scale - The X-Axis of Emergence
+
 Content to include:
+
 - Two primary metrics for measuring model scale
 - Training FLOPs: total computational power used during training
 - Parameter count: billions/trillions of weights (the numbers we hear about)
@@ -47,8 +55,10 @@ Content to include:
 
 ---
 
-### Slide 5: Few-Shot Prompting - The Testing Protocol
+## Slide 5: Few-Shot Prompting - The Testing Protocol
+
 Content to include:
+
 - Many emergence tests use few-shot prompting technique
 - Definition: show model a few examples in the prompt, then ask it to complete a new one
 - Example: "This movie is terrible" → Negative; "I love this film" → Positive; "The show was boring" → ?
@@ -58,8 +68,10 @@ Content to include:
 
 ---
 
-### Slide 6: Arithmetic Emergence - The Numbers Don't Lie
+## Slide 6: Arithmetic Emergence - The Numbers Don't Lie
+
 Content to include:
+
 - Three-digit addition: simple task for humans, impossible for small models
 - GPT-3 and LaMDA models: performance at random-guess level for billions of parameters
 - GPT-3 emergence threshold: ~13 billion parameters - then sudden jump to competence
@@ -69,8 +81,10 @@ Content to include:
 
 ---
 
-### Slide 7: Word in Context (WiC) - The Detective Story
+## Slide 7: Word in Context (WiC) - The Detective Story
+
 Content to include:
+
 - WiC benchmark: determine if a word has same meaning in two different sentences
 - GPT-3 at 175B parameters: coin-flip accuracy - complete failure
 - OpenAI researchers blamed decoder-only architecture as fundamentally unsuited
@@ -80,8 +94,10 @@ Content to include:
 
 ---
 
-### Slide 8: Emergent Prompting - Chain of Thought
+## Slide 8: Emergent Prompting - Chain of Thought
+
 Content to include:
+
 - Chain of Thought prompting: ask model to show step-by-step reasoning before answering
 - Now considered essential for complex reasoning tasks
 - Shocking discovery: technique provides ZERO benefit below ~100 billion parameters
@@ -91,8 +107,10 @@ Content to include:
 
 ---
 
-### Slide 9: Instruction Fine-Tuning Paradox
+## Slide 9: Instruction Fine-Tuning Paradox
+
 Content to include:
+
 - Instruction fine-tuning: train model to better follow user commands
 - Intuition: should always help with instruction-following tasks
 - Reality: HURTS performance in models below ~8 billion parameters
@@ -103,8 +121,10 @@ Content to include:
 
 ---
 
-### Slide 10: Emergent Risks and Future Directions
+## Slide 10: Emergent Risks and Future Directions
+
 Content to include:
+
 - Dark side: emergent risks scale unpredictably too
 - TruthfulQA: larger models MORE likely to repeat common human falsehoods
 - BBQ benchmark: bias in responses INCREASES with scale in ambiguous contexts
@@ -115,5 +135,6 @@ Content to include:
 
 ---
 
-### Slide 11: Question for You
+## Slide 11: Question for You
+
 Given that emergent abilities appear unpredictably at scale thresholds we cannot forecast, will we ever be able to predict which capabilities will emerge next - or are we destined to always be surprised by what our AI systems suddenly learn to do?

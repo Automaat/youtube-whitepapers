@@ -9,23 +9,27 @@
 ## 🏛️ Foundational Papers
 
 ### Relational Model
+
 - **"A Relational Model of Data for Large Shared Data Banks"** (1970) - E.F. Codd
   - Foundation for ALL SQL databases
   - Introduced data independence principles
   - [Original Paper](https://dl.acm.org/doi/10.1145/362384.362685)
 
 ### Transaction Recovery
+
 - **"ARIES: A Transaction Recovery Method"** (1992) - Mohan et al.
   - Write-ahead logging (WAL)
   - Fine-granularity locking, partial rollbacks
   - Still used in most modern RDBMS
 
 ### Query Optimization
+
 - **"Access Path Selection in a Relational DBMS"** (1979) - Selinger et al. (System R)
   - Cost-based query optimization
   - Foundation of modern query planners
 
 ### Concurrency Control
+
 - **"On Optimistic Methods for Concurrency Control"** (1981) - Kung & Robinson
   - Alternative to locking
   - Basis for modern MVCC implementations
@@ -47,6 +51,7 @@
 | **Bigtable** | 2006 | Wide-column store, inspired HBase, Cassandra |
 
 ### Consensus & Consistency
+
 - **"Paxos Made Simple"** (2001) - Lamport
   - Fault-tolerant distributed consensus
 
@@ -62,6 +67,7 @@
   - Retrospective on consistency/availability tradeoffs
 
 ### Key-Value Stores
+
 - **"Chord: A Scalable Peer-to-peer Lookup Service"** (2001)
   - Consistent hashing for distributed systems
 
@@ -74,6 +80,7 @@
 ## 🚀 Modern Distributed SQL (NewSQL)
 
 ### Google's Next Generation
+
 - **"Spanner: Google's Globally Distributed Database"** (2012) ⭐
   - **SIGOPS Hall of Fame Award**
   - TrueTime API - synchronized clocks for global transactions
@@ -86,6 +93,7 @@
   - SQL + NoSQL best of both worlds
 
 ### Open Source NewSQL
+
 - **"CockroachDB: The Resilient Geo-Distributed SQL Database"** (2020)
   - Spanner-inspired, PostgreSQL-compatible
   - Raft consensus, parallel commits optimization
@@ -99,6 +107,7 @@
 ## 📊 Analytical & Columnar Systems
 
 ### Column-Oriented Revolution
+
 - **"C-Store: A Column-oriented DBMS"** (2005) - Stonebraker et al.
   - Academic foundation for analytical DBs
   - Led to Vertica
@@ -112,6 +121,7 @@
   - Inspired Parquet, BigQuery, Drill
 
 ### Data-Parallel Processing
+
 - **"Resilient Distributed Datasets (RDD)"** (2012) - Zaharia et al.
   - Foundation of Apache Spark
   - Orders of magnitude faster than MapReduce for iterative workloads
@@ -121,6 +131,7 @@
 ## 🌲 Storage Engines
 
 ### LSM-Trees
+
 - **"The Log-Structured Merge-Tree"** (1996) - O'Neil et al.
   - Foundation for write-optimized storage
   - Used in: LevelDB, RocksDB, Cassandra, HBase, TiKV
@@ -130,6 +141,7 @@
   - Powers TiDB, YugabyteDB, Kafka Streams, CockroachDB
 
 ### B-Trees
+
 - **"Efficient Locking for Concurrent Operations on B-Trees"** (1981)
   - Core data structure for OLTP
 
@@ -141,6 +153,7 @@
 ## 🤖 Vector Databases & AI (2024 Hot Topic)
 
 ### Core Papers
+
 - **"The FAISS Library"** (2024) - Meta AI
   - Foundational ANN search library
   - Used by Pinecone, Zilliz, many VDBMSs
@@ -160,6 +173,7 @@
 ## 📖 Meta-Resources
 
 ### Reading Lists
+
 - **"Readings in Database Systems" (Red Book)** - Bailis, Hellerstein, Stonebraker
   - Comprehensive overview of DB research history
   - [Online version](http://www.redbook.io/)
@@ -178,7 +192,8 @@
 
 ## 🎯 Must-Read Priority List
 
-### If you read only 10 papers:
+### If you read only 10 papers
+
 1. 📜 Codd's Relational Model (1970)
 2. 🕐 Lamport's Time & Clocks (1978)
 3. 📁 Google File System (2003)

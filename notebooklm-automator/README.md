@@ -20,16 +20,18 @@ mise run install    # Install deps + Playwright
 ## Setup
 
 1. Initialize Chrome profile:
+
 ```bash
 mise run init
 ```
 
-2. Login to Google (one-time):
+1. Login to Google (one-time):
+
 ```bash
 mise run login
 ```
 
-3. Sign in with your Google account in the browser window.
+1. Sign in with your Google account in the browser window.
 
 ## Usage
 

@@ -48,6 +48,7 @@
 [Source: LinuxContainers.org](https://linuxcontainers.org/lxc/introduction/)
 
 ### 💡 Linux Namespace Types
+
 - **Mount namespaces** (CLONE_NEWNS, 2002) - filesystem mount points
 - **UTS namespaces** (CLONE_NEWUTS, 2006) - hostname/domainname
 - **IPC namespaces** (CLONE_NEWIPC, 2006) - System V IPC, POSIX messages
@@ -71,6 +72,7 @@
 [Source: Kubernetes Blog](https://kubernetes.io/blog/2015/04/borg-predecessor-to-kubernetes/)
 
 ### 💡 Borg → Kubernetes Evolution
+
 - **Pods** ← Borg "allocs" (co-located containers)
 - **Services** ← naming + load balancing
 - **Labels** ← flexible key/value metadata (vs rigid Job abstraction)
@@ -117,11 +119,13 @@
 [Source: gVisor](https://gvisor.dev/)
 
 ### 💡 Firecracker Key Points
+
 - Addresses tradeoff: "strong VM security" vs "container minimal overhead"
 - MicroVM boot: ~125ms, memory footprint: <5MB
 - Powers "millions of workloads, trillions of requests"
 
 ### 💡 gVisor Architecture
+
 - Intercepts syscalls via ptrace or KVM
 - Memory-safe Go implementation
 - Defense-in-depth: sandboxes itself from host

@@ -22,6 +22,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 7 | **A Virtual Machine Time-sharing System** | Meyer & Seawright | 1970 | VM/370, first production VM |
 
 ### 💡 Key Insights
+
 - Dijkstra's layered approach became standard OS architecture pattern
 - Unix's simplicity ("everything is a file") influenced decades of design
 - Virtual memory concepts from Multics/Atlas still used today
@@ -38,6 +39,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 11 | **Transactional Memory: Architectural Support for Lock-free Data Structures** | Herlihy & Moss | 1993 | Hardware transactional memory |
 
 ### 💡 Key Insights
+
 - Hoare monitors → Java synchronized, Python locks
 - Tri-color marking → modern GC (Go, Java G1/ZGC)
 - Transactional memory → Intel TSX, research continues
@@ -59,6 +61,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 20 | **End-To-End Arguments in System Design** | Saltzer, Reed, Clark | 1984 | End-to-end principle |
 
 ### 💡 Key Insights
+
 - Lamport clocks → vector clocks → hybrid logical clocks (CockroachDB)
 - Paxos → Raft → etcd, Consul, CockroachDB
 - BFT → blockchain consensus (PBFT variants)
@@ -78,6 +81,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 26 | **File System Design for an NFS File Server Appliance (WAFL)** | Hitz, Lau, Malcolm | 1994 | Copy-on-write, snapshots |
 
 ### 💡 Key Insights
+
 - LFS ideas → SSDs, F2FS, btrfs
 - GFS → HDFS (Hadoop), inspired object storage
 - COW (WAFL/ZFS) → snapshots, checksums, data integrity
@@ -94,6 +98,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 30 | **ReVirt: Enabling Intrusion Analysis through VM Logging and Replay** | Dunlap, King et al. | 2002 | VM replay for security analysis |
 
 ### 💡 Key Insights
+
 - Disco team → founded VMware
 - Xen → AWS EC2 original hypervisor, Citrix
 - Memory ballooning → standard in all hypervisors
@@ -111,6 +116,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 35 | **Machine-Independent Virtual Memory Management (Mach)** | Rashid et al. | 1987 | Portable VM layer |
 
 ### 💡 Key Insights
+
 - L4 → seL4, OKL4 (billions of devices), Genode
 - seL4 verification → safety-critical systems, DARPA projects
 - Mach → macOS/iOS XNU kernel foundation
@@ -130,6 +136,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 42 | **Safe Kernel Extensions Without Run-Time Checking** | Necula & Lee | 1996 | Proof-carrying code |
 
 ### 💡 Key Insights
+
 - "Trusting Trust" → supply chain security awareness
 - Jim Gray's classification → failure mode analysis standard
 - SFI → Native Client, WebAssembly sandboxing ideas
@@ -148,6 +155,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 48 | **Chord: A Scalable Peer-to-peer Lookup Service** | Stoica et al. | 2001 | DHT foundations |
 
 ### 💡 Key Insights
+
 - MapReduce → Hadoop, Spark (improved on ideas)
 - Bigtable → HBase, Cassandra
 - Dynamo → Cassandra, Riak, DynamoDB
@@ -163,6 +171,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 | 50 | **On the Criteria to Be Used in Decomposing Systems into Modules** | David Parnas | 1972 | Information hiding, modularity |
 
 ### 💡 Key Quotes
+
 - Lampson: "Do one thing at a time, and do it well"
 - Lampson: "Don't generalize; generalizations are generally wrong"
 - Parnas: Hide design decisions likely to change
@@ -172,13 +181,15 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 ## 🔗 Related Resources
 
 ### Primary Sources
-- [[ACM SIGOPS Hall of Fame]] - https://www.sigops.org/awards/hof/
-- [[Leslie Lamport Publications]] - https://lamport.azurewebsites.net/pubs/pubs.html
-- [[Distributed Systems Reading List]] - https://dancres.github.io/Pages/
+
+- [[ACM SIGOPS Hall of Fame]] - <https://www.sigops.org/awards/hof/>
+- [[Leslie Lamport Publications]] - <https://lamport.azurewebsites.net/pubs/pubs.html>
+- [[Distributed Systems Reading List]] - <https://dancres.github.io/Pages/>
 
 ### Reading Order Suggestions
 
 **For distributed systems:**
+
 1. Time, Clocks (Lamport 1978)
 2. End-to-End Arguments (1984)
 3. Paxos Made Simple (Lamport 2001)
@@ -186,6 +197,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 5. Spanner (2012)
 
 **For OS internals:**
+
 1. THE System (Dijkstra 1968)
 2. Unix (Ritchie & Thompson 1974)
 3. Hints for System Design (Lampson 1983)
@@ -193,6 +205,7 @@ Curated list of the most influential OS research papers based on ACM SIGOPS Hall
 5. Xen (2003)
 
 **For security:**
+
 1. Trusting Trust (Thompson 1984)
 2. Needham-Schroeder (1978)
 3. SFI (Wahbe 1993)

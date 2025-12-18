@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about **PaLM 2 Technical Report** from Google.
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -14,7 +15,9 @@ Generate 11 presentation slides based on the podcast about **PaLM 2 Technical Re
 ---
 
 ### Slide 1: PaLM 2 - Smaller, Smarter, Better
+
 Content to include:
+
 - PaLM 2 is significantly smaller than its predecessor yet significantly better
 - Challenges the "bigger is better" paradigm that dominated AI for years
 - Represents a fundamental philosophy shift in language model development
@@ -24,7 +27,9 @@ Content to include:
 ---
 
 ### Slide 2: Compute-Optimal Scaling
+
 Content to include:
+
 - Previous trend: models grew 3x faster than training data (like building planet-sized brain fed with one book)
 - Hoffmann et al. (2022) research suggested this approach was suboptimal
 - Optimal scaling ratio: approximately 1:1 between model size and data volume
@@ -34,7 +39,9 @@ Content to include:
 ---
 
 ### Slide 3: Revolutionary Multilingual Dataset
+
 Content to include:
+
 - Original PaLM trained on up to 78% English data (highly anglocentric)
 - PaLM 2 trained on hundreds of languages with much greater diversity
 - Training data includes: web pages, books, code repositories, scientific papers (especially mathematics), conversational data
@@ -44,7 +51,9 @@ Content to include:
 ---
 
 ### Slide 4: UL2-Inspired Training Objectives
+
 Content to include:
+
 - Inspired by UL2 (Unified Language Learner) model architecture
 - Replaces monotonous next-word prediction with diverse training objectives
 - Multiple tasks: essay writing, text summarization, logical puzzles, debates
@@ -54,7 +63,9 @@ Content to include:
 ---
 
 ### Slide 5: Language Exam Performance
+
 Content to include:
+
 - PaLM 2 passed C2-level (mastery) language certification exams
 - Successfully passed: Chinese HSK, Japanese J-test, Italian PLIDA, Spanish DELE
 - Original larger PaLM failed most of these exams
@@ -64,7 +75,9 @@ Content to include:
 ---
 
 ### Slide 6: Mathematical Reasoning Breakthrough
+
 Content to include:
+
 - Big Bench Hard benchmark: Multistep Arithmetic task improved by 286% over original PaLM
 - Improvement achieved using Chain of Thought prompting technique
 - Chain of Thought: model shows step-by-step reasoning process instead of just final answer
@@ -74,7 +87,9 @@ Content to include:
 ---
 
 ### Slide 7: Multilingual Programming Excellence
+
 Content to include:
+
 - Significant improvements in niche languages: Haskell and Julia show multi-fold performance gains
 - Surprising result: better at Java, JavaScript, and TypeScript than Python
 - Original benchmark was specifically designed for Python code generation
@@ -84,7 +99,9 @@ Content to include:
 ---
 
 ### Slide 8: Translation Quality
+
 Content to include:
+
 - PaLM 2 fully competitive with dedicated production systems like Google Translate
 - Human evaluations: Chinese↔English and English↔German translations rated significantly better
 - Improved handling of nuances and regional dialects
@@ -94,7 +111,9 @@ Content to include:
 ---
 
 ### Slide 9: Memorization Trade-offs
+
 Content to include:
+
 - PaLM 2 less likely to reproduce unique verbatim fragments from training data (privacy improvement)
 - However, frequently repeated content (quotes, terms of service) more likely to be memorized
 - Side effect of data deduplication process
@@ -104,7 +123,9 @@ Content to include:
 ---
 
 ### Slide 10: Toxicity and Bias Challenges
+
 Content to include:
+
 - Toxicity control tokens (low/medium/high) implemented during training
 - Surprising finding: simple dialogue prompts ("act as helpful assistant") more effective than control tokens
 - Training data heavily biased toward Western culture
@@ -115,4 +136,5 @@ Content to include:
 ---
 
 ### Slide 11: Question for You
+
 Since we're getting better at curating data and designing smarter training methods, what is the true optimal size for a language model? Is it possible that we've long passed the point where further scaling provides diminishing returns, and the real revolution will come from smaller, more agile, and simply more intelligently designed systems?

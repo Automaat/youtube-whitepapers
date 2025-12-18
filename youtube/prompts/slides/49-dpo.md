@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about **Direct Preference Optimization: Your Language Model is Secretly a Reward Model** (Stanford, NeurIPS 2023).
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -14,7 +15,9 @@ Generate 11 presentation slides based on the podcast about **Direct Preference O
 ---
 
 ### Slide 1: Direct Preference Optimization (DPO)
+
 Content to include:
+
 - Paper from Stanford researchers, presented at NeurIPS 2023
 - Addresses the fundamental alignment problem: making LLMs behave according to human preferences
 - Claims to achieve same or better results than RLHF without reinforcement learning
@@ -24,7 +27,9 @@ Content to include:
 ---
 
 ### Slide 2: The RLHF Challenge - A Three-Act Process
+
 Content to include:
+
 - RLHF was the gold standard for alignment (used in early ChatGPT)
 - Act 1: Supervised Fine-Tuning (SFT) on high-quality examples
 - Act 2: Training a separate Reward Model from human preference comparisons
@@ -35,7 +40,9 @@ Content to include:
 ---
 
 ### Slide 3: The Reward Model and KL Divergence
+
 Content to include:
+
 - Reward Model acts as a "judge" scoring model outputs
 - Trained on thousands of human A/B preference comparisons
 - PPO loop: model generates → reward model scores → RL updates weights
@@ -46,7 +53,9 @@ Content to include:
 ---
 
 ### Slide 4: DPO Core Insight - Eliminating RL
+
 Content to include:
+
 - Authors asked: "What if we don't need the scaffolding at all?"
 - Mathematical proof: tight analytical connection between optimal reward model and optimal policy
 - Can transform reward model training into direct model optimization
@@ -57,7 +66,9 @@ Content to include:
 ---
 
 ### Slide 5: Dynamic Per-Example Importance Weighting
+
 Content to include:
+
 - Not naive "reward good, punish bad" approach (unlike failed Unlikely Training)
 - Dynamic weighting: update strength proportional to error magnitude
 - If model already prefers correct answer → small update (already on track)
@@ -68,7 +79,9 @@ Content to include:
 ---
 
 ### Slide 6: Beta Parameter - The KL Leash
+
 Content to include:
+
 - Beta (β) parameter controls how much the model can change
 - Functions as implicit KL divergence constraint (like in RLHF)
 - Higher beta = model stays closer to reference/SFT model
@@ -79,7 +92,9 @@ Content to include:
 ---
 
 ### Slide 7: Experiment 1 - Controlled Sentiment Generation
+
 Content to include:
+
 - Task: Generate positive IMDB movie reviews
 - Used external sentiment classifier as ground-truth reward function
 - DPO curve dominates PPO on reward vs. KL trade-off plot
@@ -90,7 +105,9 @@ Content to include:
 ---
 
 ### Slide 8: Experiment 2 - TL;DR Summarization
+
 Content to include:
+
 - Task: Summarize Reddit posts in TL;DR style
 - Evaluation: GPT-4 as judge (validated to correlate with human judgments)
 - DPO win rate: 61% vs PPO win rate: 57%
@@ -101,7 +118,9 @@ Content to include:
 ---
 
 ### Slide 9: Experiment 3 - Anthropic HH Dialogue
+
 Content to include:
+
 - Dataset: Anthropic Helpful and Harmless (HH) conversations
 - Goal: Helpful and harmless conversational AI
 - DPO was only computationally efficient method that actually improved results
@@ -112,7 +131,9 @@ Content to include:
 ---
 
 ### Slide 10: Implications and Open Questions
+
 Content to include:
+
 - Radically lowers barrier to entry for model alignment
 - No need for RL experts or massive infrastructure - just fine-tuning with custom loss
 - Enabled open-source revolution: Zephyr, LLaMA adoptions
@@ -124,6 +145,7 @@ Content to include:
 ---
 
 ### Slide 11: Question for You
+
 Display only the question:
 
 **What would it mean if AI could learn our preferences not through complicated laboratory training, but through simple, direct optimization based on just a few of our choices?**

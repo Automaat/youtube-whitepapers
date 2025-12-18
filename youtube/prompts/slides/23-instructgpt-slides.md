@@ -4,8 +4,10 @@ Generate 11 presentation slides based on the podcast about **"Training language 
 
 ---
 
-### Slide 1: The Alignment Problem
+## Slide 1: The Alignment Problem
+
 Content to include:
+
 - Large language models (LLMs) don't understand user intentions despite being powerful
 - Misalignment: models fulfill requests literally, ignoring actual intent
 - Models generate outputs that are untruthful, toxic, or simply unhelpful
@@ -14,8 +16,10 @@ Content to include:
 
 ---
 
-### Slide 2: The Shocking Result - Size Doesn't Matter
+## Slide 2: The Shocking Result - Size Doesn't Matter
+
 Content to include:
+
 - InstructGPT with only 1.3B parameters outperformed original GPT-3 with 175B parameters
 - Over 100x smaller model preferred by human evaluators
 - Completely contradicts "bigger is better" philosophy dominant at the time
@@ -24,8 +28,10 @@ Content to include:
 
 ---
 
-### Slide 3: The RLHF Pipeline - Three Steps
+## Slide 3: The RLHF Pipeline - Three Steps
+
 Content to include:
+
 - Reinforcement Learning from Human Feedback (RLHF) as the core method
 - Step 1: Supervised Fine-Tuning (SFT) - teaching the format
 - Step 2: Reward Model training - building a digital judge
@@ -34,8 +40,10 @@ Content to include:
 
 ---
 
-### Slide 4: Step 1 - Supervised Fine-Tuning (SFT)
+## Slide 4: Step 1 - Supervised Fine-Tuning (SFT)
+
 Content to include:
+
 - Labelers write ideal responses from scratch for real API prompts
 - High-quality dataset created: prompt-response pairs
 - GPT-3 fine-tuned on these exemplary answers
@@ -45,8 +53,10 @@ Content to include:
 
 ---
 
-### Slide 5: Step 2 - Reward Model Training
+## Slide 5: Step 2 - Reward Model Training
+
 Content to include:
+
 - Model generates 4-9 different responses per prompt
 - Labelers rank responses from best to worst (not writing ideal answers)
 - Separate reward model trained on millions of these rankings
@@ -56,8 +66,10 @@ Content to include:
 
 ---
 
-### Slide 6: Step 3 - PPO Reinforcement Learning
+## Slide 6: Step 3 - PPO Reinforcement Learning
+
 Content to include:
+
 - Proximal Policy Optimization (PPO) algorithm optimizes the SFT model
 - Cycle: model receives prompt → generates response → reward model scores it
 - PPO adjusts parameters to maximize reward scores
@@ -67,8 +79,10 @@ Content to include:
 
 ---
 
-### Slide 7: Quantitative Results
+## Slide 7: Quantitative Results
+
 Content to include:
+
 - 175B InstructGPT wins against 175B GPT-3 in 85% of comparisons
 - Hallucination rate dropped by 50%: from 41% (GPT-3) to 21% (InstructGPT) in closed-domain tasks
 - 25% reduction in toxic outputs - but only when explicitly prompted to be respectful
@@ -77,8 +91,10 @@ Content to include:
 
 ---
 
-### Slide 8: The Alignment Tax Problem
+## Slide 8: The Alignment Tax Problem
+
 Content to include:
+
 - Initial RLHF caused performance degradation on NLP benchmarks (SQuAD, DROP)
 - Model became better at conversation but worse at formal tasks
 - Solution: PPO-PTX variant - mix original GPT-3 pretraining data during RL phase
@@ -88,8 +104,10 @@ Content to include:
 
 ---
 
-### Slide 9: Generalization Beyond Training Data
+## Slide 9: Generalization Beyond Training Data
+
 Content to include:
+
 - InstructGPT followed instructions in tasks it wasn't directly trained for
 - Performed well on programming code prompts despite minimal code examples in training data
 - Suggests understanding of abstract concept "following intent" - not memorization
@@ -99,8 +117,10 @@ Content to include:
 
 ---
 
-### Slide 10: Fundamental Limitations
+## Slide 10: Fundamental Limitations
+
 Content to include:
+
 - Model fooled by false premises (e.g., "Why is eating socks important after meditation?")
 - Tries to justify absurd requests instead of identifying the absurdity
 - Overly cautious, verbose responses
@@ -110,7 +130,8 @@ Content to include:
 
 ---
 
-### Slide 11: Question for You
+## Slide 11: Question for You
+
 Display only this question:
 
 **"Czy spersonalizowane AI, dopasowane do preferencji każdego użytkownika, prowadziłoby do bardziej pluralistycznej przyszłości - czy zamknęłoby nas w ostatecznych bańkach informacyjnych i echo chambers, z których nie byłoby ucieczki?"**

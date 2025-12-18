@@ -5,6 +5,7 @@
 Standalone CLI tool to automate NotebookLM interactions via Playwright browser automation.
 
 **Capabilities:**
+
 - Add sources (URLs, PDFs)
 - Generate Audio Overview (podcast) + download
 - Generate Slides via prompt + export PDF
@@ -13,7 +14,7 @@ Standalone CLI tool to automate NotebookLM interactions via Playwright browser a
 
 ## 📁 Project Structure
 
-```
+```text
 notebooklm-automator/
 ├── src/
 │   ├── __init__.py
@@ -59,6 +60,7 @@ class BrowserManager:
 ```
 
 **Modes:**
+
 - Attach to existing Chrome with `--remote-debugging-port=9222`
 - Launch new Chrome with persistent profile (pre-authenticated)
 
@@ -112,6 +114,7 @@ class AudioManager:
 ```
 
 **Challenges:**
+
 - Audio generation takes 5-15 minutes
 - Need polling strategy with configurable timeout
 - Download interception via CDP or profile downloads folder
@@ -126,6 +129,7 @@ class SlidesManager:
 ```
 
 **Flow:**
+
 1. Paste slide generation prompt into chat
 2. Wait for NotebookLM to generate slides
 3. Click export → PDF
@@ -172,30 +176,35 @@ notebooklm-automator pipeline run \
 ## 📋 Implementation Steps
 
 ### Phase 1: Foundation
+
 - [ ] Project setup (uv, pyproject.toml, structure)
 - [ ] Browser manager with CDP connection
 - [ ] Basic page navigation to NotebookLM
 - [ ] Auth verification (detect logged-in state)
 
 ### Phase 2: Source Management
+
 - [ ] Discover selectors via DevTools inspection
 - [ ] Implement `add_url` flow
 - [ ] Handle source processing wait
 - [ ] Error handling for invalid URLs
 
 ### Phase 3: Audio Generation
+
 - [ ] Audio overview button interaction
 - [ ] Generation status polling
 - [ ] Download interception/handling
 - [ ] Timeout and retry logic
 
 ### Phase 4: Slides Generation
+
 - [ ] Chat prompt submission
 - [ ] Response wait strategy
 - [ ] PDF export flow
 - [ ] Download handling
 
 ### Phase 5: CLI & Polish
+
 - [ ] Typer CLI with all commands
 - [ ] Config file support (.env)
 - [ ] Logging and progress indicators
@@ -225,6 +234,7 @@ notebooklm-automator pipeline run \
 5. Document in `selectors.py` with comments
 
 **Priority elements to discover:**
+
 - [ ] "Add source" button and modal
 - [ ] URL input field
 - [ ] "Audio Overview" section in Studio panel

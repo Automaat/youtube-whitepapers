@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about **DeepSeek V3** technical report.
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -16,6 +17,7 @@ Generate 11 presentation slides based on the podcast about **DeepSeek V3** techn
 ## Slide 1: DeepSeek V3 - Redefining AI Efficiency
 
 Content to include:
+
 - DeepSeek V3 challenges frontier models like GPT-4O while achieving unprecedented efficiency
 - Not about building bigger models - about brutal optimization at every level
 - Holistic engineering across architecture, software, and hardware suggestions
@@ -25,6 +27,7 @@ Content to include:
 ## Slide 2: Mixture of Experts Architecture Foundation
 
 Content to include:
+
 - Total 671 billion parameters, but only 37 billion active per token
 - Architecture inherited from DeepSeek V2
 - MultiHead Latent Attention (MLA) mechanism for efficient inference
@@ -34,6 +37,7 @@ Content to include:
 ## Slide 3: Auxiliary Loss-Free Load Balancing
 
 Content to include:
+
 - Traditional MoE problem: model favors few experts, leaving others idle
 - Standard solution: Auxiliary Loss penalty forces even distribution
 - Problem: Auxiliary Loss hurts overall model performance (forced compromises)
@@ -44,6 +48,7 @@ Content to include:
 ## Slide 4: Multi-Token Prediction (MTP)
 
 Content to include:
+
 - Standard training: predict one next token
 - DeepSeek V3: predicts multiple tokens (2 in this case)
 - Denser training signal - more feedback per forward pass
@@ -54,6 +59,7 @@ Content to include:
 ## Slide 5: FP8 Training with Fine-Grained Quantization
 
 Content to include:
+
 - FP8 vs BF16: theoretically 2x faster, 2x less memory
 - Challenge: 8-bit precision risks significant information loss (outliers problem)
 - Solution: Fine-Grained Quantization - divide matrices into 128x128 blocks
@@ -64,6 +70,7 @@ Content to include:
 ## Slide 6: DualPipe Communication Algorithm
 
 Content to include:
+
 - MoE biggest bottleneck: inter-node communication in large GPU clusters
 - DualPipe: intelligent scheduling that overlaps computation with communication
 - GPU never waits idly for data - computes while previous batch transfers
@@ -74,6 +81,7 @@ Content to include:
 ## Slide 7: Extreme Memory Optimization
 
 Content to include:
+
 - Recomputation of certain operations instead of storing results in VRAM
 - Exponential Moving Average (EMA) parameters stored in CPU memory, not GPU
 - Every saved megabyte enables training better models within same budget
@@ -83,6 +91,7 @@ Content to include:
 ## Slide 8: Benchmark Results vs Frontier Models
 
 Content to include:
+
 - DeepSeek V3 Base: strongest open-source model at time of publication
 - Outperforms LLaMA 3 405B while using 11x fewer active parameters
 - Math 500 benchmark: 92.20 score
@@ -93,6 +102,7 @@ Content to include:
 ## Slide 9: Knowledge Distillation from DeepSeek R1
 
 Content to include:
+
 - Post-training technique using specialized reasoning model DeepSeek R1
 - R1 is expert in step-by-step reasoning (Chain of Thought generation)
 - DeepSeek V3 learns patterns, verification, and reflection from R1
@@ -103,6 +113,7 @@ Content to include:
 ## Slide 10: Limitations and Future Directions
 
 Content to include:
+
 - Deployment requires minimum 32 GPUs (4 nodes for pre-filling stage)
 - Not suitable for single-server or garage-scale deployment
 - Speed still trails some smaller models for simple tasks

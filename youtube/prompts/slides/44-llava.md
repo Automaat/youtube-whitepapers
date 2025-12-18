@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about LLaVA: Visual Instruction Tuning.
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -14,7 +15,9 @@ Generate 11 presentation slides based on the podcast about LLaVA: Visual Instruc
 ---
 
 ## Slide 1: LLaVA - Visual Instruction Tuning
+
 Content to include:
+
 - First multimodal model that truly understands images, not just labels them
 - Bridging the gap between Computer Vision and Large Language Models
 - From "what's in the image" to "why is this funny" - contextual understanding
@@ -22,7 +25,9 @@ Content to include:
 - Key innovation: using GPT-4 to generate instruction-following data
 
 ## Slide 2: The Core Problem - Divided AI World
+
 Content to include:
+
 - Computer Vision systems: excellent at object recognition but limited to labels ("TOC OT, TOPS")
 - Large Language Models (LLMs): remarkable text capabilities but completely blind
 - Creating a model that simultaneously sees AND converses was the "holy grail"
@@ -30,7 +35,9 @@ Content to include:
 - Manual annotation by humans: prohibitively expensive and time-consuming
 
 ## Slide 3: The Genius Solution - GPT-4 as Data Generator
+
 Content to include:
+
 - Revolutionary idea: use one AI model (GPT-4) to train another
 - GPT-4 was text-only at the time - couldn't see images directly
 - Solution: convert visual information into structured text
@@ -39,7 +46,9 @@ Content to include:
 - "Data Reformation" - working with existing resources, not creating from scratch
 
 ## Slide 4: Three Types of Generated Training Data
+
 Content to include:
+
 - **Multi-turn conversations**: User asks, assistant answers, user follows up - teaches dialogue
 - **Detailed descriptions**: Full paragraphs "painting the scene" instead of single sentences
 - **Complex reasoning tasks**: Moving beyond perception to deduction
@@ -48,7 +57,9 @@ Content to include:
 - Total dataset: 158,000 unique instructions generated
 
 ## Slide 5: LLaVA Architecture - Elegant Simplicity
+
 Content to include:
+
 - No revolutionary new architecture - combined two proven components
 - **Vision encoder**: CLIP - expert at converting images to mathematical representations
 - **Language model**: Vicuna - open model trained for dialogue (similar to early ChatGPT)
@@ -57,7 +68,9 @@ Content to include:
 - Entire architecture: one small bridge between two giants
 
 ## Slide 6: Two-Stage Training Process
+
 Content to include:
+
 - **Stage 1: Pre-training for Feature Alignment**
   - Freeze both CLIP and Vicuna
   - Train ONLY the projection layer
@@ -69,7 +82,9 @@ Content to include:
   - Model learns to understand commands, answer complex questions, conduct dialogue
 
 ## Slide 7: Qualitative Results - Understanding Context
+
 Content to include:
+
 - **Extreme Ironing test**: Man ironing on taxi roof
 - BLIP-2 response: "Man is at the back of a yellow vehicle" (objects only)
 - LLaVA response: Identifies the unusual and potentially dangerous domestic activity in unconventional location
@@ -78,7 +93,9 @@ Content to include:
 - Demonstrates understanding of humor, cultural context, and irony
 
 ## Slide 8: Benchmark Results
+
 Content to include:
+
 - **LLaVA-Bench**: Custom evaluation dataset
   - Achieved 85% quality relative to text-only GPT-4 responses
 - **Science QA**: High school level science questions with diagrams
@@ -87,7 +104,9 @@ Content to include:
   - Ensemble method: LLaVA + GPT-4 as judge
 
 ## Slide 9: Ensemble Method with GPT-4
+
 Content to include:
+
 - Ask both LLaVA (sees image) and GPT-4 (text only) the same question
 - If both agree → accept as final answer
 - If disagreement → present both answers back to GPT-4
@@ -96,7 +115,9 @@ Content to include:
 - GPT-4 used as teacher, data generator, AND evaluator
 
 ## Slide 10: Limitations - The Achilles' Heel
+
 Content to include:
+
 - **"Bag of Patches" problem**: Sees fragments, not coherent whole
 - Example: Refrigerator with strawberries AND yogurt cup (separate)
   - Asked "Is there strawberry yogurt?" → Confidently answers YES
@@ -106,4 +127,5 @@ Content to include:
 - These limitations acknowledged by authors as areas for improvement
 
 ## Slide 11: Question for You
+
 What does it mean for science when the teacher, student, and examiner are simply different instances of the same technology?

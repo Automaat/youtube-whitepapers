@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about Llama 2: Open Foundation and Fine-Tuned Chat Models (Meta AI).
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -14,7 +15,9 @@ Generate 11 presentation slides based on the podcast about Llama 2: Open Foundat
 ---
 
 ## Slide 1: Introduction - Democratizing Large Language Models
+
 Content to include:
+
 - Llama 2 goal: prove Open Source models can match/exceed closed commercial products (ChatGPT, Bard)
 - Bridging the gap between raw open models (BLOOM, Llama 1) and polished commercial assistants
 - Meta's mission: provide both the model AND detailed documentation of the creation process
@@ -22,7 +25,9 @@ Content to include:
 - First serious Open Source challenge to proprietary AI systems
 
 ## Slide 2: Pre-training Improvements - Building the Foundation
+
 Content to include:
+
 - Training data: 2 trillion tokens (40% more than Llama 1)
 - Context length doubled to 4,096 tokens (model's "short-term memory")
 - New architecture: Grouped Query Attention (GQA) for larger models
@@ -30,7 +35,9 @@ Content to include:
 - Pre-training creates language understanding but not conversational ability
 
 ## Slide 3: Supervised Fine-Tuning (SFT) - Quality Over Quantity
+
 Content to include:
+
 - Counter-intuitive finding: quality matters more than quantity
 - Only ~27,500 carefully curated dialogue examples used
 - Hand-selected, manually prepared high-quality training data
@@ -38,7 +45,9 @@ Content to include:
 - Challenges industry assumption that more data is always better
 
 ## Slide 4: RLHF Process - Learning from Human Preferences
+
 Content to include:
+
 - Reinforcement Learning with Human Feedback (RLHF) core mechanism
 - Thousands of human annotators evaluated pairs of model responses
 - Task: identify which response is more helpful, precise, better written
@@ -46,7 +55,9 @@ Content to include:
 - Reward Model trained to predict human preferences automatically
 
 ## Slide 5: Dual Reward Models - Balancing Helpfulness and Safety
+
 Content to include:
+
 - Two separate Reward Models: Helpfulness and Safety
 - Solves the fundamental tension: safe models often become unhelpful
 - Helpfulness model optimizes for useful, accurate responses
@@ -54,7 +65,9 @@ Content to include:
 - Separation enables precise tuning without painful trade-offs
 
 ## Slide 6: Iterative RLHF - Raising the Bar Continuously
+
 Content to include:
+
 - Iterative process: RLHF V1 through V5
 - Each improved version generates new responses for human evaluation
 - New evaluations train increasingly demanding Reward Models
@@ -62,7 +75,9 @@ Content to include:
 - Continuous self-improvement loop raises quality progressively
 
 ## Slide 7: Benchmark Results - Challenging the Giants
+
 Content to include:
+
 - Llama 2 70B vs ChatGPT: 36% wins, 31% ties (human evaluation, Figure 12)
 - Llama 2 vs PaLM Bison (Google): 53% win rate
 - Llama 2 vs Falcon 40B: dominant 76% win rate
@@ -71,7 +86,9 @@ Content to include:
 - Gap remains in coding tasks compared to GPT-4
 
 ## Slide 8: Safety Training - Three-Method Approach
+
 Content to include:
+
 - Paradox: toxic content NOT aggressively filtered during pre-training
 - Exposure helps model recognize harmful content for later safety tuning
 - Method 1: Supervised Safety Fine-Tuning (examples of safe refusals)
@@ -80,7 +97,9 @@ Content to include:
 - Safety violation rate: only ~4% for Llama 2 70B (Figure 17)
 
 ## Slide 9: Context Distillation - Internalizing Safety
+
 Content to include:
+
 - Model given safety "cheat sheet" (pre-prompt): "You are a safe, responsible assistant"
 - With pre-prompt, model easily generates safe responses
 - Training: reproduce same safe response WITHOUT the pre-prompt
@@ -88,7 +107,9 @@ Content to include:
 - Performance comparable to ChatGPT on safety metrics
 
 ## Slide 10: Emergent Abilities - Unexpected Capabilities
+
 Content to include:
+
 - Zero-shot tool use without any training (Figure 23)
 - Example: "How many million years earlier did sharks appear than trees?"
 - Model autonomously plans: search → find shark age (450M years) → search → find tree age (385M years) → calculator → subtract
@@ -97,4 +118,5 @@ Content to include:
 - Emergent capabilities no one programmed
 
 ## Slide 11: Question for You
+
 Are we becoming a generation of curators, judges, and AI whisperers, whose main task is directing, evaluating, and selecting rather than creating from scratch? And what does this mean for the future of human creativity and innovation?

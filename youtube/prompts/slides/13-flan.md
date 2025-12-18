@@ -5,6 +5,7 @@ Generate 10 presentation slides based on the podcast about **"Fine-tuned Languag
 ## Slide 1: The Few-Shot vs Zero-Shot Problem
 
 Content to include:
+
 - GPT-3 and similar models excel at Few-Shot learning (given examples) but struggle with Zero-Shot (no examples)
 - Core challenge: models copy patterns rather than understanding instructions
 - Traditional approach: showing solved examples → model mimics the pattern
@@ -14,6 +15,7 @@ Content to include:
 ## Slide 2: Instruction Tuning - Core Concept
 
 Content to include:
+
 - Novel method introduced in the paper that created the FLAN model
 - Key idea: teach the model "how to learn" rather than "what to learn"
 - Hybrid approach: uses Fine-Tuning mechanism but for generalization, not specialization
@@ -24,6 +26,7 @@ Content to include:
 ## Slide 3: Experimental Setup and Training Data
 
 Content to include:
+
 - Base model: LaMDA-PT with 137 billion parameters (pre-trained foundation)
 - Training corpus: 60+ diverse NLP datasets
 - Critical transformation: every example reformulated as natural language instruction
@@ -34,6 +37,7 @@ Content to include:
 ## Slide 4: FLAN vs GPT-3 - Head-to-Head Results
 
 Content to include:
+
 - FLAN (137B params) Zero-Shot beat GPT-3 (175B params) on 20 out of 25 benchmark tasks
 - Remarkable: smaller model without examples outperformed larger model
 - Comparison baseline: FLAN vs its own base model (LaMDA-PT) without Instruction Tuning
@@ -44,6 +48,7 @@ Content to include:
 ## Slide 5: Zero-Shot FLAN Beats Few-Shot GPT-3
 
 Content to include:
+
 - Most surprising result: FLAN Zero-Shot outperformed GPT-3 Few-Shot on specific tasks
 - Especially strong on NLI (Natural Language Inference) tasks: true/false/unknown classification
 - Reason: GPT-3's NLI format was unnatural (sentence completion style)
@@ -54,6 +59,7 @@ Content to include:
 ## Slide 6: Where Instruction Tuning Fails
 
 Content to include:
+
 - No improvement on tasks inherently similar to language modeling (next-word prediction)
 - Example: Commonsense Reasoning tasks (fill-in-the-blank sentences)
 - Authors' conclusion: instructions are "largely redundant" for such tasks
@@ -64,6 +70,7 @@ Content to include:
 ## Slide 7: Task Diversity - The Staircase Effect
 
 Content to include:
+
 - Key question: What drives improvement? Just more data or task variety?
 - Experiment: progressively add task clusters (translation → QA → sentiment analysis)
 - Result: performance on held-out tasks increased with each new task cluster added
@@ -74,6 +81,7 @@ Content to include:
 ## Slide 8: Model Scale Threshold - Critical Discovery
 
 Content to include:
+
 - Instruction Tuning only beneficial for large models (68B and 137B parameters)
 - For smaller models (8B and below): same technique degraded Zero-Shot performance
 - Paradox: more training → worse results for small models
@@ -85,6 +93,7 @@ Content to include:
 ## Slide 9: Instructions Are Non-Negotiable
 
 Content to include:
+
 - Ablation study: same task mixture, but without natural language instructions
 - Alternative: model given only dataset names instead of instructions
 - Result: dramatic performance drop without natural language formulation
@@ -96,6 +105,7 @@ Content to include:
 ## Slide 10: Broader Implications and Future Directions
 
 Content to include:
+
 - Paradigm shift: from creating specialists to creating better learners
 - Same training data can open models (generalize) rather than close them (specialize)
 - Secondary benefit: instruction-tuned models also improve at Prompt Tuning

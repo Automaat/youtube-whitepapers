@@ -4,7 +4,7 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
 ## Directory Structure
 
-```
+```text
 youtube-whitepapers/
 ├── scripts/                  # Python automation scripts
 │   ├── compress_images.py    # Batch PNG compression (>threshold)
@@ -29,7 +29,8 @@ youtube-whitepapers/
 ### 1. Add Audio from NotebookLM
 
 Export podcast from NotebookLM and save to `audio/`:
-```
+
+```text
 audio/XX-paper-name.m4a
 ```
 
@@ -38,6 +39,7 @@ Naming convention: `{number}-{paper-name}.m4a` (e.g., `02-gpt.m4a`)
 ### 2. Transcribe Audio
 
 Run batch transcription (uses Whisper, Polish language):
+
 ```bash
 mise run transcribe
 # Or with custom parallelization:
@@ -49,14 +51,17 @@ Output: `youtube/pl/transcripts/XX-paper-name.json`
 ### 3. Generate Slides (NotebookLM)
 
 #### Option A: Use existing prompt template
+
 ```bash
 # Read transcript and create slide prompt
 cat prompts/generate-slides-command.md
 ```
 
 #### Option B: Use Claude Code
+
 Run in fresh Claude Code session:
-```
+
+```text
 Read the transcript file at milestone-papers/youtube/transcripts/XX-paper-name.json
 and create a detailed NotebookLM prompt for generating 10 presentation slides.
 ```
@@ -71,6 +76,7 @@ Generate thumbnail in NotebookLM or externally.
 Save to: `youtube/thumbnails/XX-paper-name.png`
 
 Rename numeric thumbnails to match whitepaper names and compress:
+
 ```bash
 mise run rename-thumbnails            # Rename + compress to <1.9MB
 mise run rename-thumbnails --dry-run  # Preview changes
@@ -78,12 +84,14 @@ mise run rename-thumbnails --dry-run  # Preview changes
 
 ### 5. Generate Video
 
-#### Prepare slides:
+#### Prepare slides
+
 ```bash
 mise run prepare -- 28  # Extracts PDF, normalizes images
 ```
 
-#### Generate video (after creating concat.txt):
+#### Generate video (after creating concat.txt)
+
 ```bash
 mise run video -- 28
 # Or skip verification:
@@ -101,16 +109,19 @@ This runs the full video generation workflow with proper timings.
 ### 6. Output
 
 Final files in `output/`:
+
 - `XX-paper-name.mp4` - Video file
 - `XX-paper-name-metadata.txt` - Title, description, tags for YouTube
 
 ## File Naming Convention
 
 All files must follow: `{XX}-{paper-name}` where:
+
 - `XX` = 2-digit episode number (01, 02, ... 19)
 - `paper-name` = lowercase, hyphenated paper identifier
 
 Examples:
+
 - `01-attention-is-all-you-need`
 - `02-gpt`
 - `03-bert`
@@ -144,25 +155,25 @@ Examples:
 
 | Episode | arXiv/Paper URL |
 |---------|-----------------|
-| 01-attention-is-all-you-need | https://arxiv.org/abs/1706.03762 |
-| 02-gpt | https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf |
-| 03-bert | https://arxiv.org/abs/1810.04805 |
-| 04-gpt2 | https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf |
-| 05-megatron-lm | https://arxiv.org/abs/1909.08053 |
-| 06-t5 | https://arxiv.org/abs/1910.10683 |
-| 07-zero | https://arxiv.org/abs/1910.02054 |
-| 08-scaling-laws | https://arxiv.org/abs/2001.08361 |
-| 09-gpt3 | https://arxiv.org/abs/2005.14165 |
-| 10-switch-transformers | https://arxiv.org/abs/2101.03961 |
-| 11-codex | https://arxiv.org/abs/2107.03374 |
-| 12-foundation-models | https://arxiv.org/abs/2108.07258 |
-| 13-flan | https://arxiv.org/abs/2109.01652 |
-| 14-t0 | https://arxiv.org/abs/2110.08207 |
-| 15-glam | https://arxiv.org/abs/2112.06905 |
-| 16-webgpt | https://arxiv.org/abs/2112.09332 |
-| 17-retro | https://arxiv.org/abs/2112.04426 |
-| 18-gopher | https://arxiv.org/abs/2112.11446 |
-| 19-chain-of-thought | https://arxiv.org/abs/2201.11903 |
+| 01-attention-is-all-you-need | <https://arxiv.org/abs/1706.03762> |
+| 02-gpt | <https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf> |
+| 03-bert | <https://arxiv.org/abs/1810.04805> |
+| 04-gpt2 | <https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf> |
+| 05-megatron-lm | <https://arxiv.org/abs/1909.08053> |
+| 06-t5 | <https://arxiv.org/abs/1910.10683> |
+| 07-zero | <https://arxiv.org/abs/1910.02054> |
+| 08-scaling-laws | <https://arxiv.org/abs/2001.08361> |
+| 09-gpt3 | <https://arxiv.org/abs/2005.14165> |
+| 10-switch-transformers | <https://arxiv.org/abs/2101.03961> |
+| 11-codex | <https://arxiv.org/abs/2107.03374> |
+| 12-foundation-models | <https://arxiv.org/abs/2108.07258> |
+| 13-flan | <https://arxiv.org/abs/2109.01652> |
+| 14-t0 | <https://arxiv.org/abs/2110.08207> |
+| 15-glam | <https://arxiv.org/abs/2112.06905> |
+| 16-webgpt | <https://arxiv.org/abs/2112.09332> |
+| 17-retro | <https://arxiv.org/abs/2112.04426> |
+| 18-gopher | <https://arxiv.org/abs/2112.11446> |
+| 19-chain-of-thought | <https://arxiv.org/abs/2201.11903> |
 
 ## Requirements
 

@@ -49,8 +49,16 @@ run = "python scripts/rename_thumbnails.py"
 raw = true
 
 [tasks.lint]
+description = "Run all linters"
+run = ["ruff check scripts/", "markdownlint '**/*.md'"]
+
+[tasks."lint:python"]
 description = "Run ruff linter"
 run = "ruff check scripts/"
+
+[tasks."lint:md"]
+description = "Run markdownlint"
+run = "markdownlint '**/*.md'"
 
 [tasks.format]
 description = "Format code with ruff"

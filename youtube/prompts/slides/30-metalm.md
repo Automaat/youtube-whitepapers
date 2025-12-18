@@ -3,7 +3,9 @@
 Generate 11 presentation slides based on the podcast about **MetaLM: Language Models are General Purpose Interfaces** (Microsoft Research).
 
 ## Slide 1: MetaLM - Language Models as General Purpose Interfaces
+
 Content to include:
+
 - Microsoft Research paper proposing language models as universal interfaces
 - Architecture named MetaLM - combining best of both AI model paradigms
 - Goal: bridge causal models (GPT) and non-causal models (BERT) without compromises
@@ -11,7 +13,9 @@ Content to include:
 - Addresses fundamental limitation in AI: choosing between generation vs understanding
 
 ## Slide 2: The Two Camps of Language Models
+
 Content to include:
+
 - **Causal Models (GPT family)**: unidirectional, left-to-right, predict next token
   - Strengths: open-ended generation, in-context learning, creative writing
   - Weakness: shallow contextual understanding, no "bird's eye view"
@@ -21,7 +25,9 @@ Content to include:
 - Traditional trade-off: flexibility vs precision
 
 ## Slide 3: MetaLM Architecture - Modular Design
+
 Content to include:
+
 - **Specialized Bidirectional Encoders**: expert analysts for different modalities
   - Text encoder, vision encoder, potentially audio encoder
   - Each encoder deeply processes its input domain
@@ -32,7 +38,9 @@ Content to include:
 - Modular approach instead of monolithic model
 
 ## Slide 4: Semi-Causal Language Modeling
+
 Content to include:
+
 - Novel training technique combining both paradigms
 - Process: bidirectional encoders first analyze inputs fully
 - Compressed representations passed to unidirectional decoder
@@ -41,7 +49,9 @@ Content to include:
 - Key innovation enabling the hybrid architecture
 
 ## Slide 5: System 1 and System 2 Analogy (Kahneman)
+
 Content to include:
+
 - **System 1 (Encoders)**: fast, intuitive, parallel processing
   - Rapid perception processing (what model sees/reads)
   - Specialized, precise analysis from fine-tuning
@@ -52,7 +62,9 @@ Content to include:
 - Architecture mirrors human dual-process cognition
 
 ## Slide 6: NLU Performance - Dominating Understanding Tasks
+
 Content to include:
+
 - Tested on **34 different NLP tasks** via multitask fine-tuning
 - Compared against GPT model of similar size
 - **Natural Language Inference (NLI)**: 14+ percentage points better than GPT
@@ -61,7 +73,9 @@ Content to include:
 - Proves modular specialization without sacrificing universal interface
 
 ## Slide 7: Preserving In-Context Learning
+
 Content to include:
+
 - After **instruction tuning**, in-context learning preserved at GPT-comparable level
 - Significantly better **zero-shot generalization** to novel tasks
 - Model maintains creative flexibility despite analytical precision
@@ -70,7 +84,9 @@ Content to include:
 - No sacrifice of emergent GPT capabilities
 
 ## Slide 8: Multimodal Capabilities - Vision Integration
+
 Content to include:
+
 - Added **visual encoder** to demonstrate modular extensibility
 - **Zero-shot image captioning**: COCO, Flickr30K datasets
   - Outperformed previous similar-philosophy models
@@ -80,7 +96,9 @@ Content to include:
 - Shows encoder-decoder knowledge integration across modalities
 
 ## Slide 9: Visual Question Answering Results
+
 Content to include:
+
 - Generates **open-ended answers** (harder than closed-set classification)
 - Outperforms other generative models on VQA benchmarks
 - Competitive with specialized VQA models (designed only for this task)
@@ -89,7 +107,9 @@ Content to include:
 - Demonstrates universal interface advantage over narrow specialists
 
 ## Slide 10: Explanations Improve Reasoning (SNLI-VE)
+
 Content to include:
+
 - **SNLI-VE dataset**: multi-step visual entailment task
   - Look at image → read sentence → judge if sentence follows from image
   - Must also generate natural language explanation
@@ -101,4 +121,5 @@ Content to include:
 - Mirrors human learning: explaining helps understanding
 
 ## Slide 11: Question for You
+
 If a single language model can become a universal interface for an entire set of specialized AI modules, are we witnessing the birth of a completely new kind of operating system? One controlled not through clicks, menus, and code, but through conversation?

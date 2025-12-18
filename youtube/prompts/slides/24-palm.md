@@ -4,8 +4,10 @@ Generate 11 presentation slides based on the podcast about **PaLM: Pathways Lang
 
 ---
 
-### Slide 1: Introduction to PaLM
+## Slide 1: Introduction to PaLM
+
 Content to include:
+
 - PaLM = Pathways Language Model from Google
 - 540 billion parameters - largest dense language model at the time
 - Breakthrough in scale AND training efficiency
@@ -14,8 +16,10 @@ Content to include:
 
 ---
 
-### Slide 2: Pathways Infrastructure Revolution
+## Slide 2: Pathways Infrastructure Revolution
+
 Content to include:
+
 - Training across 6,000+ TPU V4 chips simultaneously
 - Novel architecture for massive parallel training
 - Eliminated "bubble of idleness" from pipeline parallelism
@@ -25,8 +29,10 @@ Content to include:
 
 ---
 
-### Slide 3: Model Flops Utilization (MFU)
+## Slide 3: Model Flops Utilization (MFU)
+
 Content to include:
+
 - MFU = new metric measuring actual compute utilization vs theoretical maximum
 - PaLM achieved 46.26% MFU
 - GPT-3 comparison: only ~21% MFU
@@ -36,8 +42,10 @@ Content to include:
 
 ---
 
-### Slide 4: Training Dataset Composition
+## Slide 4: Training Dataset Composition
+
 Content to include:
+
 - 780 billion high-quality tokens
 - Sources: filtered web pages, books, English Wikipedia, GitHub code, social media conversations
 - Critical limitation: only ~22% non-English data
@@ -47,8 +55,10 @@ Content to include:
 
 ---
 
-### Slide 5: Chain of Thought Prompting
+## Slide 5: Chain of Thought Prompting
+
 Content to include:
+
 - Revolutionary prompting technique for reasoning tasks
 - Instead of immediate answer: "show your work step by step"
 - Example: Roger had 5 balls, bought 2 cans with 3 balls each → model generates reasoning chain
@@ -58,8 +68,10 @@ Content to include:
 
 ---
 
-### Slide 6: Emergent Capability - Joke Explanation
+## Slide 6: Emergent Capability - Joke Explanation
+
 Content to include:
+
 - Example joke: "Google hired eloquent whale for TPU team - showed them how to communicate between pods"
 - PaLM correctly identified the word play
 - "Pod" = group of whales AND cluster of TPU processors
@@ -69,8 +81,10 @@ Content to include:
 
 ---
 
-### Slide 7: Discontinuous Improvements on BIG-bench
+## Slide 7: Discontinuous Improvements on BIG-bench
+
 Content to include:
+
 - BIG-bench = collection of difficult, abstract language tasks
 - Performance doesn't grow linearly with scale
 - After certain threshold: sudden jump in capabilities
@@ -81,8 +95,10 @@ Content to include:
 
 ---
 
-### Slide 8: PaLM Coder - Code Generation
+## Slide 8: PaLM Coder - Code Generation
+
 Content to include:
+
 - Fine-tuned version of PaLM exclusively on code data
 - Achieved state-of-the-art results on HumanEval benchmark
 - Generated Python code from natural language descriptions
@@ -93,8 +109,10 @@ Content to include:
 
 ---
 
-### Slide 9: Multilingual Capabilities
+## Slide 9: Multilingual Capabilities
+
 Content to include:
+
 - Despite 78% English training data, strong multilingual performance
 - Outperformed specialized translation models in some cases
 - Example: Romanian to English translation excellence
@@ -104,8 +122,10 @@ Content to include:
 
 ---
 
-### Slide 10: Chinchilla Scaling Laws Challenge
+## Slide 10: Chinchilla Scaling Laws Challenge
+
 Content to include:
+
 - "Bigger is better" was the dominant paradigm
 - Chinchilla research challenged this assumption
 - Key question: optimal balance between model size and data amount?
@@ -116,5 +136,6 @@ Content to include:
 
 ---
 
-### Slide 11: Question for You
+## Slide 11: Question for You
+
 What new, even more unpredictable capabilities will emerge when we finally find the ideal balance between the size of artificial intelligence and the vastness of knowledge from which it learns?

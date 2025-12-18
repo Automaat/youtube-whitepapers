@@ -42,6 +42,7 @@
 | 20 | **Fundamental Concepts in Programming Languages** | Christopher Strachey | 1967 |
 
 ### 💡 Key Insights
+
 - Hoare's axiomatic semantics → foundation for program verification
 - Landin's ISWIM → influenced ML, Haskell, modern FP
 - McCarthy's LISP → garbage collection, homoiconicity, metaprogramming
@@ -65,6 +66,7 @@
 | 30 | **From System F to Typed Assembly Language** | Morrisett et al. | 1999 |
 
 ### 💡 Key Insights
+
 - SSA form → enables most modern optimizations (GVN, SCCP, DCE)
 - LLVM IR → industry standard, used by Clang, Rust, Swift
 - Graph coloring → still used in production compilers
@@ -88,6 +90,7 @@
 | 40 | **Oxide: The Essence of Rust** | Weiss et al. | 2019 |
 
 ### 💡 Key Insights
+
 - Curry-Howard → proofs = programs, types = propositions
 - Hindley-Milner → type inference in ML, Haskell, Rust
 - Linear types → Rust's ownership model foundation
@@ -111,6 +114,7 @@
 | 50 | **Automating String Processing with Input-Output Examples (FlashFill)** | Sumit Gulwani | 2011 |
 
 ### 💡 Key Insights
+
 - Monads → Haskell IO, effect systems, modern FP
 - CompCert → first verified optimizing C compiler
 - FlashFill → program synthesis in Excel, PBE paradigm
@@ -138,31 +142,37 @@
 ## 📊 Trends by Decade
 
 ### 1960s - Foundations
+
 - λ-calculus formalization
 - LISP, ALGOL influence
 - Formal grammars
 
 ### 1970s - Theory
+
 - Type systems (Hindley-Milner)
 - Denotational semantics
 - Abstract interpretation
 
 ### 1980s - Implementation
+
 - SSA form
 - Graph coloring allocation
 - Smalltalk/OOP
 
 ### 1990s - Verification
+
 - Proof-carrying code
 - Type soundness proofs
 - Operational semantics
 
 ### 2000s - Scalability
+
 - LLVM infrastructure
 - Memory models
 - Property testing (QuickCheck)
 
 ### 2010s - Safety & Synthesis
+
 - Rust ownership/borrowing
 - Program synthesis (FlashFill)
 - Verified compilers (CompCert)

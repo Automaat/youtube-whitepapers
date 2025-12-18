@@ -5,7 +5,9 @@
 Generate 10 presentation slides based on the podcast about **ZeRO: Memory Optimizations Toward Training Trillion Parameter Models** by Microsoft Research.
 
 ### Slide 1: The Memory Wall Problem
+
 Content to include:
+
 - GPT-2 (1.5B params): 3GB model weights → requires 24GB memory for training (8x increase)
 - Memory is the hidden barrier to scaling AI models
 - Training trillion-parameter models requires fundamentally new approaches
@@ -13,7 +15,9 @@ Content to include:
 - Paper goal: Enable training models at unprecedented scale on existing hardware
 
 ### Slide 2: Data Parallelism (DP) - Simplicity vs Waste
+
 Content to include:
+
 - DP approach: Full model copy on every GPU, each processes different data batch
 - Works well when model fits in single GPU memory
 - With 64 GPUs: 64 identical copies of parameters, gradients, and optimizer states
@@ -22,7 +26,9 @@ Content to include:
 - Simple but memory-inefficient at scale
 
 ### Slide 3: Model Parallelism (MP) - The Communication Nightmare
+
 Content to include:
+
 - MP approach: Split model across GPUs, each holds different layers
 - Promise of memory efficiency, reality of performance collapse
 - Benchmark: 40B parameter model on 2 powerful servers → **<5% GPU efficiency**
@@ -31,7 +37,9 @@ Content to include:
 - Logistical nightmare: like cutting a cake into 16 pieces, shipping each to different city
 
 ### Slide 4: Anatomy of Memory Consumption
+
 Content to include:
+
 - **Model States** (primary memory consumer):
   - Parameters (model weights)
   - Gradients (derivatives for updates)
@@ -44,7 +52,9 @@ Content to include:
 - 1B parameter model = 16GB just for model states
 
 ### Slide 5: ZeRO Core Insight - Dynamic Resource Allocation
+
 Content to include:
+
 - Key observation: Not all states needed everywhere at the same time
 - Chef analogy: Standard DP gives every chef full ingredient list forever
 - ZeRO-DP: Deliver only what's needed, exactly when needed
@@ -54,7 +64,9 @@ Content to include:
 - Three-stage progressive optimization approach
 
 ### Slide 6: ZeRO Stage 1 - Optimizer State Partitioning (P_os)
+
 Content to include:
+
 - Partition optimizer states across GPUs instead of replicating
 - 8 GPUs → each stores 1/8th of optimizer states
 - Result: **4x memory reduction**
@@ -64,7 +76,9 @@ Content to include:
 - Memory savings are essentially "free" from communication perspective
 
 ### Slide 7: ZeRO Stage 2 - Gradient Partitioning (P_os+g)
+
 Content to include:
+
 - Add gradient partitioning on top of optimizer state partitioning
 - Each GPU responsible only for its assigned parameter subset
 - Uses **Reduce-Scatter** instead of AllReduce operation
@@ -74,7 +88,9 @@ Content to include:
 - Each GPU receives only gradients it needs for its parameters
 
 ### Slide 8: ZeRO Stage 3 - Parameter Partitioning (P_os+g+p)
+
 Content to include:
+
 - Most radical step: Partition the model parameters themselves
 - Each GPU sees only its working portion at any moment
 - **AllGather** operation fetches parameters dynamically per layer
@@ -85,7 +101,9 @@ Content to include:
 - 1 trillion parameters feasible on 1024 GPUs
 
 ### Slide 9: ZeRO-R - Handling Residual States
+
 Content to include:
+
 - **Partition Activation Checkpointing**: Distribute checkpoints across GPUs
 - **CPU Offload**: Move activations to RAM when needed (surprisingly efficient for large models)
 - Works because large models are compute-bound: transfer hidden behind computation
@@ -94,7 +112,9 @@ Content to include:
 - Holistic system thinking, not just single-component optimization
 
 ### Slide 10: Results & Impact
+
 Content to include:
+
 - vs Megatron-LM at 100B parameters: **8-10x higher throughput** (TFLOPs)
 - **Superlinear scalability**: 2x GPUs → >2x performance (larger batch sizes)
 - **Democratization**: Train 13B models without complex model parallelism

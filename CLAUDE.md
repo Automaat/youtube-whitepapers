@@ -10,7 +10,7 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
 ## Project Structure
 
-```
+```text
 youtube-whitepapers/
 ├── scripts/                    # Python automation scripts
 │   ├── compress_images.py      # Batch PNG compression (>threshold)
@@ -46,7 +46,8 @@ youtube-whitepapers/
 - `paper-name` = lowercase, hyphenated identifier
 
 **Examples:**
-```
+
+```text
 01-llm-attention-is-all-you-need
 15-llm-glam
 42-distributed-computing-raft
@@ -63,11 +64,13 @@ youtube-whitepapers/
 **All images in concat MUST have identical dimensions and format.** ffmpeg concat demuxer drops frames when image parameters change.
 
 **Common failure modes:**
+
 - ❌ Thumbnail at 1920x1080, slides at 2867x1600 → black/missing frames at start
 - ❌ Mixing RGB and grayscale images → filter graph reconfiguration
 - ❌ Different colorspaces between images → ffmpeg filter errors
 
 **Solution:** Use `scripts/prepare_slides.py` to ensure consistency:
+
 ```bash
 mise run prepare -- 26  # Prepares episode 26
 ```
@@ -85,6 +88,7 @@ This script:
 **Main pain point is timing misalignment.** Follow this process exactly:
 
 1. **Prepare slides** (handles image consistency automatically)
+
    ```bash
    mise run prepare -- {ep_number}
    ```
@@ -97,7 +101,8 @@ This script:
    - Map each topic to corresponding slide
 
 4. **Create timing table BEFORE generating video**
-   ```
+
+   ```text
    | Slide | Start    | End      | Topic                    |
    |-------|----------|----------|--------------------------|
    | 1     | 0:00     | 1:23     | Introduction             |
@@ -110,6 +115,7 @@ This script:
    - No slide should exceed 3 minutes unless justified
 
 6. **Generate video** (use script or manual ffmpeg)
+
    ```bash
    # Recommended: use generate_video.py (auto-verifies)
    mise run video -- 28
@@ -121,6 +127,7 @@ This script:
    ```
 
 7. **Verify duration** (automatic with generate_video.py)
+
    ```bash
    # Manual verification:
    ffprobe -v error -show_entries format=duration -of csv=p=0 audio.m4a
@@ -132,7 +139,8 @@ This script:
 - **5-second silent outro** using `slides/last-slide.png`
 - **Video duration** = audio duration + 5 seconds (±0.5s tolerance)
 - **Polish metadata** in `output/{ep}-metadata.txt`:
-  ```
+
+  ```text
   TYTUŁ:
   [Polish title] | Deep Dive
 
@@ -154,18 +162,21 @@ This script:
 ## Timing Alignment Rules
 
 **NEVER:**
+
 - Guess slide timings without reading transcript
 - Use uniform durations for all slides
 - Skip the timing verification step
 - Generate video without creating timing table first
 
 **ALWAYS:**
+
 - Read transcript JSON for exact timestamps
 - Match slide content to what speaker discusses
 - Show timing table before proceeding
 - Verify final video duration matches expected
 
 **If timing seems off:**
+
 1. Re-read relevant transcript section
 2. Identify topic boundaries
 3. Adjust timing table
@@ -276,6 +287,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 file.mp4
 ### Improvements Welcome
 
 Suggest optimizations to ffmpeg/tool commands when you identify:
+
 - Performance improvements
 - Quality enhancements
 - File size reductions
@@ -331,6 +343,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/output/*.mp4
 ## Anti-Patterns
 
 ❌ **NEVER:**
+
 - Generate video without reading slides first
 - Use placeholder timings
 - Skip duration verification
@@ -339,6 +352,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/output/*.mp4
 - Assume slide order matches topic order in podcast
 
 ✅ **ALWAYS:**
+
 - Read all inputs before generating outputs
 - Create timing table before video generation
 - Verify durations match expectations
@@ -352,6 +366,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 youtube/output/*.mp4
 ### Categories
 
 Current paper categories:
+
 - `llm` - Language models (GPT, BERT, LLaMA, etc.)
 - `distributed-computing` - Distributed systems papers
 - `security` - Security research (planned)
@@ -364,6 +379,7 @@ Current paper categories:
 ### Growth
 
 Project is actively growing:
+
 - Episode numbers will exceed 63
 - New categories will be added
 - Multi-language support planned

@@ -5,6 +5,7 @@ Generate 10 presentation slides based on the podcast about **GLaM: Generalist La
 ## Slide 1: The Scalability Crisis in Large Language Models
 
 Content to include:
+
 - Dense models like GPT-3 fundamentally changed NLP but hit scalability wall
 - Each more powerful version requires energy comparable to powering a small city
 - Cost barrier: both computational and energy resources growing exponentially
@@ -15,6 +16,7 @@ Content to include:
 ## Slide 2: Dense Models Architecture - The Fundamental Problem
 
 Content to include:
+
 - Dense models activate ALL parameters for EVERY token processed
 - GPT-3 with 175 billion parameters engages entire network for trivial tasks
 - Analogy: "Mr. Dense" expert must use entire brain even for 2+2 calculation
@@ -26,6 +28,7 @@ Content to include:
 ## Slide 3: Sparsely Activated Architecture - Mixture of Experts (MoE)
 
 Content to include:
+
 - GLaM implements Sparsely Activated architecture instead of dense
 - Based on Mixture of Experts (MoE) concept
 - Model as "corporation of experts" rather than single genius
@@ -37,6 +40,7 @@ Content to include:
 ## Slide 4: The Gating Function - Intelligent Router
 
 Content to include:
+
 - Gating function acts as intelligent "reception" routing queries to experts
 - Split-second decision per token: which experts needed for this context
 - Example: word requiring linguist + history specialist, others "drink coffee"
@@ -48,6 +52,7 @@ Content to include:
 ## Slide 5: GLaM by the Numbers - Scale vs Activation
 
 Content to include:
+
 - GLaM total parameters: 1.2 trillion (1,200 billion)
 - GPT-3 parameters: 175 billion - GLaM is ~7x larger in total capacity
 - Active parameters per token: only 96.6 billion (~8% of total)
@@ -59,6 +64,7 @@ Content to include:
 ## Slide 6: Training and Inference Efficiency Gains
 
 Content to include:
+
 - Training energy: GLaM used ~1/3 of energy required to train GPT-3
 - Difference measured in hundreds of megawatt-hours
 - Inference compute: ~50% less FLOPs (floating point operations) per token
@@ -70,6 +76,7 @@ Content to include:
 ## Slide 7: Benchmark Performance - Quality Results
 
 Content to include:
+
 - Tested across 29 different benchmarks - GLaM achieved better average scores
 - Superior performance in zero-shot, one-shot, and few-shot settings
 - TriviaQA spectacular result: GLaM one-shot achieved 75.8% accuracy
@@ -81,6 +88,7 @@ Content to include:
 ## Slide 8: Data Quality vs Quantity - Critical Experiment
 
 Content to include:
+
 - Experiment: two identical smaller GLaM models, different training data
 - Model A: 7 trillion tokens from unfiltered internet data
 - Model B: 143 billion tokens (50x less) of high-quality curated data
@@ -93,6 +101,7 @@ Content to include:
 ## Slide 9: Trade-offs and Practical Limitations
 
 Content to include:
+
 - Despite inference efficiency, total parameter count requires massive memory
 - Loading 1.2 trillion parameter "monster" demands significant hardware
 - Analogy: Dense model = thick handbook on one shelf; GLaM = national library
@@ -105,6 +114,7 @@ Content to include:
 ## Slide 10: Future Implications - Intelligent Specialization
 
 Content to include:
+
 - Main lesson: "More doesn't always mean better" - not more of everything at once
 - Future may lie in intelligent specialization over monolithic brains
 - Lazy computation: only engage necessary specialists for each task

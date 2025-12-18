@@ -3,6 +3,7 @@
 Generate 11 presentation slides based on the podcast about **RWKV: Reinventing RNNs for the Transformer Era**.
 
 ## Visual Style
+
 - Minimal, clean design with dark blue headers
 - White/light gray background
 - Sans-serif typography throughout
@@ -14,7 +15,9 @@ Generate 11 presentation slides based on the podcast about **RWKV: Reinventing R
 ---
 
 ### Slide 1: The Transformer Scaling Problem
+
 Content to include:
+
 - Transformers dominate modern LLMs (GPT family, etc.) but face fundamental scaling wall
 - Quadratic complexity (O(n²)) in attention mechanism - every token attends to every other token
 - 10 tokens = manageable, 10,000 tokens = explosive memory/compute requirements
@@ -24,7 +27,9 @@ Content to include:
 ---
 
 ### Slide 2: The RNN Promise and Historical Limitations
+
 Content to include:
+
 - RNNs process sequentially (word by word) → linear complexity O(n), not quadratic
 - Natural fit for language - processes like humans read
 - Were the foundation of NLP before Transformer era
@@ -35,7 +40,9 @@ Content to include:
 ---
 
 ### Slide 3: RWKV's Dual-Mode "Chameleon" Architecture
+
 Content to include:
+
 - Revolutionary hybrid: behaves differently during training vs inference
 - **Training mode**: Operates like Transformer - fully parallelizable across thousands of GPUs
 - **Inference mode**: Switches to RNN - constant memory/compute regardless of sequence length
@@ -45,7 +52,9 @@ Content to include:
 ---
 
 ### Slide 4: The WKV Operator - Linear Attention Mechanism
+
 Content to include:
+
 - Replaces expensive traditional attention (all-to-all comparison) with linear attention
 - Information passed sequentially, step by step - like a relay race, not a conversation
 - Mathematical formulation allows full parallelization during training
@@ -56,7 +65,9 @@ Content to include:
 ---
 
 ### Slide 5: RWKV Name Decoded - The Four Vectors
+
 Content to include:
+
 - **R (Receptance)**: Gate controlling how much new information to accept
 - **W (Weight)**: Decay vector - controls how fast to forget past information (prevents drowning in old data)
 - **K (Key)**: Carries information content, similar to Transformer keys
@@ -67,7 +78,9 @@ Content to include:
 ---
 
 ### Slide 6: Unprecedented Scale - 14 Billion Parameter RNN
+
 Content to include:
+
 - Built and trained models up to **14 billion parameters**
 - Largest dense RNN ever successfully trained in history
 - Massive engineering achievement - proves architecture actually scales
@@ -78,7 +91,9 @@ Content to include:
 ---
 
 ### Slide 7: Performance Benchmarks - Matching Transformers
+
 Content to include:
+
 - Learning curves compared with Bloom, Pythia, OPT (similar-sized Transformers)
 - Figure 1: RWKV and Transformer curves **practically overlap**
 - Minimal differences in language modeling capability
@@ -89,7 +104,9 @@ Content to include:
 ---
 
 ### Slide 8: Revolutionary Inference Efficiency
+
 Content to include:
+
 - Figure 7: Cumulative generation time comparison
 - Transformers: starts flat, then shoots up **almost vertically** (quadratic wall)
 - RWKV: **nearly straight diagonal line** (linear scaling)
@@ -100,7 +117,9 @@ Content to include:
 ---
 
 ### Slide 9: Scaling Laws Validation
+
 Content to include:
+
 - Critical discovery overturning long-held belief that RNNs don't scale well
 - Previous RNNs/LSTMs would "saturate" - diminishing returns past certain size
 - Figure 4: RWKV scales **log-linearly**, identical to Transformers
@@ -111,7 +130,9 @@ Content to include:
 ---
 
 ### Slide 10: Limitations and Trade-offs
+
 Content to include:
+
 - **Extreme prompt engineering sensitivity** - order of information matters critically
 - RTE task example: standard GPT prompt → F1 score 44% (near random)
 - Same content, reversed order (question first, then data) → F1 score **~75%**
@@ -123,4 +144,5 @@ Content to include:
 ---
 
 ### Slide 11: Question for You
+
 **Since RNNs were so successfully revived and modernized, what other seemingly outdated ideas in the history of artificial intelligence are waiting for their renaissance in this new era?**

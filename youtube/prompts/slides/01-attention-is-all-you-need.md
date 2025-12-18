@@ -3,7 +3,9 @@
 Generate 10 presentation slides based on the podcast about the paper "Attention Is All You Need" (Vaswani et al., 2017).
 
 ### Slide 1: Revolution in AI - "Attention Is All You Need"
+
 Content:
+
 - 📅 2017: a paper that questioned the fundamental assumption of the entire NLP field
 - 🔄 Authors' question: what if a language model doesn't have to read sentences word by word (sequentially)?
 - 🏗️ Metaphor: for years, taller and taller skyscrapers were built on the same foundation (RNN), but the foundation limited both pace and height
@@ -11,7 +13,9 @@ Content:
 - 💡 Title as a manifesto: "Attention is all you need"
 
 ### Slide 2: The Problem with Sequential Models (RNN/LSTM)
+
 Content:
+
 - 🔗 RNN (Recurrent Neural Networks) and LSTM - dominant architectures before 2017
 - 🐌 Step-by-step processing: to understand the 20th word, the model must first process the previous 19
 - 📞 "Telephone game" effect: information from the beginning of the sentence gets distorted (vanishing gradient)
@@ -20,7 +24,9 @@ Content:
 - 🩹 LSTM, ConvS2S - only band-aids, not solutions to the fundamental problem
 
 ### Slide 3: Self-Attention - The Breakthrough Idea
+
 Content:
+
 - 🔄 Paradigm shift: instead of sequential processing - every word "sees" all others simultaneously
 - 🪑 Round table metaphor: all words sit together and talk without intermediaries
 - ❓ Each word can directly ask any other: "how important are you to me in this context?"
@@ -29,7 +35,9 @@ Content:
 - 🏗️ Metaphor: building all floors of a skyscraper at once instead of floor by floor
 
 ### Slide 4: Transformer Architecture - Encoder-Decoder
+
 Content:
+
 - 📊 Classic encoder-decoder structure (popular in machine translation)
 - 🔧 Encoder: 6 identical layers, each with two elements:
   - Multi-head self-attention
@@ -39,7 +47,9 @@ Content:
 - 🔄 Decoder generates translation word by word, focusing on the most important fragments of the original
 
 ### Slide 5: Multi-Head Attention - 8 Specialized Analysts
+
 Content:
+
 - 🧠 8 attention "heads" analyzing the sentence in parallel from different angles
 - 👥 Each head can learn different types of dependencies:
   - Head 1: syntactic relations (subject-predicate)
@@ -50,7 +60,9 @@ Content:
 - 📋 At the end, heads share their conclusions - only together they give the full picture
 
 ### Slide 6: Positional Encoding - A Clever Position Encoding Trick
+
 Content:
+
 - ❓ Problem: without recurrence, the model doesn't know word order ("dog chases cat" ≠ "cat chases dog")
 - 🔢 Solution: adding a position vector to word embeddings
 - 📐 Instead of a simple counter (1,2,3) - sinusoidal functions (sine and cosine at different frequencies)
@@ -61,7 +73,9 @@ Content:
 - 📮 Metaphor: each word gets a unique "postal code" saying where it is and how far to neighbors
 
 ### Slide 7: Results - Absolute Dominance in Machine Translation
+
 Content:
+
 - 📊 Benchmark: WMT 2014 Machine Translation
 - 🇬🇧→🇩🇪 English-German: **28.4 BLEU** (Transformer Big)
   - Over 2 BLEU points above the best ensembles (at that time, every fraction of BLEU was a success)
@@ -71,7 +85,9 @@ Content:
 - 💪 Results not just better, but "outclassing the competition"
 
 ### Slide 8: Revolution in Training Efficiency
+
 Content:
+
 - ⏱️ Transformer Big: only **3.5 days** of training on **8 P100 GPUs**
 - 📉 A fraction of computational resources compared to previous models (worse results, longer training)
 - 🏗️ Metaphor: inventing a method to build a skyscraper in a week instead of two years
@@ -81,7 +97,9 @@ Content:
 - 🚀 Enabling building models that were previously unimaginable
 
 ### Slide 9: Generalization - English Constituency Parsing
+
 Content:
+
 - 🎯 Test on a completely different task: constituency parsing of English sentences (grammatical structure analysis)
 - 📊 Result: **F1 = 92.7** - beating many specialized architectures
 - 💡 Authors' own surprise: "results were surprisingly good"
@@ -90,7 +108,9 @@ Content:
 - ✅ Proof of the architecture's remarkable ability to generalize
 
 ### Slide 10: Transformer's Legacy and a Question for the Future
+
 Content:
+
 - 🔓 Transformer opened the gates to the era of Large Language Models (LLMs)
 - 🧬 Direct evolutionary line: Transformer → BERT → GPT → modern LLMs
 - 🌈 Authors predicted expansion to other modalities: images, audio, video (now reality!)

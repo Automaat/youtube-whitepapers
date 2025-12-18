@@ -4,9 +4,9 @@ Run this in a fresh Claude Code session for each transcript:
 
 ---
 
-## Command:
+## Command
 
-```
+```text
 Read the transcript file at ./youtube/transcripts/6 and create a detailed NotebookLM prompt for generating 11 presentation slides.
 
 Requirements:
@@ -56,9 +56,10 @@ When done save to ./youtube/prompts/slides/
 
 ---
 
-## Episode list:
+## Episode list
 
 Replace [EPISODE] with:
+
 - 01-attention-is-all-you-need
 - 02-gpt
 - 03-bert

@@ -4,8 +4,10 @@ Generate 11 presentation slides based on the podcast about **"Scaling Instructio
 
 ---
 
-### Slide 1: The Instruction-Following Gap
+## Slide 1: The Instruction-Following Gap
+
 Content to include:
+
 - Large language models possess vast knowledge but struggle to follow simple instructions
 - Models often repeat questions, lose track, or generate incoherent text
 - Gap between enormous knowledge and practical usefulness
@@ -14,8 +16,10 @@ Content to include:
 
 ---
 
-### Slide 2: What is Instruction Fine-Tuning?
+## Slide 2: What is Instruction Fine-Tuning?
+
 Content to include:
+
 - Takes pre-trained models (PaLM, T5) that already absorbed massive knowledge
 - Additional specialized training session on instruction-response pairs
 - Instead of predicting next word, model learns from examples of instructions and desired responses
@@ -25,8 +29,10 @@ Content to include:
 
 ---
 
-### Slide 3: Experimental Scale: Datasets and Models
+## Slide 3: Experimental Scale: Datasets and Models
+
 Content to include:
+
 - Combined 4 major task collections: Muffin, T0-SF, NIV2, and Chain of Thought datasets
 - Total: 1,836 unique task types in one giant training mixture
 - Model range tested: Flan-T5 Small (80M parameters) to Flan-PaLM (540B parameters)
@@ -35,8 +41,10 @@ Content to include:
 
 ---
 
-### Slide 4: Computational Efficiency: The 0.2% Revolution
+## Slide 4: Computational Efficiency: The 0.2% Revolution
+
 Content to include:
+
 - Instruction Fine-Tuning for largest model (PaLM) used only **0.2%** of original pre-training compute
 - Not building a new rocket from scratch, but installing precision guidance software on existing one
 - Massive ROI: orders of magnitude improvement in precision at fraction of cost
@@ -45,8 +53,10 @@ Content to include:
 
 ---
 
-### Slide 5: Scaling Laws and Diminishing Returns
+## Slide 5: Scaling Laws and Diminishing Returns
+
 Content to include:
+
 - General rule confirmed: larger models + more tasks = better results
 - Critical finding (Figure 4): biggest quality jump occurs up to ~282 tasks
 - Adding hundreds or thousands more tasks still improves results, but gains become marginal
@@ -56,8 +66,10 @@ Content to include:
 
 ---
 
-### Slide 6: Chain of Thought: Teaching Models to Think Aloud
+## Slide 6: Chain of Thought: Teaching Models to Think Aloud
+
 Content to include:
+
 - CoT trains models to show reasoning process step-by-step instead of jumping to final answer
 - Apple problem example: "23 apples, used 20, bought 6 more. How many now?"
 - Without CoT: answers "9"
@@ -67,8 +79,10 @@ Content to include:
 
 ---
 
-### Slide 7: Critical Discovery: CoT Prevents Reasoning Degradation
+## Slide 7: Critical Discovery: CoT Prevents Reasoning Degradation
+
 Content to include:
+
 - Counter-intuitive finding: training WITHOUT Chain of Thought **degraded** model's inherent reasoning abilities
 - Models trained only on standard Q&A performed WORSE on multi-step reasoning than base model
 - Like a student doing multiple-choice tests losing ability to write essays
@@ -78,8 +92,10 @@ Content to include:
 
 ---
 
-### Slide 8: Unlocking Zero-Shot Reasoning
+## Slide 8: Unlocking Zero-Shot Reasoning
+
 Content to include:
+
 - Zero-shot: solving completely new problems without prior examples
 - Base PaLM treated "Let's think step by step" as ordinary text
 - Flan-PaLM recognizes this phrase as a **trigger** for structured reasoning
@@ -89,8 +105,10 @@ Content to include:
 
 ---
 
-### Slide 9: Benchmark Results: MMLU Performance
+## Slide 9: Benchmark Results: MMLU Performance
+
 Content to include:
+
 - MMLU: one of hardest tests for LLMs - 57 domains from physics to art history
 - **Flan-PaLM: 75.2%** (previous SOTA)
 - PaLM (base): 69.3%
@@ -101,8 +119,10 @@ Content to include:
 
 ---
 
-### Slide 10: Democratizing AI: Small Models Beat Giants
+## Slide 10: Democratizing AI: Small Models Beat Giants
+
 Content to include:
+
 - **Flan-T5 XL (3B parameters)** outperformed **GPT-3 (175B parameters)** on MMLU
 - Model **50x smaller** beat industry giant through efficient fine-tuning
 - Access to powerful AI no longer exclusive domain of largest corporations
@@ -112,5 +132,6 @@ Content to include:
 
 ---
 
-### Slide 11: Question for You
+## Slide 11: Question for You
+
 **Will the next major AI breakthrough come not from building ever-larger models that consume more data and energy, but from discovering smarter, more efficient instruction methods for the models we already have?**

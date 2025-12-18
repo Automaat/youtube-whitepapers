@@ -3,7 +3,9 @@
 Generate 10 presentation slides based on the podcast about "On the Opportunities and Risks of Foundation Models" (Stanford 2021).
 
 ### Slide 1: Introduction to Foundation Models
+
 Content to include:
+
 - Foundation Models defined: models trained on broad data using self-supervision, then adapted to downstream tasks
 - Stanford's 200+ page report introduced the term "Foundation Models" to the field
 - Key examples: GPT-3, BERT, CLIP
@@ -11,7 +13,9 @@ Content to include:
 - Report created as "map of unexplored territory" that changes month to month
 
 ### Slide 2: Scale as the Key Driver
+
 Content to include:
+
 - GPT-3: 175 billion parameters - numbers that were pure abstraction recently
 - Scale enables two critical phenomena: Emergence and Homogenization
 - Training paradigm: self-supervision on massive datasets
@@ -19,7 +23,9 @@ Content to include:
 - Shift from building task-specific models to adapting one foundation model
 
 ### Slide 3: Emergence - Unprogrammed Capabilities
+
 Content to include:
+
 - Emergence: capabilities that appear without being explicitly programmed
 - Classic example: in-context learning in GPT-3 - learning new tasks from few examples in prompt
 - No code changes required - model learns from context alone
@@ -28,7 +34,9 @@ Content to include:
 - Key question: if positive capabilities emerge unexpectedly, what about negative ones?
 
 ### Slide 4: Homogenization - Universal Building Blocks
+
 Content to include:
+
 - Homogenization: entire AI field converging on same architectures and models
 - Transformer architecture became the universal "LEGO block" for AI
 - Evolution: ML homogenized algorithms → Deep Learning homogenized architectures → Now homogenizing entire models
@@ -37,7 +45,9 @@ Content to include:
 - Risk: if the universal block has hidden flaws, all systems inherit them
 
 ### Slide 5: NLP Revolution - Language Applications
+
 Content to include:
+
 - NLP is the most mature and spectacular capability domain
 - Old paradigm: separate models for translation, sentiment analysis, Q&A
 - New paradigm: one foundation model adapted to all tasks
@@ -45,7 +55,9 @@ Content to include:
 - Not evolution but revolution - just connecting to new large models transforms performance
 
 ### Slide 6: Vision and Robotics - Physical World Applications
+
 Content to include:
+
 - Computer vision still far behind language capabilities (like comparing polyglot vs child learning shapes)
 - Goal: move from costly manual image labeling to learning from raw data
 - Target: higher-order abilities like physics understanding and common-sense reasoning
@@ -54,7 +66,9 @@ Content to include:
 - Vision: robot as partner, not just tool - quick adaptation to new settings
 
 ### Slide 7: Healthcare and Biomedical Applications
+
 Content to include:
+
 - Potential: summarize years of patient medical history in seconds, catching patterns humans miss
 - Drug discovery acceleration through pattern recognition
 - Critical challenge #1: Explainability - how to trust a "black box" for life-critical decisions
@@ -63,7 +77,9 @@ Content to include:
 - Current AI struggles with truly unprecedented scenarios
 
 ### Slide 8: Law and Education Applications
+
 Content to include:
+
 - Law: analyze tens of thousands of pages in hours, identify key documents, find contradictions
 - "Not replacing lawyers - giving them superpowers"
 - Risk in law: parole decisions based on historical data perpetuate systemic biases
@@ -72,7 +88,9 @@ Content to include:
 - Key distinction: real value in diagnosing student's flawed thinking process, not just knowing correct answer
 
 ### Slide 9: Critical Risks - Centralization, Bias, and Misuse
+
 Content to include:
+
 - Centralization: training costs tens to hundreds of millions of dollars per model
 - Return to Mainframe era - only largest corporations and governments can afford cutting-edge
 - Most university researchers cut off from researching these models
@@ -82,7 +100,9 @@ Content to include:
 - Threat to public debate and democracy
 
 ### Slide 10: Environmental Impact and Systemic Risks
+
 Content to include:
+
 - Environmental cost: training BERT (relatively small model) emissions comparable to transatlantic flight
 - Massive energy consumption for training
 - Homogenization as risk: entire world building on same few models creates shared blind spots
