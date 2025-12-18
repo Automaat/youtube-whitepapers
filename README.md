@@ -94,7 +94,34 @@ mise run rename-thumbnails --dry-run  # Preview changes
 mise run prepare -- 28  # Extracts PDF, normalizes images
 ```
 
-#### Generate video (after creating concat.txt)
+#### Create concat.txt from slide timings
+
+Use the template script which automatically handles intro/outro:
+
+```bash
+# Provide content slide durations (thumbnail/outro added automatically)
+mise run generate-concat -- 28 --durations slide-01:180,slide-02:150,slide-03:120
+
+# Preview without writing:
+mise run generate-concat -- 28 --durations ... --dry-run
+
+# From JSON file:
+mise run generate-concat -- 28 --json timings.json
+```
+
+The script automatically adds:
+
+- 5s thumbnail intro (duplicated to avoid ffmpeg drop bug)
+- Your content slides with specified durations
+- 5s silent outro with last-slide.png
+
+#### Verify concat.txt
+
+```bash
+mise run verify-concat -- 28 --check-dims
+```
+
+#### Generate video
 
 ```bash
 mise run video -- 28

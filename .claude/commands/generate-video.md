@@ -29,12 +29,20 @@ Tasks:
    - Create precise slide timing that matches when topics change in the podcast
    - Map each slide to start/end timestamps based on content alignment
 
-3. **Create concat.txt**
+3. **Generate concat.txt using template**
 
-   Create concat.txt with **absolute paths** and durations:
-   - **5-second thumbnail intro**: thumbnail.png for 5s (during audio start)
-   - **5-second silent outro**: last-slide.png for 5s after audio ends
-   - Video = audio duration + 5 seconds
+   Use the `generate-concat` script which automatically handles intro/outro:
+
+   ```bash
+   mise run generate-concat -- $ARGUMENTS --durations slide-01:180,slide-02:150,...
+   ```
+
+   The script automatically adds:
+   - 5s thumbnail intro (duplicated to avoid ffmpeg drop bug)
+   - Your content slides with specified durations
+   - 5s silent outro with last-slide.png
+
+   You only provide the middle content slide durations.
 
 4. **Verify concat.txt** (before generating video)
 

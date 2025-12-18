@@ -100,7 +100,7 @@ This script:
    - Note exact timestamps where topics change
    - Map each topic to corresponding slide
 
-4. **Create timing table BEFORE generating video**
+4. **Create timing table BEFORE generating concat.txt**
 
    ```text
    | Slide | Start    | End      | Topic                    |
@@ -114,7 +114,31 @@ This script:
    - No slide should be shown for less than 5 seconds
    - No slide should exceed 3 minutes unless justified
 
-6. **Generate video** (use script or manual ffmpeg)
+6. **Generate concat.txt using template script**
+
+   ```bash
+   # Automatically adds 5s thumbnail intro + 5s silent outro
+   mise run generate-concat -- 55 --durations slide-01:180,slide-02:150,slide-03:120
+
+   # Or from JSON file
+   mise run generate-concat -- 55 --json timings.json
+
+   # Preview without writing
+   mise run generate-concat -- 55 --durations ... --dry-run
+   ```
+
+   The script handles:
+   - 5s thumbnail intro (duplicated to avoid ffmpeg drop bug)
+   - Content slides with your specified durations
+   - 5s silent outro with last-slide.png
+
+7. **Verify concat.txt**
+
+   ```bash
+   mise run verify-concat -- 55 --check-dims
+   ```
+
+8. **Generate video**
 
    ```bash
    # Recommended: use generate_video.py (auto-verifies)

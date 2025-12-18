@@ -25,6 +25,13 @@ description = "Prepare slides for video: mise run prepare -- EPISODE_NUM"
 run = "python scripts/prepare_slides.py {{arg(i=0)}}"
 # Example: mise run prepare -- 26
 
+[tasks.generate-concat]
+description = "Generate concat.txt from slide timings: mise run generate-concat -- EP_NUM --durations TIMINGS"
+run = "python scripts/generate_concat.py"
+raw = true
+# Example: mise run generate-concat -- 55 --durations slide-01:180,slide-02:150
+# Example: mise run generate-concat -- 55 --json timings.json --dry-run
+
 [tasks.video]
 description = "Generate video from concat.txt: mise run video -- EPISODE_NUM"
 run = "python scripts/generate_video.py {{arg(i=0)}} {{option(name='skip-verify', short='s')}}"
