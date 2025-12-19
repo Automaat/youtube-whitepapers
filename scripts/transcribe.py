@@ -27,6 +27,7 @@ def transcribe_file(audio_path: Path) -> tuple[Path, bool, str]:
     if output_file.exists():
         return audio_path, True, "skipped (exists)"
 
+    print(f"🔄 Transcribing: {audio_path.stem}")
     try:
         subprocess.run(
             [

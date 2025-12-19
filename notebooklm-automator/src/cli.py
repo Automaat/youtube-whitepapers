@@ -393,8 +393,7 @@ app.add_typer(audio_app, name="audio")
 
 
 PROMPT_FILE = (
-    Path(__file__).parent.parent.parent
-    / "youtube/prompts/notebooklm-research-paper-podcast.md"
+    Path(__file__).parent.parent.parent / "youtube/prompts/generate-podcast.md"
 )
 
 
@@ -416,22 +415,25 @@ def audio_generate(
         raise typer.Exit(1)
     prompt = PROMPT_FILE.read_text().strip()
 
-    async def run() -> bool:
+    async def run() -> AudioStatus:
         async with browser_session() as (manager, page):
             if not await manager.is_logged_in(page):
                 console.print("[red]Not logged in. Run 'login' first.[/]")
-                return False
+                return AudioStatus.ERROR
 
             notebook = NotebookManager()
             if not await notebook.open_notebook(page, notebook_url):
                 console.print("[red]Failed to open notebook[/]")
-                return False
+                return AudioStatus.ERROR
 
             audio = AudioManager()
             return await audio.generate(page, prompt=prompt, language=language)
 
-    success = asyncio.run(run())
-    if success:
+    result = asyncio.run(run())
+    if result == AudioStatus.LIMIT_REACHED:
+        console.print("[yellow]Daily audio generation limit reached[/]")
+        raise typer.Exit(1)
+    if result in (AudioStatus.GENERATING, AudioStatus.READY):
         console.print(f"[green]Audio generation started[/] (language: {language})")
     else:
         raise typer.Exit(1)
@@ -458,8 +460,14 @@ def audio_status(
     console.print(f"Audio status: [bold]{status}[/]")
 
 
-@audio_app.command("download")
-def audio_download(
+# --- Audio Download Sub-Commands ---
+
+audio_download_app = typer.Typer(help="Audio download commands")
+audio_app.add_typer(audio_download_app, name="download")
+
+
+@audio_download_app.command("single")
+def audio_download_single(
     notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
     output: Annotated[Path, typer.Option("--output", "-o")],
     timeout: Annotated[
@@ -509,13 +517,36 @@ def _get_audio_output_path(episode: str, name: str) -> Path:
 
 
 def _get_papers_missing_audio() -> list[dict[str, Any]]:
-    """Get papers from status.json that need audio download."""
+    """Get papers from status.json that need audio download (audio_scheduled but no audio)."""
     if not STATUS_FILE.exists():
         return []
     status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
     papers = []
     for paper in status.get("papers", []):
         if paper.get("archived"):
+            continue
+        if paper.get("audio"):
+            continue
+        if not paper.get("audio_scheduled"):
+            continue
+        if not paper.get("notebook_url"):
+            continue
+        papers.append(paper)
+    return papers
+
+
+def _get_papers_needing_audio_schedule() -> list[dict[str, Any]]:
+    """Get papers that need audio generation scheduled."""
+    if not STATUS_FILE.exists():
+        return []
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    papers = []
+    for paper in status.get("papers", []):
+        if paper.get("archived"):
+            continue
+        if not paper.get("notebook_created"):
+            continue
+        if paper.get("audio_scheduled"):
             continue
         if paper.get("audio"):
             continue
@@ -548,8 +579,8 @@ def _get_papers_missing_notebooks() -> list[dict[str, Any]]:
     return papers
 
 
-@audio_app.command("batch-download")
-def audio_batch_download(
+@audio_download_app.command("all")
+def audio_download_all(
     dry_run: Annotated[
         bool,
         typer.Option("--dry-run", "-n", help="Preview without downloading"),
@@ -625,6 +656,113 @@ def audio_batch_download(
 
     downloaded, skipped, failed = asyncio.run(run())
     console.print(f"\n[bold]Summary:[/] {downloaded} downloaded, {skipped} skipped, {failed} failed")
+
+
+async def _schedule_audio_for_papers(
+    papers: list[dict[str, Any]], prompt: str
+) -> tuple[int, int, int, bool]:
+    """Schedule audio generation for papers."""
+    scheduled = 0
+    skipped = 0
+    failed = 0
+    limit_reached = False
+
+    async with browser_session() as (manager, page):
+        if not await manager.is_logged_in(page):
+            console.print("[red]Not logged in. Run 'login' first.[/]")
+            return (0, 0, len(papers), False)
+
+        notebook_mgr = NotebookManager()
+        audio_mgr = AudioManager()
+        utils = _get_status_utils()
+
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+
+            console.print(f"[bold]Processing {ep}-{name}...[/]")
+
+            if not await notebook_mgr.open_notebook(page, url):
+                console.print("  [red]Failed to open notebook[/]")
+                failed += 1
+                continue
+
+            status = await audio_mgr.get_status(page)
+            if status in (AudioStatus.READY, AudioStatus.GENERATING):
+                console.print(f"  [yellow]Audio already {status.value}[/]")
+                skipped += 1
+                continue
+            if status == AudioStatus.LIMIT_REACHED:
+                console.print("  [yellow]Limit already reached[/]")
+                limit_reached = True
+                break
+
+            result = await audio_mgr.generate(page, prompt=prompt, language="Polish")
+            if result == AudioStatus.LIMIT_REACHED:
+                console.print("  [yellow]Daily limit reached, stopping[/]")
+                limit_reached = True
+                break
+            if result in (AudioStatus.GENERATING, AudioStatus.READY):
+                console.print("  [green]Audio scheduled[/]")
+                utils.update_episode_status(ep, "audio_scheduled", value=True)
+                scheduled += 1
+            else:
+                console.print("  [red]Failed, stopping (likely rate limited)[/]")
+                failed += 1
+                limit_reached = True
+                break
+
+    return (scheduled, skipped, failed, limit_reached)
+
+
+@audio_app.command("schedule")
+def audio_schedule(
+    episode: Annotated[
+        str | None,
+        typer.Option("--episode", "-e", help="Single episode number to schedule"),
+    ] = None,
+    dry_run: Annotated[
+        bool,
+        typer.Option("--dry-run", "-n", help="Preview without scheduling"),
+    ] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Schedule audio generation for papers with notebooks but no audio."""
+    setup_logging(verbose)
+
+    papers = _get_papers_needing_audio_schedule()
+    if episode:
+        ep_str = episode.zfill(2)
+        papers = [p for p in papers if p.get("episode") == ep_str]
+    if not papers:
+        console.print("[yellow]No papers needing audio scheduling[/]")
+        return
+
+    console.print(f"[bold]Found {len(papers)} papers to schedule[/]")
+
+    if not PROMPT_FILE.exists():
+        console.print(f"[red]Prompt file not found:[/] {PROMPT_FILE}")
+        raise typer.Exit(1)
+    prompt = PROMPT_FILE.read_text().strip()
+
+    if dry_run:
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+            console.print(f"  {ep}-{name}")
+            console.print(f"    [dim]URL: {url}[/]")
+        return
+
+    scheduled, skipped, failed, limit_reached = asyncio.run(
+        _schedule_audio_for_papers(papers, prompt)
+    )
+    console.print(
+        f"\n[bold]Summary:[/] {scheduled} scheduled, {skipped} skipped, {failed} failed"
+    )
+    if limit_reached:
+        console.print("[yellow]Stopped: daily audio generation limit reached[/]")
 
 
 # --- Slides Commands ---

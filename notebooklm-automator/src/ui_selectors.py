@@ -69,7 +69,11 @@ class Selectors:
     SOURCE_LIST_ITEM = "[data-source-id]"
 
     # Audio Overview (Studio panel)
-    AUDIO_OVERVIEW_BTN = 'button:has-text("Audio Overview")'
+    AUDIO_OVERVIEW_BTN = (
+        ':has-text("Audio Overview") >> nth=0, '
+        '[data-test-id="audio-overview"], '
+        'div:has-text("Audio Overview")'
+    )
     AUDIO_GENERATE_BTN = 'button:has-text("Generate"), button:has-text("Create")'
     AUDIO_CUSTOMIZE_BTN = 'button:has-text("Customize")'
     AUDIO_PROMPT_INPUT = (
@@ -87,6 +91,11 @@ class Selectors:
         '[data-audio-status="generating"], '
         ':has-text("Generating"), '
         ':has-text("Creating audio")'
+    )
+    AUDIO_LIMIT_INDICATOR = (
+        ':has-text("reached your limit"), '
+        ':has-text("daily limit"), '
+        ':has-text("generation limit")'
     )
     AUDIO_DOWNLOAD_BTN = (
         'button[aria-label="Download"], '

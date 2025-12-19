@@ -27,10 +27,111 @@ class AudioStatus(Enum):
     GENERATING = "generating"
     READY = "ready"
     ERROR = "error"
+    LIMIT_REACHED = "limit_reached"
 
 
 class AudioManager:
     """Manages Audio Overview generation and download."""
+
+    async def _select_language(self, page: Page, language: str) -> bool:
+        """Select language from dropdown."""
+        # Click on the mat-select dropdown (shows current language like "English")
+        dropdown_selectors = [
+            'mat-select:below(:text("Choose language"))',
+            '.mat-mdc-select:below(:text("Choose language"))',
+            '[role="combobox"]:below(:text("Choose language"))',
+            'mat-form-field:has-text("English") mat-select',
+            'mat-form-field:has-text("Polish") mat-select',
+        ]
+
+        for sel in dropdown_selectors:
+            try:
+                dropdown = page.locator(sel).first
+                if await dropdown.is_visible(timeout=1000):
+                    await dropdown.click(timeout=3000)
+                    await asyncio.sleep(1)
+                    logger.debug("Clicked language dropdown: %s", sel)
+                    break
+            except Exception:
+                continue
+        else:
+            logger.warning("Could not find language dropdown")
+            return False
+
+        # Try different language name formats and selectors
+        lang_variants = [language, "Polski", "Polish (Poland)"]
+        option_selectors = [
+            'mat-option:has-text("{lang}")',
+            '[role="option"]:has-text("{lang}")',
+            '.mat-mdc-option:has-text("{lang}")',
+        ]
+
+        for lang_name in lang_variants:
+            for sel_template in option_selectors:
+                try:
+                    sel = sel_template.format(lang=lang_name)
+                    opt = page.locator(sel).first
+                    if await opt.is_visible(timeout=1000):
+                        await opt.click(timeout=2000)
+                        logger.info("Selected language: %s", lang_name)
+                        return True
+                except Exception:
+                    continue
+
+        logger.warning("Could not find language: %s", language)
+        await page.keyboard.press("Escape")
+        return False
+
+    async def _enter_prompt(self, page: Page, prompt: str) -> bool:
+        """Enter prompt in the instructions textarea."""
+        # The popup has a textarea for custom instructions
+        # Try various selectors to find it
+        textarea_selectors = [
+            'textarea:below(:text("Add more details"))',
+            'textarea:below(:text("instructions"))',
+            'textarea:below(:text("optional"))',
+            "mat-form-field textarea",
+            '[class*="cdk-overlay"] textarea',
+            '[role="dialog"] textarea',
+            'textarea[placeholder*="Add"]',
+            'textarea[placeholder*="instruction"]',
+            "textarea",  # fallback: any textarea in visible popup
+        ]
+
+        for sel in textarea_selectors:
+            try:
+                textarea = page.locator(sel).first
+                if await textarea.is_visible(timeout=500):
+                    await textarea.click(timeout=2000)
+                    await textarea.fill("")
+                    await textarea.type(prompt, delay=5)
+                    logger.info("Entered custom prompt using: %s", sel)
+                    return True
+            except Exception:
+                continue
+
+        logger.warning("Could not find instructions textarea")
+        return False
+
+    async def _customize_audio(
+        self, page: Page, language: str | None, prompt: str | None
+    ) -> bool:
+        """Fill in customize popup with language and prompt."""
+        try:
+            await page.wait_for_selector("text=Choose language", timeout=5000)
+            logger.debug("Popup loaded")
+
+            if language:
+                await self._select_language(page, language)
+                await asyncio.sleep(0.5)
+
+            if prompt:
+                await self._enter_prompt(page, prompt)
+
+            return True
+        except Exception as e:
+            logger.warning("Customization failed: %s", e)
+            return False
 
     async def get_status(self, page: Page) -> AudioStatus:
         """Get current audio generation status.
@@ -42,6 +143,11 @@ class AudioManager:
             Current audio status
 
         """
+        # Check if limit reached
+        limit = await page.query_selector(Selectors.AUDIO_LIMIT_INDICATOR)
+        if limit:
+            return AudioStatus.LIMIT_REACHED
+
         # Check if ready
         ready = await page.query_selector(Selectors.AUDIO_READY_INDICATOR)
         if ready:
@@ -59,7 +165,7 @@ class AudioManager:
         page: Page,
         prompt: str | None = None,
         language: str | None = None,
-    ) -> bool:
+    ) -> AudioStatus:
         """Start audio overview generation.
 
         Args:
@@ -68,55 +174,71 @@ class AudioManager:
             language: Language for audio (e.g., "Polish", "English")
 
         Returns:
-            True if generation started
+            AudioStatus indicating result (GENERATING, READY, LIMIT_REACHED, ERROR)
 
         """
         logger.info("Starting Audio Overview generation")
 
-        # Click Audio Overview button
+        # Wait for page to fully load
+        await asyncio.sleep(3)
+
+        # Click pen/edit icon on Audio Overview card to open customize popup
         try:
-            await page.click(Selectors.AUDIO_OVERVIEW_BTN, timeout=5000)
+            # Find the edit button by aria-label (more reliable)
+            edit_btn = page.locator('[aria-label="Customize Audio Overview"]').first
+            # Wait for button to be enabled
+            await edit_btn.wait_for(state="visible", timeout=10000)
             await asyncio.sleep(1)
-        except Exception:
-            logger.debug("Audio Overview section might already be open")
+            await edit_btn.click(timeout=5000)
+            await asyncio.sleep(2)
+            logger.info("Clicked Audio Overview edit button")
+        except Exception as e:
+            logger.warning("Failed to click edit button: %s", e)
 
-        # If prompt or language specified, use customize flow
+        # Now in customize popup - set language and prompt
         if prompt or language:
-            try:
-                await page.click(Selectors.AUDIO_CUSTOMIZE_BTN, timeout=5000)
-                await asyncio.sleep(1)
-                logger.info("Opened customize dialog")
-
-                # Enter prompt if provided
-                if prompt:
-                    await page.fill(Selectors.AUDIO_PROMPT_INPUT, prompt, timeout=5000)
-                    logger.info("Entered custom prompt")
-
-                # Select language if provided
-                if language:
-                    # Click language dropdown and select option
-                    await page.click(Selectors.AUDIO_LANGUAGE_DROPDOWN, timeout=5000)
-                    await asyncio.sleep(0.5)
-                    lang_option = f'[role="option"]:has-text("{language}"), button:has-text("{language}")'
-                    await page.click(lang_option, timeout=5000)
-                    logger.info("Selected language: %s", language)
-
-            except Exception as e:
-                logger.warning("Customization failed: %s", e)
+            await self._customize_audio(page, language, prompt)
 
         # Click Generate button
         try:
-            await page.click(Selectors.AUDIO_GENERATE_BTN, timeout=5000)
-            logger.info("Generation started")
-            return True
-        except Exception:
-            # Check if already generating or ready
-            status = await self.get_status(page)
-            if status in (AudioStatus.GENERATING, AudioStatus.READY):
-                logger.info("Audio already %s", status.value)
-                return True
-            logger.error("Failed to start generation")
-            return False
+            gen_btn = page.locator('button:has-text("Generate")').last
+            await gen_btn.click(timeout=5000)
+            await asyncio.sleep(3)
+        except Exception as e:
+            logger.warning("Failed to click generate: %s", e)
+
+        # Check for limit message more thoroughly (may appear in dialog/toast)
+        limit_phrases = [
+            "reached your limit",
+            "daily limit",
+            "generation limit",
+            "quota exceeded",
+            "too many requests",
+            "try again later",
+            "rate limit",
+        ]
+        page_text = await page.content()
+        page_text_lower = page_text.lower()
+        for phrase in limit_phrases:
+            if phrase in page_text_lower:
+                logger.warning("Limit indicator found in page: %s", phrase)
+                return AudioStatus.LIMIT_REACHED
+
+        # Check actual status after clicking
+        status = await self.get_status(page)
+        logger.info("Status after generate click: %s", status.value)
+
+        if status == AudioStatus.LIMIT_REACHED:
+            logger.warning("Daily audio generation limit reached")
+            return AudioStatus.LIMIT_REACHED
+
+        if status in (AudioStatus.GENERATING, AudioStatus.READY):
+            logger.info("Audio %s", status.value)
+            return status
+
+        # NOT_STARTED means generation didn't actually start
+        logger.error("Generation did not start, status: %s", status.value)
+        return AudioStatus.ERROR
 
     async def wait_for_completion(
         self,
@@ -264,8 +386,11 @@ class AudioManager:
         # Check current status
         status = await self.get_status(page)
 
-        if status == AudioStatus.NOT_STARTED and not await self.generate(page):
-            return None
+        if status == AudioStatus.NOT_STARTED:
+            gen_result = await self.generate(page)
+            if gen_result in (AudioStatus.ERROR, AudioStatus.LIMIT_REACHED):
+                return None
+            status = gen_result
 
         if status != AudioStatus.READY and not await self.wait_for_completion(
             page, timeout
