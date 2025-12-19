@@ -700,7 +700,7 @@ async def _schedule_audio_for_papers(
 
             result = await audio_mgr.generate(page, prompt=prompt, language="Polish")
             if result == AudioStatus.LIMIT_REACHED:
-                console.print("  [yellow]Daily limit reached, stopping[/]")
+                console.print("  [red]Limit reached after Generate click, stopping[/]")
                 limit_reached = True
                 break
             if result in (AudioStatus.GENERATING, AudioStatus.READY):
@@ -708,9 +708,8 @@ async def _schedule_audio_for_papers(
                 utils.update_episode_status(ep, "audio_scheduled", value=True)
                 scheduled += 1
             else:
-                console.print("  [red]Failed, stopping (likely rate limited)[/]")
+                console.print("  [red]Generation failed, stopping[/]")
                 failed += 1
-                limit_reached = True
                 break
 
     return (scheduled, skipped, failed, limit_reached)
@@ -837,6 +836,42 @@ def _get_papers_needing_slides() -> list[dict[str, Any]]:
     return papers
 
 
+SLIDES_PROMPTS_DIR = Path(__file__).parent.parent.parent / "youtube" / "prompts" / "slides"
+
+
+def _get_slides_prompt_path(episode: str, name: str) -> Path:
+    """Get path to slides prompt file."""
+    return SLIDES_PROMPTS_DIR / f"{episode.zfill(2)}-{name}.md"
+
+
+def _get_papers_needing_slides_schedule() -> list[dict[str, Any]]:
+    """Get papers that need slides generation scheduled."""
+    if not STATUS_FILE.exists():
+        return []
+    status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
+    papers = []
+    for paper in status.get("papers", []):
+        if paper.get("archived"):
+            continue
+        if not paper.get("notebook_created"):
+            continue
+        if paper.get("slides_scheduled"):
+            continue
+        if paper.get("slides"):
+            continue
+        if not paper.get("notebook_url"):
+            continue
+        ep = paper.get("episode", "").zfill(2)
+        name = paper.get("name", "")
+        if not (ep and name):
+            continue
+        prompt_path = _get_slides_prompt_path(ep, name)
+        if not prompt_path.exists():
+            continue
+        papers.append(paper)
+    return papers
+
+
 @slides_app.command("download")
 def slides_download(
     notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
@@ -944,6 +979,111 @@ def slides_batch_download(
 
     downloaded, skipped, failed = asyncio.run(run())
     console.print(f"\n[bold]Summary:[/] {downloaded} downloaded, {skipped} skipped, {failed} failed")
+
+
+async def _schedule_slides_for_papers(
+    papers: list[dict[str, Any]],
+) -> tuple[int, int, int, bool]:
+    """Schedule slides generation for papers."""
+    scheduled = 0
+    skipped = 0
+    failed = 0
+    limit_reached = False
+
+    async with browser_session() as (manager, page):
+        if not await manager.is_logged_in(page):
+            console.print("[red]Not logged in. Run 'login' first.[/]")
+            return (0, 0, len(papers), False)
+
+        notebook_mgr = NotebookManager()
+        slides_mgr = SlidesManager()
+        utils = _get_status_utils()
+
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+
+            console.print(f"[bold]Processing {ep}-{name}...[/]")
+
+            prompt_path = _get_slides_prompt_path(ep, name)
+            if not prompt_path.exists():
+                console.print(f"  [yellow]No prompt file: {prompt_path}[/]")
+                skipped += 1
+                continue
+
+            if not await notebook_mgr.open_notebook(page, url):
+                console.print("  [red]Failed to open notebook[/]")
+                failed += 1
+                continue
+
+            status = await slides_mgr.get_status(page)
+            if status == SlidesStatus.READY:
+                console.print("  [yellow]Slides already ready[/]")
+                skipped += 1
+                continue
+            if status == SlidesStatus.LIMIT_REACHED:
+                console.print("  [red]Generation limit reached, stopping[/]")
+                limit_reached = True
+                break
+
+            prompt = prompt_path.read_text().strip()
+            if not await slides_mgr.send_prompt(page, prompt):
+                console.print("  [red]Limit reached after Generate click, stopping[/]")
+                limit_reached = True
+                break
+
+            console.print("  [green]Slides scheduled[/]")
+            utils.update_episode_status(ep, "slides_scheduled", value=True)
+            scheduled += 1
+
+    return (scheduled, skipped, failed, limit_reached)
+
+
+@slides_app.command("schedule")
+def slides_schedule(
+    episode: Annotated[
+        str | None,
+        typer.Option("--episode", "-e", help="Single episode number to schedule"),
+    ] = None,
+    dry_run: Annotated[
+        bool,
+        typer.Option("--dry-run", "-n", help="Preview without scheduling"),
+    ] = False,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Schedule slides generation for papers with notebooks and prompt files."""
+    setup_logging(verbose)
+
+    papers = _get_papers_needing_slides_schedule()
+    if episode:
+        ep_str = episode.zfill(2)
+        papers = [p for p in papers if p.get("episode") == ep_str]
+    if not papers:
+        console.print("[yellow]No papers needing slides scheduling[/]")
+        return
+
+    console.print(f"[bold]Found {len(papers)} papers to schedule[/]")
+
+    if dry_run:
+        for paper in papers:
+            ep = paper.get("episode", "??")
+            name = paper.get("name", "unknown")
+            url = paper.get("notebook_url", "")
+            prompt_path = _get_slides_prompt_path(ep, name)
+            console.print(f"  {ep}-{name}")
+            console.print(f"    [dim]URL: {url}[/]")
+            console.print(f"    [dim]Prompt: {prompt_path}[/]")
+        return
+
+    scheduled, skipped, failed, limit_reached = asyncio.run(
+        _schedule_slides_for_papers(papers)
+    )
+    console.print(
+        f"\n[bold]Summary:[/] {scheduled} scheduled, {skipped} skipped, {failed} failed"
+    )
+    if limit_reached:
+        console.print("[yellow]Stopped: generation limit reached or error[/]")
 
 
 # --- Pipeline Command ---

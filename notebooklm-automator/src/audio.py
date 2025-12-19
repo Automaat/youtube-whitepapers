@@ -103,8 +103,7 @@ class AudioManager:
                 textarea = page.locator(sel).first
                 if await textarea.is_visible(timeout=500):
                     await textarea.click(timeout=2000)
-                    await textarea.fill("")
-                    await textarea.type(prompt, delay=5)
+                    await textarea.fill(prompt)
                     logger.info("Entered custom prompt using: %s", sel)
                     return True
             except Exception:
@@ -133,6 +132,36 @@ class AudioManager:
             logger.warning("Customization failed: %s", e)
             return False
 
+    async def _check_limit_reached(self, page: Page) -> bool:
+        """Check if generation limit is reached."""
+        limit_selectors = [
+            ':has-text("reached your daily Audio Overview limits")',
+            ':has-text("Come back later")',
+            ':has-text("reached your limit")',
+            ':has-text("daily limit")',
+            ':has-text("generation limit")',
+            ':has-text("quota exceeded")',
+            ':has-text("try again later")',
+            ':has-text("limit reached")',
+            ':has-text("come back tomorrow")',
+            '[role="dialog"]:has-text("limit")',
+            '[role="alertdialog"]:has-text("limit")',
+            '.mat-snack-bar-container:has-text("limit")',
+            '.cdk-overlay-pane:has-text("limit")',
+            '[class*="snackbar"]:has-text("limit")',
+            '[class*="toast"]:has-text("limit")',
+            '[class*="error"]:has-text("limit")',
+        ]
+        for sel in limit_selectors:
+            try:
+                elem = page.locator(sel).first
+                if await elem.is_visible(timeout=300):
+                    logger.warning("Limit indicator visible: %s", sel)
+                    return True
+            except Exception:
+                continue
+        return False
+
     async def get_status(self, page: Page) -> AudioStatus:
         """Get current audio generation status.
 
@@ -143,9 +172,8 @@ class AudioManager:
             Current audio status
 
         """
-        # Check if limit reached
-        limit = await page.query_selector(Selectors.AUDIO_LIMIT_INDICATOR)
-        if limit:
+        # Check if limit reached first
+        if await self._check_limit_reached(page):
             return AudioStatus.LIMIT_REACHED
 
         # Check if ready
@@ -203,28 +231,44 @@ class AudioManager:
         try:
             gen_btn = page.locator('button:has-text("Generate")').last
             await gen_btn.click(timeout=5000)
-            await asyncio.sleep(3)
+            logger.info("Clicked Generate button")
         except Exception as e:
             logger.warning("Failed to click generate: %s", e)
+            return AudioStatus.ERROR
 
-        # Check for limit message more thoroughly (may appear in dialog/toast)
-        limit_phrases = [
-            "reached your limit",
-            "daily limit",
-            "generation limit",
-            "quota exceeded",
-            "too many requests",
-            "try again later",
-            "rate limit",
-        ]
-        page_text = await page.content()
-        page_text_lower = page_text.lower()
-        for phrase in limit_phrases:
-            if phrase in page_text_lower:
-                logger.warning("Limit indicator found in page: %s", phrase)
+        # Poll for limit indicators (check multiple times)
+        for i in range(5):
+            await asyncio.sleep(1)
+            logger.debug("Checking for limit (attempt %d/5)...", i + 1)
+
+            # Check for limit using locator-based detection
+            if await self._check_limit_reached(page):
+                logger.warning("Daily audio generation limit reached")
                 return AudioStatus.LIMIT_REACHED
 
-        # Check actual status after clicking
+            # Check page text for limit phrases
+            page_text = await page.inner_text("body")
+            page_text_lower = page_text.lower()
+
+            limit_phrases = [
+                "reached your daily audio overview limits",
+                "come back later",
+                "reached your limit",
+                "daily limit",
+                "generation limit",
+                "quota exceeded",
+                "too many requests",
+                "try again later",
+                "rate limit",
+                "limit reached",
+                "come back tomorrow",
+            ]
+            for phrase in limit_phrases:
+                if phrase in page_text_lower:
+                    logger.warning("Limit phrase found: %s", phrase)
+                    return AudioStatus.LIMIT_REACHED
+
+        # Check actual status after polling
         status = await self.get_status(page)
         logger.info("Status after generate click: %s", status.value)
 

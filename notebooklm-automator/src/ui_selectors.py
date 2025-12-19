@@ -108,6 +108,11 @@ class Selectors:
     CHAT_INPUT = (
         'textarea[placeholder*="Ask"], '
         'textarea[aria-label*="Ask"], '
+        'textarea[placeholder*="Type"], '
+        'textarea[aria-label*="chat" i], '
+        'textarea[aria-label*="message" i], '
+        '[role="textbox"], '
+        'div[contenteditable="true"], '
         '[contenteditable="true"]'
     )
     CHAT_SEND_BTN = 'button[aria-label="Send"], button[type="submit"]'

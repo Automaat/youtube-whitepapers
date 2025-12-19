@@ -25,13 +25,90 @@ class SlidesStatus(Enum):
 
     NOT_FOUND = "not_found"
     READY = "ready"
+    LIMIT_REACHED = "limit_reached"
+    ERROR = "error"
 
 
 class SlidesManager:
     """Manages slides generation via NotebookLM chat."""
 
+    async def _select_language(self, page: Page, language: str) -> bool:
+        """Select language from dropdown."""
+        dropdown_selectors = [
+            'mat-select:below(:text("Choose language"))',
+            '.mat-mdc-select:below(:text("Choose language"))',
+            '[role="combobox"]:below(:text("Choose language"))',
+            'mat-form-field:has-text("English") mat-select',
+            'mat-form-field:has-text("Polish") mat-select',
+        ]
+
+        for sel in dropdown_selectors:
+            try:
+                dropdown = page.locator(sel).first
+                if await dropdown.is_visible(timeout=1000):
+                    await dropdown.click(timeout=3000)
+                    await asyncio.sleep(1)
+                    logger.debug("Clicked language dropdown: %s", sel)
+                    break
+            except Exception:
+                continue
+        else:
+            logger.warning("Could not find language dropdown")
+            return False
+
+        lang_variants = [language, "Polski", "Polish (Poland)"]
+        option_selectors = [
+            'mat-option:has-text("{lang}")',
+            '[role="option"]:has-text("{lang}")',
+            '.mat-mdc-option:has-text("{lang}")',
+        ]
+
+        for lang_name in lang_variants:
+            for sel_template in option_selectors:
+                try:
+                    sel = sel_template.format(lang=lang_name)
+                    opt = page.locator(sel).first
+                    if await opt.is_visible(timeout=1000):
+                        await opt.click(timeout=2000)
+                        logger.info("Selected language: %s", lang_name)
+                        return True
+                except Exception:
+                    continue
+
+        logger.warning("Could not find language: %s", language)
+        await page.keyboard.press("Escape")
+        return False
+
+    async def _enter_prompt(self, page: Page, prompt: str) -> bool:
+        """Enter prompt in the instructions textarea."""
+        textarea_selectors = [
+            'textarea:below(:text("Add more details"))',
+            'textarea:below(:text("instructions"))',
+            'textarea:below(:text("optional"))',
+            "mat-form-field textarea",
+            '[class*="cdk-overlay"] textarea',
+            '[role="dialog"] textarea',
+            'textarea[placeholder*="Add"]',
+            'textarea[placeholder*="instruction"]',
+            "textarea",
+        ]
+
+        for sel in textarea_selectors:
+            try:
+                textarea = page.locator(sel).first
+                if await textarea.is_visible(timeout=500):
+                    await textarea.click(timeout=2000)
+                    await textarea.fill(prompt)
+                    logger.info("Entered custom prompt using: %s", sel)
+                    return True
+            except Exception:
+                continue
+
+        logger.warning("Could not find instructions textarea")
+        return False
+
     async def send_prompt(self, page: Page, prompt: str) -> bool:
-        """Send a prompt to the chat interface.
+        """Generate slides via Studio panel.
 
         Args:
             page: Browser page on a notebook
@@ -43,19 +120,83 @@ class SlidesManager:
         """
         logger.info("Sending prompt (%d chars)", len(prompt))
 
-        # Find chat input
-        chat_input = await page.wait_for_selector(Selectors.CHAT_INPUT, timeout=10000)
-        if not chat_input:
-            logger.error("Chat input not found")
+        # Wait for page to fully load
+        await asyncio.sleep(3)
+
+        # Click on Slide Deck card in Studio panel
+        slide_deck_selectors = [
+            '[aria-label="Customize Slide Deck"]',
+            'button:has-text("Slide Deck")',
+            ':text("Slide Deck") >> xpath=ancestor::button',
+            'div:has-text("Slide Deck") >> nth=0',
+        ]
+
+        clicked_edit = False
+        for sel in slide_deck_selectors:
+            try:
+                btn = page.locator(sel).first
+                if await btn.is_visible(timeout=2000):
+                    await btn.click(timeout=3000)
+                    await asyncio.sleep(2)
+                    logger.info("Clicked Slide Deck button: %s", sel)
+                    clicked_edit = True
+                    break
+            except Exception:
+                logger.debug("Slide Deck selector %s not found", sel)
+
+        if not clicked_edit:
+            logger.error("Could not find Slide Deck button")
             return False
 
-        # Enter prompt
-        await chat_input.fill(prompt)
+        # Select Polish language first
+        await self._select_language(page, "Polish")
         await asyncio.sleep(0.5)
 
-        # Send
-        await page.click(Selectors.CHAT_SEND_BTN)
-        logger.info("Prompt sent")
+        # Enter prompt in popup
+        if prompt:
+            await self._enter_prompt(page, prompt)
+
+        # Click Generate button
+        try:
+            gen_btn = page.locator('button:has-text("Generate")').last
+            await gen_btn.click(timeout=5000)
+            logger.info("Clicked Generate button")
+        except Exception as e:
+            logger.error("Failed to click Generate: %s", e)
+            return False
+
+        # Poll for limit indicators (check multiple times)
+        for i in range(5):
+            await asyncio.sleep(1)
+            logger.debug("Checking for limit (attempt %d/5)...", i + 1)
+
+            # Check for limit using locator-based detection
+            if await self._check_limit_reached(page):
+                logger.warning("Daily slides generation limit reached")
+                return False
+
+            # Check page text for limit phrases
+            page_text = await page.inner_text("body")
+            page_text_lower = page_text.lower()
+            logger.debug("Page text sample: %s", page_text_lower[:500])
+
+            limit_phrases = [
+                "reached your daily slides limits",
+                "come back later",
+                "reached your limit",
+                "daily limit",
+                "generation limit",
+                "quota exceeded",
+                "too many requests",
+                "try again later",
+                "rate limit",
+                "limit reached",
+                "come back tomorrow",
+            ]
+            for phrase in limit_phrases:
+                if phrase in page_text_lower:
+                    logger.warning("Limit phrase found: %s", phrase)
+                    return False
 
         return True
 
@@ -191,8 +332,42 @@ class SlidesManager:
         prompt = prompt_file.read_text()
         return await self.generate_slides(page, prompt, output_path, timeout)
 
+    async def _check_limit_reached(self, page: Page) -> bool:
+        """Check if generation limit is reached."""
+        limit_selectors = [
+            ':has-text("reached your daily Slides limits")',
+            ':has-text("Come back later")',
+            ':has-text("reached your limit")',
+            ':has-text("daily limit")',
+            ':has-text("generation limit")',
+            ':has-text("quota exceeded")',
+            ':has-text("try again later")',
+            ':has-text("limit reached")',
+            ':has-text("come back tomorrow")',
+            '[role="dialog"]:has-text("limit")',
+            '[role="alertdialog"]:has-text("limit")',
+            '.mat-snack-bar-container:has-text("limit")',
+            '.cdk-overlay-pane:has-text("limit")',
+            '[class*="snackbar"]:has-text("limit")',
+            '[class*="toast"]:has-text("limit")',
+            '[class*="error"]:has-text("limit")',
+        ]
+        for sel in limit_selectors:
+            try:
+                elem = page.locator(sel).first
+                if await elem.is_visible(timeout=300):
+                    logger.warning("Limit indicator visible: %s", sel)
+                    return True
+            except Exception:
+                continue
+        return False
+
     async def get_status(self, page: Page) -> SlidesStatus:
         """Check if slides are available in notebook."""
+        # Check if limit reached first
+        if await self._check_limit_reached(page):
+            return SlidesStatus.LIMIT_REACHED
+
         selectors = [
             'button:has-text("Briefing doc")',
             '[role="button"]:has-text("Briefing doc")',

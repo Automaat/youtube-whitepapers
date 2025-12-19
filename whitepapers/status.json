@@ -8,7 +8,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/c511a14d-fcd8-4d5b-a4ad-02c97f77b398",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false
     },
@@ -33,7 +33,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/428f1de4-1286-4adf-828c-42365b6d5fb1",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false,
       "audio_scheduled": true
@@ -46,7 +46,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/e29e436a-8dba-41a3-9fac-463872683ec6",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false,
       "audio_scheduled": true
@@ -59,7 +59,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/5b3da39a-ec8d-4352-bbe3-8e896286877a",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false,
       "audio_scheduled": true
@@ -72,7 +72,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/4794a021-febf-4192-93bc-362fcf15936f",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false,
       "audio_scheduled": true
@@ -283,7 +283,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "71",
@@ -295,7 +296,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "72",
@@ -307,7 +309,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "73",
@@ -319,7 +322,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "74",
@@ -331,7 +335,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "75",
@@ -343,7 +348,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "76",
@@ -355,7 +361,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "77",
@@ -367,7 +374,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "78",
@@ -379,7 +387,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "79",
@@ -391,7 +400,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "80",
@@ -403,7 +413,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "81",
@@ -415,7 +426,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "82",
@@ -427,7 +439,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "83",
@@ -439,7 +452,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "84",
@@ -451,7 +465,8 @@
       "slides": false,
       "transcript": true,
       "thumbnail": true,
-      "video": false
+      "video": false,
+      "slides_scheduled": true
     },
     {
       "episode": "85",
@@ -473,7 +488,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/d793b0ff-7c87-4098-839b-b71a0f124249",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false
     },
@@ -485,7 +500,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/10ebc167-f60b-41a0-b61e-b791010c8b3a",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false
     },
@@ -497,7 +512,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/aa2627e8-2010-443f-92c1-97ac75f92e89",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false
     },
@@ -509,7 +524,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/c6f21d3c-e22c-4c30-b507-6ca91e2fd6a2",
       "audio": true,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail": true,
       "video": false
     },
@@ -1635,11 +1650,11 @@
     "notebook_created": 156,
     "audio": 56,
     "slides": 1,
-    "transcript": 20,
+    "transcript": 29,
     "thumbnail": 48,
     "video": 2,
     "uploaded": 1,
     "archived": 68
   },
-  "updated": "2025-12-19T12:38:40+00:00"
+  "updated": "2025-12-19T14:20:37+00:00"
 }
