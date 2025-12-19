@@ -14,7 +14,7 @@ STATUS_FILE = SCRIPT_DIR / "whitepapers" / "status.json"
 WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers"
 
 PIPELINE_FIELDS = ["audio", "slides", "transcript", "thumbnail", "video", "uploaded"]
-PRESERVED_FIELDS = ["notebook_created", "notebook_url"]
+PRESERVED_FIELDS = ["notebook_created", "notebook_url", "audio_scheduled", "slides_scheduled"]
 
 
 def load_status() -> dict[str, Any]:
