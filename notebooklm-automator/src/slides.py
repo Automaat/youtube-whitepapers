@@ -364,31 +364,35 @@ class SlidesManager:
 
     async def get_status(self, page: Page) -> SlidesStatus:
         """Check if slides are available in notebook."""
+        # Wait for page to load
+        await asyncio.sleep(2)
+
         # Check if limit reached first
         if await self._check_limit_reached(page):
             return SlidesStatus.LIMIT_REACHED
 
+        # Generated slides have aria-description="Slides" and class artifact-button-content
         selectors = [
-            'button:has-text("Briefing doc")',
-            '[role="button"]:has-text("Briefing doc")',
-            'div:has-text("Briefing doc") >> nth=0',
+            '[aria-description="Slides"]',
+            'button.artifact-button-content[aria-description="Slides"]',
         ]
         for sel in selectors:
             try:
                 item = page.locator(sel).first
                 if await item.is_visible(timeout=2000):
+                    logger.debug("Found generated slides: %s", sel)
                     return SlidesStatus.READY
             except Exception:
-                logger.debug("Slides status selector %s not found", sel)
+                logger.debug("Slides selector %s not found", sel)
+
         return SlidesStatus.NOT_FOUND
 
     async def _open_slides_panel(self, page: Page) -> bool:
-        """Click on Briefing doc to open slides panel."""
+        """Click on generated Slide Deck to open slides panel."""
+        # Generated slides have aria-description="Slides" and class artifact-button-content
         selectors = [
-            'button:has-text("Briefing doc")',
-            'a:has-text("Briefing doc")',
-            '[role="button"]:has-text("Briefing doc")',
-            'div:has-text("Briefing doc") >> nth=0',
+            '[aria-description="Slides"]',
+            'button.artifact-button-content[aria-description="Slides"]',
         ]
         for sel in selectors:
             try:

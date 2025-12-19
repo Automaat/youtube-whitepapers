@@ -769,6 +769,11 @@ def audio_schedule(
 slides_app = typer.Typer(help="Slides generation commands")
 app.add_typer(slides_app, name="slides")
 
+# --- Slides Download Sub-Commands ---
+
+slides_download_app = typer.Typer(help="Slides download commands")
+slides_app.add_typer(slides_download_app, name="download")
+
 
 @slides_app.command("generate")
 def slides_generate(
@@ -818,7 +823,7 @@ def _get_slides_output_path(episode: str, name: str) -> Path:
 
 
 def _get_papers_needing_slides() -> list[dict[str, Any]]:
-    """Get papers that have audio but no slides."""
+    """Get papers that have slides_scheduled but no slides downloaded."""
     if not STATUS_FILE.exists():
         return []
     status = json.loads(STATUS_FILE.read_text(encoding="utf-8"))
@@ -828,7 +833,7 @@ def _get_papers_needing_slides() -> list[dict[str, Any]]:
             continue
         if paper.get("slides"):
             continue
-        if not paper.get("audio"):
+        if not paper.get("slides_scheduled"):
             continue
         if not paper.get("notebook_url"):
             continue
@@ -872,8 +877,8 @@ def _get_papers_needing_slides_schedule() -> list[dict[str, Any]]:
     return papers
 
 
-@slides_app.command("download")
-def slides_download(
+@slides_download_app.command("single")
+def slides_download_single(
     notebook_url: Annotated[str, typer.Option("--notebook-url", "-u")],
     output: Annotated[Path, typer.Option("--output", "-o")],
     verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
@@ -902,8 +907,8 @@ def slides_download(
         raise typer.Exit(1)
 
 
-@slides_app.command("batch-download")
-def slides_batch_download(
+@slides_download_app.command("all")
+def slides_download_all(
     dry_run: Annotated[
         bool,
         typer.Option("--dry-run", "-n", help="Preview without downloading"),
