@@ -237,3 +237,56 @@ class TestUpdateSummary:
         assert sample_status["summary"]["audio"] == 2
         assert sample_status["summary"]["transcript"] == 1
         assert sample_status["summary"]["notebook_created"] == 1
+
+
+class TestGetEpisodeNumber:
+    """Tests for get_episode_number function."""
+
+    def test_extracts_number(self):
+        """Should extract episode number as int."""
+        from scripts.status_utils import get_episode_number
+
+        assert get_episode_number("01-attention") == 1
+        assert get_episode_number("99-raft") == 99
+        assert get_episode_number("101-bitcoin") == 101
+
+    def test_returns_high_value_for_invalid(self):
+        """Should return 999999 for non-matching names."""
+        from scripts.status_utils import get_episode_number
+
+        assert get_episode_number("no-number") == 999999
+        assert get_episode_number("") == 999999
+
+
+class TestSortByEpisode:
+    """Tests for sort_by_episode function."""
+
+    def test_sorts_numerically(self, tmp_path):
+        """Should sort paths by episode number, not lexicographically."""
+        from scripts.status_utils import sort_by_episode
+
+        paths = [
+            tmp_path / "101-bitcoin.m4a",
+            tmp_path / "91-cocroachdb.m4a",
+            tmp_path / "9-gpt.m4a",
+        ]
+
+        result = sort_by_episode(paths)
+
+        assert result[0].stem == "9-gpt"
+        assert result[1].stem == "91-cocroachdb"
+        assert result[2].stem == "101-bitcoin"
+
+    def test_handles_non_matching_names(self, tmp_path):
+        """Should put non-matching names at end."""
+        from scripts.status_utils import sort_by_episode
+
+        paths = [
+            tmp_path / "no-number.m4a",
+            tmp_path / "01-first.m4a",
+        ]
+
+        result = sort_by_episode(paths)
+
+        assert result[0].stem == "01-first"
+        assert result[1].stem == "no-number"

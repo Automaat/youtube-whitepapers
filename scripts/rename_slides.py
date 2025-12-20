@@ -5,7 +5,7 @@ import re
 import sys
 from pathlib import Path
 
-from status_utils import update_episode_status
+from status_utils import sort_by_episode, update_episode_status
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent
@@ -46,7 +46,7 @@ def rename_slides() -> int:
     renamed = 0
 
     # Rename directories
-    for item in sorted(SLIDES_DIR.iterdir()):
+    for item in sort_by_episode(list(SLIDES_DIR.iterdir())):
         if not item.is_dir():
             continue
 
@@ -70,7 +70,7 @@ def rename_slides() -> int:
         renamed += 1
 
     # Rename PDFs
-    for pdf in sorted(SLIDES_DIR.glob("*.pdf")):
+    for pdf in sort_by_episode(list(SLIDES_DIR.glob("*.pdf"))):
         match = re.match(r"^(\d+)", pdf.name)
         if not match:
             continue

@@ -5,7 +5,7 @@ import re
 import sys
 from pathlib import Path
 
-from status_utils import update_episode_status
+from status_utils import sort_by_episode, update_episode_status
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent
@@ -44,7 +44,7 @@ def rename_audio_files() -> int:
         return 1
 
     renamed = 0
-    for audio_file in sorted(AUDIO_DIR.glob("*.m4a")):
+    for audio_file in sort_by_episode(list(AUDIO_DIR.glob("*.m4a"))):
         match = re.match(r"^(\d+)", audio_file.name)
         if not match:
             continue

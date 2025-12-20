@@ -139,6 +139,7 @@ def generate_status() -> dict:
         if check_archived(ep_name):
             paper["archived"] = True
 
+    papers.sort(key=lambda p: int(p.get("episode", "0")))
     status = {"papers": papers, "summary": {}, "updated": ""}
     update_summary(status)
     return status

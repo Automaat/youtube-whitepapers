@@ -31,6 +31,11 @@ WHITEPAPERS_DIR = Path(__file__).parent.parent.parent / "whitepapers"
 STATUS_FILE = WHITEPAPERS_DIR / "status.json"
 
 
+def _sort_papers_by_episode(papers: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Sort papers by episode number numerically."""
+    return sorted(papers, key=lambda p: int(p.get("episode", "0")))
+
+
 def _get_status_utils() -> Any:
     """Lazy load status_utils module from parent project."""
     if not hasattr(_get_status_utils, "cached_module"):
@@ -532,7 +537,7 @@ def _get_papers_missing_audio() -> list[dict[str, Any]]:
         if not paper.get("notebook_url"):
             continue
         papers.append(paper)
-    return papers
+    return _sort_papers_by_episode(papers)
 
 
 def _get_papers_needing_audio_schedule() -> list[dict[str, Any]]:
@@ -553,7 +558,7 @@ def _get_papers_needing_audio_schedule() -> list[dict[str, Any]]:
         if not paper.get("notebook_url"):
             continue
         papers.append(paper)
-    return papers
+    return _sort_papers_by_episode(papers)
 
 
 def _get_papers_missing_notebooks() -> list[dict[str, Any]]:
@@ -576,7 +581,7 @@ def _get_papers_missing_notebooks() -> list[dict[str, Any]]:
         if not pdf_path.exists():
             continue
         papers.append(paper)
-    return papers
+    return _sort_papers_by_episode(papers)
 
 
 @audio_download_app.command("all")
@@ -838,7 +843,7 @@ def _get_papers_needing_slides() -> list[dict[str, Any]]:
         if not paper.get("notebook_url"):
             continue
         papers.append(paper)
-    return papers
+    return _sort_papers_by_episode(papers)
 
 
 SLIDES_PROMPTS_DIR = Path(__file__).parent.parent.parent / "youtube" / "prompts" / "slides"
@@ -874,7 +879,7 @@ def _get_papers_needing_slides_schedule() -> list[dict[str, Any]]:
         if not prompt_path.exists():
             continue
         papers.append(paper)
-    return papers
+    return _sort_papers_by_episode(papers)
 
 
 @slides_download_app.command("single")

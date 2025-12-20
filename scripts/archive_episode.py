@@ -8,7 +8,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from status_utils import archive_episode_status
+from status_utils import archive_episode_status, sort_by_episode
 
 SCRIPT_DIR = Path(__file__).parent.parent
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
@@ -100,7 +100,7 @@ def main() -> int:
         print()
         print("Available episodes:")
         if AUDIO_DIR.exists():
-            for f in sorted(AUDIO_DIR.glob("*.m4a"))[:10]:
+            for f in sort_by_episode(list(AUDIO_DIR.glob("*.m4a")))[:10]:
                 print(f"  {f.stem}")
             total = len(list(AUDIO_DIR.glob("*.m4a")))
             if total > 10:

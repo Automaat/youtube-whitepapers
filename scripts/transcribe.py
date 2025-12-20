@@ -7,7 +7,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from status_utils import update_episode_status
+from status_utils import sort_by_episode, update_episode_status
 
 SCRIPT_DIR = Path(__file__).parent.parent
 AUDIO_DIR = SCRIPT_DIR / "youtube/pl/audio"
@@ -55,7 +55,7 @@ def find_audio_files() -> list[Path]:
     files = []
     for ext in AUDIO_EXTENSIONS:
         files.extend(AUDIO_DIR.glob(f"*{ext}"))
-    return sorted(files)
+    return sort_by_episode(files)
 
 
 def main() -> int:

@@ -49,6 +49,17 @@ def get_episode_from_name(name: str) -> str | None:
     return match.group(1).zfill(2) if match else None
 
 
+def get_episode_number(name: str) -> int:
+    """Extract episode number as int for sorting. Returns 999999 for non-matching."""
+    match = re.match(r"^(\d+)-", name)
+    return int(match.group(1)) if match else 999999
+
+
+def sort_by_episode(paths: list[Path]) -> list[Path]:
+    """Sort paths by episode number numerically."""
+    return sorted(paths, key=lambda p: get_episode_number(p.stem))
+
+
 def detect_category(ep_name: str) -> str | None:
     """Detect category from whitepaper location."""
     for category_dir in WHITEPAPERS_DIR.iterdir():
@@ -75,7 +86,7 @@ def update_episode_status(ep_num: str | int, field: str, value: bool) -> None:
     else:
         paper = {"episode": ep_str, "name": "", "category": "", field: value}
         papers.append(paper)
-        papers.sort(key=lambda p: p.get("episode", ""))
+        papers.sort(key=lambda p: int(p.get("episode", "0")))
         status["papers"] = papers
 
     update_summary(status)
@@ -95,7 +106,7 @@ def update_episode_field(ep_num: str | int, field: str, value: Any) -> None:
     else:
         paper = {"episode": ep_str, "name": "", "category": "", field: value}
         papers.append(paper)
-        papers.sort(key=lambda p: p.get("episode", ""))
+        papers.sort(key=lambda p: int(p.get("episode", "0")))
         status["papers"] = papers
 
     update_summary(status)
@@ -126,7 +137,7 @@ def archive_episode_status(ep_num: str | int) -> None:
     else:
         paper = {"episode": ep_str, "name": "", "category": "", "archived": True}
         papers.append(paper)
-        papers.sort(key=lambda p: p.get("episode", ""))
+        papers.sort(key=lambda p: int(p.get("episode", "0")))
         status["papers"] = papers
 
     update_summary(status)
