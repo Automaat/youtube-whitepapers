@@ -1,4 +1,4 @@
-Generate 11 presentation slides based on the podcast about "The Part-Time Parliament" by Leslie Lamport (Paxos algorithm).
+Generate 11 presentation slides based on the podcast about Paxos consensus algorithm by Leslie Lamport.
 
 ## Visual Style
 
@@ -12,96 +12,86 @@ Generate 11 presentation slides based on the podcast about "The Part-Time Parlia
 
 ---
 
-## Slide 1: The Consensus Problem
+## Slide 1: Introduction to Paxos
 
-- Distributed servers need to agree on shared state despite failures
-- Servers can crash, lose network connectivity, or restart unexpectedly
-- Must maintain consistency: no conflicting data across replicas
-- Must ensure progress: system cannot halt when stable quorum exists
-- The Part-Time Parliament presents this as Greek island allegory with merchants as legislators
-- Paxos protocol was one of first practical solutions enabling modern cloud infrastructure
+- Fundamental consensus algorithm for distributed systems
+- Created by Leslie Lamport, inspired by Greek parliament metaphor
+- Solves agreement problem in systems with failures and restarts
+- Enables multiple nodes to agree on a single value despite network issues
+- Foundation for modern infrastructure like Google Chubby and Apache ZooKeeper
 
-## Slide 2: The Parliament Allegory and Core Challenge
+## Slide 2: The Distributed Consensus Problem
 
-- Part-time legislators (servers) constantly entering/leaving chamber (availability issues)
-- Decrees (commands) must be recorded in identical order across all ledgers (state machines)
-- Example failure: Decree 37 passed twice with conflicting content
-- Two fundamental properties required: consistency (no conflicting entries) and progress (decisions eventually made)
-- Ledgers represent distributed database state
-- Problem: achieving agreement without central coordinator
+- Challenge: achieving agreement when nodes fail or network partitions occur
+- Must handle crashes, restarts, and communication failures
+- Safety requirement: all nodes must agree on the same value
+- Liveness requirement: system must eventually make progress
+- No single point of failure allowed in the protocol
 
-## Slide 3: The Synod - Single Value Consensus
+## Slide 3: Parliament Metaphor and Protocol Design
 
-- Synod: process for agreeing on single decree value
-- Two-phase protocol based on numbered ballots with unique, increasing numbers
-- Each ballot attempt has higher number than all previous attempts
-- Phase 1 (Prepare): reserve right to propose with ballot number B
-- Phase 2 (Accept): actually propose and vote on decree value
-- Foundation for State Machine Replication pattern
+- Lamport used Greek parliament (PAXOS island) as inspiration
+- Legislators propose and vote on laws (decrees)
+- President coordinates the voting process
+- System continues functioning even when legislators are absent
+- Progress guaranteed as long as majority quorum is available
 
-## Slide 4: Phase 1 - Prepare (Reservation)
+## Slide 4: Protocol Roles and Phases
 
-- Proposer (president) selects new ballot number B higher than any seen before
-- Sends NextBallot(B) message to all legislators: "planning ballot B, any objections?"
-- Legislators receiving NextBallot(B) check if B is highest they've seen
-- If yes, they promise not to participate in any lower-numbered ballots
-- Critically: legislators respond with LastVote info if they previously voted
-- Analogy: reserving conference room while informing about previous meeting decisions
+- Three key roles: Proposers, Acceptors, and Learners
+- Two-phase protocol: Prepare phase and Accept phase
+- Proposers suggest values with unique proposal numbers
+- Acceptors vote on proposals following protocol rules
+- Learners observe accepted values once consensus is reached
 
-## Slide 5: Phase 2 - Accept (Voting)
+## Slide 5: Prepare Phase Mechanics
 
-- President must collect promises from majority (quorum) before proceeding
-- If any quorum member previously voted, president MUST propose that same value (highest ballot number)
-- This ensures consistency: once-decided values cannot be overwritten
-- If no prior votes exist, president can propose their own value
-- President sends BeginBallot(B, D) with decree D to all legislators
-- When quorum votes, decree is officially adopted
+- Proposer selects unique proposal number (higher than any seen before)
+- Sends Prepare request to majority of Acceptors
+- Acceptors respond with promise not to accept lower-numbered proposals
+- Acceptors include any previously accepted values in response
+- Proposer must adopt highest-numbered value from responses
 
-## Slide 6: Multi-Paxos - Sequence of Decrees
+## Slide 6: Accept Phase and Consensus
 
-- Single synod handles one decree - need sequence for full ledger
-- Solution: run independent Paxos instance for each decree number
-- Optimization: president can execute Phase 1 for range of future decrees (100-200)
-- After reservation, each decree requires only fast Phase 2
-- Gaps in sequence filled with no-op decrees (e.g., "olive day becomes national holiday")
-- Enables State Machine Replication: all servers execute same commands in same order
+- Proposer sends Accept request with value to Acceptors
+- Value comes from Prepare responses or is proposer's own choice
+- Acceptors accept proposal unless they've promised to higher number
+- Once majority accepts, consensus is reached
+- Single proposal can establish consensus for entire system
 
-## Slide 7: Multiple Presidents Problem
+## Slide 7: Handling Failures and Network Issues
 
-- What if two proposers compete with conflicting values for same decree?
-- Numbered ballots prevent inconsistency: only one proposal can win quorum
-- But can kill progress: infinite war of escalating ballot numbers
-- System becomes live-locked, making no forward progress
-- Practical implementations require Leader Election mechanism
-- Only one active leader at a time ensures both safety and liveness
+- Protocol tolerates node crashes and network partitions
+- System works as long as majority quorum is reachable
+- Failed nodes can rejoin and learn accepted values
+- Lost messages don't break safety guarantees
+- Multiple concurrent proposers handled through proposal numbering
 
-## Slide 8: Ledger Growth and Snapshots
+## Slide 8: Recovery and Learning
 
-- After years, ledgers contain thousands of decrees - inefficient to read entire history
-- Solution: periodic snapshots (checkpoints) of current legal state
-- Consolidated law book captures all effective decrees at point in time
-- New legislators can start from latest snapshot instead of full history
-- Reduces storage and speeds up recovery from failures
-- Standard practice in modern distributed databases
+- New nodes or recovered nodes need to learn accepted values
+- Learners query Acceptors to discover consensus
+- Can learn by observing Accept messages
+- System maintains consistency even after failures
+- No special recovery protocol needed beyond normal operation
 
-## Slide 9: Leases - Time-Bounded Authority
+## Slide 9: Practical Challenges and Optimizations
 
-- Cheese Inspector example: decree appoints Dijkstra, later replaced by Gouda
-- If Dijkstra doesn't learn of replacement, two inspectors issue conflicting certificates
-- Classic exclusive resource access problem in distributed systems
-- Solution: leases - grant authority for limited time period (e.g., 3 months)
-- Authority automatically expires unless renewed by parliament
-- Guarantees eventual consistency even if message delivery fails
+- Multi-Paxos extends basic algorithm for sequence of values
+- Leader election reduces message overhead
+- Stable leader can skip Prepare phase for subsequent proposals
+- Byzantine failures require different protocol (Byzantine Paxos)
+- Performance tuning critical for production deployments
 
-## Slide 10: Trust Model and Byzantine Faults
+## Slide 10: Real-World Impact and Applications
 
-- Paxos assumes honest but forgetful participants
-- Handles fail-stop failures: processes crash, messages lost, network partitions
-- Does NOT handle Byzantine faults: malicious actors actively trying to deceive
-- Legislators can be absent, lose messages, forget information, but never lie
-- Byzantine fault tolerance requires significantly more complex protocols
-- Different class of problems requiring different guarantees and higher overhead
+- Google Chubby lock service built on Paxos
+- Apache ZooKeeper uses Paxos-like protocol (ZAB)
+- Foundation for replicated state machines
+- Influenced Raft and other modern consensus algorithms
+- Backbone of distributed databases and coordination services
 
 ## Slide 11: Question for You
 
-Jak bezpiecznie zarządzać ewolucją takich systemów? Jak zmieniać zasady gry, skoro same te zmiany muszą być uzgodnione w ramach starych zasad?
+If the system rules themselves need to change, how can those changes be agreed upon using the old rules?

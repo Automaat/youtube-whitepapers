@@ -18,6 +18,9 @@ def full_episode_files(temp_project, sample_audio_files, sample_transcript, samp
     (slides_dir / "thumbnail.png").write_bytes(b"fake thumb")
     (slides_dir / "last-slide.png").write_bytes(b"fake last")
 
+    # Slides PDF
+    (slides_dir.parent / f"{ep_name}.pdf").write_bytes(b"fake pdf")
+
     # Video output
     output_dir = temp_project / "youtube" / "output"
     (output_dir / f"{ep_name}.mp4").write_bytes(b"fake video")
@@ -243,6 +246,7 @@ class TestMain:
         # Verify files moved
         assert (archive_dir / "audio" / f"{ep_name}.m4a").exists()
         assert (archive_dir / "slides" / ep_name).exists()
+        assert (archive_dir / "slides" / f"{ep_name}.pdf").exists()
         assert (archive_dir / "transcripts" / f"{ep_name}.json").exists()
         assert (archive_dir / "video" / f"{ep_name}.mp4").exists()
         assert (archive_dir / "metadata" / f"{ep_name}-metadata.txt").exists()

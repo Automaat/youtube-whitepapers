@@ -88,4 +88,4 @@ Generate 11 presentation slides based on the podcast about Viewstamped Replicati
 
 ## Slide 11: Question for You
 
-Wracając do naszej analogii z notariuszami, co by się stało, gdyby jeden z nich nie tylko zachorował, ale zaczął celowo wpisywać fałszywe transakcje do swojej księgi? Które z fundamentalnych założeń tego protokołu, jak quorum czy wybór lidera, musiałyby ulec zmianie, aby chronić system przed kimś, kto aktywnie próbuje go oszukać?
+Returning to our notary analogy, what would happen if one of them not only fell ill, but began deliberately writing false transactions into their ledger? Which fundamental assumptions of this protocol, such as quorum or leader election, would need to change to protect the system from someone actively trying to deceive it?

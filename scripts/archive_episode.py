@@ -92,6 +92,7 @@ def main() -> int:
         print("Moves episode files to archive/ after YouTube upload:")
         print("  - audio/{ep}.m4a → archive/pl/audio/")
         print("  - slides/{ep}/ → archive/pl/slides/")
+        print("  - slides/{ep}.pdf → archive/pl/slides/")
         print("  - transcripts/{ep}.json → archive/pl/transcripts/")
         print("  - output/{ep}.mp4 → archive/pl/video/")
         print("  - output/{ep}-metadata.txt → archive/pl/metadata/")
@@ -127,6 +128,11 @@ def main() -> int:
     # Slides directory
     total += 1
     if move_directory(SLIDES_DIR / ep_name, ARCHIVE_SLIDES, "Slides"):
+        moved += 1
+
+    # Slides PDF
+    total += 1
+    if move_file(SLIDES_DIR / f"{ep_name}.pdf", ARCHIVE_SLIDES, "Slides PDF"):
         moved += 1
 
     # Transcript

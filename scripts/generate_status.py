@@ -25,6 +25,7 @@ SLIDES_DIRS = [ASSETS_DIR / "slides", ARCHIVE_DIR / "slides"]
 TRANSCRIPTS_DIRS = [ASSETS_DIR / "transcripts", ARCHIVE_DIR / "transcripts"]
 THUMBNAILS_DIRS = [YOUTUBE_DIR / "thumbnails", ARCHIVE_DIR / "thumbnails"]
 VIDEO_DIRS = [YOUTUBE_DIR / "output", ARCHIVE_DIR / "video"]
+SLIDES_PROMPTS_DIR = YOUTUBE_DIR / "prompts" / "slides"
 
 
 def scan_whitepapers() -> list[dict]:
@@ -94,6 +95,11 @@ def check_archived(ep_name: str) -> bool:
     return archive_audio.exists() or archive_video.exists()
 
 
+def check_slides_prompt(ep_name: str) -> bool:
+    """Check if slides prompt exists for episode."""
+    return (SLIDES_PROMPTS_DIR / f"{ep_name}.md").exists()
+
+
 def generate_status() -> dict:
     """Generate complete status by scanning directories."""
     existing = load_status()
@@ -122,6 +128,7 @@ def generate_status() -> dict:
             paper["uploaded"] = True
 
         paper["audio"] = check_exists(AUDIO_DIRS, f"{ep_name}.m4a")
+        paper["slides_prompt"] = check_slides_prompt(ep_name)
         paper["slides"] = check_slides_exist(SLIDES_DIRS, ep_name)
         paper["transcript"] = check_exists(TRANSCRIPTS_DIRS, f"{ep_name}.json")
         paper["thumbnail"] = check_exists(THUMBNAILS_DIRS, f"{ep_name}.png") or check_exists(
@@ -135,6 +142,55 @@ def generate_status() -> dict:
     status = {"papers": papers, "summary": {}, "updated": ""}
     update_summary(status)
     return status
+
+
+def get_ready_for_video(papers: list[dict]) -> list[dict]:
+    """Get episodes ready for video generation (have all assets except video)."""
+    return [
+        p
+        for p in papers
+        if not p.get("archived")
+        and p.get("audio")
+        and p.get("slides")
+        and p.get("transcript")
+        and p.get("thumbnail")
+        and not p.get("video")
+    ]
+
+
+def get_ready_for_slides(papers: list[dict]) -> list[dict]:
+    """Get episodes ready for slide prompt generation (have audio+transcript, no slides)."""
+    return [
+        p
+        for p in papers
+        if not p.get("archived")
+        and p.get("audio")
+        and p.get("transcript")
+        and not p.get("slides_prompt")
+        and not p.get("slides_scheduled")
+        and not p.get("slides")
+    ]
+
+
+def get_ready_for_upload(papers: list[dict]) -> list[dict]:
+    """Get episodes ready for upload (have video, not uploaded)."""
+    return [
+        p
+        for p in papers
+        if not p.get("archived")
+        and p.get("video")
+        and not p.get("uploaded")
+    ]
+
+
+def get_ready_for_archive(papers: list[dict]) -> list[dict]:
+    """Get episodes ready for archive (uploaded, not archived)."""
+    return [
+        p
+        for p in papers
+        if p.get("uploaded")
+        and not p.get("archived")
+    ]
 
 
 def main() -> int:
@@ -160,6 +216,38 @@ def main() -> int:
     print()
     print("━" * 40)
     print(f"✅ Saved to whitepapers/status.json ({len(papers)} papers)")
+
+    # Ready for video generation
+    ready_video = get_ready_for_video(papers)
+    if ready_video:
+        print()
+        print("🎬 Ready for video generation:")
+        for p in ready_video:
+            print(f"   {p['episode']}-{p['name']}")
+
+    # Ready for slide prompts
+    ready_slides = get_ready_for_slides(papers)
+    if ready_slides:
+        print()
+        print("📑 Ready for slide prompts (have audio, need slides):")
+        for p in ready_slides:
+            print(f"   {p['episode']}-{p['name']}")
+
+    # Ready for upload
+    ready_upload = get_ready_for_upload(papers)
+    if ready_upload:
+        print()
+        print("📤 Ready for upload:")
+        for p in ready_upload:
+            print(f"   {p['episode']}-{p['name']}")
+
+    # Ready for archive
+    ready_archive = get_ready_for_archive(papers)
+    if ready_archive:
+        print()
+        print("📦 Ready for archive:")
+        for p in ready_archive:
+            print(f"   {p['episode']}-{p['name']}")
 
     return 0
 
