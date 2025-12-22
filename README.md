@@ -10,6 +10,10 @@ Generate YouTube videos from NotebookLM podcasts about computer science mileston
 
 ```text
 youtube-whitepapers/
+├── notebooklm-automator/       # Browser automation for NotebookLM
+│   ├── src/                    # Python source code
+│   ├── mise.toml               # Task runner configuration
+│   └── README.md               # Full automation docs
 ├── scripts/                    # Python automation scripts
 │   ├── compress_images.py      # Batch PNG compression (>threshold)
 │   ├── generate_status.py      # Generate status report for tracking
@@ -35,6 +39,56 @@ youtube-whitepapers/
     ├── thumbnails/             # Video thumbnails (.png)
     └── prompts/                # Claude Code prompt templates
 ```
+
+## NotebookLM Automation
+
+Automate NotebookLM interactions via Playwright browser automation.
+
+**Setup:**
+
+```bash
+cd notebooklm-automator
+mise install        # Install Python 3.13 + uv
+mise run install    # Install deps + Playwright
+mise run init       # Initialize Chrome profile
+mise run login      # Login to Google (one-time)
+```
+
+**Key features:**
+
+- **Create notebook:** Auto-create from episode number (finds PDF from status.json)
+  ```bash
+  mise run notebook -- 66
+  ```
+
+- **Generate audio:** Start podcast generation
+  ```bash
+  uv run notebooklm-automator audio generate \
+    --notebook-url "https://notebooklm.google.com/notebook/xxx" \
+    --language Polish
+  ```
+
+- **Download audio:** Download when ready (waits if still generating)
+  ```bash
+  uv run notebooklm-automator audio download \
+    --notebook-url "https://notebooklm.google.com/notebook/xxx" \
+    --output ./audio/15-glam.m4a
+  ```
+
+- **Batch download:** Download all ready audio from status.json
+  ```bash
+  uv run notebooklm-automator audio batch-download
+  ```
+
+- **Generate slides:** Create slides PDF from prompt
+  ```bash
+  uv run notebooklm-automator slides generate \
+    --notebook-url "https://notebooklm.google.com/notebook/xxx" \
+    --prompt-file ./prompts/slides.md \
+    --output ./slides/15-glam.pdf
+  ```
+
+See `notebooklm-automator/README.md` for full documentation.
 
 ## Full Workflow
 
