@@ -321,6 +321,10 @@ Suggest optimizations to ffmpeg/tool commands when you identify:
 ## Common Commands
 
 ```bash
+# Download papers from file with auto-indexing
+mise run download -- future/my-papers.md
+mise run download -- future/my-papers.md --dry-run
+
 # Transcribe all new audio files
 mise run transcribe
 

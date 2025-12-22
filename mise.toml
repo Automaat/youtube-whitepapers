@@ -98,6 +98,13 @@ raw = true
 description = "Generate whitepapers/status.json"
 run = "python scripts/generate_status.py"
 
+[tasks.download]
+description = "Download papers from file: mise run download -- INPUT_FILE [--dry-run]"
+run = "python scripts/download_papers.py"
+raw = true
+# Example: mise run download -- future/my-papers.md
+# Example: mise run download -- future/my-papers.md --dry-run
+
 [tasks.test]
 description = "Run tests"
 run = "pytest scripts/tests/ -v"

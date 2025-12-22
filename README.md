@@ -92,6 +92,30 @@ See `notebooklm-automator/README.md` for full documentation.
 
 ## Full Workflow
 
+### 0. Download Papers (Optional)
+
+Batch download papers from curated lists:
+
+```bash
+# See template for input format
+cat future/future-template.md
+
+# Dry run to preview
+mise run download -- future/my-papers.md --dry-run
+
+# Download papers with auto-indexing
+mise run download -- future/my-papers.md
+```
+
+Features:
+
+- Auto-assigns episode numbers (fills gaps in status.json)
+- Checks for duplicates by name/URL
+- Tries multiple sources (arXiv, OpenReview, direct URL)
+- Verifies PDF validity
+- Updates status.json automatically
+- Reports failed downloads for manual intervention
+
 ### 1. Add Audio from NotebookLM
 
 Export podcast from NotebookLM and save to `audio/`:
