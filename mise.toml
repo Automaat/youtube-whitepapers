@@ -89,8 +89,10 @@ run = "python scripts/upload_youtube.py {{arg(i=0)}} {{option(name='dry-run')}} 
 
 [tasks.archive]
 description = "Archive episode files after YouTube upload"
-run = "python scripts/archive_episode.py {{arg(i=0)}}"
-# Example: mise run archive -- 54
+run = "python scripts/archive_episode.py"
+raw = true
+# Example: mise run archive -- 54  (single episode)
+# Example: mise run archive        (all ready episodes)
 
 [tasks.status]
 description = "Generate whitepapers/status.json"

@@ -2,7 +2,11 @@
   "playlists": {
     "llm": "PLnfsoveNFixb8oEcvv0z7TEd6jPBb7h2M",
     "distributed-computing": "PLnfsoveNFixal7MXU1NShRQzw5Gxr06CT",
-    "security": "",
-    "networking": ""
+    "security": "PLnfsoveNFixax9PKbRONpP3HB4ycRl_Mm",
+    "networking": "PLnfsoveNFixaD2B7kq7tsF-1m_K-EpsF5"
+  },
+  "colors": {
+    "llm": "blue",
+    "opeating-systems": "deep green"
   }
 }

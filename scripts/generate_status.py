@@ -189,23 +189,12 @@ def get_ready_for_slides(papers: list[dict]) -> list[dict]:
 
 def get_ready_for_upload(papers: list[dict]) -> list[dict]:
     """Get episodes ready for upload (have video, not uploaded)."""
-    return [
-        p
-        for p in papers
-        if not p.get("archived")
-        and p.get("video")
-        and not p.get("uploaded")
-    ]
+    return [p for p in papers if not p.get("archived") and p.get("video") and not p.get("uploaded")]
 
 
 def get_ready_for_archive(papers: list[dict]) -> list[dict]:
     """Get episodes ready for archive (uploaded, not archived)."""
-    return [
-        p
-        for p in papers
-        if p.get("uploaded")
-        and not p.get("archived")
-    ]
+    return [p for p in papers if p.get("uploaded") and not p.get("archived")]
 
 
 def get_need_thumbnail_prompts(papers: list[dict]) -> list[dict]:
@@ -213,9 +202,7 @@ def get_need_thumbnail_prompts(papers: list[dict]) -> list[dict]:
     return [
         p
         for p in papers
-        if not p.get("archived")
-        and not p.get("thumbnail")
-        and not p.get("thumbnail_prompt")
+        if not p.get("archived") and not p.get("thumbnail") and not p.get("thumbnail_prompt")
     ]
 
 

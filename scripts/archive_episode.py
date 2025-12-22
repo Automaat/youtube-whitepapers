@@ -8,7 +8,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from status_utils import archive_episode_status, sort_by_episode
+from status_utils import archive_episode_status, load_status
 
 SCRIPT_DIR = Path(__file__).parent.parent
 YOUTUBE_DIR = SCRIPT_DIR / "youtube"
@@ -35,6 +35,22 @@ def find_episode(ep_num: str) -> str | None:
     """Find episode name from audio file matching episode number."""
     matches = list(AUDIO_DIR.glob(f"{ep_num}-*.m4a"))
     return matches[0].stem if matches else None
+
+
+def get_ready_to_archive() -> list[str]:
+    """Get list of episode numbers that are uploaded but not archived."""
+    status = load_status()
+    papers = status.get("papers", [])
+    ready = []
+
+    for paper in papers:
+        uploaded = paper.get("uploaded", False)
+        archived = paper.get("archived", False)
+
+        if uploaded and not archived:
+            ready.append(paper["episode"])
+
+    return ready
 
 
 def move_file(src: Path, dst_dir: Path, label: str) -> bool:
@@ -84,30 +100,8 @@ def move_directory(src: Path, dst_dir: Path, label: str) -> bool:
         return False
 
 
-def main() -> int:
-    if len(sys.argv) < 2:
-        print("Usage: python archive_episode.py <episode_number>")
-        print("Example: python archive_episode.py 54")
-        print()
-        print("Moves episode files to archive/ after YouTube upload:")
-        print("  - audio/{ep}.m4a → archive/pl/audio/")
-        print("  - slides/{ep}/ → archive/pl/slides/")
-        print("  - slides/{ep}.pdf → archive/pl/slides/")
-        print("  - transcripts/{ep}.json → archive/pl/transcripts/")
-        print("  - output/{ep}.mp4 → archive/pl/video/")
-        print("  - output/{ep}-metadata.txt → archive/pl/metadata/")
-        print("  - thumbnails/{ep}*.png → archive/pl/thumbnails/")
-        print()
-        print("Available episodes:")
-        if AUDIO_DIR.exists():
-            for f in sort_by_episode(list(AUDIO_DIR.glob("*.m4a")))[:10]:
-                print(f"  {f.stem}")
-            total = len(list(AUDIO_DIR.glob("*.m4a")))
-            if total > 10:
-                print(f"  ... and {total - 10} more")
-        return 1
-
-    ep_num = sys.argv[1]
+def archive_single_episode(ep_num: str) -> int:
+    """Archive a single episode. Returns 0 on success, 1 on failure."""
     ep_name = find_episode(ep_num)
 
     if not ep_name:
@@ -170,6 +164,47 @@ def main() -> int:
         print("❌ No items archived")
 
     return 0 if moved > 0 else 1
+
+
+def main() -> int:
+    # No argument: archive all ready episodes
+    if len(sys.argv) < 2:
+        ready = get_ready_to_archive()
+
+        if not ready:
+            print("✅ No episodes ready to archive")
+            print()
+            print("Episodes are ready to archive when:")
+            print("  - uploaded: true")
+            print("  - archived: false")
+            return 0
+
+        print(f"📦 Found {len(ready)} episode(s) ready to archive:")
+        for ep in ready:
+            print(f"   • Episode {ep}")
+        print()
+
+        success = 0
+        failed = 0
+
+        for ep in ready:
+            result = archive_single_episode(ep)
+            if result == 0:
+                success += 1
+            else:
+                failed += 1
+            if ep != ready[-1]:  # Not last episode
+                print()
+
+        # Final summary
+        print()
+        print("=" * 50)
+        print(f"📊 Summary: {success} archived, {failed} failed")
+        return 0 if failed == 0 else 1
+
+    # Single episode specified
+    ep_num = sys.argv[1]
+    return archive_single_episode(ep_num)
 
 
 if __name__ == "__main__":
