@@ -127,16 +127,15 @@ def find_missing_optimized() -> list[Path]:
 
 
 def find_whitepaper_name(ep_num: int) -> str | None:
-    """Find whitepaper name for episode number."""
-    pattern = f"**/{ep_num}-*.pdf"
-    matches = list(WHITEPAPERS_DIR.glob(pattern))
-
-    if not matches:
-        return None
-
-    pdf_name = matches[0].stem
-    name_part = pdf_name.split("-", 1)[1] if "-" in pdf_name else pdf_name
-    return name_part
+    """Find whitepaper name for episode number (searches .pdf and .txt files)."""
+    for ext in ["pdf", "txt"]:
+        pattern = f"**/{ep_num}-*.{ext}"
+        matches = list(WHITEPAPERS_DIR.glob(pattern))
+        if matches:
+            file_name = matches[0].stem
+            name_part = file_name.split("-", 1)[1] if "-" in file_name else file_name
+            return name_part
+    return None
 
 
 def main() -> int:

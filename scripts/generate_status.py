@@ -28,8 +28,11 @@ VIDEO_DIRS = [YOUTUBE_DIR / "output", ARCHIVE_DIR / "video"]
 SLIDES_PROMPTS_DIR = YOUTUBE_DIR / "prompts" / "slides"
 
 
+PAPER_EXTENSIONS = (".pdf", ".txt")
+
+
 def scan_whitepapers() -> list[dict]:
-    """Scan whitepapers directory for all papers."""
+    """Scan whitepapers directory for all papers (.pdf and .txt)."""
     papers = []
 
     for category_dir in sorted(WHITEPAPERS_DIR.iterdir()):
@@ -40,11 +43,15 @@ def scan_whitepapers() -> list[dict]:
 
         category = category_dir.name
 
-        for pdf in sorted(category_dir.glob("*.pdf")):
-            if "-slides" in pdf.name:
+        for paper_file in sorted(category_dir.iterdir()):
+            if not paper_file.is_file():
+                continue
+            if paper_file.suffix.lower() not in PAPER_EXTENSIONS:
+                continue
+            if "-slides" in paper_file.name:
                 continue
 
-            name = pdf.stem
+            name = paper_file.stem
             match = re.match(r"^(\d+)-(.+)$", name)
             if not match:
                 continue

@@ -48,8 +48,11 @@ def _get_status_utils() -> Any:
     return getattr(_get_status_utils, "cached_module", None)
 
 
-def find_paper_pdf(episode: str) -> tuple[Path, str] | None:
-    """Find PDF for episode number. Returns (pdf_path, name) or None."""
+PAPER_EXTENSIONS = (".pdf", ".txt")
+
+
+def find_paper_file(episode: str) -> tuple[Path, str] | None:
+    """Find paper file (.pdf or .txt) for episode number. Returns (path, name) or None."""
     ep_str = episode.zfill(2)
 
     if not STATUS_FILE.exists():
@@ -61,10 +64,16 @@ def find_paper_pdf(episode: str) -> tuple[Path, str] | None:
             name = paper.get("name", "")
             category = paper.get("category", "")
             if name and category:
-                pdf_path = WHITEPAPERS_DIR / category / f"{ep_str}-{name}.pdf"
-                if pdf_path.exists():
-                    return pdf_path, name
+                for ext in PAPER_EXTENSIONS:
+                    paper_path = WHITEPAPERS_DIR / category / f"{ep_str}-{name}{ext}"
+                    if paper_path.exists():
+                        return paper_path, name
     return None
+
+
+def find_paper_pdf(episode: str) -> tuple[Path, str] | None:
+    """Find paper file for episode. Alias for find_paper_file for backwards compat."""
+    return find_paper_file(episode)
 
 
 def update_notebook_status(episode: str, notebook_url: str) -> None:
@@ -276,6 +285,15 @@ def notebook_create(
         raise typer.Exit(1)
 
 
+def _find_paper_path(ep: str, name: str, category: str) -> Path | None:
+    """Find paper file path (.pdf or .txt) for given episode."""
+    for ext in PAPER_EXTENSIONS:
+        paper_path = WHITEPAPERS_DIR / category / f"{ep.zfill(2)}-{name}{ext}"
+        if paper_path.exists():
+            return paper_path
+    return None
+
+
 def _notebook_create_all(dry_run: bool) -> None:
     """Create notebooks for all papers missing notebooks."""
     papers = _get_papers_missing_notebooks()
@@ -290,9 +308,9 @@ def _notebook_create_all(dry_run: bool) -> None:
             ep = paper.get("episode", "??")
             name = paper.get("name", "unknown")
             category = paper.get("category", "")
-            pdf_path = WHITEPAPERS_DIR / category / f"{ep.zfill(2)}-{name}.pdf"
+            paper_path = _find_paper_path(ep, name, category)
             console.print(f"  {ep}-{name}")
-            console.print(f"    [dim]PDF: {pdf_path}[/]")
+            console.print(f"    [dim]File: {paper_path}[/]")
         return
 
     created = 0
@@ -312,10 +330,15 @@ def _notebook_create_all(dry_run: bool) -> None:
                 ep = paper.get("episode", "??")
                 name = paper.get("name", "unknown")
                 category = paper.get("category", "")
-                pdf_path = WHITEPAPERS_DIR / category / f"{ep.zfill(2)}-{name}.pdf"
+                paper_path = _find_paper_path(ep, name, category)
                 notebook_name = f"{ep.zfill(2)} {name}"
 
                 console.print(f"[bold]Creating {ep}-{name}...[/]")
+
+                if not paper_path:
+                    console.print("  [red]Paper file not found[/]")
+                    failed += 1
+                    continue
 
                 url = await notebook_mgr.create_notebook(page, notebook_name)
                 if not url:
@@ -323,7 +346,7 @@ def _notebook_create_all(dry_run: bool) -> None:
                     failed += 1
                     continue
 
-                await sources_mgr.add_file(page, pdf_path)
+                await sources_mgr.add_file(page, paper_path)
                 await sources_mgr.wait_for_processing(page)
 
                 update_notebook_status(ep, url)
@@ -577,8 +600,7 @@ def _get_papers_missing_notebooks() -> list[dict[str, Any]]:
         category = paper.get("category", "")
         if not (ep and name and category):
             continue
-        pdf_path = WHITEPAPERS_DIR / category / f"{ep}-{name}.pdf"
-        if not pdf_path.exists():
+        if not _find_paper_path(ep, name, category):
             continue
         papers.append(paper)
     return _sort_papers_by_episode(papers)
