@@ -26,6 +26,7 @@ TRANSCRIPTS_DIRS = [ASSETS_DIR / "transcripts", ARCHIVE_DIR / "transcripts"]
 THUMBNAILS_DIRS = [YOUTUBE_DIR / "thumbnails", ARCHIVE_DIR / "thumbnails"]
 VIDEO_DIRS = [YOUTUBE_DIR / "output", ARCHIVE_DIR / "video"]
 SLIDES_PROMPTS_DIR = YOUTUBE_DIR / "prompts" / "slides"
+THUMBNAILS_PROMPTS_DIR = YOUTUBE_DIR / "prompts" / "thumbnails"
 
 
 PAPER_EXTENSIONS = (".pdf", ".txt")
@@ -107,6 +108,11 @@ def check_slides_prompt(ep_name: str) -> bool:
     return (SLIDES_PROMPTS_DIR / f"{ep_name}.md").exists()
 
 
+def check_thumbnail_prompt(ep_name: str) -> bool:
+    """Check if thumbnail prompt exists for episode."""
+    return (THUMBNAILS_PROMPTS_DIR / f"{ep_name}-thumbnail.md").exists()
+
+
 def generate_status() -> dict:
     """Generate complete status by scanning directories."""
     existing = load_status()
@@ -138,6 +144,7 @@ def generate_status() -> dict:
         paper["slides_prompt"] = check_slides_prompt(ep_name)
         paper["slides"] = check_slides_exist(SLIDES_DIRS, ep_name)
         paper["transcript"] = check_exists(TRANSCRIPTS_DIRS, f"{ep_name}.json")
+        paper["thumbnail_prompt"] = check_thumbnail_prompt(ep_name)
         paper["thumbnail"] = check_exists(THUMBNAILS_DIRS, f"{ep_name}.png") or check_exists(
             THUMBNAILS_DIRS, f"{ep_name}-optimized.png"
         )
@@ -201,6 +208,16 @@ def get_ready_for_archive(papers: list[dict]) -> list[dict]:
     ]
 
 
+def get_need_thumbnail_prompts(papers: list[dict]) -> list[dict]:
+    """Get episodes that need thumbnail prompts (no prompt saved)."""
+    return [
+        p
+        for p in papers
+        if not p.get("archived")
+        and not p.get("thumbnail_prompt")
+    ]
+
+
 def main() -> int:
     print("📊 Generating status.json")
     print("━" * 40)
@@ -213,6 +230,7 @@ def main() -> int:
     print(f"   📓 Notebook created: {summary.get('notebook_created', 0)}")
     print(f"   🎙️  Audio: {summary.get('audio', 0)}")
     print(f"   🖼️  Thumbnail: {summary.get('thumbnail', 0)}")
+    print(f"   🖼️  Thumbnail prompt: {summary.get('thumbnail_prompt', 0)}")
     print(f"   📝 Transcript: {summary.get('transcript', 0)}")
     print(f"   📑 Slides: {summary.get('slides', 0)}")
     print(f"   🎬 Video: {summary.get('video', 0)}")
@@ -255,6 +273,14 @@ def main() -> int:
         print()
         print("📦 Ready for archive:")
         for p in ready_archive:
+            print(f"   {p['episode']}-{p['name']}")
+
+    # Need thumbnail prompts
+    need_thumbnail_prompts = get_need_thumbnail_prompts(papers)
+    if need_thumbnail_prompts:
+        print()
+        print("🖼️  Need thumbnail prompts:")
+        for p in need_thumbnail_prompts:
             print(f"   {p['episode']}-{p['name']}")
 
     return 0

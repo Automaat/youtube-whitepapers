@@ -152,6 +152,7 @@ def update_summary(status: dict[str, Any]) -> None:
         "audio",
         "slides",
         "transcript",
+        "thumbnail_prompt",
         "thumbnail",
         "video",
         "uploaded",

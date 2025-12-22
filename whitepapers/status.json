@@ -813,16 +813,10 @@
       "episode": "98",
       "name": "swim",
       "category": "distributed-computing",
+      "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/fe51e67b-58a6-4503-aa6c-8e9043c5df69",
-      "slides_scheduled": true,
-      "uploaded": true,
-      "audio": true,
-      "slides_prompt": true,
-      "slides": true,
-      "transcript": true,
-      "thumbnail": true,
-      "video": true
+      "slides_scheduled": true
     },
     {
       "episode": "99",
@@ -830,12 +824,15 @@
       "category": "distributed-computing",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/be130656-7984-4027-8274-d937835af327",
+      "slides_scheduled": true,
+      "uploaded": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "100",
@@ -848,6 +845,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -863,6 +861,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -878,6 +877,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -893,6 +893,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -908,6 +909,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -923,6 +925,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -938,6 +941,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -953,6 +957,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -968,6 +973,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -983,6 +989,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -998,6 +1005,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -1013,6 +1021,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -1028,6 +1037,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -1043,6 +1053,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -1058,6 +1069,7 @@
       "slides_prompt": true,
       "slides": true,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": true
     },
@@ -1072,6 +1084,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1086,6 +1099,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1100,6 +1114,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1114,6 +1129,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1128,6 +1144,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1142,6 +1159,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1156,6 +1174,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1170,6 +1189,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1184,6 +1204,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1198,6 +1219,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1212,6 +1234,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1226,6 +1249,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1240,6 +1264,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1254,6 +1279,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1268,6 +1294,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1282,6 +1309,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1296,6 +1324,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1310,6 +1339,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1324,6 +1354,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1338,6 +1369,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1352,6 +1384,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1366,6 +1399,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1380,6 +1414,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1394,6 +1429,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1408,6 +1444,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1422,6 +1459,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1436,6 +1474,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1450,6 +1489,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1464,6 +1504,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1478,6 +1519,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1492,6 +1534,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1506,6 +1549,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1520,6 +1564,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1534,6 +1579,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1548,6 +1594,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1562,6 +1609,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1576,6 +1624,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1590,6 +1639,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1604,6 +1654,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1618,6 +1669,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1632,6 +1684,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1646,6 +1699,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1660,6 +1714,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1674,6 +1729,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1688,6 +1744,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1702,6 +1759,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1716,6 +1774,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1730,6 +1789,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1744,6 +1804,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1758,6 +1819,7 @@
       "slides_prompt": true,
       "slides": false,
       "transcript": true,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1771,6 +1833,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1784,6 +1847,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1797,6 +1861,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1810,6 +1875,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1823,6 +1889,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1836,6 +1903,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1849,6 +1917,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1862,6 +1931,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1875,6 +1945,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1888,6 +1959,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1901,6 +1973,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1914,6 +1987,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1927,6 +2001,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1940,6 +2015,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1953,6 +2029,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1966,6 +2043,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1979,6 +2057,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -1992,6 +2071,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2005,6 +2085,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2018,6 +2099,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2031,6 +2113,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2044,6 +2127,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": false,
       "thumbnail": true,
       "video": false
     },
@@ -2057,6 +2141,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2070,6 +2155,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2083,6 +2169,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2096,6 +2183,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2109,6 +2197,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2122,6 +2211,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2135,6 +2225,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2148,6 +2239,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2161,6 +2253,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2174,6 +2267,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2187,6 +2281,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2200,6 +2295,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2213,6 +2309,7 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
     },
@@ -2226,20 +2323,477 @@
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
+      "thumbnail_prompt": true,
       "thumbnail": true,
+      "video": false
+    },
+    {
+      "episode": "201",
+      "name": "the-multiprogramming-system",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "202",
+      "name": "programming-semantics-multiprogrammed",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "203",
+      "name": "unix-time-sharing",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "204",
+      "name": "multics-virtual-memory",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "205",
+      "name": "tenex-paged-time-sharing",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "206",
+      "name": "working-set-model",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "207",
+      "name": "vm-time-sharing-system",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "208",
+      "name": "monitors-os-structuring",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "209",
+      "name": "processes-monitors-mesa",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "210",
+      "name": "on-the-fly-gc",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "211",
+      "name": "transactional-memory",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "212",
+      "name": "distributed-snapshots",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "213",
+      "name": "implementing-rpc",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "214",
+      "name": "exploiting-virtual-synchrony",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "215",
+      "name": "fault-tolerant-state-machine",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "216",
+      "name": "fast-file-system-unix",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "217",
+      "name": "log-structured-file-system",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "218",
+      "name": "disconnected-operation-coda",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "219",
+      "name": "afs-scale-performance",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "220",
+      "name": "wafl-file-system",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "221",
+      "name": "disco-commodity-os",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "222",
+      "name": "xen-virtualization",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "223",
+      "name": "vmware-memory-management",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "224",
+      "name": "revirt-vm-logging",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "225",
+      "name": "microkernel-construction",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "226",
+      "name": "exokernel-os-architecture",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "227",
+      "name": "multikernel-scalable-multicore",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "228",
+      "name": "mach-vm-management",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "229",
+      "name": "why-computers-stop",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "230",
+      "name": "nonstop-kernel",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "231",
+      "name": "logic-of-authentication",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "232",
+      "name": "software-fault-isolation",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "233",
+      "name": "proof-carrying-code",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "234",
+      "name": "hints-system-design",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
+      "video": false
+    },
+    {
+      "episode": "235",
+      "name": "criteria-decomposing-modules",
+      "category": "operating-systems",
+      "notebook_created": false,
+      "audio": false,
+      "slides_prompt": false,
+      "slides": false,
+      "transcript": false,
+      "thumbnail_prompt": true,
+      "thumbnail": false,
       "video": false
     }
   ],
   "summary": {
-    "total": 200,
+    "total": 235,
     "notebook_created": 200,
-    "audio": 67,
+    "audio": 66,
     "slides": 16,
-    "transcript": 86,
-    "thumbnail": 103,
+    "transcript": 85,
+    "thumbnail_prompt": 136,
+    "thumbnail": 102,
     "video": 17,
     "uploaded": 1,
-    "archived": 97
+    "archived": 98
   },
-  "updated": "2025-12-22T07:05:25+00:00"
+  "updated": "2025-12-22T10:34:05+00:00"
 }
