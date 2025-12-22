@@ -3,11 +3,11 @@
 ```text
 Create a YouTube thumbnail (16:9 aspect ratio) in Dandadan anime style.
 Use the uploaded dog photo as reference - transform into anime style with
-superhero green tech cape and futuristic visor.
-White background. The dog implements monitor methods with WAIT/NOTIFY patterns,
-Mesa language constructs glowing as structured concurrency primitives.
-Write the text "MESA" in bold, olive green, angular anime font in upper left.
-Concurrent programmer pose, practical monitor energy, bold linework. No clutter.
+superhero deep green cape and futuristic visor.
+White background. The dog stands within Xerox PARC, Mesa language modules
+glowing around it, monitor wait/signal operations flowing like energy circuits.
+Write the text "MESA" in bold, burnt orange, angular anime font in upper left.
+Modular programming pose, Xerox innovation energy, bold linework. No clutter.
 ```
 
-**Text:** MESA | **Color:** Olive Green
+**Text:** MESA | **Color:** Burnt Orange

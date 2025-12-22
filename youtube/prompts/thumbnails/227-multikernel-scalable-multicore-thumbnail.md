@@ -1,13 +1,14 @@
-# Thumbnail Prompt: The Multikernel: A New OS Architecture for Scalable Multicore Systems
+# Thumbnail Prompt: The Multikernel - Scalable Multicore
 
 ```text
 Create a YouTube thumbnail (16:9 aspect ratio) in Dandadan anime style.
 Use the uploaded dog photo as reference - transform into anime style with
-superhero green tech cape and futuristic visor.
-White background. The dog treats cores as distributed system with message passing,
-no shared kernel state, replicated data structures shown as synchronized copies.
-Write the text "BARRELFISH" in bold, forest green, angular anime font in upper left.
-Multicore architect pose, message-passing scalability energy, bold linework. No clutter.
+superhero deep green cape and futuristic visor.
+White background. The dog orchestrates Barrelfish - separate kernels on each
+core communicating via messages, no shared memory, distributed system design.
+Write the text "MULTIKERNEL" in bold, chartreuse, angular anime font in upper left.
+Message-passing architect pose, explicit communication energy, bold linework.
+No clutter.
 ```
 
-**Text:** BARRELFISH | **Color:** Forest Green
+**Text:** MULTIKERNEL | **Color:** Chartreuse

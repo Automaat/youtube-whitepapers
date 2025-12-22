@@ -1,13 +1,13 @@
-# Thumbnail Prompt: ReVirt: Enabling Intrusion Analysis through Virtual-Machine Logging and Replay
+# Thumbnail Prompt: ReVirt - VM Logging and Replay
 
 ```text
 Create a YouTube thumbnail (16:9 aspect ratio) in Dandadan anime style.
 Use the uploaded dog photo as reference - transform into anime style with
-superhero green tech cape and futuristic visor.
-White background. The dog records VM execution deterministically, replay shown
-as rewinding time to analyze intrusions with perfect fidelity.
-Write the text "REVIRT" in bold, kelly green, angular anime font in upper left.
-Forensics investigator pose, deterministic replay energy, bold linework. No clutter.
+superhero deep green cape and futuristic visor.
+White background. The dog records deterministic VM execution logs, replaying
+intrusions instruction-by-instruction for forensic analysis even after compromise.
+Write the text "REVIRT" in bold, dark red, angular anime font in upper left.
+Replay detective pose, deterministic logging energy, bold linework. No clutter.
 ```
 
-**Text:** REVIRT | **Color:** Kelly Green
+**Text:** REVIRT | **Color:** Dark Red

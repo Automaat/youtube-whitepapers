@@ -3,11 +3,12 @@
 ```text
 Create a YouTube thumbnail (16:9 aspect ratio) in Dandadan anime style.
 Use the uploaded dog photo as reference - transform into anime style with
-superhero green tech cape and futuristic visor.
-White background. The dog orchestrates paravirtualized guests with hypercalls,
-Xen hypervisor shown as thin control layer managing domain isolation.
-Write the text "XEN" in bold, mint green, angular anime font in upper left.
-Hypervisor conductor pose, paravirt efficiency energy, bold linework. No clutter.
+superhero deep green cape and futuristic visor.
+White background. The dog operates a minimal hypervisor, paravirtualized guest
+OS kernels cooperating efficiently without hardware emulation overhead.
+Write the text "XEN" in bold, violet, angular anime font in upper left.
+Paravirtualization master pose, Cambridge innovation energy, bold linework.
+No clutter.
 ```
 
-**Text:** XEN | **Color:** Mint Green
+**Text:** XEN | **Color:** Violet
