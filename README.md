@@ -4,28 +4,36 @@
 
 **Channel:** [Głęboki Odczyt](https://www.youtube.com/@GlebokiOdczyt) | **Request episode:** [Create issue](https://github.com/Automaat/youtube-whitepapers/issues/new) with whitepaper link
 
-Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
+Generate YouTube videos from NotebookLM podcasts about computer science milestone papers - covering LLMs, distributed systems, networking, operating systems, and security.
 
 ## Directory Structure
 
 ```text
 youtube-whitepapers/
-├── scripts/                  # Python automation scripts
-│   ├── compress_images.py    # Batch PNG compression (>threshold)
-│   ├── generate_video.py     # Generate video from concat.txt + audio
-│   ├── prepare_slides.py     # Extract/normalize slides from PDF
-│   ├── rename_thumbnails.py  # Rename thumbnails to match whitepapers
-│   ├── transcribe.py         # Batch transcription with Whisper
-│   └── verify_video.py       # Verify video quality
-├── tests/                    # Pytest test suite
-├── mise.toml                 # Task runner configuration
+├── scripts/                    # Python automation scripts
+│   ├── compress_images.py      # Batch PNG compression (>threshold)
+│   ├── generate_status.py      # Generate status report for tracking
+│   ├── generate_video.py       # Generate video from concat.txt + audio
+│   ├── prepare_slides.py       # Extract/normalize slides from PDF
+│   ├── rename_thumbnails.py    # Rename thumbnails to match whitepapers
+│   ├── transcribe.py           # Batch transcription with Whisper
+│   └── verify_video.py         # Verify video quality
+├── tests/                      # Pytest test suite
+├── mise.toml                   # Task runner configuration
+├── whitepapers/
+│   ├── distributed-computing/  # Distributed systems papers
+│   ├── llm/                    # LLM research papers
+│   ├── networking/             # Networking protocols & systems
+│   ├── operating-systems/      # OS research papers
+│   └── security/               # Security research papers
 └── youtube/
-    ├── pl/                   # Polish language assets
-    │   ├── audio/            # NotebookLM podcast audio (.m4a)
-    │   ├── slides/           # Presentation PDFs + extracted PNGs
-    │   └── transcripts/      # Whisper transcriptions (.json)
-    ├── output/               # Final videos (.mp4) + metadata (.txt)
-    └── thumbnails/           # Video thumbnails (.png)
+    ├── pl/                     # Polish language assets
+    │   ├── audio/              # NotebookLM podcast audio (.m4a)
+    │   ├── slides/             # Presentation PDFs + extracted PNGs
+    │   └── transcripts/        # Whisper transcriptions (.json)
+    ├── output/                 # Final videos (.mp4) + metadata (.txt)
+    ├── thumbnails/             # Video thumbnails (.png)
+    └── prompts/                # Claude Code prompt templates
 ```
 
 ## Full Workflow
@@ -66,7 +74,7 @@ cat prompts/generate-slides-command.md
 Run in fresh Claude Code session:
 
 ```text
-Read the transcript file at milestone-papers/youtube/transcripts/XX-paper-name.json
+Read the transcript file at youtube/pl/transcripts/XX-paper-name.json
 and create a detailed NotebookLM prompt for generating 10 presentation slides.
 ```
 
@@ -148,63 +156,15 @@ Final files in `output/`:
 
 All files must follow: `{XX}-{paper-name}` where:
 
-- `XX` = 2-digit episode number (01, 02, ... 19)
+- `XX` = episode number with leading zeros (01, 02, ... 99, 100+)
 - `paper-name` = lowercase, hyphenated paper identifier
 
 Examples:
 
 - `01-attention-is-all-you-need`
-- `02-gpt`
-- `03-bert`
-- `19-chain-of-thought`
-
-## Episode Status
-
-| # | Paper | Audio | Slides | Transcript | Thumbnail |
-|---|-------|-------|--------|------------|-----------|
-| 01 | Attention Is All You Need | ✅ | ✅ | ✅ | ✅ |
-| 02 | GPT | ✅ | ✅ | ✅ | ✅ |
-| 03 | BERT | ✅ | ✅ | ✅ | ✅ |
-| 04 | GPT-2 | ✅ | ✅ | ✅ | ✅ |
-| 05 | Megatron-LM | ✅ | ✅ | ✅ | ✅ |
-| 06 | T5 | ✅ | ✅ | ✅ | ✅ |
-| 07 | ZeRO | ✅ | ✅ | ✅ | ✅ |
-| 08 | Scaling Laws | ✅ | ✅ | ✅ | ✅ |
-| 09 | GPT-3 | ✅ | ✅ | ✅ | ✅ |
-| 10 | Switch Transformers | ✅ | ✅ | ✅ | ✅ |
-| 11 | Codex | ✅ | ❌ | ✅ | ✅ |
-| 12 | Foundation Models | ✅ | ❌ | ✅ | ✅ |
-| 13 | FLAN | ✅ | ❌ | ✅ | ✅ |
-| 14 | T0 | ✅ | ❌ | ✅ | ✅ |
-| 15 | GLaM | ✅ | ❌ | ✅ | ✅ |
-| 16 | WebGPT | ✅ | ❌ | ✅ | ✅ |
-| 17 | RETRO | ✅ | ❌ | ✅ | ✅ |
-| 18 | Gopher | ✅ | ❌ | ✅ | ✅ |
-| 19 | Chain-of-Thought | ✅ | ❌ | ✅ | ✅ |
-
-## Paper URLs Reference
-
-| Episode | arXiv/Paper URL |
-|---------|-----------------|
-| 01-attention-is-all-you-need | <https://arxiv.org/abs/1706.03762> |
-| 02-gpt | <https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf> |
-| 03-bert | <https://arxiv.org/abs/1810.04805> |
-| 04-gpt2 | <https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf> |
-| 05-megatron-lm | <https://arxiv.org/abs/1909.08053> |
-| 06-t5 | <https://arxiv.org/abs/1910.10683> |
-| 07-zero | <https://arxiv.org/abs/1910.02054> |
-| 08-scaling-laws | <https://arxiv.org/abs/2001.08361> |
-| 09-gpt3 | <https://arxiv.org/abs/2005.14165> |
-| 10-switch-transformers | <https://arxiv.org/abs/2101.03961> |
-| 11-codex | <https://arxiv.org/abs/2107.03374> |
-| 12-foundation-models | <https://arxiv.org/abs/2108.07258> |
-| 13-flan | <https://arxiv.org/abs/2109.01652> |
-| 14-t0 | <https://arxiv.org/abs/2110.08207> |
-| 15-glam | <https://arxiv.org/abs/2112.06905> |
-| 16-webgpt | <https://arxiv.org/abs/2112.09332> |
-| 17-retro | <https://arxiv.org/abs/2112.04426> |
-| 18-gopher | <https://arxiv.org/abs/2112.11446> |
-| 19-chain-of-thought | <https://arxiv.org/abs/2201.11903> |
+- `73-raft`
+- `130-trusting-trust`
+- `200-pastry`
 
 ## Requirements
 
@@ -246,6 +206,8 @@ Set playlist IDs via environment variables:
 export YOUTUBE_PLAYLIST_LLM="PLxxxxxxxxxx"
 export YOUTUBE_PLAYLIST_DISTRIBUTED_COMPUTING="PLyyyyyyyyyy"
 export YOUTUBE_PLAYLIST_SECURITY="PLzzzzzzzzzz"
+export YOUTUBE_PLAYLIST_NETWORKING="PLaaaaaaaaa"
+export YOUTUBE_PLAYLIST_OPERATING_SYSTEMS="PLbbbbbbbbb"
 ```
 
 Or create `youtube/config.json`:
@@ -255,7 +217,9 @@ Or create `youtube/config.json`:
   "playlists": {
     "llm": "PLxxxxxxxxxx",
     "distributed-computing": "PLyyyyyyyyyy",
-    "security": "PLzzzzzzzzzz"
+    "security": "PLzzzzzzzzzz",
+    "networking": "PLaaaaaaaaa",
+    "operating-systems": "PLbbbbbbbbb"
   }
 }
 ```
