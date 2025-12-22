@@ -209,11 +209,12 @@ def get_ready_for_archive(papers: list[dict]) -> list[dict]:
 
 
 def get_need_thumbnail_prompts(papers: list[dict]) -> list[dict]:
-    """Get episodes that need thumbnail prompts (no prompt saved)."""
+    """Get episodes that need thumbnail prompts (no prompt, no thumbnail yet)."""
     return [
         p
         for p in papers
         if not p.get("archived")
+        and not p.get("thumbnail")
         and not p.get("thumbnail_prompt")
     ]
 
