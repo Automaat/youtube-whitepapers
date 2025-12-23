@@ -178,19 +178,21 @@ class TestMain:
     """Tests for main function integration."""
 
     def test_shows_usage_when_no_args(self, temp_project, sample_audio_files, capsys):
-        """Should show usage and return 1 when no episode provided."""
+        """Should show message when no episodes ready to archive."""
         from scripts.archive_episode import main
 
         with (
             patch("scripts.archive_episode.AUDIO_DIR", temp_project / "youtube" / "pl" / "audio"),
+            patch("scripts.archive_episode.load_status", return_value={"papers": []}),
             patch("sys.argv", ["archive_episode.py"]),
         ):
             result = main()
 
-        assert result == 1
+        assert result == 0
         captured = capsys.readouterr()
-        assert "Usage:" in captured.out
-        assert "Available episodes:" in captured.out
+        assert "No episodes ready to archive" in captured.out
+        assert "uploaded: true" in captured.out
+        assert "archived: false" in captured.out
 
     def test_returns_1_when_episode_not_found(self, temp_project, capsys):
         """Should return 1 when audio file doesn't exist."""

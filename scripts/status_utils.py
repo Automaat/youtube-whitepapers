@@ -14,7 +14,14 @@ STATUS_FILE = SCRIPT_DIR / "whitepapers" / "status.json"
 WHITEPAPERS_DIR = SCRIPT_DIR / "whitepapers"
 
 PIPELINE_FIELDS = ["audio", "slides", "transcript", "thumbnail", "video", "uploaded"]
-PRESERVED_FIELDS = ["notebook_created", "notebook_url", "audio_scheduled", "slides_scheduled"]
+PRESERVED_FIELDS = [
+    "notebook_created",
+    "notebook_url",
+    "audio_scheduled",
+    "slides_scheduled",
+    "youtube_url",
+    "published",
+]
 
 
 def load_status() -> dict[str, Any]:
@@ -156,6 +163,7 @@ def update_summary(status: dict[str, Any]) -> None:
         "thumbnail",
         "video",
         "uploaded",
+        "published",
         "archived",
     ]
 

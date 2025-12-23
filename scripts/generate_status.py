@@ -141,6 +141,8 @@ def generate_status() -> dict:
             paper["uploaded"] = True
         if old_paper.get("youtube_url"):
             paper["youtube_url"] = old_paper["youtube_url"]
+        if old_paper.get("published"):
+            paper["published"] = True
 
         paper["audio"] = check_exists(AUDIO_DIRS, f"{ep_name}.m4a")
         paper["slides_prompt"] = check_slides_prompt(ep_name)
@@ -199,6 +201,11 @@ def get_ready_for_archive(papers: list[dict]) -> list[dict]:
     return [p for p in papers if p.get("uploaded") and not p.get("archived")]
 
 
+def get_ready_for_publish(papers: list[dict]) -> list[dict]:
+    """Get episodes ready to publish (uploaded but not published, including archived)."""
+    return [p for p in papers if p.get("uploaded") and not p.get("published")]
+
+
 def get_need_thumbnail_prompts(papers: list[dict]) -> list[dict]:
     """Get episodes that need thumbnail prompts (no prompt, no thumbnail yet)."""
     return [
@@ -225,6 +232,7 @@ def main() -> int:
     print(f"   📑 Slides: {summary.get('slides', 0)}")
     print(f"   🎬 Video: {summary.get('video', 0)}")
     print(f"   📤 Uploaded: {summary.get('uploaded', 0)}")
+    print(f"   🌐 Published: {summary.get('published', 0)}")
     print(f"   📦 Archived: {summary.get('archived', 0)}")
 
     save_status(status)
@@ -263,6 +271,14 @@ def main() -> int:
         print()
         print("📦 Ready for archive:")
         for p in ready_archive:
+            print(f"   {p['episode']}-{p['name']}")
+
+    # Ready to publish
+    ready_publish = get_ready_for_publish(papers)
+    if ready_publish:
+        print()
+        print("🌐 Ready to publish:")
+        for p in ready_publish:
             print(f"   {p['episode']}-{p['name']}")
 
     # Need thumbnail prompts

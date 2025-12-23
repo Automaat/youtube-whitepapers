@@ -6,8 +6,7 @@
       "category": "llm",
       "archived": true,
       "notebook_created": true,
-      "notebook_url": "https://notebooklm.google.com/notebook/69110c35-735c-4602-a990-160aacf52651",
-      "transcript": true
+      "notebook_url": "https://notebooklm.google.com/notebook/69110c35-735c-4602-a990-160aacf52651"
     },
     {
       "episode": "02",
@@ -529,7 +528,10 @@
       "category": "distributed-computing",
       "archived": true,
       "notebook_created": true,
-      "notebook_url": "https://notebooklm.google.com/notebook/555de1ed-56ba-4ff7-bdf3-292945f64435"
+      "notebook_url": "https://notebooklm.google.com/notebook/555de1ed-56ba-4ff7-bdf3-292945f64435",
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-66"
     },
     {
       "episode": "67",
@@ -537,7 +539,10 @@
       "category": "distributed-computing",
       "archived": true,
       "notebook_created": true,
-      "notebook_url": "https://notebooklm.google.com/notebook/3c111967-06ca-4f0e-a133-326f411972e7"
+      "notebook_url": "https://notebooklm.google.com/notebook/3c111967-06ca-4f0e-a133-326f411972e7",
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-67"
     },
     {
       "episode": "68",
@@ -545,7 +550,10 @@
       "category": "distributed-computing",
       "archived": true,
       "notebook_created": true,
-      "notebook_url": "https://notebooklm.google.com/notebook/ac8ef5b8-5c12-4655-af09-1184e6def1bd"
+      "notebook_url": "https://notebooklm.google.com/notebook/ac8ef5b8-5c12-4655-af09-1184e6def1bd",
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-68"
     },
     {
       "episode": "69",
@@ -554,7 +562,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/34ff2e87-525b-4c09-8145-431aa7e1c6fb",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-69"
     },
     {
       "episode": "70",
@@ -563,7 +574,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/7c495d21-18b5-47db-bc81-b92124594e7b",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-70"
     },
     {
       "episode": "71",
@@ -572,7 +586,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/efb24778-c99b-4e80-a726-29a8ed9718f5",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-71"
     },
     {
       "episode": "72",
@@ -581,7 +598,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/53108d0b-22c5-4335-a7cb-07556fc178de",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-72"
     },
     {
       "episode": "73",
@@ -590,7 +610,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/ba999624-dca0-47cb-a5b2-5c826019616e",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-73"
     },
     {
       "episode": "74",
@@ -599,7 +622,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/aa0ad6d8-532d-4f0e-b41c-aecefa6dcd12",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-74"
     },
     {
       "episode": "75",
@@ -608,7 +634,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/8c452cc9-cff5-4be2-8079-d8d251b5c33a",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-75"
     },
     {
       "episode": "76",
@@ -617,7 +646,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/dfb26084-295f-4174-9fd6-5cfac202e577",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-76"
     },
     {
       "episode": "77",
@@ -626,7 +658,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/bce4f021-ee4d-45cb-97cb-522526ebc358",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-77"
     },
     {
       "episode": "78",
@@ -635,7 +670,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/8d2600fe-a773-415c-aac4-5f386814c039",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-78"
     },
     {
       "episode": "79",
@@ -644,7 +682,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/5177f47e-76f0-415a-8698-6eec133040c8",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-79"
     },
     {
       "episode": "80",
@@ -653,7 +694,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/90cc13ec-1a13-406e-a2f9-73b8daf30c65",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-80"
     },
     {
       "episode": "81",
@@ -662,7 +706,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/648b6791-605e-48da-ab26-352e6d97c221",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-81"
     },
     {
       "episode": "82",
@@ -671,7 +718,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/eb14d69d-490b-45ce-96b4-d7671f420c5f",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-82"
     },
     {
       "episode": "83",
@@ -680,7 +730,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/1d12a6e1-b9ed-48c0-947a-f64ec3b073b0",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-83"
     },
     {
       "episode": "84",
@@ -689,7 +742,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/b31d42dd-123d-47a2-9dba-82e2cfa26b3f",
-      "transcript": true
+      "transcript": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-84"
     },
     {
       "episode": "85",
@@ -698,7 +754,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/2d0079eb-88c8-4f6b-b033-acede050d6af",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-85"
     },
     {
       "episode": "86",
@@ -707,7 +766,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/d793b0ff-7c87-4098-839b-b71a0f124249",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-86"
     },
     {
       "episode": "87",
@@ -716,7 +778,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/10ebc167-f60b-41a0-b61e-b791010c8b3a",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-87"
     },
     {
       "episode": "88",
@@ -725,7 +790,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/aa2627e8-2010-443f-92c1-97ac75f92e89",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-88"
     },
     {
       "episode": "89",
@@ -734,7 +802,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c6f21d3c-e22c-4c30-b507-6ca91e2fd6a2",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-89"
     },
     {
       "episode": "90",
@@ -743,7 +814,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/bcac5987-6f6c-4b1e-b67d-14383a7a64cd",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-90"
     },
     {
       "episode": "91",
@@ -752,7 +826,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/8acc73b8-1d18-4f37-961a-c3d14714d061",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-91"
     },
     {
       "episode": "92",
@@ -761,7 +838,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/823d161f-ebdf-4add-a216-d82951ed3a14",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-92"
     },
     {
       "episode": "93",
@@ -770,7 +850,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/ee0e712f-a13b-43fc-9e4c-462b9bd8357d",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-93"
     },
     {
       "episode": "94",
@@ -779,7 +862,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/7f964670-5255-4648-9efe-973f51905f19",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-94"
     },
     {
       "episode": "95",
@@ -788,7 +874,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/37b33663-903c-44c3-9b20-635c47497f4a",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-95"
     },
     {
       "episode": "96",
@@ -797,7 +886,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c93c578a-8103-4602-b513-3161de76a79b",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-96"
     },
     {
       "episode": "97",
@@ -806,7 +898,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/4dc9c8ee-db2f-4a8f-8b57-aa8498c41ef3",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-97"
     },
     {
       "episode": "98",
@@ -815,7 +910,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/fe51e67b-58a6-4503-aa6c-8e9043c5df69",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-98"
     },
     {
       "episode": "99",
@@ -824,7 +922,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/be130656-7984-4027-8274-d937835af327",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-99"
     },
     {
       "episode": "100",
@@ -833,7 +934,10 @@
       "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c511a14d-fcd8-4d5b-a4ad-02c97f77b398",
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-100"
     },
     {
       "episode": "101",
@@ -843,7 +947,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/1ebc8fb4-1a4c-4dac-b0cb-e0eee9fe8cc0",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-101"
     },
     {
       "episode": "102",
@@ -853,7 +960,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/428f1de4-1286-4adf-828c-42365b6d5fb1",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-102"
     },
     {
       "episode": "103",
@@ -863,7 +973,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/e29e436a-8dba-41a3-9fac-463872683ec6",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-103"
     },
     {
       "episode": "104",
@@ -873,7 +986,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/5b3da39a-ec8d-4352-bbe3-8e896286877a",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-104"
     },
     {
       "episode": "105",
@@ -883,7 +999,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/4794a021-febf-4192-93bc-362fcf15936f",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-105"
     },
     {
       "episode": "106",
@@ -893,7 +1012,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/2c127937-7dfd-44f9-ad9c-8d0e47e4514e",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-106"
     },
     {
       "episode": "107",
@@ -903,7 +1025,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/85c9a997-3a5c-44e5-926e-2a9c26e85b2d",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-107"
     },
     {
       "episode": "108",
@@ -913,7 +1038,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/ab1798f7-8ea2-4497-ad2f-8b6d296ffc7a",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-108"
     },
     {
       "episode": "109",
@@ -923,7 +1051,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/a19d46aa-6a9b-4cea-9bea-8943561339de",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-109"
     },
     {
       "episode": "110",
@@ -933,7 +1064,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/bdb5735f-cb22-4812-885b-321e945ce029",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-110"
     },
     {
       "episode": "111",
@@ -943,7 +1077,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/aa72dded-d4c8-477b-8cc3-6c2bc760313a",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-111"
     },
     {
       "episode": "112",
@@ -953,7 +1090,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/6ccd0014-e63d-44c8-939c-789489c1acf6",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-112"
     },
     {
       "episode": "113",
@@ -963,7 +1103,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/eb8e56a6-2434-44c2-aefe-bd129766cad7",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-113"
     },
     {
       "episode": "114",
@@ -973,7 +1116,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/fb55939f-cec3-4e3f-a164-bf1a76036276",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-114"
     },
     {
       "episode": "115",
@@ -983,7 +1129,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/e7680236-10c3-4bb1-81a0-a4bb1fc7ad8d",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-115"
     },
     {
       "episode": "116",
@@ -993,7 +1142,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c48e7523-89b1-42e5-a3ff-ee3ed8f18e34",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-116"
     },
     {
       "episode": "117",
@@ -1003,7 +1155,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c718d4b1-845e-4e23-ae79-638a63bcd49c",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-117"
     },
     {
       "episode": "118",
@@ -1013,7 +1168,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/eb8e9b1c-d801-435a-a7f7-3d914f9c3335",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-118"
     },
     {
       "episode": "119",
@@ -1023,7 +1181,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/dfe0877b-0d08-4bea-9db6-beadf9db9063",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-119"
     },
     {
       "episode": "120",
@@ -1033,7 +1194,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/2e886e87-0d33-46cb-8ce5-9d9cd9023501",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-120"
     },
     {
       "episode": "121",
@@ -1043,7 +1207,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/59367942-e846-4a2a-b566-6d3b4840285b",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-121"
     },
     {
       "episode": "122",
@@ -1053,7 +1220,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/d2fc7e86-91f5-49ac-a76d-5c7d251b708d",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-122"
     },
     {
       "episode": "123",
@@ -1063,7 +1233,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/9413fc4d-258c-4747-bdac-5236afcd3239",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-123"
     },
     {
       "episode": "124",
@@ -1073,7 +1246,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/9b4c2a25-15bc-4471-a20d-567fa21c40bf",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-124"
     },
     {
       "episode": "125",
@@ -1083,7 +1259,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/3ba2a09d-7807-46f7-9e8d-477b13cbcaf7",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-125"
     },
     {
       "episode": "126",
@@ -1093,7 +1272,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/62a019cc-0e4d-4f94-ab44-dd4f799192b0",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-126"
     },
     {
       "episode": "127",
@@ -1103,7 +1285,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/9c9e84da-0f5f-4706-a213-02d86b7bf5cc",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-127"
     },
     {
       "episode": "128",
@@ -1113,7 +1298,10 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/e1036e46-31cf-405d-b14c-c4cc9813c29d",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-128"
     },
     {
       "episode": "129",
@@ -1123,67 +1311,62 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/01e66055-d2a8-4612-bc53-f5695d2e2024",
       "audio_scheduled": true,
-      "slides_scheduled": true
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-129"
     },
     {
       "episode": "130",
       "name": "trusting-trust",
       "category": "security",
+      "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/11ce427d-9a35-4743-bede-e6c7fe520af8",
       "audio_scheduled": true,
-      "audio": true,
-      "slides_prompt": true,
-      "slides": false,
-      "transcript": true,
-      "thumbnail_prompt": true,
-      "thumbnail": true,
-      "video": false
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-130"
     },
     {
       "episode": "131",
       "name": "smashing-the-stack",
       "category": "security",
+      "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/637f18dc-e6f6-4d86-b833-574db5e265d4",
       "audio_scheduled": true,
-      "audio": true,
-      "slides_prompt": true,
-      "slides": false,
-      "transcript": true,
-      "thumbnail_prompt": true,
-      "thumbnail": true,
-      "video": false
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-131"
     },
     {
       "episode": "132",
       "name": "rop",
       "category": "security",
+      "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/260c75d9-81ed-44c0-a8e1-5c26e6be211d",
       "audio_scheduled": true,
-      "audio": true,
-      "slides_prompt": true,
-      "slides": false,
-      "transcript": true,
-      "thumbnail_prompt": true,
-      "thumbnail": true,
-      "video": false
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-132"
     },
     {
       "episode": "133",
       "name": "cfi",
       "category": "security",
+      "archived": true,
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/f65c48b4-14fd-4f80-bd08-50f79ef71ad0",
       "audio_scheduled": true,
-      "audio": true,
-      "slides_prompt": true,
-      "slides": false,
-      "transcript": true,
-      "thumbnail_prompt": true,
-      "thumbnail": true,
-      "video": false
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=PLACEHOLDER-133"
     },
     {
       "episode": "134",
@@ -1192,13 +1375,16 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/3242fe35-8b2d-4010-91db-11315c7da135",
       "audio_scheduled": true,
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "135",
@@ -1207,13 +1393,16 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/7d18aa58-d0b0-4300-be08-8bcb39ef9e19",
       "audio_scheduled": true,
+      "slides_scheduled": true,
+      "published": false,
+      "uploaded": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "136",
@@ -1237,13 +1426,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/e8b9f3b7-cfe8-491f-ae18-b8678ad6bfb8",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "138",
@@ -1252,13 +1442,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/81fa661f-caf4-4d7a-9f9c-663b63b228c0",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "139",
@@ -1267,13 +1458,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/6686ed2a-1efc-4688-8a4d-afcf128b9fe6",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "140",
@@ -1282,13 +1474,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/adf4be2a-3669-454b-b091-442d61d7e4d8",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "141",
@@ -1297,13 +1490,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/78545881-49c9-45b6-9924-9faeafd03be4",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "142",
@@ -1312,13 +1506,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/82dcfd78-221e-4875-adea-6337953ab49a",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "143",
@@ -1327,13 +1522,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/14e69f3e-042e-4923-9b07-b69e0e2570c1",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "144",
@@ -1342,13 +1538,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/b44c6cc2-07d0-484d-8cd4-d4b266307239",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "145",
@@ -1357,13 +1554,14 @@
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/c17739e7-d7d2-4dff-9ae3-4618054b35ab",
       "audio_scheduled": true,
+      "slides_scheduled": true,
       "audio": true,
       "slides_prompt": true,
-      "slides": false,
+      "slides": true,
       "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
-      "video": false
+      "video": true
     },
     {
       "episode": "146",
@@ -1928,7 +2126,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/b50828e7-2aa8-4c11-80ae-bce06c414ea4",
       "audio_scheduled": true,
       "audio": true,
-      "slides_prompt": false,
+      "slides_prompt": true,
       "slides": false,
       "transcript": true,
       "thumbnail_prompt": true,
@@ -1943,7 +2141,7 @@
       "notebook_url": "https://notebooklm.google.com/notebook/063697be-d064-463a-84a2-fbf6e812adf3",
       "audio_scheduled": true,
       "audio": true,
-      "slides_prompt": false,
+      "slides_prompt": true,
       "slides": false,
       "transcript": true,
       "thumbnail_prompt": true,
@@ -1956,10 +2154,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/a969a9a3-729f-43d7-b587-cf56c6352fcd",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -1970,10 +2169,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/2f832087-aa79-4e36-a38c-6dcffd9b97c6",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": false,
       "thumbnail": true,
       "video": false
@@ -1984,10 +2184,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/5d9d6b03-304e-4d26-bb33-5449c6c7e6d8",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -1998,10 +2199,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/7a4e4634-dee9-4e54-8a89-ea521f1dd947",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -2012,10 +2214,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/fdebafaf-cf7a-4e4c-98e5-4ac03e8076bd",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -2026,10 +2229,11 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/5b90c36a-4d94-4a77-a97f-5108b801bf9a",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -2040,7 +2244,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/a8ace166-0822-40c7-bac4-1225bb221845",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2054,7 +2259,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/63b95094-bc90-49ff-a744-7c9d30462eeb",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2068,7 +2274,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/252571ea-a311-45bb-ab0b-b1863216d469",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2082,7 +2289,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/26f07f40-24e9-4472-9466-037dd23b4cfc",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2096,7 +2304,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/eeddc9ec-09e3-4c14-8e23-9fd582fb5a18",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2110,7 +2319,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/5ec0ca71-e35b-45e8-b388-61cfaf87fe18",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2124,7 +2334,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/9f6be754-3f35-42c5-b99b-34608ed00de6",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2138,7 +2349,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/09d4c435-34c6-47a6-a2ab-dee03fb8b4d5",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2152,7 +2364,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/393b3541-9567-4d58-8d94-06abea421890",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2166,7 +2379,8 @@
       "category": "networking",
       "notebook_created": true,
       "notebook_url": "https://notebooklm.google.com/notebook/7545c81f-7cbd-492a-a651-51e8a937e313",
-      "audio": false,
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
@@ -2178,469 +2392,509 @@
       "episode": "201",
       "name": "the-multiprogramming-system",
       "category": "operating-systems",
-      "notebook_created": false,
-      "audio": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/5ba68eb4-99af-49c3-aa54-c59be352969d",
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "202",
       "name": "programming-semantics-multiprogrammed",
       "category": "operating-systems",
-      "notebook_created": false,
-      "audio": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/51c54593-a555-4ac3-b844-cc6bfe3c6acb",
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "203",
       "name": "unix-time-sharing",
       "category": "operating-systems",
-      "notebook_created": false,
-      "audio": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/0420b6f4-f7bd-4733-a5a2-5491f11fa1ef",
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "204",
       "name": "multics-virtual-memory",
       "category": "operating-systems",
-      "notebook_created": false,
-      "audio": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/0fd30805-a607-4a5b-9f91-0a08941ac5cf",
+      "audio_scheduled": true,
+      "audio": true,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "205",
       "name": "tenex-paged-time-sharing",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/2626f169-2ea9-4746-9f81-fbac66cdd4e0",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "206",
       "name": "working-set-model",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/9e2e32a4-88f6-4c3a-afcb-c61b32f954dc",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "207",
       "name": "vm-time-sharing-system",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/d2fce103-8639-44c7-a5bb-10abb4199406",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "208",
       "name": "monitors-os-structuring",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/9966c9c9-7e78-4f72-8ab4-f7cdcab18153",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "209",
       "name": "processes-monitors-mesa",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/99fcad1a-b962-4f4c-bd42-79db5b7710d4",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "210",
       "name": "on-the-fly-gc",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/8e17641d-3eb7-452e-93ad-faccf4d0cf22",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "211",
       "name": "transactional-memory",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/3f959d3c-8c35-4b25-9a61-930f1051315e",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "212",
       "name": "distributed-snapshots",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/040d8eef-ff55-44e5-b008-0b61db6352fc",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "213",
       "name": "implementing-rpc",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/bc1bb58b-c0b1-426f-bf85-0429f98e363c",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "214",
       "name": "exploiting-virtual-synchrony",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/f0c3a14c-8406-46c2-83c4-bc316e37c912",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "215",
       "name": "fault-tolerant-state-machine",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/864c488e-0590-4ffc-bd5f-1d511e5e0213",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "216",
       "name": "fast-file-system-unix",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/dfd25941-6f76-43be-a11b-49bf737a2a22",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "217",
       "name": "log-structured-file-system",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/5ad0a673-02b5-484c-aff3-a76b4f17b081",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "218",
       "name": "disconnected-operation-coda",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/f0e33635-f524-4913-892d-09f5ce03dec3",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "219",
       "name": "afs-scale-performance",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/a1df3da4-f330-4696-b809-9e81741a22c3",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "220",
       "name": "wafl-file-system",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/4fdb9861-2c9e-457d-8606-9ee614a2ed28",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "221",
       "name": "disco-commodity-os",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/d0d9e0b9-bfe3-4d45-a952-2b10b19001bb",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "222",
       "name": "xen-virtualization",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/7c226ae2-c386-4767-95b5-4fe90cefeb5f",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "223",
       "name": "vmware-memory-management",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/03d8ce99-0ed7-44d9-8a06-c6e4db55387e",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "224",
       "name": "revirt-vm-logging",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/83372912-aef9-40aa-b870-6c69fc2e39c5",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "225",
       "name": "microkernel-construction",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/3f524b53-16be-470f-823e-3e7b41c51cb3",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "226",
       "name": "exokernel-os-architecture",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/0f2f527d-c9dd-4baa-824e-96714a9da06c",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "227",
       "name": "multikernel-scalable-multicore",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/070a4486-3af0-4f82-a5bf-f8d16a7adb7d",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "228",
       "name": "mach-vm-management",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/d920a8aa-fa78-40d1-88bc-fb9939d1fef3",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "229",
       "name": "why-computers-stop",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/a338819d-d987-41ba-bf71-d68b497f1ab5",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "230",
       "name": "nonstop-kernel",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/0a84e0ff-c03f-4058-8aa6-770ff0cf4486",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "231",
       "name": "logic-of-authentication",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/38e0a7d4-0c79-4467-ad5a-4afe098ee80e",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "232",
       "name": "software-fault-isolation",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/6509d614-e61e-4a3d-8551-d5ac5c64a892",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "233",
       "name": "proof-carrying-code",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/6883c494-802c-44e1-b386-d07b794db2ec",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "234",
       "name": "hints-system-design",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/0a00fab9-09f0-465d-ad67-75467c090bef",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     },
     {
       "episode": "235",
       "name": "criteria-decomposing-modules",
       "category": "operating-systems",
-      "notebook_created": false,
+      "notebook_created": true,
+      "notebook_url": "https://notebooklm.google.com/notebook/07553b49-3023-48ca-ad44-d94a2dc185ee",
       "audio": false,
       "slides_prompt": false,
       "slides": false,
       "transcript": false,
       "thumbnail_prompt": true,
-      "thumbnail": false,
+      "thumbnail": true,
       "video": false
     }
   ],
   "summary": {
     "total": 235,
-    "notebook_created": 200,
-    "audio": 55,
-    "slides": 0,
-    "transcript": 74,
-    "thumbnail_prompt": 105,
-    "thumbnail": 71,
-    "video": 0,
-    "uploaded": 0,
-    "archived": 129
+    "notebook_created": 235,
+    "audio": 71,
+    "slides": 11,
+    "transcript": 75,
+    "thumbnail_prompt": 101,
+    "thumbnail": 102,
+    "video": 11,
+    "uploaded": 70,
+    "published": 0,
+    "archived": 133
   },
-  "updated": "2025-12-22T18:32:02+00:00"
+  "updated": "2025-12-23T16:53:43+00:00"
 }
