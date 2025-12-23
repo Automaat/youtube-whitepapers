@@ -19,6 +19,7 @@ PRESERVED_FIELDS = [
     "notebook_url",
     "audio_scheduled",
     "slides_scheduled",
+    "uploaded",
     "youtube_url",
     "published",
 ]
