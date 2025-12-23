@@ -93,6 +93,11 @@ run = "python scripts/publish_youtube.py {{arg(i=0)}} {{option(name='dry-run')}}
 # Example: mise run publish -- 28
 # Example: mise run publish -- 28 --dry-run
 
+[tasks.fetch-youtube-urls]
+description = "Fetch YouTube URLs from playlists and update status.json"
+run = "python scripts/fetch_youtube_urls.py"
+# Example: mise run fetch-youtube-urls
+
 [tasks.archive]
 description = "Archive episode files after YouTube upload"
 run = "python scripts/archive_episode.py"
