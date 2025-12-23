@@ -139,6 +139,8 @@ def generate_status() -> dict:
 
         if old_paper.get("uploaded"):
             paper["uploaded"] = True
+        if old_paper.get("youtube_url"):
+            paper["youtube_url"] = old_paper["youtube_url"]
 
         paper["audio"] = check_exists(AUDIO_DIRS, f"{ep_name}.m4a")
         paper["slides_prompt"] = check_slides_prompt(ep_name)

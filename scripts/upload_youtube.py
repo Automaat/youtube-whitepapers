@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from status_utils import update_episode_status
+from status_utils import update_episode_field, update_episode_status
 from youtube_config import settings
 
 if TYPE_CHECKING:
@@ -370,9 +370,12 @@ Examples:
     print()
     print("━" * 50)
     print("✅ Upload complete!")
-    print(f"   https://studio.youtube.com/video/{video_id}/edit")
+    video_url = f"https://www.youtube.com/watch?v={video_id}"
+    print(f"   Studio: https://studio.youtube.com/video/{video_id}/edit")
+    print(f"   Public: {video_url}")
 
     update_episode_status(ep_num, "uploaded", True)
+    update_episode_field(ep_num, "youtube_url", video_url)
 
     return 0
 
