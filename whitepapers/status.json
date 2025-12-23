@@ -1377,7 +1377,9 @@
       "notebook_url": "https://notebooklm.google.com/notebook/3242fe35-8b2d-4010-91db-11315c7da135",
       "audio_scheduled": true,
       "slides_scheduled": true,
-      "published": false
+      "published": false,
+      "uploaded": true,
+      "youtube_url": "https://www.youtube.com/watch?v=lWmlncTHsRk"
     },
     {
       "episode": "135",
@@ -1389,7 +1391,8 @@
       "audio_scheduled": true,
       "slides_scheduled": true,
       "youtube_url": "https://www.youtube.com/watch?v=HX0ihiN6Azc",
-      "published": false
+      "published": false,
+      "uploaded": true
     },
     {
       "episode": "136",
@@ -2241,7 +2244,7 @@
       "audio": true,
       "slides_prompt": false,
       "slides": false,
-      "transcript": false,
+      "transcript": true,
       "thumbnail_prompt": true,
       "thumbnail": true,
       "video": false
@@ -2884,13 +2887,13 @@
     "notebook_created": 235,
     "audio": 69,
     "slides": 9,
-    "transcript": 73,
+    "transcript": 74,
     "thumbnail_prompt": 99,
     "thumbnail": 100,
     "video": 9,
-    "uploaded": 68,
+    "uploaded": 70,
     "published": 0,
     "archived": 135
   },
-  "updated": "2025-12-23T17:04:08+00:00"
+  "updated": "2025-12-23T17:07:16+00:00"
 }
