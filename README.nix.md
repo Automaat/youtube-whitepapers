@@ -1,10 +1,13 @@
 # Nix Development Environment
 
-This project provides a reproducible development environment using Nix flakes.
+This project uses:
+- **Nix** for system tools (ffmpeg, poppler, imagemagick, etc.)
+- **mise** for Python version management
 
 ## Prerequisites
 
 - Nix with flakes enabled
+- mise for Python management
 - (Optional) direnv for automatic environment activation
 
 ### Enable Nix Flakes
@@ -17,18 +20,35 @@ experimental-features = nix-command flakes
 
 ## Quick Start
 
-### Using Nix Develop (Manual)
+### 1. Install mise and Python
 
 ```bash
-# Enter the development shell
+# Install mise (if not already installed)
+curl https://mise.run | sh
+
+# Install Python via mise
+mise install
+
+# Create Python virtual environment
+python -m venv .venv
+source .venv/bin/activate  # or use direnv to auto-activate
+
+# Install Python dependencies
+pip install -r requirements.txt  # or your preferred method
+```
+
+### 2. Enter Nix Shell for System Tools
+
+```bash
+# Enter the development shell (provides system tools)
 nix develop
 
-# All dependencies are now available
+# Now all system tools are available
 mise run prepare -- 136
 mise run video -- 28
 ```
 
-### Using direnv (Automatic)
+### Using direnv (Automatic - Recommended)
 
 ```bash
 # Install direnv
@@ -41,58 +61,69 @@ echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc  # or bash/fish
 direnv allow
 
 # Environment loads automatically when you cd into the directory
+# This will:
+# - Load Nix system tools
+# - Activate mise Python
+# - Activate Python venv if present
 ```
 
-## Available Commands
+## Division of Responsibilities
 
-Inside the Nix shell, all dependencies are available:
-
-- **Python 3.12** with packages:
+### Python (managed by mise)
+- Python interpreter version
+- pip packages:
   - openai-whisper (transcription)
   - ffmpeg-python
   - pillow (image processing)
   - ruff (linting)
   - pytest (testing)
 
-- **System tools:**
-  - ffmpeg (video generation)
-  - pdftoppm (PDF to PNG conversion)
-  - imagemagick (image processing)
-  - jq (JSON processing)
+### System Tools (provided by Nix)
+- **ffmpeg** - Video generation
+- **poppler_utils** (pdftoppm) - PDF to PNG conversion
+- **imagemagick** - Image processing
+- **jq** - JSON processing
+- **git** - Version control
+- **gh** - GitHub CLI
+- **mise** - Task runner and Python version manager
 
-- **Development tools:**
-  - git
-  - gh (GitHub CLI)
-  - mise (task runner)
+## Using the Tools
 
-## Nix Apps
-
-You can also run specific commands directly without entering the shell:
+All commands should be run through mise after entering the Nix shell:
 
 ```bash
-# Run prepare slides script
-nix run .#prepare -- 136
+# Enter Nix shell (or use direnv)
+nix develop
 
-# Generate video
-nix run .#video -- 28
-
-# Transcribe audio
-nix run .#transcribe
+# Then use mise commands
+mise run prepare -- 136
+mise run video -- 28
+mise run transcribe
 ```
 
 ## First Time Setup
 
 ```bash
-# Generate the lock file (requires internet)
+# 1. Generate Nix lock file (requires internet)
 nix flake lock
 
-# Enter development shell
-nix develop
+# 2. Install mise if not already installed
+curl https://mise.run | sh
 
-# Initialize mise (if not already done)
+# 3. Configure Python via mise
 mise install
 
-# Run tests to verify setup
+# 4. Enter development shell
+nix develop
+
+# 5. Create Python virtual environment
+python -m venv .venv
+source .venv/bin/activate
+
+# 6. Install Python dependencies
+pip install openai-whisper ffmpeg-python pillow ruff pytest pytest-mock
+
+# 7. Run tests to verify setup
 mise run test
 ```
 
@@ -129,12 +160,19 @@ direnv status
 direnv allow
 ```
 
-## Benefits of Nix
+## Benefits of This Hybrid Approach
 
-- **Reproducible:** Same environment across all machines
-- **Isolated:** No system pollution, dependencies contained
-- **Declarative:** All dependencies in one file (flake.nix)
-- **Rollbackable:** Easy to revert to previous versions
+### Nix for System Tools
+- **Reproducible:** Same ffmpeg, poppler, imagemagick versions everywhere
+- **Isolated:** No system pollution with brew packages
+- **Declarative:** System deps in flake.nix
+- **Complex tools:** Handles tools with many system dependencies
+
+### mise for Python
+- **Flexibility:** Easy Python version switching
+- **Standard workflow:** Use pip/venv as normal
+- **Project-specific:** .mise.toml defines Python version
+- **Fast iteration:** No Nix rebuilds for Python changes
 
 ## Updating Dependencies
 
@@ -148,14 +186,17 @@ nix flake lock --update-input nixpkgs
 
 ## Without Nix (Alternative)
 
-If you can't use Nix, install dependencies manually:
+If you can't use Nix, install system tools manually:
 
 ```bash
-# macOS
-brew install python@3.12 ffmpeg poppler imagemagick jq
+# macOS - system tools only
+brew install ffmpeg poppler imagemagick jq
 
-# Python packages
+# Python still managed by mise
+mise install
+python -m venv .venv
+source .venv/bin/activate
 pip install openai-whisper ffmpeg-python pillow ruff pytest pytest-mock
 ```
 
-But Nix is recommended for consistency!
+Note: Using Nix ensures everyone has the exact same versions of system tools!
