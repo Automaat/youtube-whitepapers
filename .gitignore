@@ -42,3 +42,13 @@ colors.txt
 
 # YouTube API credentials
 .youtube-credentials/
+
+# Nix
+.direnv/
+.envrc.local
+result
+result-*
+flake.lock
+
+# Whisper cache
+.whisper-cache/
