@@ -7,6 +7,10 @@
   },
   "colors": {
     "llm": "blue",
-    "opeating-systems": "deep green"
+    "operating-systems": "deep green",
+    "programming-languages": "purple",
+    "distributed-computing": "pink",
+    "security": "red",
+    "networking": "orange"
   }
 }
