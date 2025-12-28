@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upload video to YouTube with metadata and thumbnail.
+"""Upload video(s) to YouTube with metadata and thumbnail.
 
 Setup (one-time):
   1. Go to Google Cloud Console: https://console.cloud.google.com
@@ -9,9 +9,10 @@ Setup (one-time):
   5. Download client_secret.json to .youtube-credentials/
 
 Usage:
-  mise run upload -- 28
+  mise run upload                   # Upload all ready episodes sequentially
+  mise run upload -- 28             # Upload single episode
   mise run upload -- 28 --dry-run
-  mise run upload -- 28 --privacy unlisted
+  mise run upload --privacy unlisted
 """
 
 from __future__ import annotations
@@ -236,6 +237,152 @@ def add_to_playlist(youtube: Resource, video_id: str, playlist_id: str) -> None:
     ).execute()
 
 
+def get_ready_episodes() -> list[str]:
+    """Get list of episodes ready for upload (have video, metadata, thumbnail)."""
+    import json
+
+    status_file = WHITEPAPERS_DIR / "status.json"
+    if not status_file.exists():
+        return []
+
+    data = json.loads(status_file.read_text())
+
+    ready = []
+    for paper in data["papers"]:
+        if paper.get("uploaded", False):
+            continue
+
+        ep_num = paper["episode"]
+
+        video, metadata, thumbnail = find_episode_files(ep_num)
+        if video and metadata and thumbnail:
+            ready.append(ep_num)
+
+    return sorted(ready, key=lambda x: int(x))
+
+
+def check_sequential(episodes: list[str]) -> tuple[bool, str | None]:
+    """Check if episode list is sequential. Returns (is_sequential, error_msg)."""
+    if not episodes:
+        return True, None
+
+    nums = [int(ep) for ep in episodes]
+
+    for i in range(len(nums) - 1):
+        if nums[i + 1] != nums[i] + 1:
+            return False, f"Gap in sequence: {nums[i]:02d} → {nums[i + 1]:02d}"
+
+    return True, None
+
+
+def upload_single_episode(
+    ep_num: str,
+    privacy: str,
+    skip_thumbnail: bool,
+    skip_playlist: bool,
+    dry_run: bool,
+) -> bool:
+    """Upload single episode. Returns True on success."""
+    video, metadata, thumbnail = find_episode_files(ep_num)
+
+    print(f"📺 YouTube Upload: Episode {ep_num}")
+    print("━" * 50)
+
+    errors = []
+
+    if not video:
+        errors.append(f"Video not found: youtube/output/{ep_num}-*.mp4")
+    else:
+        print(f"   ✅ Video: {video.name} ({video.stat().st_size / 1024**2:.1f}MB)")
+
+    if not metadata:
+        errors.append(f"Metadata not found: youtube/output/{ep_num}-*-metadata.txt")
+    else:
+        print(f"   ✅ Metadata: {metadata.name}")
+
+    if not thumbnail:
+        if not skip_thumbnail:
+            errors.append(f"Thumbnail not found: youtube/thumbnails/{ep_num}-*-optimized.png")
+    else:
+        print(f"   ✅ Thumbnail: {thumbnail.name}")
+
+    if errors:
+        print()
+        for err in errors:
+            print(f"❌ {err}")
+        return False
+
+    meta = parse_metadata(metadata)
+
+    if not meta["title"]:
+        print("❌ Could not parse title from metadata")
+        return False
+
+    print()
+    title_preview = meta["title"][:60] + "..." if len(meta["title"]) > 60 else meta["title"]
+    print(f"   📝 Title: {title_preview}")
+    print(f"   🏷️  Tags: {', '.join(meta['tags'][:5])}")
+
+    ep_name = video.stem
+    category = detect_category(ep_name)
+    playlist_id = get_playlist_id(category) if category else None
+
+    if category:
+        print(f"   📂 Category: {category}")
+        if playlist_id:
+            print(f"   📋 Playlist: {playlist_id}")
+        else:
+            print("   ⚠️  No playlist ID configured for category")
+    else:
+        print("   ⚠️  Could not detect category")
+
+    print()
+    print(f"   🔒 Privacy: {privacy}")
+
+    if dry_run:
+        print()
+        print("━" * 50)
+        print("✅ Dry run complete - all validations passed")
+        return True
+
+    print()
+    print("━" * 50)
+
+    youtube = get_authenticated_service()
+
+    video_id = upload_video(
+        youtube,
+        video,
+        meta["title"],
+        meta["description"],
+        meta["tags"],
+        privacy,
+    )
+    print(f"   ✅ Video uploaded: {video_id}")
+
+    if thumbnail and not skip_thumbnail:
+        print("🔄 Uploading thumbnail...")
+        upload_thumbnail(youtube, video_id, thumbnail)
+        print("   ✅ Thumbnail uploaded")
+
+    if playlist_id and not skip_playlist:
+        print(f"🔄 Adding to playlist {category}...")
+        add_to_playlist(youtube, video_id, playlist_id)
+        print("   ✅ Added to playlist")
+
+    print()
+    print("━" * 50)
+    print("✅ Upload complete!")
+    video_url = f"https://www.youtube.com/watch?v={video_id}"
+    print(f"   Studio: https://studio.youtube.com/video/{video_id}/edit")
+    print(f"   Public: {video_url}")
+
+    update_episode_status(ep_num, "uploaded", True)
+    update_episode_field(ep_num, "youtube_url", video_url)
+
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Upload video to YouTube with metadata and thumbnail",
@@ -249,12 +396,17 @@ Setup (one-time):
   5. Download client_secret.json to .youtube-credentials/
 
 Examples:
-  %(prog)s 28
+  %(prog)s 28                    # Upload single episode
+  %(prog)s                       # Upload all ready episodes sequentially
   %(prog)s 28 --dry-run
   %(prog)s 28 --privacy unlisted
         """,
     )
-    parser.add_argument("episode", help="Episode number (e.g., 28)")
+    parser.add_argument(
+        "episode",
+        nargs="?",
+        help="Episode number (e.g., 28). If omitted, uploads all ready episodes sequentially.",
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -278,106 +430,62 @@ Examples:
     )
     args = parser.parse_args()
 
-    ep_num = args.episode
+    # Sequential upload mode
+    if not args.episode:
+        ready_episodes = get_ready_episodes()
 
-    video, metadata, thumbnail = find_episode_files(ep_num)
+        if not ready_episodes:
+            print("❌ No episodes ready for upload")
+            print("   Episodes need: video, metadata, and thumbnail")
+            return 1
 
-    print(f"📺 YouTube Upload: Episode {ep_num}")
-    print("━" * 50)
+        is_sequential, error_msg = check_sequential(ready_episodes)
+        if not is_sequential:
+            print(f"❌ {error_msg}")
+            print("   Episodes must be uploaded sequentially without gaps")
+            return 1
 
-    errors = []
-
-    if not video:
-        errors.append(f"Video not found: youtube/output/{ep_num}-*.mp4")
-    else:
-        print(f"   ✅ Video: {video.name} ({video.stat().st_size / 1024**2:.1f}MB)")
-
-    if not metadata:
-        errors.append(f"Metadata not found: youtube/output/{ep_num}-*-metadata.txt")
-    else:
-        print(f"   ✅ Metadata: {metadata.name}")
-
-    if not thumbnail:
-        if not args.skip_thumbnail:
-            errors.append(f"Thumbnail not found: youtube/thumbnails/{ep_num}-*-optimized.png")
-    else:
-        print(f"   ✅ Thumbnail: {thumbnail.name}")
-
-    if errors:
+        print(f"📺 Sequential Upload: {len(ready_episodes)} episodes")
+        print(f"   Episodes: {ready_episodes[0]} → {ready_episodes[-1]}")
+        print("━" * 50)
         print()
-        for err in errors:
-            print(f"❌ {err}")
-        return 1
 
-    meta = parse_metadata(metadata)
+        for i, ep_num in enumerate(ready_episodes, 1):
+            print(f"[{i}/{len(ready_episodes)}] Episode {ep_num}")
+            print()
 
-    if not meta["title"]:
-        print("❌ Could not parse title from metadata")
-        return 1
+            success = upload_single_episode(
+                ep_num,
+                args.privacy,
+                args.skip_thumbnail,
+                args.skip_playlist,
+                args.dry_run,
+            )
 
-    print()
-    title_preview = meta["title"][:60] + "..." if len(meta["title"]) > 60 else meta["title"]
-    print(f"   📝 Title: {title_preview}")
-    print(f"   🏷️  Tags: {', '.join(meta['tags'][:5])}")
+            if not success:
+                print()
+                print(f"❌ Upload failed for episode {ep_num}")
+                return 1
 
-    ep_name = video.stem
-    category = detect_category(ep_name)
-    playlist_id = get_playlist_id(category) if category else None
+            if i < len(ready_episodes):
+                print()
+                print()
 
-    if category:
-        print(f"   📂 Category: {category}")
-        if playlist_id:
-            print(f"   📋 Playlist: {playlist_id}")
-        else:
-            print("   ⚠️  No playlist ID configured for category")
-    else:
-        print("   ⚠️  Could not detect category")
-
-    print()
-    print(f"   🔒 Privacy: {args.privacy}")
-
-    if args.dry_run:
         print()
         print("━" * 50)
-        print("✅ Dry run complete - all validations passed")
+        print(f"✅ All {len(ready_episodes)} episodes uploaded successfully!")
         return 0
 
-    print()
-    print("━" * 50)
-
-    youtube = get_authenticated_service()
-
-    video_id = upload_video(
-        youtube,
-        video,
-        meta["title"],
-        meta["description"],
-        meta["tags"],
+    # Single episode mode
+    success = upload_single_episode(
+        args.episode,
         args.privacy,
+        args.skip_thumbnail,
+        args.skip_playlist,
+        args.dry_run,
     )
-    print(f"   ✅ Video uploaded: {video_id}")
 
-    if thumbnail and not args.skip_thumbnail:
-        print("🔄 Uploading thumbnail...")
-        upload_thumbnail(youtube, video_id, thumbnail)
-        print("   ✅ Thumbnail uploaded")
-
-    if playlist_id and not args.skip_playlist:
-        print(f"🔄 Adding to playlist {category}...")
-        add_to_playlist(youtube, video_id, playlist_id)
-        print("   ✅ Added to playlist")
-
-    print()
-    print("━" * 50)
-    print("✅ Upload complete!")
-    video_url = f"https://www.youtube.com/watch?v={video_id}"
-    print(f"   Studio: https://studio.youtube.com/video/{video_id}/edit")
-    print(f"   Public: {video_url}")
-
-    update_episode_status(ep_num, "uploaded", True)
-    update_episode_field(ep_num, "youtube_url", video_url)
-
-    return 0
+    return 0 if success else 1
 
 
 if __name__ == "__main__":

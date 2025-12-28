@@ -21,7 +21,7 @@
 
             # System tools
             ffmpeg-full
-            poppler_utils  # provides pdftoppm
+            poppler-utils  # provides pdftoppm (renamed from poppler_utils)
             imagemagick
             jq
 

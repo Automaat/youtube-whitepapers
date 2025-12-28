@@ -81,15 +81,16 @@ description = "Format code with ruff"
 run = "ruff format scripts/"
 
 [tasks.upload]
-description = "Upload video to YouTube: mise run upload -- EPISODE_NUM"
-run = "python scripts/upload_youtube.py {{arg(i=0)}} {{option(name='dry-run')}} {{option(name='privacy')}} {{option(name='skip-thumbnail')}} {{option(name='skip-playlist')}}"
-# Example: mise run upload -- 28
+description = "Upload video(s) to YouTube: mise run upload [-- EPISODE_NUM]"
+run = "python scripts/upload_youtube.py {{arg(i=0, default='')}} {{option(name='dry-run')}} {{option(name='privacy')}} {{option(name='skip-thumbnail')}} {{option(name='skip-playlist')}}"
+# Example: mise run upload                   # Upload all ready episodes sequentially
+# Example: mise run upload -- 28              # Upload single episode
 # Example: mise run upload -- 28 --dry-run
-# Example: mise run upload -- 28 --privacy unlisted
+# Example: mise run upload --privacy unlisted
 
 [tasks.publish]
 description = "Publish YouTube video (private → public): mise run publish -- EPISODE_NUM"
-run = "python scripts/publish_youtube.py {{arg(i=0)}} {{option(name='dry-run')}}"
+run = "python scripts/publish_youtube.py {{arg(i=0, default='')}} {{option(name='dry-run')}}"
 # Example: mise run publish -- 28
 # Example: mise run publish -- 28 --dry-run
 
