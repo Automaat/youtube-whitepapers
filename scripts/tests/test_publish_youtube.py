@@ -1,6 +1,5 @@
 """Tests for publish_youtube.py script."""
 
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
