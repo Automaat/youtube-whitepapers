@@ -490,9 +490,22 @@ class TestMain:
         captured = capsys.readouterr()
         assert "No playlist ID configured" in captured.out
 
-    def test_shows_usage_when_no_args(self):
-        """Should show usage when no arguments provided."""
+    def test_handles_no_args(self, tmp_path, capsys):
+        """Should handle no arguments by checking for ready episodes."""
         from scripts.upload_youtube import main
 
-        with patch("sys.argv", ["upload_youtube.py"]), pytest.raises(SystemExit):
-            main()
+        output_dir = tmp_path / "output"
+        thumbnails_dir = tmp_path / "thumbnails"
+        output_dir.mkdir()
+        thumbnails_dir.mkdir()
+
+        with (
+            patch("sys.argv", ["upload_youtube.py"]),
+            patch("scripts.upload_youtube.OUTPUT_DIR", output_dir),
+            patch("scripts.upload_youtube.THUMBNAILS_DIR", thumbnails_dir),
+        ):
+            result = main()
+
+        assert result == 1
+        captured = capsys.readouterr()
+        assert "No episodes ready for upload" in captured.out
