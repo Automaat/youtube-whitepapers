@@ -1,0 +1,24 @@
+TYTUŁ:
+Disconnected Operation w systemie plików Coda | Deep Dive
+
+OPIS:
+🎙️ Początek lat 90.: mobilność oznaczała laptopy bez sieci i koniec pracy. Koda pokazała, że rozłączenie może być normalnym trybem operacyjnym, a nie awarią.
+
+W tym odcinku omawiamy:
+• Problem pracy w trybie offline i ograniczenia tradycyjnych systemów rozproszonych
+• Architektura Coda: replikacja na serwerach (AVSG) + disconnected operation
+• Venus - inteligentny klient z trzema trybami: gromadzenie, emulacja, reintegracja
+• Optymistyczna kontrola replikacji oparta na danych empirycznych (99,5% bez konfliktów)
+• Client Modification Log (CML) i mechanizmy rozwiązywania konfliktów
+• Wpływ na współczesne systemy: Git, Dropbox, Google Docs
+• Pytanie: czy cloud-first cofnął nas w dostępności offline?
+
+📄 Oryginalny artykuł: ACM Transactions on Computer Systems 1992
+https://www.cs.cmu.edu/~satya/docdir/kistler-tocs-1992.pdf
+
+Autorzy: James J. Kistler, M. Satyanarayanan (Carnegie Mellon University)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#DistributedSystems #FileSystem #Coda #OfflineFirst #OptimisticReplication #MobileComputing #ComputerScience #OperatingSystems #Carnegie #ResearchPaper

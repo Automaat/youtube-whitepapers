@@ -1,0 +1,25 @@
+TYTUŁ:
+Procesy i Monitory w Mesa - Lekcje z Xerox PARC | Deep Dive
+
+OPIS:
+🎙️ Głębokie zanurzenie w przełomowy artykuł z 1980 roku, który kształtuje współbieżność do dziś. Butler Lampson i David Redell opowiadają o realnych doświadczeniach z budowy systemu operacyjnego Pilot dla stacji roboczych Xerox Alto w Xerox PARC.
+
+W tym odcinku omawiamy:
+• Tanie i elastyczne procesy - FORK i JOIN jako fundament współbieżności
+• Monitory jako struktura synchronizacji - współdzielone dane, procedury i blokady
+• Trzy kluczowe pęknięcia teorii: zagnieżdżone monitory, inwersja priorytetów, "naked notify"
+• Pragmatyczne rozwiązania Mesa: dyscyplina architektoniczna, dziedziczenie priorytetów, wakeup-waiting
+• Zmiana filozofii: NOTIFY jako wskazówka vs. gwarancja Hoare'a
+• Analiza wydajności w "tickach" - dlaczego monitory są szybkie
+• Dziedzictwo Mesa w Java (synchronized, wait, notify), POSIX pthreads, RTOS i algorytmach lock-free
+
+📄 Oryginalny artykuł: https://dl.acm.org/doi/10.1145/358818.358824
+
+Autorzy: Butler W. Lampson, David D. Redell (Xerox Palo Alto Research Center)
+
+Publikacja: Communications of the ACM, Vol. 23, No. 2 (Luty 1980), pp. 106-117
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#AI #MachineLearning #DeepLearning #ComputerScience #ProgrammingLanguages #ConcurrentProgramming #OperatingSystems #Monitors #Mesa #XeroxPARC #Synchronization #SystemsDesign #SoftwareEngineering #DistributedSystems #Java #POSIX #RTOS

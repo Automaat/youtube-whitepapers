@@ -1,0 +1,24 @@
+TYTUŁ:
+System Plików Oparty na Dzienniku (Log-Structured File System) | Deep Dive
+
+OPIS:
+🎙️ Cofamy się do lat 90., kiedy wydajność procesorów rosła wykładniczo, a dyski mechaniczne pozostawały w tyle. Ten przełomowy artykuł Rosenbluma i Ousterhaouta z Berkeley wprowadził rewolucyjne podejście: zamiast rozpraszać zapisy po całym dysku, LFS buforuje wszystko w pamięci i zapisuje jako jeden sekwencyjny strumień.
+
+W tym odcinku omawiamy:
+• Problem wydajnościowy tradycyjnych systemów plików (Unix FFS) - operacje I/O wymagały wielokrotnych przesunięć głowicy dysku
+• Architekturę opartą na segmentach - dysk jako sekwencyjny dziennik z eliminacją pozycjonowania głowicy (seeks)
+• Mapę i-węzłów (Inode Map) - rozwiązanie problemu dynamicznej lokalizacji danych w dzienniku
+• Proces czyszczenia segmentów (Segment Cleaning) - inteligentne zarządzanie przestrzenią dysku po jego zapełnieniu
+• Lokalność czasową vs logiczną - kluczowe odkrycie wpływające na wydajność czyszczenia
+• Politykę cost-benefit - optymalizacja wyboru segmentów do czyszczenia przy minimalnym koszcie
+• Wyniki wydajnościowe - LFS osiągał do 10x lepszą wydajność od SunOS przy operacjach na małych plikach
+• Trwałe dziedzictwo - wpływ LFS na nowoczesne systemy plików (Copy-on-Write, SSD, bazy danych, big data)
+
+📄 Oryginalny artykuł: https://people.eecs.berkeley.edu/~brewer/cs262/LFS.pdf
+
+Autorzy: Mendel Rosenblum, John K. Ousterhout (UC Berkeley)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#FileSystem #SystemyPlikow #LFS #Berkeley #DistributedSystems #OperatingSystems #ComputerScience #ResearchPaper #DeepDive #Polski

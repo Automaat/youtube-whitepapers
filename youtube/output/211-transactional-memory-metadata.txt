@@ -1,0 +1,25 @@
+TYTUŁ:
+Pamięć Transakcyjna: Rewolucja w Programowaniu Współbieżnym | Deep Dive
+
+OPIS:
+🎙️ Analiza przełomowej pracy Maurice'a Herlihy'ego i J. Eliota Mossa z 1993 roku, która zaproponowała radykalnie nowe podejście do synchronizacji w systemach wielowątkowych - pamięć transakcyjną.
+
+W tym odcinku omawiamy:
+• Problemy tradycyjnych blokad: inwersja priorytetów, zakleszczenia i złożoność kompozycji
+• Model pamięci transakcyjnej inspirowany bazami danych - zasady ACID w sprzęcie
+• Rozszerzenia zestawu instrukcji: LT, LTX, ST, COMMIT, ABORT i VALIDATE
+• Implementacja w transakcyjnej pamięci podręcznej obok standardowego cache procesora
+• Protokół koherencji automatycznie wykrywający konflikty między transakcjami
+• Dowód wydajności: pamięć transakcyjna przewyższa najlepsze techniki oparte na blokadach
+• Przewaga nad tradycyjnymi podejściami: kompozycyjność, brak inwersji priorytetów, optymistyczna współbieżność
+• Ograniczenia oryginalnej propozycji: rozmiar transakcji, operacje I/O, fałszywe współdzielenie
+• Dziedzictwo idei: od koncepcji z 1993 roku przez Intel TSX (2013) i IBM POWER8 (2014) do współczesnego programowania współbieżnego
+
+📄 Oryginalny artykuł: "Transactional Memory: Architectural Support for Lock-Free Data Structures" (1993)
+
+Autorzy: Maurice Herlihy (Brown University), J. Eliot Moss (University of Massachusetts)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#TransactionalMemory #ConcurrentProgramming #Multiprocessing #ComputerArchitecture #LockFree #ACID #HardwareSupport #IntelTSX #Herlihy #Moss #ParallelComputing #SystemsProgramming #1993

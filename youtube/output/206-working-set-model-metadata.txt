@@ -1,0 +1,26 @@
+TYTUŁ:
+Model Zestawu Roboczego (Working Set Model) - Denning 1968 | Deep Dive
+
+OPIS:
+🎙️ Zagłębiamy się w klasyczną pracę Petera J. Denninga z 1968 roku, która zrewolucjonizowała zarządzanie pamięcią w systemach operacyjnych. Model zestawu roboczego (Working Set Model) rozwiązał problem thrashingu - krytyczny kryzys wydajnościowy wczesnych systemów wielozadaniowych - wprowadzając eleganckie połączenie obserwacji zachowania programów z mechanizmami zarządzania pamięcią.
+
+W tym odcinku omawiamy:
+• Kryzys zarządzania pamięcią w erze systemów wielozadaniowych (1968)
+• Fundamenty pamięci wirtualnej i kluczową obserwację lokalności odwołań
+• Dlaczego tradycyjne algorytmy wymiany stron (FIFO, LRU) zawodziły
+• Definicję zestawu roboczego W(t,τ) i jej rewolucyjne znaczenie
+• Właściwości matematyczne i strategię implementacji
+• Politykę równowagi (Balance Policy) zapobiegającą thrashingowi
+• Wpływ na współczesne systemy operacyjne i nowoczesne zastosowania
+
+📄 Oryginalny artykuł: https://dl.acm.org/doi/10.1145/363095.363141
+
+Autor: Peter J. Denning (Naval Postgraduate School, Monterey, California)
+
+Publikacja: Communications of the ACM, Vol. 11, No. 5, May 1968, pp. 323-333
+Nagroda: ACM Best Paper Award for Systems (1968)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#SystemyOperacyjne #PamiećWirtualna #Thrashing #WorkingSet #PeterDenning #ZarządzaniePamięcią #InformatykaKlasyczna #SystemsResearch #OperatingSystems #ComputerScience #DeepDive

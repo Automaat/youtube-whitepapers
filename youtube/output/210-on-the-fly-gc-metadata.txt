@@ -1,0 +1,24 @@
+TYTUŁ:
+On-the-Fly Garbage Collection: Jak Dijkstra nauczył programy sprzątać w tle | Deep Dive
+
+OPIS:
+🎙️ Legendarny artykuł Dijkstry i Lamporta z 1978 roku, który rozwiązał problem "zatrzymywania świata" w odśmiecaniu pamięci. Pierwsza implementacja współbieżnego Garbage Collectora działającego równolegle z aplikacją, bez przerw w jej działaniu.
+
+W tym odcinku omawiamy:
+• Problem synchronizacji mutatora i kolektora w zarządzaniu pamięcią
+• Abstrakcję trzech kolorów (biały, szary, czarny) jako kluczową ideę algorytmu
+• Niezmiennik trójkolorowy - regułę zapewniającą poprawność współbieżnego GC
+• Mechanizm bariery zapisu (Write Barrier) wymuszający spełnienie niezmiennika
+• Siłę słabej synchronizacji opartej na atomowych operacjach odczytu/zapisu
+• Kompromis wydajnościowy: przewidywalny narzut zamiast długich pauz
+• Trwałe dziedzictwo w Java (Shenandoah, ZGC), Go i .NET
+• Intelektualną uczciwość autorów w przyznaniu się do błędów
+
+📄 Oryginalny artykuł: https://dl.acm.org/doi/10.1145/359642.359655
+
+Autorzy: Edsger W. Dijkstra, Leslie Lamport, A. J. Martin, C. S. Scholten, E. F. M. Steffens (1978)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#GarbageCollection #Dijkstra #LeslieLamport #ConcurrentGC #ComputerScience #MemoryManagement #SystemsProgramming #DistributedSystems #ProgrammingLanguages #Java #GoLang #DotNET #CACM #ClassicCS

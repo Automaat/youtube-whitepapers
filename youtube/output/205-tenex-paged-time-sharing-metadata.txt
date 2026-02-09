@@ -1,0 +1,26 @@
+TYTUŁ:
+TENEX - Paged Time-Sharing System dla PDP-10 | Deep Dive
+
+OPIS:
+🎙️ W tym odcinku zgłębiamy historyczny system operacyjny TENEX z 1972 roku, stworzony przez Bolt Beranek and Newman (BBN) dla komputera PDP-10. TENEX był pionierem koncepcji, które dziś są fundamentem nowoczesnych systemów - od pamięci wirtualnej po interfejs zorientowany na użytkownika.
+
+W tym odcinku omawiamy:
+• Architekturę pamięci wirtualnej opartej na stronicowaniu z BBN Pager
+• Innowacyjny interfejs z rozpoznawaniem poleceń i klawiszem Escape
+• Hierarchiczny system plików z automatycznym wersjonowaniem
+• Doświadczenie użytkownika jako najwyższy priorytet (Good Human Engineering)
+• Mechanizm copy-on-write dla efektywnego współdzielenia pamięci
+• Elastyczność interfejsu - trzy style wprowadzania poleceń
+• Hierarchię procesów z mechanizmami freezing i killing
+• Integrację z PDP-10 poprzez niestandardowy sprzęt BBN Pager
+• Pragmatyczne podejście do adopcji przez warstwę kompatybilności z DEC 10/50
+• Kontekst powstania systemu - współpraca BBN i ARPA, prekursor ARPANET
+
+📄 Oryginalny artykuł: https://dl.acm.org/doi/10.1145/361268.361271
+
+Autorzy: Daniel G. Bobrow, Jerry D. Burchfiel, Daniel L. Murphy, Raymond S. Tomlinson (Bolt Beranek and Newman Inc.)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#TENEX #SystemyOperacyjne #PDP10 #PamięćWirtualna #BBN #ARPA #ComputerScience #HistoriaInformatyki #TimeSharing #GoodHumanEngineering #Stronicowanie #ARPANET #VirtualMemory #OperatingSystems #DeepDive

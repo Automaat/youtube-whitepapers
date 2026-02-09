@@ -1,0 +1,27 @@
+TYTUŁ:
+Rozproszone Migawki: Algorytm Chandy-Lamporta | Deep Dive
+
+OPIS:
+🎙️ Jak zrobić spójne "zdjęcie" działającego systemu rozproszonego, gdy procesy działają asynchronicznie i nie ma globalnego zegara? Odkryj klasyczny algorytm Chandy-Lamporta z 1985 roku, który rozwiązał ten fundamentalny problem.
+
+W tym odcinku omawiamy:
+• Problem globalnego stanu w systemach rozproszonych
+• Protokół migawkowy Chandy-Lamporta z użyciem znaczników (markers)
+• Właściwości stabilne i predykaty systemowe
+• Zapisywanie stanów procesów i kanałów komunikacyjnych
+• Propagację fali znaczników i spójne cięcia
+• Model systemu i założenia (kanały FIFO)
+• Gwarancje spójności zarejestrowanych stanów
+• Praktyczne zastosowania: debugging, checkpointing, wykrywanie zakleszczeń, detekcja zakończenia
+• Rozszerzenia algorytmu: wyzwalanie migawek, kanały non-FIFO, dynamiczna topologia
+• Odporność na błędy: rollback-recovery i globalne punkty kontrolne
+
+📄 Oryginalny artykuł: https://lamport.azurewebsites.net/pubs/chandy.pdf
+
+Autorzy: K. Mani Chandy i Leslie Lamport (1985)
+Publikacja: ACM Transactions on Computer Systems, Vol. 3, No. 1
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#SystemyRozproszone #DistributedSystems #ChandyLamport #Snapshots #Algorithms #ComputerScience #FaultTolerance #Checkpointing #Deadlock #LeslieLamport

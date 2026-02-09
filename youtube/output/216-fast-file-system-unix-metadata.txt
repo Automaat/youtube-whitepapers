@@ -1,0 +1,26 @@
+TYTUŁ:
+Fast File System dla UNIX | Deep Dive
+
+OPIS:
+🎙️ Rewolucja w systemach plików UNIX - jak Berkeley Computer Systems Research Group osiągnęło 10-krotny wzrost wydajności dzięki cylinder groups, fragmentom i inteligentnym strategiom alokacji.
+
+W tym odcinku omawiamy:
+• Kryzys wydajności oryginalnego systemu plików UNIX (2% przepustowości dysku)
+• Problem rozmiaru bloków - dylemat między wydajnością a efektywnością wykorzystania przestrzeni
+• Cylinder groups - podział dysku na zorganizowane jednostki
+• Polityki alokacji plików i katalogów zapewniające lokalność danych
+• Fragmenty jako rozwiązanie problemu małych plików
+• Wyniki: wzrost z 29 KB/s do 466 KB/s i wykorzystanie 47% przepustowości dysku
+• Optymalizacja narzutu CPU - redukcja z 40% do 11% przez przepisanie w asemblerze
+• Mechanizm utrzymania wydajności - rezerwa wolnego miejsca (10%)
+• Innowacje w interfejsie: długie nazwy plików (255 znaków), symbolic links, atomowa operacja rename(), advisory locking, quotas
+• Dziedzictwo FFS - fundament dla ext2/3/4, NTFS, HFS+, ZFS
+
+📄 Oryginalny artykuł: https://people.eecs.berkeley.edu/~brewer/cs262/FFS.pdf
+
+Autorzy: Marshall Kirk McKusick, William N. Joy, Samuel J. Leffler, Robert S. Fabry (Computer Systems Research Group, UC Berkeley)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#UNIX #FileSystem #OperatingSystems #Berkeley #BSD #Storage #ComputerScience #SystemsResearch #FFS #Performance

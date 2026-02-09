@@ -1,0 +1,24 @@
+TYTUŁ:
+Dwa Spojrzenia na Programowanie - Wizja Dijkstry | Deep Dive
+
+OPIS:
+🎙️ Zanurz się w rewolucyjny esej Edsgera W. Dijkstry, który bezlitośnie analizuje dwa fundamentalnie różne podejścia do programowania - i pokazuje, dlaczego jedno z nich prowadzi do katastrofy.
+
+W tym odcinku omawiamy:
+• Spojrzenie A vs B - dwie przeciwstawne filozofie programowania
+• Dlaczego COBOL i "prosty angielski" skazany był na porażkę
+• Kryzys oprogramowania lat 70. i jego psychologiczne korzenie
+• Dlaczego AI jako rozwiązanie to mit, który powtarza błędy przeszłości
+• Monitory jako narzędzie dyscypliny - wprowadzenie do programowania współbieżnego
+• Precyzja matematyczna kontra zwodnicze metafory w projektowaniu systemów
+• Dlaczego dziedzictwo Dijkstry jest ważniejsze dziś niż kiedykolwiek
+
+📄 Oryginalny esej: EWD540 "Two views of programming" (1975)
+https://www.cs.utexas.edu/users/EWD/ewd05xx/EWD540.PDF
+
+Autor: Edsger W. Dijkstra
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#Dijkstra #ProgrammingPhilosophy #SoftwareEngineering #Monitors #ComputerScience #Concurrency #OperatingSystems #SoftwareCrisis #COBOL #AI #DeepDive

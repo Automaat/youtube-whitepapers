@@ -1,0 +1,25 @@
+TYTUŁ:
+Odporne na Błędy Maszyny Stanów: Fundament Rozproszonych Systemów | Deep Dive
+
+OPIS:
+🎙️ Zagłębiamy się w klasyczny artykuł, który zmienił sposób projektowania niezawodnych systemów rozproszonych. Model maszyny stanów odpornej na błędy to fundamentalna technika pozwalająca na budowę usług, które działają niezawodnie mimo awarii komponentów.
+
+W tym odcinku omawiamy:
+• Deterministyczne maszyny stanów jako fundament replikacji
+• Model błędów bizantyjskich vs fail-stop i ich wpływ na projektowanie systemów
+• Koordynacja replik: wymagania Agreement i Order
+• Różnice między modelami synchronicznymi a asynchronicznymi (FLP impossibility)
+• Mechanizmy odzyskiwania stanu i dynamicznych zmian konfiguracji
+• Interfejs zewnętrzny: filtrowanie duplikatów i zarządzanie odpowiedziami
+• Porównanie Paxos i Raft jako praktycznych implementacji
+• Trzy filary niezawodnej usługi: Replikacja, Determinizm, Konsensus
+
+📄 Oryginalny artykuł: "Implementing Fault-Tolerant Services Using the State Machine Approach: A Tutorial"
+Autor: Fred B. Schneider (Cornell University)
+
+Artykuł wprowadza ogólną metodologię implementacji usług odpornych na błędy w systemach rozproszonych, która stała się podstawą teoretyczną dla większości współczesnych systemów konsensusowych, w tym Paxos (1998) i Raft (2014).
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#SystemyRozproszone #DistributedSystems #FaultTolerance #StateMachine #Consensus #Paxos #Raft #ByzantineFaults #Replication #ComputerScience #DistributedComputing #SystemDesign

@@ -1,0 +1,25 @@
+TYTUŁ:
+AFS: Skalowanie Systemu Plików dla 5000 Użytkowników | Deep Dive
+
+OPIS:
+🎙️ W 1988 roku zespół z Carnegie Mellon University stanął przed wyzwaniem: stworzyć system plików, który obsłuży 5000 jednoczesnych użytkowników. Istniejące rozwiązania jak NFS pękały już przy 20-30 klientach. Jak inżynierowie zaprojektowali AFS - system, który nie tylko osiągnął cel, ale stał się fundamentem dla nowoczesnych systemów rozproszonych?
+
+W tym odcinku omawiamy:
+• Architekturę Venus/Vice - przełożenie inteligencji na klienta
+• Problem z prototypem - 62% ruchu to sprawdzanie aktualności cache
+• Mechanizm Callback - jak odwrócić model i zredukować ruch o 90%
+• Abstrakcję Fid i Woluminów - Location-independent identifiers
+• Starcie Tytanów - benchmarki AFS vs NFS pokazujące przewagę przy skali
+• Wyniki z CMU - obsługa 1000 użytkowników przy <12% wykorzystania pasma
+• Świadome Kompromisy - read optimization, on-close consistency, całoplikowe buforowanie
+• Dziedzictwo AFS - wpływ na CDN, webhooks, cloud storage i protokoły API
+
+📄 Oryginalny artykuł: Scale and Performance in a Distributed File System (1988)
+https://www.cs.cmu.edu/~satya/docdir/howard-tocs1988.pdf
+
+Autorzy: John H. Howard, Michael L. Kazar, Sherri G. Menees, David A. Nichols, M. Satyanarayanan, Robert N. Sidebotham, Michael J. West (Carnegie Mellon University)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#AFS #DistributedSystems #FileSystem #ScalabilityEngineering #ComputerScience #OperatingSystems #CachingStrategies #NetworkProtocols #SystemDesign #CMU #1980s #DeepDive

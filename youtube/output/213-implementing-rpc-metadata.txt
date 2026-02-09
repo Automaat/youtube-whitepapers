@@ -1,0 +1,25 @@
+TYTUŁ:
+Implementing Remote Procedure Calls (1984) - Jak Ukryć Sieć Przed Programistą | Deep Dive
+
+OPIS:
+🎙️ Rewolucyjna praca Birrella i Nelsona z Xerox PARC, która zdefiniowała fundament systemów rozproszonych. RPC sprawił, że zdalne wywołania mogły działać jak lokalne - ukrywając całą złożoność sieci, pakietów i połączeń przed programistą.
+
+W tym odcinku omawiamy:
+• Filozofię projektu: prostota i wierność semantyce lokalnej
+• Pięć kluczowych komponentów: User, User-stub, RPCRuntime, Server-stub, Server
+• Magia stubów: automatyczna generacja przez Lupine (prekursor IDL/protobuf)
+• Binding: jak klient znajduje serwer przez Grapevine (rozproszony DNS)
+• Protokół transportowy szyte na miarę: implicit ACKs, probe packets, minimal overhead
+• Gwarancje semantyczne: at-most-once vs exactly-once
+• Imponująca wydajność: 1059μs (1.1ms) w 1984 roku
+• Bezpieczeństwo: uwierzytelnianie, szyfrowanie end-to-end (DES), ochrona przed atakami
+• Dziedzictwo: CORBA, DCOM, Java RMI, gRPC, REST APIs
+
+📄 Oryginalny artykuł: https://web.eecs.umich.edu/~mosharaf/Readings/RPC.pdf
+
+Autorzy: Andrew D. Birrell, Bruce Jay Nelson (Xerox Palo Alto Research Center)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#DistributedSystems #RPC #gRPC #Microservices #ComputerScience #XeroxPARC #NetworkProtocols #SystemsEngineering #SoftwareArchitecture #DistributedComputing #RemoteProcedureCalls #REST #API #ComputerHistory #TechHistory

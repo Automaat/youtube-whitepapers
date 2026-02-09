@@ -1,0 +1,24 @@
+TYTUŁ:
+Rewolucja Wirtualnych Maszyn: CP-67/CMS i Początki IBM VM/370 | Deep Dive
+
+OPIS:
+🎙️ Jak system współdzielenia czasu CP-67/CMS i IBM VM/370 zdefiniowały nowoczesną informatykę i położyły fundamenty pod technologię wirtualizacji, która napędza dzisiejsze chmury obliczeniowe.
+
+W tym odcinku omawiamy:
+• Dylemat ery mainframe: wysokie koszty i niska wykorzystanie zasobów
+• Przełomową koncepcję maszyny wirtualnej - każdy użytkownik otrzymuje iluzję własnego komputera
+• Architekturę dwóch światów: Control Program (CP) jako hipernadzorca i Cambridge Monitor System (CMS)
+• Techniki wirtualizacji sprzętu: cykl "Trap and Emulate", wirtualna pamięć i stronicowanie
+• Twierdzę izolacji: bezpieczeństwo, stabilność i możliwość uruchamiania różnych systemów operacyjnych
+• Wirtualizację rekursywną - uruchamianie VM/370 wewnątrz innej maszyny wirtualnej
+• Wydajność w świecie wirtualnym: kompromis między skalowalnością a overhead
+• Dziedzictwo: fundamenty dla VMware, KVM, Xen, Docker i chmury obliczeniowej (AWS, Azure)
+
+📄 Oryginalny artykuł: "A Virtual Machine Time-Sharing System" (IBM Systems Journal, 1972)
+
+Autorzy: Robert J. Creasy (IBM Thomas J. Watson Research Center)
+
+💡 Masz propozycję artykułu? Zgłoś: https://github.com/Automaat/youtube-whitepapers/issues
+
+TAGI:
+#Wirtualizacja #SystemyOperacyjne #VM370 #CP67 #CMS #IBM #TimeSharing #Mainframe #CloudComputing #HistoriaInformatyki #Hypervisor #DeepDive
