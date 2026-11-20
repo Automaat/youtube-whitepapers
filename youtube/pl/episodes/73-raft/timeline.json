@@ -11,6 +11,18 @@
   "introSeconds": 5.0,
   "outroSeconds": 5.0,
   "thumbnail": null,
+  "thumbnailArt": {
+    "term": "RAFT",
+    "tagline": "Zrozumiały konsensus",
+    "scene": "log_append",
+    "cue": "commit_marker",
+    "crop": [
+      160,
+      220,
+      900,
+      720
+    ]
+  },
   "chapters": [
     {
       "id": "c1",
