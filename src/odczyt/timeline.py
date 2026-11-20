@@ -1,28 +1,24 @@
-#!/usr/bin/env python3
 """Build the narration track, timeline.json and captions from synthesized segments.
 
-Reads build/tts/manifest.json (from tts_segments.py), places segments one after
-another with short pauses, converts cue character offsets to seconds using the
-ElevenLabs alignment, and writes everything Remotion needs into build/public/:
+Reads build/tts/manifest.json, places segments one after another with short
+pauses, converts cue character offsets to seconds using the ElevenLabs alignment,
+and writes everything Remotion needs into build/public/:
 
 - narration.wav   loudness-normalized narration (-14 LUFS)
-- timeline.json   scenes, cues, segments, chapters (props for the Episode composition)
-- thumbnail.png   copied from youtube/thumbnails/{slug}.png when it exists
+- timeline.json   scenes, cues, segments, chapters, thumbnail (Episode props)
 
-It also writes build/captions.srt for YouTube CC.
-
-Usage: python scripts/build_timeline.py 73
+It also writes build/captions.srt for YouTube CC and a copy of timeline.json next
+to the episode files.
 """
 
 import json
 import shutil
 import subprocess
-import sys
 import tempfile
 import wave
 from pathlib import Path
 
-from episode_pipeline import REPO_DIR, build_dir, find_episode_dir, load_episode, load_yaml
+from odczyt.episode import Episode
 
 SAMPLE_RATE = 44100
 PAUSE_SAME_SPEAKER = 0.35
@@ -227,80 +223,60 @@ def place_segments(
     return placed, round(cursor + TAIL_SECONDS, 3)
 
 
-def main() -> int:
-    if len(sys.argv) != 2:
-        print("Usage: build_timeline.py EPISODE_NUM")
-        return 1
-    episode_dir = find_episode_dir(sys.argv[1])
-    if episode_dir is None:
-        print(f"❌ No episode directory for {sys.argv[1]}")
-        return 1
-    episode = load_episode(episode_dir)
-    storyboard = load_yaml(episode_dir / "storyboard.yaml")
-    build = build_dir(episode_dir)
-    tts_dir = build / "tts"
+def missing_cues(storyboard: dict, scenes: list[dict]) -> list[str]:
+    """Storyboard cues that never appear in the script."""
+    by_id = {s["id"]: s["cues"] for s in scenes}
+    return [
+        f"{s['id']}:{c['name']}"
+        for s in storyboard["scenes"]
+        for c in s.get("cues", [])
+        if c["name"] not in by_id.get(s["id"], {})
+    ]
+
+
+def build_timeline(ep: Episode) -> dict:
+    """Write narration.wav, timeline.json and captions.srt; return the timeline."""
+    storyboard = ep.storyboard()
+    tts_dir = ep.build / "tts"
     manifest = json.loads((tts_dir / "manifest.json").read_text(encoding="utf-8"))
-    public = build / "public"
-    public.mkdir(exist_ok=True)
+    public = ep.public
 
     scene_chapter = {s["id"]: s.get("chapter") for s in storyboard["scenes"]}
     placed, audio_seconds = place_segments(
         manifest, tts_dir, scene_chapter, public / "narration.wav"
     )
-    try:
-        scenes = group_scenes(placed, scene_chapter, audio_seconds)
-    except ValueError as e:
-        print(f"❌ {e}")
-        return 1
-
-    missing = [
-        f"{s['id']}:{c['name']}"
-        for s in storyboard["scenes"]
-        for c in s.get("cues", [])
-        if not any(sc["id"] == s["id"] and c["name"] in sc["cues"] for sc in scenes)
-    ]
+    scenes = group_scenes(placed, scene_chapter, audio_seconds)
+    missing = missing_cues(storyboard, scenes)
     if missing:
         print(f"⚠️  Storyboard cues missing in script: {', '.join(missing)}")
 
-    thumb_src = REPO_DIR / "youtube" / "thumbnails" / f"{episode['slug']}.png"
-    thumbnail = None
-    if thumb_src.exists():
-        shutil.copy(thumb_src, public / "thumbnail.png")
-        thumbnail = "thumbnail.png"
+    image = None
+    override = ep.config.get("thumbnail_image")
+    if override:
+        shutil.copy(ep.repo / override, public / "thumbnail.png")
+        image = "thumbnail.png"
 
     timeline = {
-        "slug": episode["slug"],
-        "number": episode["number"],
-        "title": episode["title"],
-        "subtitle": episode["subtitle"],
-        "authors": episode["authors"],
-        "theme": episode.get("theme", "dark"),
+        "slug": ep.slug,
+        "number": ep.number,
+        "title": ep.config["title"],
+        "subtitle": ep.config["subtitle"],
+        "authors": ep.config["authors"],
+        "theme": ep.config.get("theme", "dark"),
         "fps": FPS,
         "audio": "narration.wav",
         "audioSeconds": audio_seconds,
         "introSeconds": INTRO_SECONDS,
         "outroSeconds": OUTRO_SECONDS,
-        "thumbnail": thumbnail,
+        "thumbnail": image,
+        "thumbnailArt": storyboard.get("thumbnail"),
         "chapters": [{"id": c["id"], "title": c["title"]} for c in storyboard["chapters"]],
         "scenes": scenes,
         "segments": [{k: s[k] for k in ("id", "speaker", "scene", "start", "end")} for s in placed],
     }
-    (public / "timeline.json").write_text(
-        json.dumps(timeline, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    (episode_dir / "timeline.json").write_text(
-        json.dumps(timeline, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    (build / "captions.srt").write_text(captions(placed), encoding="utf-8")
-
+    text = json.dumps(timeline, ensure_ascii=False, indent=2)
+    (public / "timeline.json").write_text(text, encoding="utf-8")
+    ep.file("timeline.json").write_text(text, encoding="utf-8")
+    (ep.build / "captions.srt").write_text(captions(placed), encoding="utf-8")
     print(f"✅ narration {audio_seconds:.1f}s, {len(scenes)} scenes, {len(placed)} segments")
-    print("| Scene | Start | End | Cues |")
-    print("|---|---|---|---|")
-    for s in scenes:
-        cues = ", ".join(f"{k}@{v:.1f}" for k, v in s["cues"].items())
-        print(f"| {s['id']} | {s['start']:.1f} | {s['end']:.1f} | {cues} |")
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    return timeline

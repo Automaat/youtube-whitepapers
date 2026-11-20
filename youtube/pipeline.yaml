@@ -1,0 +1,14 @@
+# Defaults for every diagram-first episode; episode.yaml overrides any key.
+theme: dark
+target_minutes: 12
+tts_model: eleven_v4
+voices:
+  narrator: H5xTcsAIeS5RAykjz57a  # Alex - Professional Narration Polish (Voice Library)
+  skeptic: Bz1e1clEKwgN71Vx7cxj   # Asia - Silky Polish Narrator (Voice Library)
+elevenlabs:
+  bitwarden_item: "ElevenLabs API key (Głęboki Odczyt)"
+pipeline:
+  gates: [script, video]   # owner sign-off points; remove one to run through it
+  review_rounds: 4         # scenario review + fix rounds before stopping
+  stills_fix_rounds: 2     # stills review + scene fix rounds before stopping
+  stills_per_review: 14    # stills per reviewer agent

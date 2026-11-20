@@ -69,7 +69,7 @@ export const scenes: Record<string, FC> = { hook: Hook };
 
 1. `npm --prefix youtube/remotion run typecheck` must pass (errors in other part files
    are not yours; report them).
-2. Render your stills: `uv run python scripts/render_episode.py stills {episode} --scenes <your ids comma-separated>`.
+2. Render your stills: `uv run odczyt stills {episode} --scenes <your ids comma-separated>`.
    PNGs land in `{episode_dir}/build/stills/` named `NN-<scene>--<cue>.png`.
 3. Read every still of your scenes. Fix overlaps, clipped text, empty frames, wrong
    numbers, elements outside the safe area, and anything that does not match the

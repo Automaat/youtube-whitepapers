@@ -1,17 +1,22 @@
-"""Tests for run_llm_step.py."""
+"""Tests for odczyt.llm."""
 
 import json
 
-from scripts.run_llm_step import STEPS, build_command, format_review_md, render_prompt
+import pytest
+
+from odczyt.llm import (
+    STEPS,
+    build_command,
+    format_review_md,
+    record_cost,
+    render_prompt,
+    total_cost,
+)
 
 
-def test_render_prompt_fills_placeholders(tmp_path, monkeypatch):
-    monkeypatch.setattr("scripts.run_llm_step.REPO_DIR", tmp_path)
-    episode_dir = tmp_path / "youtube/pl/episodes/73-raft"
-    episode = {"number": 73, "slug": "73-raft", "target_minutes": 12}
+def test_render_prompt_fills_placeholders(episode):
     out = render_prompt(
         "{episode_dir} {slug} {target_minutes} {target_chars} {episode} {part} {scope} {unknown}",
-        episode_dir,
         episode,
         {"part": "part1"},
     )
@@ -27,16 +32,41 @@ def test_review_step_is_read_only_with_schema():
     assert "--allowedTools" not in cmd
 
 
-def test_scenes_step_allows_only_typecheck_and_stills():
-    cmd = build_command(STEPS["scenes"], "p")
-    allowed = cmd[cmd.index("--allowedTools") + 1 :]
-    allowed = allowed[
-        : next((i for i, a in enumerate(allowed) if a.startswith("--")), len(allowed))
-    ]
-    assert allowed == [
+def allowed_tools(cmd: list[str]) -> list[str]:
+    rest = cmd[cmd.index("--allowedTools") + 1 :]
+    return rest[: next((i for i, a in enumerate(rest) if a.startswith("--")), len(rest))]
+
+
+@pytest.mark.parametrize("step", ["scenes", "scenes-fix"])
+def test_scene_steps_allow_only_typecheck_and_stills(step):
+    assert allowed_tools(build_command(STEPS[step], "p")) == [
         "Bash(npm --prefix youtube/remotion run typecheck)",
-        "Bash(uv run python scripts/render_episode.py stills *)",
+        "Bash(uv run odczyt stills *)",
     ]
+
+
+def test_layout_step_allows_only_typecheck():
+    assert allowed_tools(build_command(STEPS["layout"], "p")) == [
+        "Bash(npm --prefix youtube/remotion run typecheck)"
+    ]
+
+
+@pytest.mark.parametrize("step", ["meta", "review", "stills-review", "metadata"])
+def test_structured_steps_cannot_write(step):
+    assert STEPS[step].schema is not None
+    assert STEPS[step].tools == ["Read"]
+
+
+def test_every_step_prompt_exists():
+    from odczyt.paths import PROMPTS_DIR
+
+    assert all((PROMPTS_DIR / s.prompt).exists() for s in STEPS.values())
+
+
+def test_costs_accumulate(episode):
+    record_cost(episode, "a", {"total_cost_usd": 1.25, "num_turns": 3})
+    record_cost(episode, "b", {"total_cost_usd": 0.5})
+    assert total_cost(episode) == pytest.approx(1.75)
 
 
 def test_format_review_md_lists_must_fix_and_counts():

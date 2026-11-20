@@ -1,6 +1,6 @@
-"""Tests for render_episode.py."""
+"""Tests for odczyt.render."""
 
-from scripts.render_episode import still_frames
+from odczyt.render import still_frames
 
 TIMELINE = {
     "fps": 30,

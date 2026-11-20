@@ -1,33 +1,19 @@
-#!/usr/bin/env python3
-"""Run one LLM step of the episode pipeline as headless Claude Code (`claude -p`).
+"""Headless Claude Code (`claude -p`) steps of the episode pipeline.
 
-Each step is a separate `claude -p` process with its own prompt file and tool
-allowlist, so the scenario reviewer never sees the writer's session.
-
-Usage:
-    python scripts/run_llm_step.py 73 storyboard
-    python scripts/run_llm_step.py 73 script
-    python scripts/run_llm_step.py 73 review        # writes review.json, review.md, claims.json
-    python scripts/run_llm_step.py 73 script-fix
-    python scripts/run_llm_step.py 73 scenes
-    python scripts/run_llm_step.py 73 stills-review
-    python scripts/run_llm_step.py 73 scenes-fix
+Each step is a separate `claude -p` process with its own prompt file, tool
+allowlist and budget, so the scenario reviewer never sees the writer's session.
+Every call appends its cost to build/costs.json.
 """
 
-import argparse
 import json
 import subprocess
-import sys
-from dataclasses import dataclass, field
+import threading
+from dataclasses import dataclass, field, replace
+from datetime import UTC, datetime
 from pathlib import Path
 
-from episode_pipeline import (
-    PROMPTS_DIR,
-    REPO_DIR,
-    build_dir,
-    find_episode_dir,
-    load_episode,
-)
+from odczyt.episode import Episode
+from odczyt.paths import PROMPTS_DIR
 
 CHARS_PER_MINUTE = 1000
 
@@ -117,6 +103,30 @@ STILLS_SCHEMA: dict = {
 }
 
 
+META_SCHEMA: dict = {
+    "type": "object",
+    "required": ["title", "subtitle", "authors", "paper_url"],
+    "properties": {
+        "title": {"type": "string"},
+        "subtitle": {"type": "string"},
+        "authors": {"type": "string"},
+        "paper_url": {"type": "string"},
+    },
+}
+
+METADATA_SCHEMA: dict = {
+    "type": "object",
+    "required": ["title", "intro", "topics", "publication", "tags"],
+    "properties": {
+        "title": {"type": "string"},
+        "intro": {"type": "string"},
+        "topics": {"type": "array", "items": {"type": "string"}},
+        "publication": {"type": "string"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+
 @dataclass(frozen=True)
 class Step:
     prompt: str
@@ -127,16 +137,16 @@ class Step:
     schema: dict | None = None
 
 
-SCENE_BASH = [
-    "Bash(npm --prefix youtube/remotion run typecheck)",
-    "Bash(uv run python scripts/render_episode.py stills *)",
-]
+TYPECHECK = "Bash(npm --prefix youtube/remotion run typecheck)"
+SCENE_BASH = [TYPECHECK, "Bash(uv run odczyt stills *)"]
 
 STEPS: dict[str, Step] = {
+    "meta": Step("meta.md", ["Read"], "sonnet", 1.5, schema=META_SCHEMA),
     "storyboard": Step("storyboard.md", ["Read", "Write"], "opus", 6.0),
     "script": Step("script.md", ["Read", "Write"], "opus", 8.0),
     "review": Step("review.md", ["Read"], "opus", 8.0, schema=REVIEW_SCHEMA),
     "script-fix": Step("script-fix.md", ["Read", "Edit"], "opus", 5.0),
+    "layout": Step("layout.md", ["Read", "Write", "Bash"], "opus", 4.0, allowed_bash=[TYPECHECK]),
     "scenes": Step(
         "scenes.md", ["Read", "Write", "Edit", "Bash"], "opus", 30.0, allowed_bash=SCENE_BASH
     ),
@@ -144,20 +154,30 @@ STEPS: dict[str, Step] = {
     "scenes-fix": Step(
         "scenes-fix.md", ["Read", "Edit", "Bash"], "opus", 20.0, allowed_bash=SCENE_BASH
     ),
+    "metadata": Step("metadata.md", ["Read"], "opus", 2.0, schema=METADATA_SCHEMA),
 }
 
 
-def render_prompt(
-    template: str, episode_dir: Path, episode: dict, extra: dict[str, str] | None = None
-) -> str:
-    """Fill {placeholders} in a prompt template."""
-    minutes = int(episode.get("target_minutes", 12))
+@dataclass
+class LlmResult:
+    ok: bool
+    message: str
+    cost: float = 0.0
+    data: dict | None = None
+
+
+_COST_LOCK = threading.Lock()
+
+
+def render_prompt(template: str, ep: Episode, extra: dict[str, str] | None = None) -> str:
+    """Fill {placeholders} in a prompt template; unknown placeholders stay as they are."""
+    minutes = int(ep.config.get("target_minutes", 12))
     values = {
         "scope": "all stills",
         **(extra or {}),
-        "episode": str(episode["number"]),
-        "episode_dir": str(episode_dir.relative_to(REPO_DIR)),
-        "slug": episode["slug"],
+        "episode": str(ep.number),
+        "episode_dir": ep.rel(ep.dir),
+        "slug": ep.slug,
         "target_minutes": str(minutes),
         "target_chars": str(minutes * CHARS_PER_MINUTE),
     }
@@ -233,75 +253,71 @@ def format_review_md(review: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def save_structured(step_name: str, episode_dir: Path, data: dict, stem: str | None = None) -> None:
-    """Write structured step output next to the episode files."""
-    if step_name == "review":
-        (episode_dir / "review.json").write_text(
-            json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+def write_json(path: Path, data: object) -> None:
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def save_review(ep: Episode, review: dict) -> None:
+    """Write review.json, claims.json and review.md next to the episode files."""
+    write_json(ep.file("review.json"), review)
+    write_json(ep.file("claims.json"), review["claims"])
+    ep.file("review.md").write_text(format_review_md(review), encoding="utf-8")
+
+
+def record_cost(ep: Episode, label: str, result: dict) -> float:
+    """Append one call to build/costs.json; return its cost."""
+    cost = float(result.get("total_cost_usd") or 0.0)
+    path = ep.build / "costs.json"
+    with _COST_LOCK:
+        entries = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+        entries.append(
+            {
+                "label": label,
+                "usd": round(cost, 4),
+                "turns": result.get("num_turns"),
+                "at": datetime.now(UTC).isoformat(timespec="seconds"),
+            }
         )
-        (episode_dir / "claims.json").write_text(
-            json.dumps(data["claims"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-        )
-        (episode_dir / "review.md").write_text(format_review_md(data), encoding="utf-8")
-    elif step_name == "stills-review":
-        out = build_dir(episode_dir) / f"{stem or step_name}.json"
-        out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        write_json(path, entries)
+    return cost
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("episode")
-    parser.add_argument("step", choices=sorted(STEPS))
-    parser.add_argument("--model", help="Override the step's model")
-    parser.add_argument(
-        "--var", action="append", default=[], help="Extra prompt placeholder KEY=VALUE"
-    )
-    parser.add_argument("--log-name", help="Log file stem (default: step name)")
-    parser.add_argument("--dry-run", action="store_true", help="Print the prompt only")
-    args = parser.parse_args()
+def total_cost(ep: Episode) -> float:
+    path = ep.build / "costs.json"
+    if not path.exists():
+        return 0.0
+    return sum(e["usd"] for e in json.loads(path.read_text(encoding="utf-8")))
 
-    episode_dir = find_episode_dir(args.episode)
-    if episode_dir is None:
-        print(f"❌ No episode directory for {args.episode}")
-        return 1
-    episode = load_episode(episode_dir)
-    step = STEPS[args.step]
-    if args.model:
-        step = Step(**{**step.__dict__, "model": args.model})
-    extra = dict(v.split("=", 1) for v in args.var)
-    prompt = render_prompt(
-        (PROMPTS_DIR / step.prompt).read_text(encoding="utf-8"), episode_dir, episode, extra
-    )
-    if args.dry_run:
-        print(prompt)
-        return 0
 
-    print(f"🔄 {args.step}: claude -p ({step.model}, budget ${step.budget_usd})")
-    proc = subprocess.run(build_command(step, prompt), cwd=REPO_DIR, capture_output=True, text=True)
-    log = build_dir(episode_dir) / f"{args.log_name or args.step}.log.json"
+def run_step(
+    ep: Episode,
+    name: str,
+    extra: dict[str, str] | None = None,
+    label: str | None = None,
+    model: str | None = None,
+) -> LlmResult:
+    """Run one step as `claude -p`; return its result (structured data for schema steps)."""
+    step = STEPS[name]
+    if model:
+        step = replace(step, model=model)
+    label = label or name
+    prompt = render_prompt((PROMPTS_DIR / step.prompt).read_text(encoding="utf-8"), ep, extra)
+    print(f"🔄 {label}: claude -p ({step.model}, budget ${step.budget_usd})", flush=True)
+    proc = subprocess.run(build_command(step, prompt), cwd=ep.repo, capture_output=True, text=True)
+    log = ep.build / f"{label}.log.json"
     log.write_text(proc.stdout or proc.stderr, encoding="utf-8")
     try:
         result = json.loads(proc.stdout)
     except json.JSONDecodeError:
-        print(f"❌ claude -p failed (exit {proc.returncode}); see {log}")
-        print(proc.stderr[-2000:])
-        return 1
+        return LlmResult(False, f"{label}: claude -p failed (exit {proc.returncode}); see {log}")
+    cost = record_cost(ep, label, result)
     if result.get("is_error"):
-        print(f"❌ {result.get('subtype')}: {str(result.get('result'))[:2000]}")
-        return 1
+        return LlmResult(False, f"{label}: {result.get('subtype')}: {result.get('result')}", cost)
+    data = None
     if step.schema is not None:
         data = result.get("structured_output")
         if not isinstance(data, dict):
-            print(f"❌ No structured output; see {log}")
-            return 1
-        save_structured(args.step, episode_dir, data, args.log_name)
-        print(f"📋 verdict: {data['verdict']}")
-    print(str(result.get("result", "")).strip()[:2000])
-    print(
-        f"✅ {args.step} done (${result.get('total_cost_usd', 0):.2f}, {result.get('num_turns')} turns)"
-    )
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+            return LlmResult(False, f"{label}: no structured output; see {log}", cost)
+    message = str(result.get("result", "")).strip()
+    print(f"✅ {label} (${cost:.2f}, {result.get('num_turns')} turns)", flush=True)
+    return LlmResult(True, message, cost, data)

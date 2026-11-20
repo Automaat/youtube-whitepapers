@@ -5,9 +5,3 @@ title: "Raft"
 subtitle: "W poszukiwaniu zrozumiałego algorytmu konsensusu"
 authors: "Diego Ongaro, John Ousterhout · Stanford · 2014"
 paper_url: "https://raft.github.io/raft.pdf"
-theme: dark
-target_minutes: 12
-voices:
-  narrator: H5xTcsAIeS5RAykjz57a  # Alex - Professional Narration Polish (Voice Library)
-  skeptic: Bz1e1clEKwgN71Vx7cxj   # Asia - Silky Polish Narrator (Voice Library)
-tts_model: eleven_v4
