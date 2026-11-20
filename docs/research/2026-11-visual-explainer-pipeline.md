@@ -166,6 +166,9 @@ Source: `Automaat/ohara` `docs/design/redesign/README.md` (origin/main). Mockups
 
 ## 4. Proposed pipeline
 
+Implemented as the `odczyt` package (`src/odczyt/`); the stage list and commands
+are in `docs/pipeline.md`. The sketch below is the original proposal.
+
 ```text
 paper PDF
   → paper.txt              (pdftotext with page markers; source of truth for review)
