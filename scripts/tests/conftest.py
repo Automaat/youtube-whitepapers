@@ -1,6 +1,8 @@
 """Pytest fixtures for youtube-whitepapers tests."""
 
+import importlib
 import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -9,6 +11,19 @@ import pytest
 # Add scripts to path for imports
 REPO_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+
+
+@pytest.fixture(autouse=True)
+def isolated_status_file(tmp_path_factory, monkeypatch):
+    """Point every status_utils import at a temporary copy of whitepapers/status.json."""
+    real = REPO_ROOT.parent / "whitepapers" / "status.json"
+    copy = tmp_path_factory.mktemp("status") / "status.json"
+    if real.exists():
+        shutil.copy(real, copy)
+    for name in ("status_utils", "scripts.status_utils"):
+        module = importlib.import_module(name)
+        monkeypatch.setattr(module, "STATUS_FILE", copy)
+    return copy
 
 
 @pytest.fixture
