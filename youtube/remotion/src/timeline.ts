@@ -20,6 +20,16 @@ export type TimelineSegment = {
   end: number;
 };
 
+/** Thumbnail art from storyboard.yaml: big term plus one frozen scene frame. */
+export type ThumbnailArt = {
+  term: string;
+  scene: string;
+  cue: string;
+  tagline?: string;
+  /** Region of the 1920×1080 scene to show: [x, y, width, height]. */
+  crop?: [number, number, number, number];
+};
+
 export type Timeline = {
   slug: string;
   number: number;
@@ -35,6 +45,7 @@ export type Timeline = {
   outroSeconds: number;
   /** Thumbnail image inside the public dir, or null to use the Thumbnail card. */
   thumbnail: string | null;
+  thumbnailArt?: ThumbnailArt | null;
   chapters: { id: string; title: string }[];
   scenes: TimelineScene[];
   segments: TimelineSegment[];
@@ -53,6 +64,7 @@ export const EMPTY_TIMELINE: Timeline = {
   introSeconds: 5,
   outroSeconds: 5,
   thumbnail: null,
+  thumbnailArt: null,
   chapters: [],
   scenes: [],
   segments: [],
