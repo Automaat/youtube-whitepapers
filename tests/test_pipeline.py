@@ -103,6 +103,8 @@ def test_stage_names_are_unique():
 
 
 def test_dog_thumbnail_stops_until_image_exists_then_is_copied(episode, monkeypatch):
+    monkeypatch.setattr(pipeline.thumbnails, "from_git", lambda repo, image: False)
+    monkeypatch.setattr(pipeline.thumbnails, "youtube_url", lambda status, n: None)
     monkeypatch.setattr(
         pipeline,
         "STAGES",

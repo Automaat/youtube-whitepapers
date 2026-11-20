@@ -15,9 +15,9 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
-from odczyt import llm, metadata, paper, render, scenes, timeline, tts
+from odczyt import llm, metadata, paper, render, scenes, thumbnails, timeline, tts
 from odczyt.episode import Episode, digest
-from odczyt.paths import OUTPUT_DIR, REMOTION_DIR, THUMBNAILS_DIR
+from odczyt.paths import OUTPUT_DIR, REMOTION_DIR, STATUS_FILE, THUMBNAILS_DIR
 
 META_FIELDS = ("title", "subtitle", "authors", "paper_url")
 GATES = ("script", "video")
@@ -363,7 +363,15 @@ def thumbnail_image_ready(r: Runner) -> bool:
 
 
 def ask_thumbnail_image(r: Runner) -> None:
+    """Recover an earlier dog thumbnail (git history, then YouTube) or ask for a new one."""
     image = r.ep.thumbnail_image()
+    if thumbnails.from_git(r.ep.repo, image):
+        print(f"✅ {r.ep.rel(image)} restored from git history")
+        return
+    url = thumbnails.youtube_url(STATUS_FILE, r.ep.number)
+    if url and thumbnails.from_youtube(url, image):
+        print(f"✅ {r.ep.rel(image)} downloaded from {url}")
+        return
     prompt = r.ep.thumbnail_prompt()
     source = r.ep.rel(prompt) if prompt.exists() else "/generate-thumbnails"
     raise Stop(
@@ -463,7 +471,12 @@ STAGES: list[Stage] = [
     Stage("script", "write narration", file_exists("script.yaml"), generate("script")),
     Stage("review", "fact-check script, fix until pass", review_passed, run_review, script_digest),
     gate("script", "read review.md and script.yaml"),
-    Stage("thumbnail-image", "hand-made dog thumbnail", thumbnail_image_ready, ask_thumbnail_image),
+    Stage(
+        "thumbnail-image",
+        "dog thumbnail: git history, YouTube, or by hand",
+        thumbnail_image_ready,
+        ask_thumbnail_image,
+    ),
     Stage(
         "tts",
         "ElevenLabs narration (cached per segment)",
