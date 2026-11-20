@@ -13,6 +13,8 @@ Date: 2026-11-20. Goal: decouple the channel from NotebookLM. Claude Code writes
 | Intro/outro | Unchanged: 5 s thumbnail intro, opening phrase "Witamy ponownie w Głębokim Odczycie", closing invitation to next episode, 5 s silent outro with `last-slide.png` |
 | Language | Everything in Polish: narration, on-screen labels, chart titles, metadata. Technical terms stay in English, as in the podcast prompt ("transformer", "leader election", "log replication"). Note: NotebookLM slides used to be English; this changes |
 | Quality gate | Scenario review against the whitepaper before TTS (section 4a) |
+| LLM steps | Headless Claude Code (`claude -p`), no direct Anthropic API calls (section 4b). ElevenLabs stays an HTTP API call: it is TTS, not LLM generation |
+| Visual style | Ohara redesign palette (powder pink, bottle green, raspberry), dark theme proposed; mockups in `docs/design/mockups/raft-style.html` (section 2a) |
 
 ---
 
@@ -122,6 +124,27 @@ Diagrams and data:
 - **d3-scale / d3-shape** inside Remotion for animated result charts; Vega-Lite (vl-convert) for static charts.
 - Polish diacritics: Google Fonts `latin-ext` subset (Inter, IBM Plex Sans, Noto Sans).
 
+### 2a. Visual style (from ohara redesign)
+
+Source: `Automaat/ohara` `docs/design/redesign/README.md` (origin/main). Mockups: `docs/design/mockups/raft-style.html` (12 frames at 1920×1080, dark/light toggle).
+
+| Token | Dark (proposed) | Light | Use in video |
+|---|---|---|---|
+| canvas | `#0E1B17` | `#F8E9E6` | Frame background |
+| surface | `#16261F` | `#FFF7F5` | Cards |
+| inset / line | `#1E3029` / `#2B4038` | `#F1DAD6` / `#E6CBC6` | Chips, lanes, grid |
+| ink / muted | `#F7E6E3` / `#A9B3AE` | `#1F3B33` / `#59635E` | Text; Follower (neutral) |
+| heading | `#F4C6CC` | `#1F3B33` | Titles, active-element glow |
+| success | `#6FBF97` | `#276B4E` | Committed, vote ✓ |
+| danger | `#F08A7E` | `#A3322A` | Failure, always with ✕ icon |
+| leader (raspberry) | `#DC5C8A` | `#B4245D` | Leader; key chart series |
+| candidate (ochre) | `#BF8530` | `#A3620C` | Candidate |
+| c3 (blue) | `#4F97CF` | `#1F6FAE` | Reserved 3rd category |
+
+- Role colors are new (ohara has a single accent). Leader/candidate/c3 pass the dataviz validator (lightness band, chroma, CVD ΔE ≥ 8, normal-vision ΔE ≥ 15) in both themes. Ohara's own `#F2779F` accent failed against danger (ΔE 7.3) and green (deutan ΔE 1.5), so it is not used as a role color.
+- Type: Fraunces 600 (titles, chapter cards, big numbers), Plus Jakarta Sans (labels), JetBrains Mono (technical terms, values, term/index).
+- Frame rules: 96 px margins; text ≥22 px at 1080p; brand top-left, chapter progress top-right, speaker chip bottom-left (narrator neutral, skeptic pink); no burned-in narration (captions as CC from SRT); active element = full opacity + pink glow, rest at 30%.
+
 ---
 
 ## 3. Audio: ElevenLabs
@@ -170,7 +193,7 @@ Example segments:
   speaker: narrator
   scene: RaftElection
   text: "Nie wie tego na pewno. Gdy przez election timeout nie dostanie heartbeatu, [[cue:timeout]] zwiększa swój term [[cue:term]] i prosi pozostałe serwery o głosy."
-  refs: ["§5.2: 'If a follower receives no communication over a period of time called the election timeout…'"]
+  refs: ["p.6 §5.2: 'If a follower receives no communication over a period of time called the election timeout…'"]
 ```
 
 Two voices without the Dialogue API: each segment is a normal single-voice `with-timestamps` call using the speaker's voice. Keeps the 10k-char limit, timestamps and commercial license; avoids the 2k-char beta Dialogue endpoint. To verify: whether `previous_request_ids` can chain across different voices or only within one voice.
@@ -192,6 +215,23 @@ Runs after `script.yaml`, before TTS — TTS costs money and every scene depends
 - **Gate:** zero `wrong` / `unsupported`; every `misleading` fixed; coverage complete. Fix → re-review the changed segments + one full coverage pass. Then the owner reads `review.md` and approves before TTS.
 - **Second, lighter check after rendering stills:** numbers, labels and diagram states shown on screen match `claims.json` (a correct script can still get a wrong visual).
 
+### 4b. LLM steps run as headless Claude Code
+
+Every LLM step is one `claude -p` run started by a mise task or a Python orchestrator (`subprocess`), using the CLI's existing login. No Anthropic SDK or API key in the repo.
+
+| Step | Prompt file (planned) | Tools | Output |
+|---|---|---|---|
+| Storyboard | `youtube/prompts/pipeline/storyboard.md` | Read | `storyboard.yaml` |
+| Script | `youtube/prompts/pipeline/script.md` | Read, Write | `script.yaml` |
+| Scenario review | `youtube/prompts/pipeline/review.md` | Read only | `review.md`, `claims.json` (via `--json-schema`) |
+| Scene code | `youtube/prompts/pipeline/scenes.md` | Read, Write, Edit, Bash (`npx remotion still`) | Remotion components |
+| Stills review | `youtube/prompts/pipeline/stills-review.md` | Read (PNG frames) | findings JSON |
+
+- Flags (checked with `claude --help`, 2026-11-20): `-p`, `--output-format json`, `--json-schema` (structured findings), `--allowedTools` (per-step allowlist), `--permission-mode`, `--append-system-prompt`, `--model`, `--max-budget-usd`, `--add-dir`, `--no-session-persistence`.
+- Clean context for the reviewer comes free: a separate `claude -p` process that never saw the writer's session.
+- Each step reads and writes files under `youtube/pl/episodes/{ep}/`, so steps can be re-run one at a time and diffed in git.
+- Claude reviews rendered stills by reading the PNGs inside the session.
+
 Repo impact:
 
 - Keep: `verify_video.py`, encode/mux parts of `generate_video.py`, thumbnails, download, upload/status scripts.
@@ -208,6 +248,8 @@ QA metric per episode: generate 5–10 quiz questions from the paper; a model an
 - Output name for the POC: replace the existing episode 73 video or publish as a new episode (e.g. `73-raft-v2`)?
 - Which two library voices (narrator, skeptic)? Pick after a short Polish listening test.
 - Owner sign-off on the scenario review: every episode, or only until the reviewer proves reliable?
+- Dark or light theme for the video (mockups support both)?
+- Tooling gap on this Mac: poppler (`pdftotext`, `pdftoppm`) is not on PATH and `mise.toml` is untrusted. macOS PDFKit (`swift`) extracted the Raft text as a stopgap.
 
 ## 6. Unverified
 

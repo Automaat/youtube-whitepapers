@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Głęboki Odczyt — styl wizualny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* Paleta: ohara redesign (pudrowy róż, butelkowa zieleń, malina) + role diagramów */
+  :root {
+    --canvas: #0e1b17; --surface: #16261f; --inset: #1e3029; --line: #2b4038;
+    --ink: #f7e6e3; --muted: #a9b3ae; --heading: #f4c6cc;
+    --brand: #1f3b33; --brand-tint: #f4c6cc; --on-brand: #f7e6e3;
+    --accent: #f2779f; --accent-soft: #3a2230;
+    --success: #6fbf97; --success-soft: #183a2c; --danger: #f08a7e;
+    --leader: #dc5c8a; --candidate: #bf8530; --c3: #4f97cf; --on-role: #0e1b17;
+    --glow: rgb(244 198 204 / 55%);
+    --page: #08110e;
+  }
+  :root[data-theme="light"] {
+    --canvas: #f8e9e6; --surface: #fff7f5; --inset: #f1dad6; --line: #e6cbc6;
+    --ink: #1f3b33; --muted: #59635e; --heading: #1f3b33;
+    --brand: #1f3b33; --brand-tint: #f4c6cc; --on-brand: #f8e9e6;
+    --accent: #b4245d; --accent-soft: #f6d3de;
+    --success: #276b4e; --success-soft: #d9ecdf; --danger: #a3322a;
+    --leader: #b4245d; --candidate: #a3620c; --c3: #1f6fae; --on-role: #fff7f5;
+    --glow: rgb(180 36 93 / 35%);
+    --page: #efdcd8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* Strona przeglądu */
+  header.page { max-width: 1280px; margin: 0 auto; padding: 40px 16px 8px; }
+  header.page h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 44px; margin: 0 0 8px; color: var(--heading); }
+  header.page p { margin: 0 0 16px; color: var(--muted); max-width: 820px; line-height: 1.5; }
+  .toggle { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--inset); }
+  .toggle button { font: 600 14px 'Plus Jakarta Sans', sans-serif; border: 0; padding: 8px 16px; border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; }
+  .toggle button[aria-pressed="true"] { background: var(--brand-tint); color: #1f3b33; }
+  main { max-width: 1280px; margin: 0 auto; padding: 8px 16px 64px; }
+  section.mock { margin: 40px 0; }
+  section.mock h2 { font-size: 18px; margin: 0 0 4px; font-weight: 700; }
+  section.mock .note { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 8px 0 0; max-width: 900px; }
+  section.mock .note b { color: var(--ink); font-weight: 600; }
+
+  /* Klatka 1920×1080, skalowana do szerokości */
+  .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 40px rgb(0 0 0 / 25%); }
+  .frame { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: var(--canvas); color: var(--ink); overflow: hidden; }
+  .frame svg.full { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+  .abs { position: absolute; }
+
+  /* Chrome kadru */
+  .brandmark { position: absolute; left: 96px; top: 44px; font-size: 30px; color: var(--heading); }
+  .brandmark span { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; font-size: 24px; color: var(--muted); margin-left: 10px; }
+  .progress { position: absolute; right: 96px; top: 50px; display: flex; align-items: center; gap: 18px; }
+  .progress .lbl { font-size: 24px; font-weight: 600; color: var(--muted); }
+  .progress .segs { display: flex; gap: 8px; }
+  .progress .segs i { width: 52px; height: 8px; border-radius: 4px; background: var(--line); }
+  .progress .segs i.done { background: var(--muted); }
+  .progress .segs i.now { background: var(--heading); }
+  .speaker { position: absolute; left: 96px; bottom: 44px; display: flex; align-items: center; gap: 12px; padding: 10px 20px 10px 14px; border-radius: 999px; background: var(--surface); border: 2px solid var(--line); font-size: 24px; font-weight: 600; }
+  .speaker.skeptic { background: var(--brand-tint); color: #1f3b33; border-color: transparent; }
+  .speaker .bars { display: flex; gap: 4px; align-items: center; height: 26px; }
+  .speaker .bars b { width: 5px; border-radius: 3px; background: currentColor; }
+
+  .h-title { font-family: 'Fraunces', Georgia, serif; font-weight: 600; color: var(--heading); }
+  .card { position: absolute; background: var(--surface); border: 2px solid var(--line); border-radius: 22px; }
+  .dim { opacity: .3; }
+  .glow { filter: drop-shadow(0 0 16px var(--glow)) drop-shadow(0 0 4px var(--glow)); }
+  .chip { display: inline-flex; align-items: center; gap: 10px; padding: 6px 18px; border-radius: 999px; font-size: 26px; font-weight: 600; background: var(--inset); color: var(--ink); white-space: nowrap; }
+  svg text { fill: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; }
+  svg text.muted { fill: var(--muted); }
+  svg text.mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Arkusz stylu */
+  .sheet { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .sheet .box { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .sheet h3 { margin: 0 0 12px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .sw { display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 14px; }
+  .sw i { width: 30px; height: 30px; border-radius: 8px; flex: none; border: 1px solid var(--line); }
+  .sw code { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 12px; margin-left: auto; }
+  .rules { margin: 0; padding-left: 18px; line-height: 1.6; font-size: 14px; }
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>Głęboki Odczyt · styl wizualny</h1>
+  <p>Mockupy kadrów 1920×1080 dla odcinka pilotażowego o Raft. Paleta z redesignu ohara: pudrowy róż, butelkowa zieleń i malina. Kolory ról na diagramach przeszły walidator rozróżnialności dla daltonistów w obu motywach. Liczby z papieru sprawdzone w PDF (§5.2, §9.1, rys. 3).</p>
+  <div class="toggle" role="group" aria-label="Motyw">
+    <button type="button" data-set="dark" aria-pressed="true">Ciemny (proponowany)</button>
+    <button type="button" data-set="light" aria-pressed="false">Jasny</button>
+  </div>
+</header>
+<main id="mocks"></main>
+
+<script>
+const W = 1920, H = 1080;
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+/* ---------- prymitywy SVG ---------- */
+function arrowHead(x1, y1, x2, y2, color, size = 18) {
+  const a = Math.atan2(y2 - y1, x2 - x1);
+  const p = (d, o) => [x2 - size * Math.cos(a + o * d), y2 - size * Math.sin(a + o * d)];
+  const [ax, ay] = p(0.45, 1), [bx, by] = p(0.45, -1);
+  return `<polygon points="${x2},${y2} ${ax},${ay} ${bx},${by}" fill="${color}"/>`;
+}
+function arrow(x1, y1, x2, y2, color, { w = 4, dash = false, cls = '' } = {}) {
+  const a = Math.atan2(y2 - y1, x2 - x1), ex = x2 - 10 * Math.cos(a), ey = y2 - 10 * Math.sin(a);
+  return `<g class="${cls}"><line x1="${x1}" y1="${y1}" x2="${ex}" y2="${ey}" stroke="${color}" stroke-width="${w}" stroke-linecap="round" ${dash ? 'stroke-dasharray="10 10"' : ''}/>${arrowHead(x1, y1, x2, y2, color)}</g>`;
+}
+function curve(x1, y1, cx, cy, x2, y2, color, { w = 4, cls = '' } = {}) {
+  const tx = x2 - cx, ty = y2 - cy;
+  return `<g class="${cls}"><path d="M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/>${arrowHead(x2 - tx * 0.01, y2 - ty * 0.01, x2, y2, color, 22)}</g>`;
+}
+function cross(x, y, s = 22) {
+  return `<g><circle cx="${x}" cy="${y}" r="${s}" fill="var(--canvas)" stroke="var(--danger)" stroke-width="4"/>
+    <path d="M${x - s * .4} ${y - s * .4} L${x + s * .4} ${y + s * .4} M${x + s * .4} ${y - s * .4} L${x - s * .4} ${y + s * .4}" stroke="var(--danger)" stroke-width="5" stroke-linecap="round"/></g>`;
+}
+function check(x, y, s = 20) {
+  return `<g><circle cx="${x}" cy="${y}" r="${s}" fill="var(--success)"/>
+    <path d="M${x - s * .45} ${y} L${x - s * .1} ${y + s * .35} L${x + s * .5} ${y - s * .35}" fill="none" stroke="var(--canvas)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+}
+const ROLE = {
+  leader: { fill: 'var(--leader)', stroke: 'none', text: 'var(--on-role)' },
+  candidate: { fill: 'var(--candidate)', stroke: 'none', text: 'var(--on-role)' },
+  follower: { fill: 'var(--surface)', stroke: 'var(--muted)', text: 'var(--ink)' },
+  crashed: { fill: 'var(--inset)', stroke: 'var(--line)', text: 'var(--muted)' },
+};
+function node(x, y, label, role, { r = 50, sub = '', cls = '', fs } = {}) {
+  const s = ROLE[role];
+  const dash = role === 'crashed' ? 'stroke-dasharray="8 8"' : '';
+  return `<g class="${cls}">
+    <circle cx="${x}" cy="${y}" r="${r}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="4" ${dash}/>
+    <text x="${x}" y="${y + (fs || r * .56) * .36}" text-anchor="middle" class="mono" style="fill:${s.text};font-size:${fs || r * .56}px;font-weight:700">${label}</text>
+    ${sub ? `<text x="${x}" y="${y + r + 40}" text-anchor="middle" class="muted" style="font-size:26px;font-weight:600">${sub}</text>` : ''}
+    ${role === 'crashed' ? cross(x + r * .72, y - r * .72, 20) : ''}
+  </g>`;
+}
+function svg(inner) { return `<svg class="full" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`; }
+function chrome({ chapter = 0, label = '', speaker = 'Narrator', ep = true } = {}) {
+  const segs = Array.from({ length: 6 }, (_, i) => `<i class="${i + 1 < chapter ? 'done' : i + 1 === chapter ? 'now' : ''}"></i>`).join('');
+  const bars = [10, 22, 14, 26, 12].map(h => `<b style="height:${h}px"></b>`).join('');
+  return `
+    ${ep ? `<div class="brandmark serif">Głęboki Odczyt<span>· #73 Raft</span></div>` : ''}
+    ${chapter ? `<div class="progress"><span class="lbl">${label}</span><span class="segs">${segs}</span></div>` : ''}
+    ${speaker ? `<div class="speaker ${speaker === 'Sceptyk' ? 'skeptic' : ''}"><span class="bars">${bars}</span>${speaker}</div>` : ''}`;
+}
+function pentagon(cx, cy, R) {
+  return [-90, -18, 54, 126, 198].map(d => [cx + R * Math.cos(d * Math.PI / 180), cy + R * Math.sin(d * Math.PI / 180)]);
+}
+function logCell(x, y, w, h, term, cmd, state) {
+  const committed = state === 'c';
+  const fill = committed ? 'var(--success-soft)' : 'var(--surface)';
+  const stroke = committed ? 'var(--success)' : 'var(--muted)';
+  return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="3" ${committed ? '' : 'stroke-dasharray="9 7"'}/>
+    <text x="${x + 16}" y="${y + 40}" class="mono" style="font-size:32px;font-weight:700">${term}</text>
+    ${cmd ? `<text x="${x + 16}" y="${y + h - 16}" class="mono muted" style="font-size:22px">${cmd}</text>` : ''}</g>`;
+}
+
+/* ---------- kadry ---------- */
+const frames = [];
+
+/* 1. Tytuł */
+frames.push({
+  title: '1 · Karta tytułowa (po 5 s miniatury)',
+  note: '<b>Animacja:</b> pięć węzłów pojawia się po kolei, malinowy leader zapala się na końcu. Napis „Raft” w Fraunces to jedyny duży tekst w odcinku poza kartami rozdziałów.',
+  html: () => {
+    const pts = pentagon(1480, 560, 200);
+    const links = pts.map((p, i) => pts.slice(i + 1).map(q => `<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="var(--line)" stroke-width="3"/>`).join('')).join('');
+    return `${chrome({ speaker: 'Narrator', ep: false })}
+    <div class="abs" style="left:150px;top:300px;width:900px">
+      <div style="font-size:28px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Głęboki Odczyt · odcinek 73</div>
+      <div class="h-title" style="font-size:250px;line-height:1;margin:18px 0 26px">Raft</div>
+      <div style="font-size:46px;line-height:1.25;font-weight:500">W poszukiwaniu zrozumiałego algorytmu konsensusu</div>
+      <div style="font-size:28px;color:var(--muted);margin-top:26px">Diego Ongaro, John Ousterhout · Stanford · 2014</div>
+    </div>
+    ${svg(links + pts.map((p, i) => node(p[0], p[1], 'S' + (i + 1), i === 0 ? 'leader' : 'follower', { r: 48 })).join(''))}`;
+  },
+});
+
+/* 2. Hook */
+frames.push({
+  title: '2 · Hook: konkretna awaria zamiast tytułu',
+  note: '<b>Zasada:</b> zacznij od konkretnego problemu (3Blue1Brown, „concrete before abstract”). <b>Animacja:</b> S1 gaśnie, pojawia się ✕, pozostałe węzły dostają „?” jeden po drugim.',
+  html: () => {
+    const pts = pentagon(1260, 560, 260);
+    const links = pts.map((p, i) => pts.slice(i + 1).map(q => `<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" stroke="var(--line)" stroke-width="3" ${i === 0 ? 'stroke-dasharray="8 10"' : ''}/>`).join('')).join('');
+    const q = pts.slice(1).map(p => `<g><circle cx="${p[0] + 44}" cy="${p[1] - 44}" r="22" fill="var(--inset)" stroke="var(--line)" stroke-width="2"/><text x="${p[0] + 44}" y="${p[1] - 35}" text-anchor="middle" style="font-size:26px;font-weight:800;fill:var(--heading)">?</text></g>`).join('');
+    return `${chrome({ chapter: 1, label: 'Problem konsensusu' })}
+    <div class="abs" style="left:150px;top:360px">
+      <div class="h-title" style="font-size:120px;line-height:1.05">Leader padł.</div>
+      <div class="serif" style="font-size:64px;line-height:1.2;margin-top:20px;color:var(--ink)">Kto teraz decyduje?</div>
+    </div>
+    ${svg(links + pts.map((p, i) => node(p[0], p[1], 'S' + (i + 1), i === 0 ? 'crashed' : 'follower', { r: 56, sub: i === 0 ? 'leader · term 1' : '' })).join('') + q)}`;
+  },
+});
+
+/* 3. Słowniczek */
+frames.push({
+  title: '3 · Pre-training: pięć pojęć, każde z własnym kolorem na cały odcinek',
+  note: '<b>Zasada:</b> nazwy i role przed mechanizmem (pre-training, d≈0,75). Terminy po angielsku, opis po polsku, maks. kilka słów. <b>Animacja:</b> karty wjeżdżają w momencie, gdy narrator wypowiada nazwę (cue z timestampów ElevenLabs).',
+  html: () => {
+    const cards = [
+      ['Leader', 'przyjmuje zapisy i rozsyła log', node(158, 110, 'L', 'leader', { r: 58 })],
+      ['Follower', 'pasywny, odpowiada liderowi', node(158, 110, 'F', 'follower', { r: 58 })],
+      ['Candidate', 'zbiera głosy w wyborach', node(158, 110, 'C', 'candidate', { r: 58 })],
+      ['Term', 'numer kadencji, tylko rośnie', `<rect x="58" y="72" width="200" height="76" rx="38" fill="var(--inset)" stroke="var(--heading)" stroke-width="3"/><text x="158" y="122" text-anchor="middle" class="mono" style="font-size:32px;font-weight:700">term 3</text>`],
+      ['Log', 'uporządkowana lista poleceń', [0, 1, 2, 3].map(i => `<rect x="${52 + i * 54}" y="80" width="46" height="60" rx="8" fill="${i < 3 ? 'var(--success-soft)' : 'var(--surface)'}" stroke="${i < 3 ? 'var(--success)' : 'var(--muted)'}" stroke-width="3" ${i < 3 ? '' : 'stroke-dasharray="6 6"'}/>`).join('')],
+    ];
+    return `${chrome({ chapter: 1, label: 'Problem konsensusu' })}
+    <div class="h-title abs" style="left:150px;top:180px;font-size:72px">Pięć pojęć na start</div>
+    ${cards.map(([t, d, ic], i) => `
+      <div class="card" style="left:${150 + i * 330}px;top:340px;width:310px;height:470px">
+        <svg width="316" height="230" viewBox="0 0 316 230" style="position:absolute;left:0;top:20px">${ic}</svg>
+        <div style="position:absolute;left:30px;right:24px;top:250px">
+          <div class="mono" style="font-size:40px;font-weight:700">${t}</div>
+          <div style="font-size:28px;line-height:1.3;color:var(--muted);margin-top:14px">${d}</div>
+        </div>
+      </div>`).join('')}`;
+  },
+});
+
+/* 4. Karta rozdziału */
+frames.push({
+  title: '4 · Karta rozdziału (2–4 min na rozdział)',
+  note: '<b>Zasada:</b> segmentacja (d≈0,77). Ta sama lista rozdziałów trafia do opisu jako rozdziały YouTube. Pasek postępu w prawym górnym rogu powtarza ją w każdym kadrze.',
+  html: () => {
+    const ch = ['Problem konsensusu', 'Wybór lidera', 'Replikacja logu', 'Bezpieczeństwo', 'Awarie i partycje', 'Czy Raft jest prostszy?'];
+    return `${chrome({ chapter: 2, label: 'Wybór lidera', speaker: '' })}
+    <div class="abs" style="left:150px;top:330px">
+      <div style="font-size:32px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Rozdział 2</div>
+      <div class="h-title" style="font-size:150px;line-height:1.05;margin-top:16px">Wybór<br/>lidera</div>
+    </div>
+    <div class="abs" style="left:1180px;top:290px;width:600px">
+      ${ch.map((c, i) => `<div style="display:flex;align-items:center;gap:24px;padding:16px 0;border-bottom:2px solid var(--line);${i === 1 ? '' : 'opacity:.45'}">
+        <span class="mono" style="font-size:28px;color:${i === 1 ? 'var(--heading)' : 'var(--muted)'};width:40px">${i + 1}</span>
+        <span style="font-size:34px;font-weight:${i === 1 ? 700 : 500}">${c}</span></div>`).join('')}
+    </div>`;
+  },
+});
+
+/* 5. Maszyna stanów */
+frames.push({
+  title: '5 · Diagram stanów: aktywne przejście podświetlone, reszta przygaszona',
+  note: '<b>Zasada:</b> sygnalizacja (d≈0,41): aktywny element ma pełne krycie i różową poświatę, reszta 30%. Przejścia zgodne z rys. 4 papieru. <b>Animacja:</b> po słowie „timeout” po strzałce przesuwa się punkt i Candidate się zapala. Kolejne przejścia odsłaniają się w miarę narracji.',
+  html: () => {
+    const st = (x, label, role, cls = '') => {
+      const s = ROLE[role];
+      return `<g class="${cls}"><rect x="${x - 160}" y="500" width="320" height="120" rx="60" fill="${s.fill}" stroke="${s.stroke}" stroke-width="4"/>
+        <text x="${x}" y="574" text-anchor="middle" class="mono" style="font-size:40px;font-weight:700;fill:${s.text}">${label}</text></g>`;
+    };
+    const lab = (x, y, t, cls = '') => `<text x="${x}" y="${y}" text-anchor="middle" class="${cls}" style="font-size:28px;font-weight:600">${t}</text>`;
+    const m = 'var(--muted)';
+    return `${chrome({ chapter: 2, label: 'Wybór lidera' })}
+    ${svg(`
+      ${arrow(110, 560, 236, 560, m, { cls: 'dim' })}${lab(150, 530, 'start', 'dim muted')}
+      <g class="glow">${curve(470, 500, 680, 340, 880, 500, 'var(--heading)', { w: 7 })}</g>
+      <circle cx="630" cy="425" r="12" fill="var(--heading)"/>
+      ${lab(680, 330, 'timeout → start wyborów')}
+      ${curve(910, 500, 960, 260, 1010, 500, m, { cls: 'dim' })}${lab(960, 300, 'timeout → nowe wybory', 'dim')}
+      ${curve(1040, 500, 1240, 340, 1440, 500, m, { cls: 'dim' })}${lab(1240, 360, 'większość głosów', 'dim')}
+      ${curve(880, 620, 680, 700, 480, 620, m, { cls: 'dim' })}${lab(830, 728, 'jest leader lub wyższy term', 'dim')}
+      ${curve(1520, 620, 960, 1000, 400, 620, m, { cls: 'dim' })}${lab(960, 862, 'widzi wyższy term', 'dim')}
+      ${st(400, 'Follower', 'follower')}
+      <g class="glow">${st(960, 'Candidate', 'candidate')}</g>
+      ${st(1520, 'Leader', 'leader', 'dim')}
+    `)}`;
+  },
+});
+
+/* 6. Swimlane: wybory */
+frames.push({
+  title: '6 · Diagram swimlane: wybory po awarii lidera (stan końcowy animacji)',
+  note: '<b>Zasada:</b> protokół rozproszony = tor na węzeł, wiadomości jako ruchome kropki, licznik term na ekranie, awaria jako punkt kulminacyjny. Timeout 150–300 ms wg §5.2/§9.3. <b>Animacja:</b> paski timeoutów rosną w czasie rzeczywistym, wygrywa najkrótszy (S3). RequestVote i głosy lecą jako kropki, a leader zapala się po słowie „większość”.',
+  html: () => {
+    const lanes = { S1: 260, S2: 370, S3: 480, S4: 590, S5: 700 };
+    let s = '';
+    for (const [k, y] of Object.entries(lanes)) {
+      s += `<line x1="260" y1="${y}" x2="1800" y2="${y}" stroke="var(--line)" stroke-width="3" ${k === 'S1' ? 'stroke-dasharray="8 10"' : ''}/>`;
+      s += node(170, y, k, k === 'S1' ? 'crashed' : 'follower', { r: 34, fs: 24 });
+    }
+    s += `<text x="260" y="226" style="font-size:26px;font-weight:600">leader (term 1) pada</text>`;
+    // timeouty
+    for (const [k, end] of [['S2', 880], ['S4', 880], ['S5', 880]]) s += `<rect x="340" y="${lanes[k] - 9}" width="${end - 340}" height="18" rx="9" fill="var(--inset)" stroke="var(--line)" stroke-width="2"/>`;
+    s += `<rect x="340" y="${lanes.S3 - 9}" width="420" height="18" rx="9" fill="var(--candidate)" opacity=".55"/>`;
+    s += `<text x="350" y="${lanes.S3 - 26}" style="font-size:24px;font-weight:600">election timeout (losowy)</text>`;
+    s += `<g><rect x="460" y="${lanes.S3 + 22}" width="190" height="44" rx="22" fill="var(--inset)"/><text x="555" y="${lanes.S3 + 52}" text-anchor="middle" class="mono" style="font-size:24px">150–300 ms</text></g>`;
+    // candidate
+    s += `<circle cx="770" cy="${lanes.S3}" r="20" fill="var(--candidate)"/>`;
+    for (const k of ['S2', 'S4', 'S5']) s += arrow(790, lanes.S3, 880, lanes[k], 'var(--candidate)', { w: 4 });
+    s += arrow(790, lanes.S3, 880, lanes.S1 + 8, 'var(--candidate)', { w: 3, dash: true, cls: 'dim' });
+    s += `<text x="700" y="${lanes.S2 - 40}" style="font-size:24px;font-weight:600" class="mono">RequestVote</text>`;
+    for (const k of ['S2', 'S4', 'S5']) s += arrow(905, lanes[k], 1000, lanes.S3, 'var(--success)', { w: 4 });
+    s += check(930, lanes.S5 + 44, 16) + `<text x="956" y="${lanes.S5 + 53}" style="font-size:24px;font-weight:600">głos</text>`;
+    // leader
+    s += `<g class="glow"><circle cx="1030" cy="${lanes.S3}" r="24" fill="var(--leader)"/></g>`;
+    s += `<g><rect x="1060" y="${lanes.S3 - 82}" width="300" height="52" rx="26" fill="var(--surface)" stroke="var(--leader)" stroke-width="3"/><text x="1210" y="${lanes.S3 - 47}" text-anchor="middle" style="font-size:26px;font-weight:700">leader · 4 z 5 głosów</text></g>`;
+    // heartbeaty
+    for (const x of [1180, 1420, 1660]) for (const k of ['S2', 'S4', 'S5']) s += arrow(x, lanes.S3, x + 60, lanes[k], 'var(--leader)', { w: 3 });
+    s += `<text x="1420" y="${lanes.S2 - 40}" style="font-size:24px;font-weight:600" class="mono">heartbeat (AppendEntries)</text>`;
+    // oś czasu
+    s += arrow(260, 800, 1800, 800, 'var(--muted)', { w: 3 }) + `<text x="1800" y="845" text-anchor="end" class="muted" style="font-size:24px">czas</text>`;
+    return `${chrome({ chapter: 2, label: 'Wybór lidera' })}
+    <div class="abs" style="right:96px;top:150px"><span class="chip mono" style="border:3px solid var(--heading)">term 1 → 2</span></div>
+    ${svg(s)}`;
+  },
+});
+
+/* 7. Sceptyk */
+frames.push({
+  title: '7 · Wejście sceptyka: pytanie nad przygaszonym diagramem',
+  note: '<b>Zasada:</b> pytania „dlaczego / a co jeśli” to składnik, który faktycznie poprawia naukę w formacie dialogu. Na ekranie tylko skrót pytania (≤6 słów), a nie pełne zdanie z narracji. W następnym segmencie narrator odpowiada: losowy timeout sprawia, że remis szybko się rozstrzyga.',
+  html: () => {
+    const y = 470;
+    let s = node(300, y, 'S1', 'crashed', { r: 52 });
+    s += node(620, y, 'S2', 'candidate', { r: 52, sub: '2 głosy' });
+    s += node(940, y, 'S3', 'follower', { r: 52 });
+    s += node(1260, y, 'S4', 'candidate', { r: 52, sub: '2 głosy' });
+    s += node(1580, y, 'S5', 'follower', { r: 52 });
+    s += arrow(882, y, 686, y, 'var(--success)', { w: 5 }) + arrow(1522, y, 1326, y, 'var(--success)', { w: 5 });
+    s += `<text x="940" y="350" text-anchor="middle" style="font-size:30px;font-weight:700">term 3: remis, nikt nie ma 3 z 5</text>`;
+    return `${chrome({ chapter: 2, label: 'Wybór lidera', speaker: 'Sceptyk' })}
+    <div style="opacity:.45">${svg(s)}</div>
+    <div class="card" style="left:150px;top:680px;width:1100px;height:210px;border-color:var(--brand-tint);border-width:3px">
+      <div style="position:absolute;left:44px;top:34px" class="chip"><span style="font-weight:800;color:var(--heading)">?</span> Sceptyk</div>
+      <div class="serif" style="position:absolute;left:44px;top:96px;font-size:62px;color:var(--heading)">A jeśli dwóch kandydatów naraz?</div>
+    </div>`;
+  },
+});
+
+/* 8. Replikacja logu */
+frames.push({
+  title: '8 · Replikacja logu: konkretne wpisy, commitIndex i większość',
+  note: '<b>Zasada:</b> prawdziwe wartości zamiast abstrakcji (StatQuest, Bret Victor). Wpis jest zatwierdzony, gdy leży na większości serwerów (§5.3). <b>Animacja:</b> nowy wpis „y←7” pojawia się u lidera, AppendEntries kopiuje go do S2, a linia commitIndex przesunie się dopiero przy trzeciej kopii.',
+  html: () => {
+    const cmds = [[1, 'x←3'], [1, 'y←1'], [2, 'y←9'], [3, 'x←2'], [3, 'x←0'], [3, 'y←7']];
+    const len = { S1: 6, S2: 6, S3: 5, S4: 3, S5: 4 };
+    const x0 = 420, y0 = 250, cw = 130, ch = 96, dx = 142, dy = 118;
+    let s = '';
+    for (let i = 0; i < 7; i++) s += `<text x="${x0 + i * dx + cw / 2}" y="${y0 - 26}" text-anchor="middle" class="mono muted" style="font-size:24px">${i + 1}</text>`;
+    s += `<text x="${x0 - 260}" y="${y0 - 26}" class="muted" style="font-size:24px">indeks →</text>`;
+    Object.entries(len).forEach(([k, n], r) => {
+      const y = y0 + r * dy;
+      s += node(x0 - 150, y + ch / 2, k, r === 0 ? 'leader' : 'follower', { r: 36, fs: 24 });
+      for (let i = 0; i < 7; i++) {
+        const x = x0 + i * dx;
+        if (i < n) s += logCell(x, y, cw, ch, cmds[i][0], cmds[i][1], i < 5 ? 'c' : 'u');
+        else s += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="12" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 8"/>`;
+      }
+    });
+    const cx = x0 + 5 * dx - 6;
+    s += `<line x1="${cx}" y1="${y0 - 10}" x2="${cx}" y2="${y0 + 5 * dy}" stroke="var(--success)" stroke-width="5"/>`;
+    s += `<g><rect x="${cx - 150}" y="${y0 + 5 * dy + 14}" width="300" height="50" rx="25" fill="var(--success-soft)"/><text x="${cx}" y="${y0 + 5 * dy + 48}" text-anchor="middle" class="mono" style="font-size:26px;font-weight:700">commitIndex = 5</text></g>`;
+    s += `<rect class="glow" x="${x0 + 5 * dx - 8}" y="${y0 - 8}" width="${cw + 16}" height="${dy + ch + 16}" rx="18" fill="none" stroke="var(--heading)" stroke-width="4"/>`;
+    s += `<text x="${x0 - 210}" y="${y0 + ch / 2 + 70}" text-anchor="middle" class="muted" style="font-size:22px;font-weight:600">leader · term 3</text>`;
+    return `${chrome({ chapter: 3, label: 'Replikacja logu' })}
+    ${svg(s)}
+    <div class="card" style="left:1440px;top:250px;width:380px;height:200px;padding:28px">
+      <div class="serif" style="font-size:72px;color:var(--heading);line-height:1">3 z 5</div>
+      <div style="font-size:28px;color:var(--muted);margin-top:12px">większość = zatwierdzenie</div>
+    </div>
+    <div class="card" style="left:1440px;top:480px;width:380px;height:200px;padding:28px;border-color:var(--heading)">
+      <div class="serif" style="font-size:72px;line-height:1">2 z 5</div>
+      <div style="font-size:28px;color:var(--muted);margin-top:12px">indeks 6 czeka</div>
+    </div>
+    <div class="abs" style="left:150px;top:900px;display:flex;gap:40px;font-size:24px;color:var(--muted)">
+      <span style="display:flex;align-items:center;gap:12px"><i style="width:34px;height:26px;border-radius:6px;background:var(--success-soft);border:3px solid var(--success)"></i>zatwierdzony</span>
+      <span style="display:flex;align-items:center;gap:12px"><i style="width:34px;height:26px;border-radius:6px;border:3px dashed var(--muted)"></i>niezatwierdzony</span>
+      <span class="mono">liczba = term, niżej polecenie</span>
+    </div>`;
+  },
+});
+
+/* 9. Partycja */
+frames.push({
+  title: '9 · Wstrzyknięcie awarii: partycja sieci',
+  note: '<b>Zasada:</b> ograniczenia i awarie pokazane na tym samym diagramie, na którym wcześniej działało rozwiązanie. Stary leader w mniejszości nie zatwierdzi wpisu, bo nie ma większości. Po naprawie sieci zobaczy wyższy term, wróci do roli followera, a niezatwierdzony wpis zostanie nadpisany (§5.3, §5.4).',
+  html: () => {
+    const row = (x, y, label, cells) => `<text x="${x}" y="${y + 50}" class="mono" style="font-size:26px;font-weight:700">${label}</text>` +
+      cells.map((c, i) => logCell(x + 70 + i * 104, y, 94, 78, c[0], '', c[1])).join('');
+    const base = [[1, 'c'], [1, 'c'], [2, 'c']];
+    let s = `<line x1="830" y1="170" x2="830" y2="930" stroke="var(--danger)" stroke-width="5" stroke-dasharray="16 14"/>` + cross(830, 550, 30);
+    s += `<text x="830" y="150" text-anchor="middle" style="font-size:26px;font-weight:700">partycja sieci</text>`;
+    s += `<text x="460" y="230" text-anchor="middle" class="muted" style="font-size:24px;font-weight:700;letter-spacing:3px">MNIEJSZOŚĆ</text>`;
+    s += `<text x="1340" y="230" text-anchor="middle" class="muted" style="font-size:24px;font-weight:700;letter-spacing:3px">WIĘKSZOŚĆ</text>`;
+    s += node(320, 360, 'S1', 'leader', { r: 56, sub: 'stary leader · term 2' });
+    s += node(600, 360, 'S2', 'follower', { r: 56 });
+    s += `<g class="glow">${node(1060, 360, 'S3', 'leader', { r: 56, sub: 'nowy leader · term 3' })}</g>`;
+    s += node(1340, 360, 'S4', 'follower', { r: 56 });
+    s += node(1620, 360, 'S5', 'follower', { r: 56 });
+    s += row(200, 560, 'S1', [...base, [2, 'u']]) + row(200, 660, 'S2', [...base, [2, 'u']]);
+    s += row(1000, 560, 'S3', [...base, [3, 'c']]) + row(1000, 660, 'S4', [...base, [3, 'c']]) + row(1000, 760, 'S5', [...base, [3, 'c']]);
+    return `${chrome({ chapter: 5, label: 'Awarie i partycje' })}
+    ${svg(s)}
+    <div class="abs chip" style="left:230px;top:800px">${'<svg width="30" height="30" viewBox="0 0 60 60">' + cross(30, 30, 26) + '</svg>'} 2 z 5: nie zatwierdzi</div>
+    <div class="abs chip" style="left:1130px;top:880px">${'<svg width="30" height="30" viewBox="0 0 60 60">' + check(30, 30, 26) + '</svg>'} 3 z 5: zatwierdza</div>`;
+  },
+});
+
+/* 10. Wyniki */
+frames.push({
+  title: '10 · Wyniki: wykres przerysowany, jeden wniosek, tytuł = wniosek',
+  note: '<b>Zasada:</b> jeden wniosek na wykres, kluczowa seria w kolorze, reszta szara, wartości podpisane bezpośrednio. Dane z §9.1 (rys. 14–15): 43 studentów, średnio 25,7 vs 20,8 pkt na 60. Autorzy sami zastrzegają, że deklaracje są mniej wiarygodne niż wyniki quizu, więc zastrzeżenie jest na ekranie.',
+  html: () => {
+    const x0 = 360, k = 800 / 60;
+    let s = '';
+    for (let v = 0; v <= 60; v += 10) {
+      const x = x0 + v * k;
+      s += `<line x1="${x}" y1="390" x2="${x}" y2="660" stroke="var(--line)" stroke-width="2"/><text x="${x}" y="700" text-anchor="middle" class="muted mono" style="font-size:24px">${v}</text>`;
+    }
+    const bar = (y, v, label, color, txt) => `<text x="150" y="${y + 52}" style="font-size:38px;font-weight:700">${label}</text>
+      <path d="M${x0} ${y} H${x0 + v * k - 6} q6 0 6 6 V${y + 74} q0 6 -6 6 H${x0} Z" fill="${color}"/>
+      <text x="${x0 + v * k + 20}" y="${y + 54}" class="mono" style="font-size:40px;font-weight:700">${txt}</text>`;
+    s += bar(420, 25.7, 'Raft', 'var(--leader)', '25,7');
+    s += bar(540, 20.8, 'Paxos', 'var(--muted)', '20,8');
+    s += `<path d="M${x0 + 20.8 * k} 400 V388 H${x0 + 25.7 * k} V400" fill="none" stroke="var(--heading)" stroke-width="3"/><text x="${x0 + 23.25 * k}" y="376" text-anchor="middle" class="mono" style="font-size:28px;font-weight:700;fill:var(--heading)">+4,9</text>`;
+    return `${chrome({ chapter: 6, label: 'Czy Raft jest prostszy?' })}
+    <div class="abs" style="left:150px;top:170px">
+      <div class="h-title" style="font-size:68px">Raft: średnio o 4,9 pkt lepiej</div>
+      <div style="font-size:28px;color:var(--muted);margin-top:10px">Średni wynik quizu (maks. 60 pkt) · 43 studentów z dwóch uczelni</div>
+    </div>
+    ${svg(s)}
+    <div class="card" style="left:1360px;top:330px;width:460px;height:210px;padding:30px">
+      <div class="serif" style="font-size:76px;line-height:1;color:var(--heading)">33 z 43</div>
+      <div style="font-size:27px;color:var(--muted);margin-top:14px">lepiej odpowiedziało na pytania o Raft</div>
+    </div>
+    <div class="card" style="left:1360px;top:570px;width:460px;height:250px;padding:30px">
+      <div class="serif" style="font-size:76px;line-height:1">33 z 41</div>
+      <div style="font-size:27px;color:var(--muted);margin-top:14px">uznało Raft za łatwiejszy do implementacji</div>
+      <div style="font-size:21px;color:var(--muted);margin-top:10px;font-style:italic">deklaracje, mniej wiarygodne niż quiz</div>
+    </div>
+    <div class="abs mono" style="left:150px;top:900px;font-size:22px;color:var(--muted)">Źródło: Ongaro & Ousterhout 2014, §9.1, rys. 14–15</div>`;
+  },
+});
+
+/* 11. Gwarancje */
+frames.push({
+  title: '11 · Definicje: zostają na ekranie, aktywna podświetlona',
+  note: '<b>Zasada:</b> efekt informacji ulotnej, czyli długie definicje zostają na ekranie zamiast znikać razem z narracją. Pięć gwarancji z rys. 3 papieru, nazwy po angielsku, opis po polsku. <b>Animacja:</b> podświetlenie przechodzi po kolejnych wierszach razem z narracją.',
+  html: () => {
+    const rows = [
+      ['Election Safety', 'najwyżej jeden leader w danym term'],
+      ['Leader Append-Only', 'leader tylko dopisuje, nigdy nie nadpisuje swojego logu'],
+      ['Log Matching', 'ten sam indeks i term → logi identyczne do tego miejsca'],
+      ['Leader Completeness', 'zatwierdzony wpis jest w logu każdego przyszłego lidera'],
+      ['State Machine Safety', 'pod danym indeksem każdy serwer wykona to samo polecenie'],
+    ];
+    return `${chrome({ chapter: 4, label: 'Bezpieczeństwo' })}
+    <div class="h-title abs" style="left:150px;top:170px;font-size:68px">Pięć gwarancji Rafta</div>
+    ${rows.map(([n, d], i) => `<div class="card ${i === 0 ? 'glow' : ''}" style="left:150px;top:${290 + i * 128}px;width:1620px;height:108px;display:flex;align-items:center;gap:40px;padding:0 40px;${i === 0 ? 'border-color:var(--heading);border-width:3px' : 'opacity:.35'}">
+        <span class="mono" style="font-size:34px;font-weight:700;width:520px">${n}</span>
+        <span style="font-size:32px">${d}</span></div>`).join('')}`;
+  },
+});
+
+/* 12. Podsumowanie */
+frames.push({
+  title: '12 · Podsumowanie: trzy części, po jednym zdaniu',
+  note: '<b>Zasada:</b> rekapitulacja na zakończenie odcinka, z tymi samymi kolorami i ikonami co wcześniej. Trzeci punkt to election restriction z §5.4.1. Potem zamknięcie z zaproszeniem do kolejnego odcinka i 5 s outro z last-slide.png.',
+  html: () => {
+    const mini1 = node(70, 70, 'F', 'follower', { r: 34, fs: 26 }) + arrow(110, 70, 160, 70, 'var(--muted)', { w: 3 }) + node(200, 70, 'C', 'candidate', { r: 34, fs: 26 }) + arrow(240, 70, 290, 70, 'var(--muted)', { w: 3 }) + node(330, 70, 'L', 'leader', { r: 34, fs: 26 });
+    const mini2 = [0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${40 + c * 66}" y="${12 + r * 44}" width="56" height="36" rx="7" fill="${c < 3 ? 'var(--success-soft)' : 'var(--surface)'}" stroke="${c < 3 ? 'var(--success)' : 'var(--muted)'}" stroke-width="3" ${c < 3 ? '' : 'stroke-dasharray="6 5"'}/>`).join('')).join('') + `<line x1="235" y1="4" x2="235" y2="146" stroke="var(--success)" stroke-width="4"/>`;
+    const mini3 = `<path d="M200 10 L270 36 V78 C270 116 240 138 200 150 C160 138 130 116 130 78 V36 Z" fill="var(--inset)" stroke="var(--heading)" stroke-width="4"/>` + check(200, 80, 28);
+    const cards = [
+      ['Wybór lidera', 'losowy timeout, wygrywa ten z większością głosów', mini1],
+      ['Replikacja logu', 'leader dopisuje, wpis zatwierdza większość', mini2],
+      ['Bezpieczeństwo', 'wygrać może tylko kandydat z aktualnym logiem', mini3],
+    ];
+    return `${chrome({ chapter: 6, label: 'Czy Raft jest prostszy?' })}
+    <div class="h-title abs" style="left:150px;top:170px;font-size:68px">Raft w trzech częściach</div>
+    ${cards.map(([t, d, ic], i) => `<div class="card" style="left:${150 + i * 550}px;top:310px;width:520px;height:520px">
+      <svg width="400" height="160" viewBox="0 0 400 160" style="position:absolute;left:40px;top:50px">${ic}</svg>
+      <div style="position:absolute;left:44px;right:40px;top:260px">
+        <span class="mono" style="font-size:26px;color:var(--heading)">${i + 1}</span>
+        <div style="font-size:44px;font-weight:700;margin-top:8px">${t}</div>
+        <div style="font-size:30px;line-height:1.35;color:var(--muted);margin-top:14px">${d}</div>
+      </div></div>`).join('')}`;
+  },
+});
+
+/* ---------- render ---------- */
+const main = document.getElementById('mocks');
+main.innerHTML = `
+<section class="mock">
+  <h2>0 · Arkusz stylu</h2>
+  <div class="sheet">
+    <div class="box"><h3>Marka (ohara)</h3>
+      <div class="sw"><i style="background:var(--canvas)"></i>Tło kadru<code>canvas</code></div>
+      <div class="sw"><i style="background:var(--surface)"></i>Karty<code>surface</code></div>
+      <div class="sw"><i style="background:var(--heading)"></i>Nagłówki, aktywne podświetlenie<code>heading</code></div>
+      <div class="sw"><i style="background:var(--ink)"></i>Tekst<code>ink</code></div>
+      <div class="sw"><i style="background:var(--muted)"></i>Tekst drugorzędny, Follower<code>muted</code></div>
+    </div>
+    <div class="box"><h3>Role na diagramach</h3>
+      <div class="sw"><i style="background:var(--leader)"></i>Leader, kluczowa seria na wykresie<code>malina</code></div>
+      <div class="sw"><i style="background:var(--candidate)"></i>Candidate<code>ochra</code></div>
+      <div class="sw"><i style="background:var(--c3)"></i>Rezerwa: trzecia kategoria<code>niebieski</code></div>
+      <div class="sw"><i style="background:var(--success)"></i>Zatwierdzone, głos ✓<code>success</code></div>
+      <div class="sw"><i style="background:var(--danger)"></i>Awaria, zawsze z ikoną ✕<code>danger</code></div>
+    </div>
+    <div class="box"><h3>Typografia</h3>
+      <div class="serif" style="font-size:30px;color:var(--heading)">Fraunces 600</div><div style="font-size:13px;color:var(--muted);margin-bottom:10px">tytuły, karty rozdziałów, duże liczby</div>
+      <div style="font-size:22px;font-weight:700">Plus Jakarta Sans</div><div style="font-size:13px;color:var(--muted);margin-bottom:10px">etykiety i opisy, ą ę ł ż ź ć ń ó ś</div>
+      <div class="mono" style="font-size:20px;font-weight:700">JetBrains Mono</div><div style="font-size:13px;color:var(--muted)">terminy techniczne, wartości, term, indeksy</div>
+    </div>
+    <div class="box"><h3>Zasady kadru</h3>
+      <ul class="rules">
+        <li>Bez zdań z narracji na ekranie; napisy jako CC z SRT</li>
+        <li>Etykiety ≤3 słowa; terminy po angielsku, opisy po polsku</li>
+        <li>Aktywny element: pełne krycie i różowa poświata, reszta 30%</li>
+        <li>Jeden diagram na rozdział, budowany stopniowo</li>
+        <li>Margines 96 px, tekst min. 22 px przy 1080p</li>
+        <li>Kolor nigdy sam: rola ma też literę, ikonę lub etykietę</li>
+      </ul>
+    </div>
+  </div>
+</section>
+${frames.map(f => `<section class="mock"><h2>${esc(f.title)}</h2><div class="stage"><div class="frame">${f.html()}</div></div><p class="note">${f.note}</p></section>`).join('')}`;
+
+function fit() {
+  document.querySelectorAll('.stage').forEach(st => {
+    st.firstElementChild.style.transform = `scale(${st.clientWidth / W})`;
+  });
+}
+addEventListener('resize', fit);
+fit();
+document.fonts && document.fonts.ready.then(fit);
+
+document.querySelectorAll('.toggle button').forEach(b => b.addEventListener('click', () => {
+  document.documentElement.dataset.theme = b.dataset.set;
+  document.querySelectorAll('.toggle button').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+}));
+</script>
+</body>
+</html>
