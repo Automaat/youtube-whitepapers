@@ -186,17 +186,25 @@ def run_meta(r: Runner) -> None:
 
 
 def run_review(r: Runner) -> None:
+    """Review, fix, repeat. A failed review of the current script resumes with its fix."""
     rounds = int(r.setting("review_rounds", 4))
-    for n in range(1, rounds + 1):
+    done = int(r.state.get("review_rounds_done", 0))
+    pending = r.state.get("review_of") == script_digest(r) and not review_passed(r)
+    for n in range(done + 1, done + rounds + 1):
+        if pending:
+            r.step("script-fix", label=f"script-fix-r{n - 1}")
         review = r.step("review", label=f"review-r{n}").data or {}
         llm.save_review(r.ep, review)
+        r.state["review_rounds_done"] = n
+        r.state["review_of"] = script_digest(r)
+        r.save()
         print(f"📋 round {n}: {review['verdict']}, {len(review['must_fix'])} must-fix")
         if review["verdict"] == "pass":
             return
-        if n < rounds:
-            r.step("script-fix", label=f"script-fix-r{n}")
+        pending = True
     raise Stop(
-        f"Scenario review still fails after {rounds} rounds; see {r.ep.rel(r.ep.file('review.md'))}"
+        f"Scenario review still fails after {rounds} more rounds; "
+        f"see {r.ep.rel(r.ep.file('review.md'))} and rerun to continue"
     )
 
 

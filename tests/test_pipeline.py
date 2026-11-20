@@ -117,3 +117,33 @@ def test_dog_thumbnail_stops_until_image_exists_then_is_copied(episode, monkeypa
     image.write_bytes(b"dog")
     Runner(episode).run()
     assert (episode.build / "thumbnail.png").read_bytes() == b"dog"
+
+
+def test_review_resumes_with_fix_and_numbers_rounds(episode, monkeypatch):
+    episode.file("script.yaml").write_text("segments: []\n")
+    episode.file("storyboard.yaml").write_text("scenes: []\n")
+    verdicts = iter(["fail", "pass"])
+    calls: list[str] = []
+
+    def step(self, name, extra=None, label=None):
+        calls.append(label)
+        if name == "script-fix":
+            episode.file("script.yaml").write_text(f"segments: [{len(calls)}]\n")
+            return pipeline.llm.LlmResult(True, "")
+        data = {
+            "verdict": next(verdicts),
+            "summary": "",
+            "claims": [],
+            "coverage": [],
+            "skeptic_loop": [],
+            "must_fix": [],
+        }
+        return pipeline.llm.LlmResult(True, "", data=data)
+
+    monkeypatch.setattr(Runner, "step", step)
+    runner = Runner(episode)
+    runner.state.update(review_rounds_done=4, review_of=pipeline.script_digest(runner))
+    episode.file("review.json").write_text('{"verdict": "fail"}')
+    pipeline.run_review(runner)
+    assert calls == ["script-fix-r4", "review-r5", "script-fix-r5", "review-r6"]
+    assert pipeline.review_passed(runner)
