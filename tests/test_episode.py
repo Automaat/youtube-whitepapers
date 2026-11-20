@@ -93,3 +93,18 @@ def test_new_episode_writes_config_and_loads_with_defaults(tmp_path):
 def test_new_episode_without_paper_fails(tmp_path):
     with pytest.raises(FileNotFoundError):
         new_episode(80, repo=tmp_path, episodes_dir=tmp_path / "e", status_file=tmp_path / "s")
+
+
+@pytest.mark.parametrize(
+    ("config", "expected"),
+    [
+        ({}, "youtube/thumbnails/73-raft.png"),
+        ({"thumbnail": "dog"}, "youtube/thumbnails/73-raft.png"),
+        ({"thumbnail": "diagram"}, None),
+        ({"thumbnail": "diagram", "thumbnail_image": "art/x.png"}, "art/x.png"),
+    ],
+)
+def test_thumbnail_image_by_mode(episode, config, expected):
+    episode.config.update(config)
+    image = episode.thumbnail_image()
+    assert (str(image.relative_to(episode.repo)) if image else None) == expected

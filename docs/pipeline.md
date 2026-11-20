@@ -17,6 +17,8 @@ uv run odczyt new 74                 # youtube/pl/episodes/74-epaxos/episode.yam
 uv run odczyt run 74                 # runs until the script gate
 #   read youtube/pl/episodes/74-epaxos/review.md and script.yaml
 uv run odczyt approve 74 script
+#   save the dog thumbnail as youtube/thumbnails/74-epaxos.png
+#   (prompt: youtube/prompts/thumbnails/74-epaxos-thumbnail.md)
 export BW_SESSION=$(bw unlock --raw) # ElevenLabs key from Bitwarden
 uv run odczyt run 74                 # TTS → scenes → stills review → render
 #   watch build/74-epaxos.mp4, check build/thumbnail.png and build/metadata.txt
@@ -39,12 +41,13 @@ Claude Code.
 | `script` | narrator + skeptic segments with `[[cue:x]]` markers | create once |
 | `review` | fact-check against the paper; `script-fix` and repeat until `pass` | tracked |
 | `approve-script` | owner reads `review.md` | gate |
+| `thumbnail-image` | dog mode: waits for `youtube/thumbnails/{slug}.png` | gate |
 | `tts` | ElevenLabs per segment, cached by text hash | tracked |
 | `timeline` | `narration.wav`, `timeline.json`, `captions.srt` | tracked |
 | `layout` | shared diagram geometry `layout.ts` | create once |
 | `scenes` | one `claude -p` agent per chapter, in parallel | create once |
 | `stills-review` | frames after every cue, reviewed in parallel chunks; fix agents per part; repeat | tracked |
-| `thumbnail` | 1280x720: big term + one frozen diagram frame | tracked |
+| `thumbnail` | dog image, or the rendered diagram card in diagram mode | tracked |
 | `metadata` | `TYTUŁ / OPIS / TAGI` with chapter timestamps | tracked |
 | `render` | `build/{slug}.mp4`, duration and black-frame check | tracked |
 | `approve-video` | owner watches the video | gate |
@@ -68,11 +71,18 @@ character). The Raft pilot cost about $41 in LLM calls and 6.7k ElevenLabs credi
 
 ## Thumbnails
 
-The storyboard step picks `thumbnail: {term, tagline, scene, cue, crop}`. The
-`Thumbnail` composition draws the term and the scene frozen 1.5 s after the cue,
-cropped to `crop` (template A in `docs/research/2026-11-youtube-thumbnails.md`). The
-video intro shows the same card for 5 s. To use a hand-made image instead, set
-`thumbnail_image: path/to.png` in `episode.yaml`.
+`thumbnail` in `youtube/pipeline.yaml` (or `episode.yaml`) picks the mode:
+
+- `dog` (default): the channel's anime dog, made by hand. The prompt comes from
+  `/generate-thumbnails` (`youtube/prompts/thumbnails/{slug}-thumbnail.md`); save the
+  image as `youtube/thumbnails/{slug}.png`. The run stops after the script gate until
+  the file exists. The video intro shows it for 5 s.
+- `diagram`: rendered from the storyboard pick `thumbnail: {term, tagline, scene,
+  cue, crop}`: the term plus the scene frozen 1.5 s after the cue (template A in
+  `docs/research/2026-11-youtube-thumbnails.md`). Kept for a later A/B test against
+  the dog.
+
+`thumbnail_image: path/to.png` in `episode.yaml` uses any other hand-made image.
 
 ## Troubleshooting
 

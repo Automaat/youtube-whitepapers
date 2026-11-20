@@ -350,9 +350,34 @@ def stills_passed(r: Runner) -> bool:
     return path.exists() and json.loads(path.read_text(encoding="utf-8"))["verdict"] == "pass"
 
 
+def thumbnail_image_ready(r: Runner) -> bool:
+    image = r.ep.thumbnail_image()
+    return image is None or image.exists()
+
+
+def ask_thumbnail_image(r: Runner) -> None:
+    image = r.ep.thumbnail_image()
+    prompt = r.ep.thumbnail_prompt()
+    source = r.ep.rel(prompt) if prompt.exists() else "/generate-thumbnails"
+    raise Stop(
+        f"Thumbnail: generate the dog image from {source} and save it as {r.ep.rel(image)}\n"
+        "   (or set `thumbnail: diagram` in episode.yaml), then rerun"
+    )
+
+
 def run_thumbnail(r: Runner) -> None:
+    image = r.ep.thumbnail_image()
+    if image is not None:
+        shutil.copy2(image, r.ep.build / "thumbnail.png")
+        print(f"✅ {r.ep.rel(image)} (hand-made)")
+        return
     ensure_node_modules()
     print(f"✅ {r.ep.rel(render.render_thumbnail(r.ep))}")
+
+
+def thumbnail_digest(r: Runner) -> str:
+    image = r.ep.thumbnail_image()
+    return digest(image) if image is not None else visuals_digest(r)
 
 
 def run_metadata(r: Runner) -> None:
@@ -431,6 +456,7 @@ STAGES: list[Stage] = [
     Stage("script", "write narration", file_exists("script.yaml"), generate("script")),
     Stage("review", "fact-check script, fix until pass", review_passed, run_review, script_digest),
     gate("script", "read review.md and script.yaml"),
+    Stage("thumbnail-image", "hand-made dog thumbnail", thumbnail_image_ready, ask_thumbnail_image),
     Stage(
         "tts",
         "ElevenLabs narration (cached per segment)",
@@ -446,7 +472,8 @@ STAGES: list[Stage] = [
         lambda r: digest(
             r.ep.build / "tts" / "manifest.json",
             r.ep.storyboard(),
-            {k: r.ep.config.get(k) for k in (*META_FIELDS, "theme", "thumbnail_image")},
+            {k: r.ep.config.get(k) for k in (*META_FIELDS, "theme")},
+            r.ep.thumbnail_image() or "",
         ),
     ),
     Stage(
@@ -465,10 +492,10 @@ STAGES: list[Stage] = [
     ),
     Stage(
         "thumbnail",
-        "1280x720 thumbnail",
+        "dog image or rendered 1280x720 card",
         build_exists("thumbnail.png"),
         run_thumbnail,
-        visuals_digest,
+        thumbnail_digest,
     ),
     Stage(
         "metadata",

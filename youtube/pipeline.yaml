@@ -2,6 +2,7 @@
 theme: dark
 target_minutes: 12
 tts_model: eleven_v4
+thumbnail: dog  # dog: youtube/thumbnails/{slug}.png made from the /generate-thumbnails prompt; diagram: rendered card
 voices:
   narrator: H5xTcsAIeS5RAykjz57a  # Alex - Professional Narration Polish (Voice Library)
   skeptic: Bz1e1clEKwgN71Vx7cxj   # Asia - Silky Polish Narrator (Voice Library)

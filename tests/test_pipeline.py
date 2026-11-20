@@ -100,3 +100,18 @@ def test_gate_can_be_disabled_in_config(episode, monkeypatch):
 def test_stage_names_are_unique():
     names = [s.name for s in pipeline.STAGES]
     assert len(names) == len(set(names))
+
+
+def test_dog_thumbnail_stops_until_image_exists_then_is_copied(episode, monkeypatch):
+    monkeypatch.setattr(
+        pipeline,
+        "STAGES",
+        [s for s in pipeline.STAGES if s.name in ("thumbnail-image", "thumbnail")],
+    )
+    with pytest.raises(Stop, match=r"youtube/thumbnails/73-raft\.png"):
+        Runner(episode).run()
+    image = episode.repo / "youtube" / "thumbnails" / "73-raft.png"
+    image.parent.mkdir(parents=True)
+    image.write_bytes(b"dog")
+    Runner(episode).run()
+    assert (episode.build / "thumbnail.png").read_bytes() == b"dog"

@@ -251,9 +251,9 @@ def build_timeline(ep: Episode) -> dict:
         print(f"⚠️  Storyboard cues missing in script: {', '.join(missing)}")
 
     image = None
-    override = ep.config.get("thumbnail_image")
-    if override:
-        shutil.copy(ep.repo / override, public / "thumbnail.png")
+    source = ep.thumbnail_image()
+    if source is not None and source.exists():
+        shutil.copy(source, public / "thumbnail.png")
         image = "thumbnail.png"
 
     timeline = {

@@ -102,6 +102,23 @@ class Episode:
     def script(self) -> dict:
         return load_yaml(self.file("script.yaml"))
 
+    @property
+    def thumbnail_mode(self) -> str:
+        """`dog` (hand-made image, the channel default) or `diagram` (rendered card)."""
+        return str(self.config.get("thumbnail", "dog"))
+
+    def thumbnail_image(self) -> Path | None:
+        """Hand-made thumbnail: `thumbnail_image` override, or the dog image in dog mode."""
+        if self.config.get("thumbnail_image"):
+            return self.repo / self.config["thumbnail_image"]
+        if self.thumbnail_mode == "dog":
+            return self.repo / "youtube" / "thumbnails" / f"{self.slug}.png"
+        return None
+
+    def thumbnail_prompt(self) -> Path:
+        """Image-model prompt for the dog thumbnail (from /generate-thumbnails)."""
+        return self.repo / "youtube" / "prompts" / "thumbnails" / f"{self.slug}-thumbnail.md"
+
     def update(self, **fields: Any) -> None:
         """Write fields to episode.yaml (not to the defaults) and reload."""
         self.raw = {**self.raw, **fields}
