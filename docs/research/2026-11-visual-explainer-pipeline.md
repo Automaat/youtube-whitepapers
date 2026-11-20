@@ -8,13 +8,13 @@ Date: 2026-11-20. Goal: decouple the channel from NotebookLM. Claude Code writes
 |---|---|
 | POC paper | Raft — episode 73 (`whitepapers/distributed-computing/73-raft.pdf`) |
 | Rendering | Remotion |
-| Voice | ElevenLabs Voice Library voices (no own-voice clone for POC) |
+| Voice | ElevenLabs Voice Library voices: narrator Alex (`H5xTcsAIeS5RAykjz57a`), skeptic Asia (`Bz1e1clEKwgN71Vx7cxj`); `eleven_v4`. Library voices need a paid plan (Starter is enough for the POC) |
 | Format | Narrator (prowadzący) + short skeptic voice (sceptyk) |
-| Intro/outro | Unchanged: 5 s thumbnail intro, opening phrase "Witamy ponownie w Głębokim Odczycie", closing invitation to next episode, 5 s silent outro with `last-slide.png` |
+| Intro/outro | 5 s thumbnail intro over the greeting "Witamy ponownie w Głębokim Odczycie", closing invitation to next episode, 5 s silent outro. The outro is a new "Polub i subskrybuj" card in the episode style without the mascot (`Outro` composition), replacing `last-slide.png` for diagram-first episodes |
 | Language | Everything in Polish: narration, on-screen labels, chart titles, metadata. Technical terms stay in English, as in the podcast prompt ("transformer", "leader election", "log replication"). Note: NotebookLM slides used to be English; this changes |
 | Quality gate | Scenario review against the whitepaper before TTS (section 4a) |
 | LLM steps | Headless Claude Code (`claude -p`), no direct Anthropic API calls (section 4b). ElevenLabs stays an HTTP API call: it is TTS, not LLM generation |
-| Visual style | Ohara redesign palette (powder pink, bottle green, raspberry), dark theme proposed; mockups in `docs/design/mockups/raft-style.html` (section 2a) |
+| Visual style | Ohara redesign palette (powder pink, bottle green, raspberry), dark theme; binding guide `docs/design/visual-style.md`, mockups `docs/design/mockups/raft-style.html` |
 
 ---
 
@@ -246,12 +246,41 @@ QA metric per episode: generate 5–10 quiz questions from the paper; a model an
 ## 5. Open questions
 
 - Output name for the POC: replace the existing episode 73 video or publish as a new episode (e.g. `73-raft-v2`)?
-- Which two library voices (narrator, skeptic)? Pick after a short Polish listening test.
+- Voices: Alex (narrator) and Asia (skeptic) were picked for the POC without a listening test of English terms; confirm or swap.
 - Owner sign-off on the scenario review: every episode, or only until the reviewer proves reliable?
-- Dark or light theme for the video (mockups support both)?
-- Tooling gap on this Mac: poppler (`pdftotext`, `pdftoppm`) is not on PATH and `mise.toml` is untrusted. macOS PDFKit (`swift`) extracted the Raft text as a stopgap.
+- Tooling gaps on this Mac: poppler and ImageMagick (`magick`, used by `verify_video.py` for black-frame checks) are not on PATH; `mise.toml` is untrusted. `pypdf` replaces poppler for text; brightness was checked with ffmpeg by hand.
+- Existing tests `test_archive_episode.py`, `test_generate_video.py` and `test_transcribe.py` rewrite the real `whitepapers/status.json` when run.
 
-## 6. Unverified
+## 6. POC results: episode 73 (Raft), 2026-11-20
+
+Output: `youtube/pl/episodes/73-raft/build/73-raft.mp4` (17:54, 1920×1080, 30 fps, h264 + AAC). Not committed; text artifacts (storyboard, script, review, claims, timeline) and scene code are.
+
+| Step | Result | Cost (`claude -p` reported) |
+|---|---|---|
+| Storyboard | 5 chapters, 21 scenes, 2–6 cues each | $1.29 |
+| Script | 52 segments (10 skeptic), 13.3k characters | $2.09 |
+| Scenario review | 4 rounds: fail → fail → fail → pass | $4.39 + fixes $1.41 |
+| TTS | 52 ElevenLabs `eleven_v4` requests, ≈6.7k credits, character alignment matched audio length in every segment | Starter plan |
+| Scene code | 5 parallel `claude -p` runs, ~2.9k lines TSX, each checked its own stills | $12.00 |
+| Stills review | 3 runs (one full, two scoped), 1 + 6 blockers, 43 minor findings | $12.44 |
+| Scene fixes | 2 rounds | $6.97 |
+| Render | 3 min 44 s for 17:54 of video (≈4.8× real time) on this Mac | – |
+
+Total LLM cost ≈ $41 as reported by `claude -p` (API-equivalent; billed against the CLI login).
+
+What the gates caught:
+
+- Scenario review, round 1: a real protocol error. The log-repair example started the leader's `nextIndex` at 5, but per §5.3/Fig. 2 it is set when the leader comes to power (3 in that story), so the two rejections shown could not happen. Plus three storyboard visuals that misstated facts (overwrites on a server that never had the entry, wrong trial count).
+- Round 2: joint consensus overstated (both majorities only once a server has `C_old,new`). Round 3: a missing abstract-level contribution (equivalent to multi-Paxos, as efficient). Round 1 had judged that same omission acceptable, so the reviewer is not deterministic; keep a final full pass.
+- Stills review: a joint-consensus frame showing `C_new` committed on 2 of 5 servers; heartbeats and RequestVote drawn as a relay chain S1→S2→S3 instead of parallel RPCs; a vote hull implying votes that were refused; animation finishing after the narrator already described it.
+
+Lessons:
+
+- One stills reviewer for 132 frames ran out of context (lost the first 45 frames). Scope reviews to ≤ 70 frames (`--var scope=…`).
+- Scene coders asked for extra cues twice and used fixed frame offsets instead; let the scene step propose new `[[cue:…]]` markers back to the script (re-TTS is cached per segment).
+- The dark canvas measures ~0.11 mean brightness; `verify_video.py` flags < 0.05 as black, so the margin is small.
+
+## 7. Unverified
 
 - ElevenLabs v4 Polish quality and English-term handling (no independent benchmark) — listening test mandatory.
 - v4 timestamps on with-timestamps; stitching + timestamps; Text to Dialogue beta/commercial status; v4 speed setting; non-English phoneme rules (docs conflict).
