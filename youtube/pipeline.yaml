@@ -8,6 +8,7 @@ voices:
   skeptic: Bz1e1clEKwgN71Vx7cxj   # Asia - Silky Polish Narrator (Voice Library)
 elevenlabs:
   bitwarden_item: "ElevenLabs API key (Głęboki Odczyt)"
+  credits_per_char: 0.5    # eleven_v4; the run stops before TTS if the plan has fewer left
 pipeline:
   gates: [script, video]   # owner sign-off points; remove one to run through it
   review_rounds: 4         # scenario review + fix rounds before stopping

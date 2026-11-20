@@ -7,6 +7,7 @@ when no state is recorded are adopted as fresh.
 """
 
 import json
+import math
 import shutil
 import subprocess
 from collections.abc import Callable
@@ -228,6 +229,12 @@ def run_tts(r: Runner) -> None:
                 "No ElevenLabs key: pass --api-key-file, set ELEVENLABS_API_KEY, "
                 "or export BW_SESSION=$(bw unlock --raw)"
             )
+        needed = math.ceil(
+            chars * float(r.ep.config.get("elevenlabs", {}).get("credits_per_char", 0.5))
+        )
+        left = tts.remaining_credits(key)
+        if left is not None and left < needed:
+            raise Stop(f"ElevenLabs: about {needed} credits needed, {left} left this period")
     try:
         tts.synthesize_episode(r.ep, key)
     except RuntimeError as e:

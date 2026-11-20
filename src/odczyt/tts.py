@@ -28,6 +28,7 @@ VOICE_SETTINGS = {
     "use_speaker_boost": True,
 }
 CONTEXT_CHARS = 300
+SUBSCRIPTION_API = "https://api.elevenlabs.io/v1/user/subscription"
 
 
 def strip_cues(text: str) -> tuple[str, dict[str, int]]:
@@ -78,6 +79,17 @@ def synthesize(api_key: str, voice: str, model: str, text: str, context: dict[st
                 continue
             raise RuntimeError(f"ElevenLabs {e.code}: {detail}") from e
     raise RuntimeError("unreachable")
+
+
+def remaining_credits(api_key: str) -> int | None:
+    """Credits left in the current billing period, or None if the key cannot read it."""
+    req = urllib.request.Request(SUBSCRIPTION_API, headers={"xi-api-key": api_key})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            sub = json.load(resp)
+    except (urllib.error.URLError, TimeoutError):
+        return None
+    return int(sub["character_limit"]) - int(sub["character_count"])
 
 
 def resolve_api_key(key_file: str | None, bitwarden_item: str | None) -> str | None:
