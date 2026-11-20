@@ -6,8 +6,9 @@ did not make them. Assume they contain mistakes.
 ## Inputs
 
 - `{episode_dir}/build/stills/*.png`: one frame 0.6 s after every cue and one at the
-  end of every scene, named `NN-<scene>--<cue>.png`. Scope: {scope}. Read every
-  still in scope, and write your notes on each scene before moving to the next one.
+  end of every scene, named `NN-<scene>--<cue>.png`. Review only these stills:
+  {scope}. Read every one of them, and write your notes on each scene before moving
+  to the next one. Use the scene id from the file name in `scene`.
 - `{episode_dir}/storyboard.yaml`: what each scene and cue should show.
 - `{episode_dir}/script.yaml`: what is said while the frame is on screen.
 - `{episode_dir}/claims.json`: verified facts from the paper.

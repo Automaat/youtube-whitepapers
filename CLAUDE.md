@@ -1,10 +1,18 @@
 # YouTube Whitepapers
 
-Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
+"Głęboki Odczyt": Polish YouTube episodes that explain research papers with
+animated diagrams.
 
-**Tech Stack:** Python 3, Bash, ffmpeg, whisper, pdftoppm, imagemagick
+**Primary workflow:** `odczyt` pipeline (`src/odczyt/`, guide: `docs/pipeline.md`):
+paper → storyboard → script → fact-check → ElevenLabs → Remotion → video,
+thumbnail, metadata. Use `/generate-episode N`.
 
-**Primary Tasks:** Video generation sessions, Python automation scripts
+**Legacy (being retired):** NotebookLM audio + slides workflow below ("Video
+Generation Workflow"). Do not start new episodes with it. Removal plan:
+`docs/pipeline.md#retiring-the-notebooklm-workflow`.
+
+**Tech Stack:** Python 3 (uv), Remotion (React + TypeScript), ElevenLabs,
+headless Claude Code, ffmpeg
 
 ---
 
@@ -12,7 +20,13 @@ Generate YouTube videos from NotebookLM podcasts about AI/ML milestone papers.
 
 ```text
 youtube-whitepapers/
-├── scripts/                    # Python automation scripts
+├── src/odczyt/                 # Episode pipeline package (CLI: uv run odczyt)
+├── tests/                      # Tests for src/odczyt
+├── youtube/remotion/           # Remotion design system + episode scenes
+├── youtube/pl/episodes/        # Diagram-first episodes (episode.yaml, script, review)
+├── youtube/pipeline.yaml       # Pipeline defaults (voices, gates, rounds)
+├── youtube/prompts/pipeline/   # Prompts for headless Claude steps
+├── scripts/                    # Legacy NotebookLM scripts + upload/publish
 │   ├── compress_images.py      # Batch PNG compression (>threshold)
 │   ├── generate_video.py       # Generate video from concat.txt + audio
 │   ├── prepare_slides.py       # Prepare slides (extract, scale, normalize)
@@ -57,7 +71,41 @@ youtube-whitepapers/
 
 ---
 
-## Video Generation Workflow
+## Diagram-First Workflow (`odczyt`)
+
+Full guide: `docs/pipeline.md`. Visual style (binding): `docs/design/visual-style.md`.
+Episode files: `youtube/pl/episodes/{slug}/` (`build/` is git-ignored). Defaults:
+`youtube/pipeline.yaml`.
+
+```bash
+uv run odczyt new 74              # episode folder + episode.yaml from status.json
+uv run odczyt run 74              # every stale stage, stops at gates and failed checks
+uv run odczyt approve 74 script   # after the owner read review.md
+uv run odczyt approve 74 video    # after the owner watched build/{slug}.mp4
+uv run odczyt status 74           # fresh/pending stages, LLM cost, TTS chars left
+```
+
+Rules:
+
+- Every LLM step is a separate `claude -p` process (`src/odczyt/llm.py`): restricted
+  tools, no MCP, budget cap. The reviewer never sees the writer's session.
+- Never approve a gate for the owner. Summarize, ask, then run `odczyt approve`.
+- Timing comes from ElevenLabs character timestamps (`[[cue:name]]` markers in
+  `script.yaml`), never from guessed durations.
+- Change behavior in prompts (`youtube/prompts/pipeline/`) or the design system
+  (`youtube/remotion/src/design/`), not by hand-editing one episode, unless the
+  owner asks for a one-off fix.
+- `youtube/remotion/src/episodes/registry.ts` and each episode's `scenes.tsx` are
+  generated; do not edit them.
+- ElevenLabs key: Bitwarden item "ElevenLabs API key (Głęboki Odczyt)"
+  (`export BW_SESSION=$(bw unlock --raw)`). `eleven_v4` costs about 0.5 credit per
+  character; library voices need a paid plan.
+- Tests: `uv run pytest`; lint: `uv run ruff check scripts/ src/ tests/` and
+  `npm --prefix youtube/remotion run typecheck`.
+
+---
+
+## Video Generation Workflow (legacy, NotebookLM)
 
 ### Critical: Image Format Consistency
 
@@ -183,41 +231,6 @@ This script:
 
 ---
 
-## Diagram-First Workflow (ElevenLabs + Remotion, pilot: 73-raft)
-
-Replaces NotebookLM audio and slides for new episodes. Design:
-`docs/research/2026-11-visual-explainer-pipeline.md`. Visual style (binding):
-`docs/design/visual-style.md`. Episode files: `youtube/pl/episodes/{ep}/`
-(`build/` is git-ignored).
-
-```bash
-mise run paper-text -- 73                       # paper.txt with page markers
-mise run llm-step -- 73 storyboard              # storyboard.yaml (claude -p)
-mise run llm-step -- 73 script                  # script.yaml
-mise run llm-step -- 73 review                  # review.md, review.json, claims.json
-mise run llm-step -- 73 script-fix              # repeat fix + review until verdict pass
-mise run tts -- 73 --api-key-file PATH          # ElevenLabs per segment, cached by hash
-mise run timeline -- 73                         # narration.wav, timeline.json, captions.srt
-mise run llm-step -- 73 scenes --var part=part1 --var scene_ids=intro,hook
-mise run stills -- 73                           # review frames after every cue
-mise run llm-step -- 73 stills-review           # then scenes-fix if blockers
-mise run render -- 73                           # build/{slug}.mp4 + verify_video
-```
-
-Rules:
-
-- Every LLM step is a separate `claude -p` process (`scripts/run_llm_step.py`):
-  restricted tools, no MCP, budget cap. The reviewer never sees the writer's session.
-- No TTS before the scenario review says `pass` and the owner has read `review.md`.
-- Timing comes from ElevenLabs character timestamps (`[[cue:name]]` markers in
-  `script.yaml`), never from guessed durations.
-- Intro: thumbnail (or the `Thumbnail` title card) over the first 5 s of narration.
-  Outro: 5 s silent `Outro` card in the episode style (replaces `last-slide.png`).
-- ElevenLabs key: Bitwarden item "ElevenLabs API key (Głęboki Odczyt)". `eleven_v4`
-  costs about 0.5 credit per character; library voices need a paid plan.
-
----
-
 ## Timing Alignment Rules
 
 **NEVER:**
@@ -269,11 +282,11 @@ def check_file(path: Path, label: str) -> None:
     print(f"{status} {label}: {path}")
 ```
 
-### New Scripts
+### New Code
 
-- Place in `scripts/` directory
+- Pipeline code goes in `src/odczyt/` with tests in `tests/`; do not add new
+  scripts to `scripts/` (legacy, being retired)
 - Use snake_case naming (e.g., `my_script.py`)
-- Use `#!/usr/bin/env python3`
 - Include docstring describing purpose
 - Use emoji for status output (✅ ❌ 🔄 📋)
 - Add corresponding tests in `tests/`
@@ -454,12 +467,11 @@ Project is actively growing:
 
 ## Requirements
 
-Install these tools:
-
 ```bash
-pip install openai-whisper
-brew install ffmpeg poppler jq imagemagick
-
-# Development dependencies
-pip install ruff pytest pytest-mock
+brew install ffmpeg uv bitwarden-cli
+mise install            # python + node from mise.toml
+mise run install        # uv sync --all-extras + npm ci for Remotion
 ```
+
+Legacy NotebookLM workflow only: `pip install openai-whisper`,
+`brew install poppler imagemagick`.

@@ -1,8 +1,8 @@
-"""Tests for tts_segments.py."""
+"""Tests for odczyt.tts."""
 
 import pytest
 
-from scripts.tts_segments import cache_key, strip_cues
+from odczyt.tts import cache_key, resolve_api_key, strip_cues
 
 
 @pytest.mark.parametrize(
@@ -40,3 +40,37 @@ def test_cue_offset_points_at_following_word():
 )
 def test_cache_key_changes_with_inputs(a, b, same):
     assert (cache_key(*a) == cache_key(*b)) is same
+
+
+def test_resolve_api_key_prefers_file_then_env(tmp_path, monkeypatch):
+    key = tmp_path / "key"
+    key.write_text("from-file\n")
+    monkeypatch.setenv("ELEVENLABS_API_KEY", "from-env")
+    assert resolve_api_key(str(key), None) == "from-file"
+    assert resolve_api_key(None, None) == "from-env"
+
+
+def test_resolve_api_key_none_without_sources(monkeypatch):
+    monkeypatch.delenv("ELEVENLABS_API_KEY", raising=False)
+    monkeypatch.delenv("BW_SESSION", raising=False)
+    assert resolve_api_key(None, "item") is None
+
+
+def test_remaining_credits_reads_subscription(mocker):
+    resp = mocker.MagicMock()
+    resp.__enter__.return_value.read.return_value = (
+        b'{"character_limit": 40000, "character_count": 5446}'
+    )
+    mocker.patch("urllib.request.urlopen", return_value=resp)
+    from odczyt.tts import remaining_credits
+
+    assert remaining_credits("k") == 34554
+
+
+def test_remaining_credits_none_when_key_cannot_read(mocker):
+    import urllib.error
+
+    mocker.patch("urllib.request.urlopen", side_effect=urllib.error.URLError("401"))
+    from odczyt.tts import remaining_credits
+
+    assert remaining_credits("k") is None

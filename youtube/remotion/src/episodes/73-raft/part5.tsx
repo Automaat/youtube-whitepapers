@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import { useContext, type FC, type ReactNode } from "react";
 import {
   Arrow,
   Badge,
@@ -17,6 +17,7 @@ import {
   MONO,
   Message,
   RoleNode,
+  SceneContext,
   SceneTitle,
   Serif,
   Text,
@@ -229,6 +230,11 @@ const ElectionTiming: FC = () => {
   const worst = cue("fifty_ms_worst");
   const short = cue("short_timeouts");
   const rec = cue("recommendation");
+  // The "too short" note belongs to s048 ("Bo poniżej tej granicy…"), which starts when
+  // the skeptic's question ends; at short_timeouts the narration praises 12–24 ms.
+  const { speakers } = useContext(SceneContext);
+  const skeptic = speakers.find((s) => s.speaker === "skeptic" && s.from >= short);
+  const belowNote = skeptic && skeptic.to < rec ? skeptic.to : Math.round((short + rec) / 2);
 
   return (
     <>
@@ -267,8 +273,8 @@ const ElectionTiming: FC = () => {
         <TimingRow y={ET_ROWS[1]} label="150–155 ms" value="mediana 287 ms" ms={287} at={fiveMs} until={worst} color={t.leader} />
         <TimingRow y={ET_ROWS[2]} label="150–200 ms" value="najgorszy z 1000 prób: 513 ms" ms={513} at={worst} until={short} color={t.leader} outline />
         <TimingRow y={ET_ROWS[3]} label="12–24 ms" value="średnio 35 ms" ms={35} at={short} until={rec} color={t.leader}>
-          <Label x={etX(35) + 40} y={ET_ROWS[3] + 10} size={28} anchor="start" color={t.muted}>
-            za krótki: łamie wymaganie czasowe
+          <Label x={etX(35) + 40} y={ET_ROWS[3] + 10} size={28} anchor="start" color={t.muted} opacity={progress(frame, belowNote, 12)}>
+            niżej: łamie wymaganie czasowe
           </Label>
         </TimingRow>
       </Diagram>

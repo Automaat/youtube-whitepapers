@@ -39,6 +39,11 @@ Rules:
   one picture + invitation to the next episode).
 - All on-screen text is Polish; technical terms stay in English (leader, follower,
   term, log, commit, RequestVote, AppendEntries…).
+- Thumbnail: pick the one scene and cue whose frame best shows the paper's central
+  mechanism as a diagram (not text, not a chart of numbers). `term` is the name
+  viewers search for, at most 10 characters, usually upper case. `tagline` is
+  optional, at most 3 Polish words, and must not repeat the title. `crop` frames the
+  diagram part of that 1920×1080 frame (x, y, width, height), roughly square.
 
 ## Output format
 
@@ -53,6 +58,12 @@ glossary:
   - term: Leader
     color: leader          # one of: leader, candidate, c3, success, danger, neutral
     definition: "przyjmuje zapisy i rozsyła log"   # ≤ 6 Polish words
+thumbnail:
+  term: "RAFT"
+  tagline: "Kto rządzi?"   # optional
+  scene: election
+  cue: new_leader
+  crop: [500, 160, 860, 860]
 scenes:
   - id: hook
     chapter: c1            # intro and outro_invite use chapter: null

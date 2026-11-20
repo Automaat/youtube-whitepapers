@@ -1,8 +1,8 @@
-"""Tests for build_timeline.py."""
+"""Tests for odczyt.timeline."""
 
 import pytest
 
-from scripts.build_timeline import (
+from odczyt.timeline import (
     PAUSE_CHAPTER_CHANGE,
     PAUSE_SAME_SPEAKER,
     PAUSE_SCENE_CHANGE,

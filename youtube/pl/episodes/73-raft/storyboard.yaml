@@ -29,6 +29,13 @@ glossary:
     color: success
     definition: "wpis bezpieczny do wykonania"
 
+thumbnail:
+  term: "RAFT"
+  tagline: "Zrozumiały konsensus"
+  scene: log_append
+  cue: commit_marker
+  crop: [160, 220, 900, 720]
+
 scenes:
   # ---------------------------------------------------------------- intro
   - id: intro
