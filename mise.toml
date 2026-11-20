@@ -120,3 +120,38 @@ raw = true
 [tasks.test]
 description = "Run tests"
 run = "pytest scripts/tests/ -v"
+
+# Diagram-first pipeline (docs/research/2026-11-visual-explainer-pipeline.md §4)
+
+[tasks.paper-text]
+description = "Extract paper text with page markers: mise run paper-text -- EP_NUM"
+run = "uv run python scripts/extract_paper_text.py {{arg(i=0)}}"
+
+[tasks.llm-step]
+description = "Run one headless Claude step: mise run llm-step -- EP_NUM storyboard|script|review|script-fix|scenes|stills-review|scenes-fix"
+run = "uv run python scripts/run_llm_step.py"
+raw = true
+# Example: mise run llm-step -- 73 review
+# Example: mise run llm-step -- 73 scenes --var part=part1 --var scene_ids=intro,hook
+
+[tasks.tts]
+description = "Synthesize narration with ElevenLabs: mise run tts -- EP_NUM --api-key-file PATH"
+run = "uv run python scripts/tts_segments.py"
+raw = true
+
+[tasks.timeline]
+description = "Build narration track, timeline.json and captions: mise run timeline -- EP_NUM"
+run = "uv run python scripts/build_timeline.py {{arg(i=0)}}"
+
+[tasks.stills]
+description = "Render review stills: mise run stills -- EP_NUM [--scenes a,b]"
+run = "uv run python scripts/render_episode.py stills"
+raw = true
+
+[tasks.render]
+description = "Render and verify the episode video: mise run render -- EP_NUM"
+run = "uv run python scripts/render_episode.py render {{arg(i=0)}}"
+
+[tasks.remotion-install]
+description = "Install Remotion dependencies"
+run = "npm --prefix youtube/remotion ci"
