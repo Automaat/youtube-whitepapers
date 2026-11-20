@@ -1,0 +1,307 @@
+[
+  {
+    "segment": "s001",
+    "claim": "Artykuł Ongaro i Ousterhouta ze Stanfordu, 2014, tytuł 'W poszukiwaniu zrozumiałego algorytmu konsensusu'",
+    "verdict": "supported",
+    "location": "p.1 title, footnote",
+    "quote": "In Search of an Understandable Consensus Algorithm ... Diego Ongaro and John Ousterhout Stanford University ... Published May 20, 2014."
+  },
+  {
+    "segment": "s001",
+    "claim": "Głównym celem była zrozumiałość",
+    "verdict": "supported",
+    "location": "p.3 §4",
+    "quote": "But our most important goal—and most difficult challenge—was understandability."
+  },
+  {
+    "segment": "s002-s003",
+    "claim": "Naiwny algorytm: serwer niedostępny podczas commitu zostaje leaderem i nadpisuje zatwierdzony wpis",
+    "verdict": "supported",
+    "location": "p.8 §5.4",
+    "quote": "a follower might be unavailable while the leader commits several log entries, then it could be elected leader and overwrite these entries with new ones"
+  },
+  {
+    "segment": "s005",
+    "claim": "Czekanie na wszystkie serwery: jedna awaria zatrzymałaby system; konsensus ma przetrwać awarie",
+    "verdict": "simplified-ok",
+    "location": "p.1 §1; p.2 §2",
+    "quote": "can survive the failures of some of its members ... a minority of slow servers need not impact overall system performance"
+  },
+  {
+    "segment": "s005",
+    "claim": "Każdy log ma te same polecenia w tej samej kolejności",
+    "verdict": "supported",
+    "location": "p.2 §2",
+    "quote": "Each log contains the same commands in the same order"
+  },
+  {
+    "segment": "s006",
+    "claim": "Deterministyczne maszyny stanów liczą ten sam stan (x=2, y=1 po x←3, y←1, x←2)",
+    "verdict": "supported",
+    "location": "p.2 §2",
+    "quote": "Since the state machines are deterministic, each computes the same state"
+  },
+  {
+    "segment": "s006 / storyboard replicated_log",
+    "claim": "Wystarczy większość; 5 serwerów przeżywa 2 awarie",
+    "verdict": "supported",
+    "location": "p.2 §2",
+    "quote": "a typical cluster of five servers can tolerate the failure of any two servers"
+  },
+  {
+    "segment": "s006",
+    "claim": "Chubby i ZooKeeper to przykłady; GFS, HDFS, RAMCloud używają RSM do wyboru leadera i konfiguracji",
+    "verdict": "simplified-ok",
+    "location": "p.2 §2",
+    "quote": "such as GFS [8], HDFS [38], and RAMCloud [33], typically use a separate replicated state machine to manage leader election and store configuration information ... Examples of replicated state machines include Chubby [2] and ZooKeeper [11]."
+  },
+  {
+    "segment": "s007",
+    "claim": "Paxos Lamporta był standardem; single-decree i multi-Paxos",
+    "verdict": "simplified-ok",
+    "location": "p.2 §3",
+    "quote": "Leslie Lamport’s Paxos protocol [15] has become almost synonymous with consensus ... We refer to this subset as single-decree Paxos."
+  },
+  {
+    "segment": "s007",
+    "claim": "Ankieta na NSDI 2012: mało kto czuje się pewnie, nawet doświadczeni badacze",
+    "verdict": "supported",
+    "location": "p.2 §3",
+    "quote": "In an informal survey of attendees at NSDI 2012, we found few people who were comfortable with Paxos, even among seasoned researchers."
+  },
+  {
+    "segment": "s008",
+    "claim": "Autorom zajęło to prawie rok, z uproszczonymi objaśnieniami i własnym protokołem",
+    "verdict": "supported",
+    "location": "p.2 §3",
+    "quote": "after reading several simplified explanations and designing our own alternative protocol, a process that took almost a year"
+  },
+  {
+    "segment": "s008",
+    "claim": "Brak powszechnie uzgodnionego multi-Paxos",
+    "verdict": "supported",
+    "location": "p.2 §3",
+    "quote": "there is no widely agreed-upon algorithm for multi-Paxos"
+  },
+  {
+    "segment": "s008 / storyboard paxos_problem",
+    "claim": "Zespół Chubby: ostateczny system będzie oparty na nieudowodnionym protokole",
+    "verdict": "supported",
+    "location": "p.3 §3",
+    "quote": "The following comment from the Chubby implementers is typical: ... the final system will be based on an unproven protocol [4]."
+  },
+  {
+    "segment": "s009-s010",
+    "claim": "Definicje: leader, follower (bierny), candidate, term (numerowany, logiczny zegar), commit (bezpieczny do wykonania)",
+    "verdict": "supported",
+    "location": "p.5 §5.1; p.6 Fig. 6",
+    "quote": "Followers are passive ... Terms act as a logical clock ... An entry is considered committed if it is safe for that entry to be applied to state machines."
+  },
+  {
+    "segment": "s012",
+    "claim": "Raft najpierw wybiera silnego leadera; wpisy płyną tylko od leadera; leader sam decyduje o pozycji wpisu",
+    "verdict": "supported",
+    "location": "p.3 §5; p.8 §5.4.1",
+    "quote": "Raft implements consensus by first electing a distinguished leader ... the leader can decide where to place new entries in the log without consulting other servers ... log entries only flow in one direction, from leaders to followers"
+  },
+  {
+    "segment": "s013",
+    "claim": "Podział na trzy względnie niezależne części; redukcja przestrzeni stanów; log bez dziur",
+    "verdict": "supported",
+    "location": "p.3 §4, §5",
+    "quote": "Raft decomposes the consensus problem into three relatively independent subproblems ... logs are not allowed to have holes"
+  },
+  {
+    "segment": "s014",
+    "claim": "Start jako follower; timeout → candidate; większość całego klastra → leader",
+    "verdict": "supported",
+    "location": "p.5 §5.2, Fig. 4",
+    "quote": "A candidate that receives votes from a majority of the full cluster becomes the new leader."
+  },
+  {
+    "segment": "s015",
+    "claim": "Kolejny timeout zaczyna nowe wybory; candidate/leader z nieaktualnym termem wraca do follower",
+    "verdict": "supported",
+    "location": "p.5 §5.1; p.6 §5.2",
+    "quote": "If a candidate or leader discovers that its term is out of date, it immediately reverts to follower state."
+  },
+  {
+    "segment": "s016 / storyboard terms",
+    "claim": "Termy kolejno numerowane, każdy zaczyna się wyborami; przy split vote term kończy się bez leadera",
+    "verdict": "supported",
+    "location": "p.5 §5.1, Fig. 5",
+    "quote": "Each term begins with an election ... In this case the term will end with no leader"
+  },
+  {
+    "segment": "s017",
+    "claim": "Wymiana termów, aktualizacja do większego; nieaktualny leader dostaje odmowę i wraca do follower",
+    "verdict": "simplified-ok",
+    "location": "p.5 §5.1; p.4 Fig. 2",
+    "quote": "If a server receives a request with a stale term number, it rejects the request. ... they allow servers to detect obsolete information such as stale leaders",
+    "note": "The step-down is triggered by the higher term in the reply (Fig. 2 'currentTerm, for leader to update itself'), not by the rejection itself. Acceptable simplification."
+  },
+  {
+    "segment": "s019",
+    "claim": "Follower nie wie na pewno, odlicza czas; heartbeaty to puste AppendEntries; timeouty losowe np. 150–300 ms",
+    "verdict": "supported",
+    "location": "p.6 §5.2",
+    "quote": "Leaders send periodic heartbeats (AppendEntries RPCs that carry no log entries) ... then it assumes there is no viable leader ... (e.g., 150–300ms)"
+  },
+  {
+    "segment": "s020",
+    "claim": "Candidate zwiększa term, głosuje na siebie, wysyła RequestVote; 3/5 to większość; jeden głos na term → jeden leader",
+    "verdict": "supported",
+    "location": "p.6 §5.2",
+    "quote": "Each server will vote for at most one candidate in a given term ... The majority rule ensures that at most one candidate can win the election for a particular term"
+  },
+  {
+    "segment": "s022-s023",
+    "claim": "Split vote 2/5 vs 2/5; term bez leadera; losowe timeouty rozstrzygają; bez nich mogłoby się powtarzać w nieskończoność",
+    "verdict": "simplified-ok",
+    "location": "p.6 §5.2",
+    "quote": "votes could be split so that no candidate obtains a majority ... without extra measures split votes could repeat indefinitely ... Each candidate restarts its randomized election timeout at the start of an election",
+    "note": "Timer re-randomization happens at the start of each election; the script places it after the failed term. Harmless."
+  },
+  {
+    "segment": "s025",
+    "claim": "Wpis zatwierdzony, gdy leader, który go utworzył, ma go na większości",
+    "verdict": "supported",
+    "location": "p.7 §5.3",
+    "quote": "A log entry is committed once the leader that created the entry has replicated it on a majority of the servers"
+  },
+  {
+    "segment": "s026",
+    "claim": "Leader ponawia do wolnych followerów; po commicie wykonuje i odpowiada; commitIndex w kolejnych AppendEntries/heartbeatach",
+    "verdict": "supported",
+    "location": "p.6-7 §5.3",
+    "quote": "it includes that index in future AppendEntries RPCs (including heartbeats) so that the other servers eventually find out"
+  },
+  {
+    "segment": "s027-s028",
+    "claim": "AppendEntries niesie index i term poprzedniego wpisu; niezgodność → odmowa; Log Matching",
+    "verdict": "supported",
+    "location": "p.7 §5.3; p.5 Fig. 3",
+    "quote": "the leader includes the index and term of the entry in its log that immediately precedes the new entries. If the follower does not find an entry in its log with the same index and term, then it refuses the new entries."
+  },
+  {
+    "segment": "s030",
+    "claim": "Leader nadpisuje rozbieżne wpisy followera; nextIndex inicjalizowany tuż za końcem logu leadera (tu 3)",
+    "verdict": "supported",
+    "location": "p.7 §5.3",
+    "quote": "it initializes all nextIndex values to the index just after the last one in its log"
+  },
+  {
+    "segment": "s031",
+    "claim": "Odmowa → nextIndex−1 i ponowienie; przy zgodności usunięcie konfliktów i dopisanie; leader nigdy nie nadpisuje własnego logu",
+    "verdict": "supported",
+    "location": "p.7 §5.3; p.5 Fig. 3",
+    "quote": "After a rejection, the leader decrements nextIndex and retries the AppendEntries RPC. ... removes any conflicting entries in the follower’s log and appends entries from the leader’s log"
+  },
+  {
+    "segment": "s033-s034",
+    "claim": "Election restriction: S1 (ostatni term 1) przegrywa z S2/S4 (term 2); S5 (ten sam term, krótszy) głosuje; dwie większości się przecinają",
+    "verdict": "supported",
+    "location": "p.8 §5.4.1",
+    "quote": "If the logs have last entries with different terms, then the log with the later term is more up-to-date. If the logs end with the same term, then whichever log is longer is more up-to-date."
+  },
+  {
+    "segment": "s036-s037 / storyboard fig8_trap",
+    "claim": "Fig. 8 (a)–(d): wpis z termu 2 na 3/5 nie jest zatwierdzony i S5 może go nadpisać głosami S2, S3, S4",
+    "verdict": "supported",
+    "location": "p.8 Fig. 8",
+    "quote": "the log entry from term 2 has been replicated on a majority of the servers, but it is not committed. If S1 crashes as in (d), S5 could be elected leader (with votes from S2, S3, and S4) and overwrite the entry with its own entry from term 3."
+  },
+  {
+    "segment": "s038-s039",
+    "claim": "Fig. 8(e): wpis z bieżącego termu na większości jest zatwierdzony, starsze pośrednio; repliki liczy się tylko dla bieżącego termu",
+    "verdict": "supported",
+    "location": "p.8 Fig. 8; p.9 §5.4.2",
+    "quote": "Only log entries from the leader’s current term are committed by counting replicas; once an entry from the current term has been committed in this way, then all prior entries are committed indirectly because of the Log Matching Property."
+  },
+  {
+    "segment": "s040",
+    "claim": "Bezpośrednie przełączenie 3→5 może dać dwóch leaderów w jednym termie",
+    "verdict": "supported",
+    "location": "p.10 §6, Fig. 10",
+    "quote": "there is a point in time where two different leaders can be elected for the same term, one with a majority of the old configuration (Cold) and another with a majority of the new configuration (Cnew)."
+  },
+  {
+    "segment": "s041",
+    "claim": "Joint consensus C_old,new: osobne większości obu konfiguracji; potem C_new; klaster obsługuje klientów cały czas",
+    "verdict": "simplified-ok",
+    "location": "p.10-11 §6",
+    "quote": "Agreement (for elections and entry commitment) requires separate majorities from both the old and new configurations. ... Cnew cannot make unilateral decisions during this period.",
+    "note": "'nigdy nie decyduje sama' means 'during the transition', and the next sentence makes that clear."
+  },
+  {
+    "segment": "s043 / storyboard user_study",
+    "claim": "43 studentów Stanford i Berkeley, dwa wykłady wideo i quizy; na 60 pkt średnio 25,7 vs 20,8; +4,9",
+    "verdict": "supported",
+    "location": "p.13-14 §9.1",
+    "quote": "out of a possible 60 points, the mean Raft score was 25.7 and the mean Paxos score was 20.8"
+  },
+  {
+    "segment": "s044",
+    "claim": "33 z 43 lepiej z Rafta; 15 z 43 znało Paxos; wideo Paxos 14% dłuższe; 33 z 41 uznało Raft za łatwiejszy; deklaracje mniej wiarygodne",
+    "verdict": "simplified-ok",
+    "location": "p.14 §9.1, Fig. 14",
+    "quote": "15 of the 43 participants reported having some prior experience with Paxos, and the Paxos video is 14% longer ... (33 of 41 for each question). However, these self-reported feelings may be less reliable",
+    "note": "33 of 41 applies to each question separately; the script's wording suggests the same 33 people answered both. Minor."
+  },
+  {
+    "segment": "s045 / storyboard election_timing",
+    "claim": "5 serwerów, broadcast ≈15 ms; bez losowości >10 s przez split votes; 5 ms losowości → mediana 287 ms",
+    "verdict": "supported",
+    "location": "p.15 §9.3, Fig. 16",
+    "quote": "In the absence of randomness, leader election consistently took longer than 10 seconds in our tests due to many split votes. Adding just 5ms of randomness helps significantly, resulting in a median downtime of 287ms."
+  },
+  {
+    "segment": "s046",
+    "claim": "50 ms losowości: najgorszy z 1000 prób 513 ms; 12–24 ms: średnio 35 ms",
+    "verdict": "supported",
+    "location": "p.15 §9.3",
+    "quote": "with 50ms of randomness the worst-case completion time (over 1000 trials) was 513ms ... With an election timeout of 12–24ms, it takes only 35ms on average"
+  },
+  {
+    "segment": "s048",
+    "claim": "Niżej leader nie zdąży z heartbeatami → zbędne zmiany leadera, gorsza dostępność; zalecane 150–300 ms",
+    "verdict": "supported",
+    "location": "p.15 §9.3",
+    "quote": "leaders have difficulty broadcasting heartbeats before other servers start new elections. This can cause unnecessary leader changes and lower overall system availability. We recommend using a conservative election timeout such as 150–300ms"
+  },
+  {
+    "segment": "s049",
+    "claim": "Zbyt krótkie timery: follower startuje z wyższym termem, leader ustępuje, zbędne zmiany leadera",
+    "verdict": "simplified-ok",
+    "location": "p.10 §5.6; p.15 §9.3",
+    "quote": "The broadcast time should be an order of magnitude less than the election timeout so that leaders can reliably send the heartbeat messages required to keep followers from starting elections"
+  },
+  {
+    "segment": "s050",
+    "claim": "broadcastTime ≪ electionTimeout ≪ MTBF; bezpieczeństwo nie zależy od czasu, dostępność tak; przestój ≈ election timeout",
+    "verdict": "supported",
+    "location": "p.10 §5.6",
+    "quote": "safety must not depend on timing ... availability ... must inevitably depend on timing ... When the leader crashes, the system will be unavailable for roughly the election timeout"
+  },
+  {
+    "segment": "s050",
+    "claim": "Wynik równoważny multi-Paxos, równie wydajny; jedna runda od leadera do połowy klastra",
+    "verdict": "supported",
+    "location": "p.1 Abstract; p.15 §9.3",
+    "quote": "It produces a result equivalent to (multi-)Paxos, and it is as efficient as Paxos ... a single round-trip from the leader to half the cluster"
+  },
+  {
+    "segment": "s050 / storyboard limitations",
+    "claim": "Bezliderowy EPaxos ma niższe opóźnienia w WAN, ale kosztem dużej złożoności",
+    "verdict": "supported",
+    "location": "p.16 §10",
+    "quote": "EPaxos balances load well between servers and is able to achieve lower latency than Raft in WAN settings. However, it adds significant complexity to Paxos."
+  },
+  {
+    "segment": "s051",
+    "claim": "Podsumowanie: najwyżej jeden leader na term, commit na większości, liczenie tylko bieżącego termu, 33 z 43",
+    "verdict": "supported",
+    "location": "p.5 §5.1; p.9 §5.4.2; p.14 Fig. 14",
+    "quote": "Raft ensures that there is at most one leader in a given term."
+  }
+]

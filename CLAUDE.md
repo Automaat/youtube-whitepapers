@@ -183,6 +183,41 @@ This script:
 
 ---
 
+## Diagram-First Workflow (ElevenLabs + Remotion, pilot: 73-raft)
+
+Replaces NotebookLM audio and slides for new episodes. Design:
+`docs/research/2026-11-visual-explainer-pipeline.md`. Visual style (binding):
+`docs/design/visual-style.md`. Episode files: `youtube/pl/episodes/{ep}/`
+(`build/` is git-ignored).
+
+```bash
+mise run paper-text -- 73                       # paper.txt with page markers
+mise run llm-step -- 73 storyboard              # storyboard.yaml (claude -p)
+mise run llm-step -- 73 script                  # script.yaml
+mise run llm-step -- 73 review                  # review.md, review.json, claims.json
+mise run llm-step -- 73 script-fix              # repeat fix + review until verdict pass
+mise run tts -- 73 --api-key-file PATH          # ElevenLabs per segment, cached by hash
+mise run timeline -- 73                         # narration.wav, timeline.json, captions.srt
+mise run llm-step -- 73 scenes --var part=part1 --var scene_ids=intro,hook
+mise run stills -- 73                           # review frames after every cue
+mise run llm-step -- 73 stills-review           # then scenes-fix if blockers
+mise run render -- 73                           # build/{slug}.mp4 + verify_video
+```
+
+Rules:
+
+- Every LLM step is a separate `claude -p` process (`scripts/run_llm_step.py`):
+  restricted tools, no MCP, budget cap. The reviewer never sees the writer's session.
+- No TTS before the scenario review says `pass` and the owner has read `review.md`.
+- Timing comes from ElevenLabs character timestamps (`[[cue:name]]` markers in
+  `script.yaml`), never from guessed durations.
+- Intro: thumbnail (or the `Thumbnail` title card) over the first 5 s of narration.
+  Outro: 5 s silent `Outro` card in the episode style (replaces `last-slide.png`).
+- ElevenLabs key: Bitwarden item "ElevenLabs API key (Głęboki Odczyt)". `eleven_v4`
+  costs about 0.5 credit per character; library voices need a paid plan.
+
+---
+
 ## Timing Alignment Rules
 
 **NEVER:**

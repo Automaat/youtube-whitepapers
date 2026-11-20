@@ -1,0 +1,451 @@
+episode: "73-raft"
+segments:
+  - id: s001
+    speaker: narrator
+    scene: intro
+    text: "Witamy ponownie w Głębokim Odczycie. [[cue:greeting]]Dziś czytamy artykuł Diego Ongaro i Johna Ousterhouta ze Stanfordu z dwa tysiące czternastego roku, W poszukiwaniu zrozumiałego algorytmu konsensusu, czyli Raft. [[cue:teaser_ring]]Jego głównym celem była zrozumiałość, więc przejdziemy przez niego na pięciu serwerach, krok po kroku."
+    refs:
+      - "p.1 §title: 'In Search of an Understandable Consensus Algorithm'"
+      - "p.1 §title: 'Diego Ongaro and John Ousterhout'"
+      - "p.1 §1: 'Published May 20, 2014.'"
+      - "p.3 §4: 'our most important goal—and most difﬁcult challenge—was understandability'"
+
+  - id: s002
+    speaker: narrator
+    scene: hook
+    text: "Zacznijmy od pięciu serwerów i naiwnego algorytmu. [[cue:s5_offline]]S pięć traci połączenie z resztą. Klient wysyła do leadera S jeden polecenie iks na pięć, S jeden kopiuje je na S dwa i S trzy, czyli na trzy serwery z pięciu, [[cue:write_ok]]i klient dostaje potwierdzenie."
+    refs: []
+
+  - id: s003
+    speaker: narrator
+    scene: hook
+    text: "Teraz S jeden [[cue:leader_crash]]pada. S pięć wraca i, bo naiwny algorytm niczego nie sprawdza, [[cue:stale_leader]]zostaje leaderem. Przyjmuje nowe polecenie iks na dziewięć i wpisuje je na tę samą pozycję logu u S dwa, S trzy i S cztery, [[cue:overwrite]]nadpisując iks na pięć. Klient dostał potwierdzenie, a zapis zniknął."
+    refs:
+      - "p.8 §5.4: 'a follower might be unavailable while the leader commits several log entries, then it could be elected leader and overwrite these entries with new ones'"
+
+  - id: s004
+    speaker: skeptic
+    scene: hook
+    text: "Czemu nie po prostu czekać, aż zapis potwierdzą wszystkie serwery?"
+    refs: []
+
+  - id: s005
+    speaker: narrator
+    scene: replicated_log
+    text: "Bo wtedy jedna awaria zatrzymałaby cały system, a konsensus ma awarie przetrwać. Każdy serwer ma log i maszynę stanów. Klient [[cue:client_command]]wysyła iks na trzy, potem igrek na jeden i iks na dwa, a algorytm dba o to, żeby [[cue:same_order]]każdy log miał te same polecenia w tej samej kolejności."
+    refs:
+      - "p.1 §1: 'can survive the failures of some of its members'"
+      - "p.2 §2: 'Each server stores a log containing a series of commands, which its state machine executes in order.'"
+      - "p.2 §2: 'Each log contains the same commands in the same order'"
+
+  - id: s006
+    speaker: narrator
+    scene: replicated_log
+    text: "Maszyny stanów są deterministyczne, więc [[cue:same_state]]wszystkie liczą ten sam wynik: iks równa się dwa, igrek równa się jeden. Wystarczy działająca większość, więc gdy [[cue:two_failures]]padną S cztery i S pięć, trzy pozostałe pracują dalej. Tak działają na przykład [[cue:real_systems]]Chubby i ZooKeeper, a GFS, HDFS i RAMCloud używają takich maszyn do wyboru leadera i przechowywania konfiguracji."
+    refs:
+      - "p.2 §2: 'Since the state machines are deterministic, each computes the same state'"
+      - "p.2 §2: 'as long as any majority of the servers are operational'"
+      - "p.2 §2: 'Examples of replicated state machines include Chubby [2] and ZooKeeper [11].'"
+      - "p.2 §2: 'such as GFS [8], HDFS [38], and RAMCloud [33], typically use a separate replicated state machine to manage leader election'"
+
+  - id: s007
+    speaker: narrator
+    scene: paxos_problem
+    text: "Do tej pory standardem był [[cue:paxos_card]]Paxos Leslie Lamporta. Najpierw uzgadnia jedną decyzję, to wariant single-decree, a potem składa wiele takich decyzji w log, czyli multi-Paxos. Problem w tym, że mało kto go rozumie: w nieformalnej ankiecie [[cue:nsdi_survey]]na konferencji NSDI dwa tysiące dwanaście autorzy znaleźli niewiele osób, które czuły się z nim pewnie, nawet wśród doświadczonych badaczy."
+    refs:
+      - "p.2 §3: 'Leslie Lamport’s Paxos protocol'"
+      - "p.2 §3: 'We refer to this subset as single-decree Paxos.'"
+      - "p.2 §3: 'Paxos then combines multiple instances of this protocol to facilitate a series of decisions such as a log (multi-Paxos).'"
+      - "p.2 §3: 'In an informal survey of attendees at NSDI 2012, we found few people who were comfortable with Paxos, even among seasoned researchers.'"
+
+  - id: s008
+    speaker: narrator
+    scene: paxos_problem
+    text: "Sami autorzy [[cue:year_struggle]]potrzebowali prawie roku, uproszczonych objaśnień i własnego alternatywnego protokołu, żeby zrozumieć całość, a powszechnie uzgodnionego algorytmu multi-Paxos po prostu nie ma. Zespół Chubby napisał wprost, [[cue:chubby_quote]]że ich ostateczny system będzie oparty na nieudowodnionym protokole. Dlatego dla Rafta [[cue:raft_goal]]celem numer jeden była zrozumiałość."
+    refs:
+      - "p.2 §3: 'after reading several simplified explanations and designing our own alternative protocol, a process that took almost a year'"
+      - "p.2 §3: 'there is no widely agreed-upon algorithm for multi-Paxos'"
+      - "p.3 §3: 'the ﬁnal system will be based on an unproven protocol'"
+      - "p.1 §1: 'our primary goal was understandability'"
+
+  - id: s009
+    speaker: narrator
+    scene: glossary
+    text: "Zanim wejdziemy w mechanizm, pięć słów na cały odcinek. [[cue:term_leader]]Leader przyjmuje polecenia klientów i rozsyła log. [[cue:term_follower]]Follower jest bierny i tylko odpowiada na żądania. [[cue:term_candidate]]Candidate zbiera głosy, żeby zostać leaderem. [[cue:term_term]]Term to numerowana kadencja, która działa jak logiczny zegar."
+    refs:
+      - "p.5 §5.1: 'each server is in one of three states: leader, follower, or candidate'"
+      - "p.3 §5: 'The leader accepts log entries from clients, replicates them on other servers'"
+      - "p.5 §5.1: 'Followers are passive'"
+      - "p.5 §5.1: 'The third state, candidate, is used to elect a new leader'"
+      - "p.5 §5.1: 'Terms are numbered with consecutive integers.'"
+      - "p.5 §5.1: 'Terms act as a logical clock'"
+
+  - id: s010
+    speaker: narrator
+    scene: glossary
+    text: "A [[cue:term_commit]]commit znaczy, że wpis jest już bezpieczny do wykonania na maszynach stanów."
+    refs:
+      - "p.6 §5.3 Fig. 6: 'An entry is considered committed if it is safe for that entry to be applied to state machines.'"
+
+  - id: s011
+    speaker: skeptic
+    scene: glossary
+    text: "Skoro Paxos jest taki trudny, to co Raft robi inaczej już na samym starcie?"
+    refs: []
+
+  - id: s012
+    speaker: narrator
+    scene: key_insight
+    text: "Zaczyna od wyboru jednego, silnego leadera. Tutaj [[cue:strong_leader]]jest nim S jeden, a reszta to followerzy. Wpisy logu płyną [[cue:one_way_flow]]tylko od leadera na zewnątrz, nigdy z powrotem, a leader sam decyduje, gdzie umieścić nowy wpis."
+    refs:
+      - "p.3 §5: 'Raft implements consensus by first electing a distinguished leader'"
+      - "p.1 §1: 'Raft uses a stronger form of leadership than other consensus algorithms'"
+      - "p.8 §5.4.1: 'log entries only ﬂow in one direction, from leaders to followers'"
+      - "p.3 §5: 'the leader can decide where to place new entries in the log without consulting other servers'"
+
+  - id: s013
+    speaker: narrator
+    scene: key_insight
+    text: "Dzięki temu problem rozpada się [[cue:decompose_three]]na trzy dość niezależne części: leader election, log replication i safety. Do tego autorzy zmniejszają liczbę możliwych stanów, na przykład [[cue:state_space]]log nie może mieć dziur."
+    refs:
+      - "p.3 §5: 'Raft decomposes the consensus problem into three relatively independent subproblems'"
+      - "p.3 §4: 'simplify the state space by reducing the number of states to consider'"
+      - "p.3 §4: 'logs are not allowed to have holes'"
+
+  - id: s014
+    speaker: narrator
+    scene: server_states
+    text: "Każdy serwer jest zawsze w jednym z trzech stanów. Po uruchomieniu [[cue:start_follower]]jest followerem. Gdy przez pewien czas nikt się nie odzywa, [[cue:timeout_to_candidate]]mija timeout i serwer zostaje candidate. Jeśli zbierze [[cue:majority_to_leader]]głosy większości całego klastra, zostaje leaderem."
+    refs:
+      - "p.5 §5.2: 'When servers start up, they begin as followers.'"
+      - "p.5 Fig. 4: 'If a follower receives no communication, it becomes a candidate and initiates an election.'"
+      - "p.5 Fig. 4: 'A candidate that receives votes from a majority of the full cluster becomes the new leader.'"
+
+  - id: s015
+    speaker: narrator
+    scene: server_states
+    text: "Gdy wybory nie dadzą wyniku, [[cue:retry_loop]]kolejny timeout uruchamia nowe. A candidate albo leader, który zobaczy [[cue:step_down]]wyższy term niż własny, od razu wraca do roli followera."
+    refs:
+      - "p.6 §5.2: 'each candidate will time out and start a new election'"
+      - "p.5 §5.1: 'If a candidate or leader discovers that its term is out of date, it immediately reverts to follower state.'"
+
+  - id: s016
+    speaker: narrator
+    scene: terms
+    text: "Raft dzieli czas na [[cue:term_ribbon]]kolejno numerowane termy. Każdy zaczyna się wyborami, a zwycięzca rządzi jako leader do końca termu. Czasem głosy się dzielą i wtedy [[cue:split_term]]term trzy kończy się bez leadera, a zaraz zaczyna się term cztery."
+    refs:
+      - "p.5 §5.1: 'Raft divides time into terms of arbitrary length'"
+      - "p.5 §5.1: 'Each term begins with an election'"
+      - "p.5 §5.1: 'If a candidate wins the election, then it serves as leader for the rest of the term.'"
+      - "p.5 §5.1: 'In this case the term will end with no leader'"
+
+  - id: s017
+    speaker: narrator
+    scene: terms
+    text: "Każdy serwer [[cue:term_counters]]pamięta swój bieżący term i dołącza go do wiadomości. S pięć ma jeszcze term jeden, ale gdy [[cue:catch_up]]dostaje wiadomość z termem dwa, przestawia licznik na dwa. A stary leader S jeden, który utknął w termie jeden, [[cue:stale_reject]]dostaje odmowę i wraca do roli followera."
+    refs:
+      - "p.5 §5.1: 'Current terms are exchanged whenever servers communicate'"
+      - "p.5 §5.1: 'then it updates its current term to the larger value'"
+      - "p.5 §5.1: 'If a server receives a request with a stale term number, it rejects the request.'"
+      - "p.5 §5.1: 'they allow servers to detect obsolete information such as stale leaders'"
+
+  - id: s018
+    speaker: skeptic
+    scene: terms
+    text: "Ale skąd follower ma wiedzieć, że leader naprawdę padł, a nie tylko ma wolną sieć?"
+    refs: []
+
+  - id: s019
+    speaker: narrator
+    scene: election
+    text: "Nie wie tego na pewno, więc po prostu odlicza czas. Leader S jeden wysyła [[cue:heartbeats]]heartbeaty, czyli puste AppendEntries, i każdy z nich zeruje timer followera. Długości timerów są losowane, na przykład od stu pięćdziesięciu do trzystu milisekund. Teraz S jeden [[cue:leader_crash]]pada i heartbeaty milkną."
+    refs:
+      - "p.6 §5.2: 'Leaders send periodic heartbeats (AppendEntries RPCs that carry no log entries)'"
+      - "p.6 §5.2: 'If a follower receives no communication over a period of time called the election timeout'"
+      - "p.6 §5.2: 'election timeouts are chosen randomly from a ﬁxed interval (e.g., 150–300ms)'"
+
+  - id: s020
+    speaker: narrator
+    scene: election
+    text: "Timer [[cue:s3_timeout]]S trzy kończy się pierwszy, więc S trzy zwiększa term do dwóch, zostaje candidate i głosuje na siebie. Potem [[cue:request_votes]]wysyła RequestVote do wszystkich pozostałych. S dwa i S cztery [[cue:majority_votes]]oddają głos, więc S trzy ma trzy głosy z pięciu, czyli większość. Każdy serwer głosuje w danym termie najwyżej raz, więc [[cue:new_leader]]S trzy jest jedynym leaderem termu dwa i od razu rozsyła heartbeaty."
+    refs:
+      - "p.6 §5.2: 'a follower increments its current term and transitions to candidate state. It then votes for itself'"
+      - "p.6 §5.2: 'issues RequestVote RPCs in parallel to each of the other servers in the cluster'"
+      - "p.6 §5.2: 'A candidate wins an election if it receives votes from a majority of the servers in the full cluster for the same term.'"
+      - "p.6 §5.2: 'Each server will vote for at most one candidate in a given term'"
+      - "p.6 §5.2: 'It then sends heartbeat messages to all of the other servers'"
+
+  - id: s021
+    speaker: skeptic
+    scene: election
+    text: "A co, jeśli dwa serwery skończą odliczanie prawie w tej samej chwili?"
+    refs: []
+
+  - id: s022
+    speaker: narrator
+    scene: split_vote
+    text: "Wtedy może dojść do split vote. [[cue:rewind]]Cofnijmy się do awarii S jeden. Tym razem S dwa i S cztery [[cue:double_timeout]]kończą odliczanie niemal razem i oba startują jako candidate w termie dwa. S trzy [[cue:split_votes]]głosuje na S dwa, S pięć na S cztery, więc każdy ma po dwa głosy z pięciu."
+    refs:
+      - "p.6 §5.2: 'if many followers become candidates at the same time, votes could be split so that no candidate obtains a majority'"
+
+  - id: s023
+    speaker: narrator
+    scene: split_vote
+    text: "To [[cue:no_majority]]za mało na większość i term dwa kończy się bez leadera. Oba serwery losują [[cue:random_retry]]nowe timeouty. Pierwszy kończy się timer S cztery: startuje w termie trzy, dostaje głosy S dwa, S trzy i S pięć [[cue:s4_wins]]i zostaje leaderem. Bez tej losowości split vote mógłby się powtarzać w nieskończoność."
+    refs:
+      - "p.5 §5.1: 'In this case the term will end with no leader'"
+      - "p.6 §5.2: 'Each candidate restarts its randomized election timeout at the start of an election'"
+      - "p.6 §5.2: 'start a new election by incrementing its term and initiating another round of RequestVote RPCs'"
+      - "p.6 §5.2: 'without extra measures split votes could repeat indeﬁnitely'"
+
+  - id: s024
+    speaker: skeptic
+    scene: split_vote
+    text: "Mamy leadera. Ale w którym momencie zapis klienta jest naprawdę bezpieczny?"
+    refs: []
+
+  - id: s025
+    speaker: narrator
+    scene: log_append
+    text: "Gdy leader, który go utworzył, ma go na większości serwerów. Na siatce logów S trzy jest leaderem w termie dwa, a S jeden wciąż leży. [[cue:client_request]]Klient wysyła do S trzy polecenie iks na trzy, a leader [[cue:leader_append]]dopisuje je u siebie pod indeksem trzy, z termem dwa."
+    refs:
+      - "p.7 §5.3: 'A log entry is committed once the leader that created the entry has replicated it on a majority of the servers'"
+      - "p.6 §5.3: 'The leader appends the command to its log as a new entry'"
+      - "p.6 §5.3: 'Each log entry stores a state machine command along with the term number when the entry was received by the leader.'"
+
+  - id: s026
+    speaker: narrator
+    scene: log_append
+    text: "Potem [[cue:append_entries]]wysyła AppendEntries do S dwa, S cztery i S pięć. S pięć odpowiada wolno, więc leader ponawia do skutku. S dwa i S cztery [[cue:majority_ack]]potwierdzają, więc wpis jest na trzech serwerach z pięciu. [[cue:commit_marker]]Znacznik commit przesuwa się na indeks trzy, leader wykonuje polecenie i odpowiada klientowi. Ten indeks trafia w [[cue:followers_apply]]kolejnych AppendEntries, także w heartbeatach, więc S dwa i S cztery też wykonują wpis."
+    refs:
+      - "p.6 §5.3: 'issues AppendEntries RPCs in parallel to each of the other servers to replicate the entry'"
+      - "p.6 §5.3: 'If followers crash or run slowly, or if network packets are lost, the leader retries'"
+      - "p.6 §5.3: 'the leader applies the entry to its state machine and returns the result of that execution to the client'"
+      - "p.7 §5.3: 'it includes that index in future AppendEntries RPCs (including heartbeats)'"
+      - "p.7 §5.3: 'Once a follower learns that a log entry is committed, it applies the entry to its local state machine'"
+
+  - id: s027
+    speaker: narrator
+    scene: consistency_check
+    text: "Skąd follower wie, że może dopisać wpis? Leader [[cue:new_entry]]dopisuje indeks cztery, igrek na siedem, a AppendEntries do S dwa niesie też [[cue:message_fields]]indeks i term wpisu tuż przed nim: indeks trzy, term dwa. S dwa [[cue:follower_check]]sprawdza swój indeks trzy i widzi tam term dwa."
+    refs:
+      - "p.7 §5.3: 'the leader includes the index and term of the entry in its log that immediately precedes the new entries'"
+
+  - id: s028
+    speaker: narrator
+    scene: consistency_check
+    text: "[[cue:match_ok]]Zgadza się, więc S dwa i S cztery dopisują indeks cztery, a commit idzie dalej. Gdyby się nie zgadzało, follower odrzuciłby wiadomość. Stąd reguła Log Matching: [[cue:log_matching]]jeśli dwa logi mają wpis o tym samym indeksie i termie, to do tego miejsca są identyczne."
+    refs:
+      - "p.7 §5.3: 'If the follower does not ﬁnd an entry in its log with the same index and term, then it refuses the new entries.'"
+      - "p.5 Fig. 3: 'if two logs contain an entry with the same index and term, then the logs are identical in all entries up through the given index'"
+
+  - id: s029
+    speaker: skeptic
+    scene: consistency_check
+    text: "A co, jeśli follower ma w logu wpis, którego leader w ogóle nie zna?"
+    refs: []
+
+  - id: s030
+    speaker: narrator
+    scene: log_repair
+    text: "Wtedy leader go nadpisze. [[cue:s1_returns]]Wraca S jeden, który jako leader w termie jeden dopisał pod indeksem trzy zet na zero, ale nigdy tego nie rozesłał. Leader trzyma dla każdego followera nextIndex, czyli indeks następnego wpisu do wysłania, i ustawia go tuż za końcem swojego logu w chwili, gdy zostaje leaderem. S trzy miał wtedy dwa wpisy, więc [[cue:next_index_init]]nextIndex dla S jeden wynosi trzy."
+    refs:
+      - "p.7 §5.3: 'the leader handles inconsistencies by forcing the followers’ logs to duplicate its own'"
+      - "p.7 §5.3: 'which is the index of the next log entry the leader will send to that follower'"
+      - "p.7 §5.3: 'it initializes all nextIndex values to the index just after the last one in its log'"
+
+  - id: s031
+    speaker: narrator
+    scene: log_repair
+    text: "AppendEntries wskazuje więc poprzedni wpis o indeksie dwa i termie jeden. Gdyby S jeden go nie miał, [[cue:reject_4]]odmówiłby, a leader [[cue:reject_3]]cofnąłby nextIndex o jeden i ponawiał, aż znajdzie wspólny punkt. Ale S jeden ten wpis ma, [[cue:match_2]]więc sprawdzenie się zgadza. Pod indeksem trzy leader wysyła wpis z termu dwa, a S jeden ma tam term jeden, więc [[cue:overwrite_tail]]usuwa zet na zero i dopisuje od leadera wpisy trzy i cztery. Sam leader nigdy nie nadpisuje własnego logu."
+    refs:
+      - "p.7 §5.3: 'After a rejection, the leader decrements nextIndex and retries the AppendEntries RPC.'"
+      - "p.7 §5.3: 'removes any conﬂicting entries in the follower’s log and appends entries from the leader’s log'"
+      - "p.5 Fig. 3: 'a leader never overwrites or deletes entries in its log'"
+
+  - id: s032
+    speaker: skeptic
+    scene: log_repair
+    text: "Chwila, czy to nie jest błąd z początku odcinka? Tam też ktoś nadpisał cudzy log."
+    refs: []
+
+  - id: s033
+    speaker: narrator
+    scene: election_restriction
+    text: "Byłby, gdyby dało się tak nadpisać wpis zatwierdzony, ale Raft blokuje to już przy wyborach. Inny wariant: S jeden wraca z zet na zero przed naprawą, a wolny S pięć ma tylko dwa pierwsze wpisy. Indeksy trzy i cztery są zatwierdzone na S dwa, S trzy i S cztery. S jeden [[cue:s1_candidate]]zostaje candidate w termie trzy, a jego RequestVote opisuje [[cue:vote_request_fields]]jego ostatni wpis: indeks trzy, term jeden."
+    refs:
+      - "p.8 §5.4.1: 'Raft uses the voting process to prevent a candidate from winning an election unless its log contains all committed entries.'"
+      - "p.8 §5.4.1: 'the RPC includes information about the candidate’s log'"
+
+  - id: s034
+    speaker: narrator
+    scene: election_restriction
+    text: "S dwa [[cue:compare_last_term]]ma ostatni wpis z termu dwa, czyli późniejszego, więc jego log jest bardziej aktualny i S dwa [[cue:votes_denied]]odmawia głosu, tak samo S cztery. S pięć też kończy log termem jeden, ale ma krótszy log, więc głosuje, tylko że dwa głosy z pięciu to za mało. To [[cue:overlap]]nie przypadek: zatwierdzone wpisy są na większości, głosy też przychodzą od większości, a dwie większości zawsze mają wspólny serwer."
+    refs:
+      - "p.8 §5.4.1: 'If the logs have last entries with different terms, then the log with the later term is more up-to-date.'"
+      - "p.8 §5.4.1: 'If the logs end with the same term, then whichever log is longer is more up-to-date.'"
+      - "p.8 §5.4.1: 'the voter denies its vote if its own log is more up-to-date than that of the candidate'"
+      - "p.8 §5.4.1: 'every committed entry must be present in at least one of those servers'"
+
+  - id: s035
+    speaker: skeptic
+    scene: election_restriction
+    text: "Skoro wpis na większości jest bezpieczny, czemu nowy leader nie może po prostu policzyć kopii starych wpisów?"
+    refs: []
+
+  - id: s036
+    speaker: narrator
+    scene: fig8_trap
+    text: "Bo to nie zawsze działa, co autorzy pokazują na osobnym przykładzie. [[cue:step_a]]S jeden jako leader w termie dwa kopiuje wpis z indeksu dwa tylko na S dwa. [[cue:step_b]]Potem pada, a S pięć wygrywa term trzy głosami S trzy, S cztery i własnym, i przyjmuje inny wpis pod indeksem dwa."
+    refs:
+      - "p.8 §5.4.2: 'a leader cannot immediately conclude that an entry from a previous term is committed once it is stored on a majority of servers'"
+      - "p.8 Fig. 8: 'In (a) S1 is leader and partially replicates the log entry at index 2.'"
+      - "p.8 Fig. 8: 'S5 is elected leader for term 3 with votes from S3, S4, and itself, and accepts a different entry at log index 2'"
+
+  - id: s037
+    speaker: narrator
+    scene: fig8_trap
+    text: "Teraz [[cue:step_c]]pada S pięć, a S jeden wraca jako leader w termie cztery i kopiuje swój stary wpis z termu dwa na S trzy. Wpis jest [[cue:majority_not_commit]]na trzech serwerach z pięciu, ale nie jest zatwierdzony. Gdy [[cue:step_d]]S jeden znowu padnie, S pięć wygra głosami S dwa, S trzy i S cztery, bo jego ostatni wpis z termu trzy jest późniejszy niż ich ostatnie wpisy, i [[cue:overwrite]]nadpisze indeks dwa wpisem z termu trzy."
+    refs:
+      - "p.8 Fig. 8: 'In (c) S5 crashes; S1 restarts, is elected leader, and continues replication.'"
+      - "p.8 Fig. 8: 'the log entry from term 2 has been replicated on a majority of the servers, but it is not committed'"
+      - "p.8 Fig. 8: 'S5 could be elected leader (with votes from S2, S3, and S4) and overwrite the entry with its own entry from term 3'"
+
+  - id: s038
+    speaker: narrator
+    scene: fig8_fix
+    text: "[[cue:rewind_c]]Wróćmy do stanu, w którym S jeden jest leaderem w termie cztery i ma już u siebie nowy wpis z tego termu pod indeksem trzy. Tym razem przed awarią [[cue:replicate_current]]kopiuje go na S dwa i S trzy. To wpis z bieżącego termu na większości, więc [[cue:commit_both]]jest zatwierdzony, a razem z nim pośrednio indeks dwa. S dwa i S trzy kończą teraz log termem cztery, więc [[cue:s5_blocked]]odmówią głosu S pięć."
+    refs:
+      - "p.8 Fig. 8: 'if S1 replicates an entry from its current term on a majority of the servers before crashing, as in (e), then this entry is committed (S5 cannot win an election)'"
+      - "p.8 Fig. 8: 'At this point all preceding entries in the log are committed as well.'"
+
+  - id: s039
+    speaker: narrator
+    scene: fig8_fix
+    text: "Stąd reguła: [[cue:rule_card]]leader liczy kopie tylko dla wpisów z bieżącego termu, a starsze zatwierdzają się pośrednio, dzięki Log Matching."
+    refs:
+      - "p.9 §5.4.2: 'Only log entries from the leader’s current term are committed by counting replicas'"
+      - "p.9 §5.4.2: 'all prior entries are committed indirectly because of the Log Matching Property'"
+
+  - id: s040
+    speaker: narrator
+    scene: joint_consensus
+    text: "Ostatni mechanizm to zmiana składu klastra. Do trzech serwerów [[cue:grow_cluster]]dochodzą S cztery i S pięć, więc stara konfiguracja, C old, ma trzy serwery, a nowa, C new, pięć. Serwery nie przełączą się w tej samej chwili, więc przy [[cue:direct_switch]]bezpośredniej zmianie S jeden i S dwa wybierają S jeden większością starej konfiguracji, a S trzy, S cztery i S pięć wybierają S pięć większością nowej. [[cue:two_leaders]]Mamy dwóch leaderów w jednym termie."
+    refs:
+      - "p.10 Fig. 10: 'the cluster grows from three servers to ﬁve'"
+      - "p.10 §6: 'It isn’t possible to atomically switch all of the servers at once'"
+      - "p.10 Fig. 10: 'two different leaders can be elected for the same term'"
+
+  - id: s041
+    speaker: narrator
+    scene: joint_consensus
+    text: "Dlatego Raft przechodzi przez konfigurację pośrednią. Leader [[cue:joint_entry]]zapisuje w logu wpis C old new, czyli joint consensus, i rozsyła go dalej. Serwer, który ma już ten wpis, przy każdym wyborze i każdym commicie [[cue:both_majorities]]wymaga osobno większości starej i większości nowej konfiguracji, więc nowa konfiguracja nigdy nie decyduje sama. Gdy ten wpis zostanie zatwierdzony, leader dopisuje [[cue:cnew_commit]]samo C new, a po jego zatwierdzeniu stara konfiguracja przestaje mieć znaczenie. Przez cały ten czas klaster obsługuje klientów."
+    refs:
+      - "p.10 §6: 'In Raft the cluster ﬁrst switches to a transitional conﬁguration we call joint consensus'"
+      - "p.11 §6: 'Agreement (for elections and entry commitment) requires separate majorities from both the old and new conﬁgurations.'"
+      - "p.11 §6: 'Once a given server adds the new conﬁguration entry to its log, it uses that conﬁguration for all future decisions'"
+      - "p.11 §6: 'Cnew cannot make unilateral decisions during this period.'"
+      - "p.11 §6: 'the old conﬁguration is irrelevant'"
+      - "p.11 §6: 'allows the cluster to continue servicing client requests'"
+
+  - id: s042
+    speaker: skeptic
+    scene: joint_consensus
+    text: "Autorzy obiecywali zrozumiałość. Czy da się w ogóle zmierzyć, że Raft jest łatwiejszy?"
+    refs: []
+
+  - id: s043
+    speaker: narrator
+    scene: user_study
+    text: "Da się, i autorzy to zrobili. Czterdziestu trzech studentów ze Stanfordu i Berkeley obejrzało wykład o Rafcie i wykład o Paxosie, a po każdym rozwiązało quiz. Na sześćdziesiąt punktów [[cue:bars_means]]średnia z Rafta wyniosła dwadzieścia pięć i siedem dziesiątych, a z Paxosa dwadzieścia i osiem dziesiątych, czyli [[cue:diff_label]]cztery i dziewięć dziesiątych punktu więcej dla Rafta."
+    refs:
+      - "p.1 §1: 'A user study with 43 students at two universities'"
+      - "p.13 §9.1: 'at Stanford University and a Distributed Computing course at U.C. Berkeley'"
+      - "p.13 §9.1: 'We recorded a video lecture of Raft and another of Paxos, and created corresponding quizzes.'"
+      - "p.14 §9.1: 'out of a possible 60 points, the mean Raft score was 25.7 and the mean Paxos score was 20.8'"
+      - "p.14 §9.1: 'participants scored 4.9 points higher on the Raft quiz than on the Paxos quiz'"
+
+  - id: s044
+    speaker: narrator
+    scene: user_study
+    text: "Lepszy wynik z Rafta miało [[cue:participants_count]]trzydziestu trzech z czterdziestu trzech uczestników, choć eksperyment faworyzował Paxosa: [[cue:bias_note]]piętnaście osób miało już z nim wcześniej do czynienia, a wykład o nim był o czternaście procent dłuższy. W ankiecie [[cue:survey]]trzydziestu trzech z czterdziestu jeden uczestników uznało Rafta za łatwiejszego do zaimplementowania i do wyjaśnienia, choć autorzy przyznają, że takie deklaracje są mniej wiarygodne niż wyniki quizów."
+    refs:
+      - "p.14 Fig. 14: 'Points above the diagonal (33) represent participants who scored higher for Raft.'"
+      - "p.14 §9.1: '15 of the 43 participants reported having some prior experience with Paxos, and the Paxos video is 14% longer than the Raft video'"
+      - "p.14 §9.1: '33 of 41 for each question'"
+      - "p.14 §9.1: 'these self-reported feelings may be less reliable than participants’ quiz scores'"
+
+  - id: s045
+    speaker: narrator
+    scene: election_timing
+    text: "A jak szybko Raft wybiera nowego leadera? Autorzy [[cue:setup]]wielokrotnie zabijali leadera w klastrze pięciu serwerów, przy czasie rozgłoszenia około piętnastu milisekund. Bez losowości, z timeoutem równo sto pięćdziesiąt milisekund, [[cue:no_random]]wybory trwały ponad dziesięć sekund, przez ciągłe split vote. Wystarczy [[cue:five_ms]]pięć milisekund losowości, a mediana przestoju spada do dwustu osiemdziesięciu siedmiu milisekund."
+    refs:
+      - "p.15 §9.3: 'we repeatedly crashed the leader of a cluster of ﬁve servers'"
+      - "p.15 Fig. 16: 'with a broadcast time of roughly 15ms'"
+      - "p.15 §9.3: 'In the absence of randomness, leader election consistently took longer than 10 seconds in our tests due to many split votes.'"
+      - "p.15 §9.3: 'resulting in a median downtime of 287ms'"
+
+  - id: s046
+    speaker: narrator
+    scene: election_timing
+    text: "Przy [[cue:fifty_ms_worst]]pięćdziesięciu milisekundach losowości najgorszy z tysiąca przypadków to pięćset trzynaście milisekund. A krótszy timeout skraca przestój: przy [[cue:short_timeouts]]dwunastu do dwudziestu czterech milisekundach wybór leadera trwał średnio trzydzieści pięć milisekund."
+    refs:
+      - "p.15 §9.3: 'with 50ms of randomness the worst-case completion time (over 1000 trials) was 513ms'"
+      - "p.15 §9.3: 'With an election timeout of 12–24ms, it takes only 35ms on average to elect a leader'"
+
+  - id: s047
+    speaker: skeptic
+    scene: election_timing
+    text: "To czemu nie zejść z timeoutem jeszcze niżej?"
+    refs: []
+
+  - id: s048
+    speaker: narrator
+    scene: election_timing
+    text: "Bo poniżej tej granicy leader nie zdąży rozesłać heartbeatów, zanim inne serwery zaczną wybory, a to oznacza zbędne zmiany leadera i gorszą dostępność. Dlatego autorzy [[cue:recommendation]]zalecają ostrożny timeout, na przykład od stu pięćdziesięciu do trzystu milisekund."
+    refs:
+      - "p.15 §9.3: 'leaders have difﬁculty broadcasting heartbeats before other servers start new elections'"
+      - "p.15 §9.3: 'This can cause unnecessary leader changes and lower overall system availability.'"
+      - "p.15 §9.3: 'We recommend using a conservative election timeout such as 150–300ms'"
+
+  - id: s049
+    speaker: narrator
+    scene: limitations
+    text: "Widać to na torach. [[cue:rerun_short]]Puszczamy wybory jeszcze raz, z timerami krótszymi niż obieg heartbeatu. Timer S dwa kończy się, zanim heartbeat od S trzy dotrze, więc S dwa startuje z wyższym termem, a S trzy musi ustąpić. [[cue:spurious_elections]]Termy przeskakują jeden po drugim, a każda zmiana leadera jest zbędna."
+    refs:
+      - "p.10 §5.6: 'The broadcast time should be an order of magnitude less than the election timeout so that leaders can reliably send the heartbeat messages required to keep followers from starting elections'"
+      - "p.5 §5.1: 'If a candidate or leader discovers that its term is out of date, it immediately reverts to follower state.'"
+      - "p.15 §9.3: 'This can cause unnecessary leader changes'"
+
+  - id: s050
+    speaker: narrator
+    scene: limitations
+    text: "Autorzy ujmują to tak: [[cue:timing_rule]]czas rozgłoszenia ma być dużo krótszy niż election timeout, a ten dużo krótszy niż średni czas między awariami serwera. Bezpieczeństwo nie zależy od czasu, ale dostępność już tak: gdy leader pada, [[cue:downtime_gap]]system stoi mniej więcej przez election timeout. Raft daje ten sam wynik co multi-Paxos i jest równie wydajny: nowy wpis wymaga tylko jednej rundy komunikatów od leadera do połowy klastra. A silny leader ma swoją cenę, bo [[cue:epaxos_card]]bezliderowy EPaxos osiąga w sieciach rozległych niższe opóźnienia niż Raft, choć kosztem dużo większej złożoności."
+    refs:
+      - "p.10 §5.6: 'broadcastTime ≪ electionTimeout ≪ MTBF'"
+      - "p.10 §5.6: 'MTBF is the average time between failures for a single server'"
+      - "p.10 §5.6: 'safety must not depend on timing'"
+      - "p.10 §5.6: 'availability (the ability of the system to respond to clients in a timely manner) must inevitably depend on timing'"
+      - "p.10 §5.6: 'When the leader crashes, the system will be unavailable for roughly the election timeout'"
+      - "p.1 §Abstract: 'It produces a result equivalent to (multi-)Paxos, and it is as efﬁcient as Paxos'"
+      - "p.15 §9.3: 'Raft achieves this using the minimal number of messages (a single round-trip from the leader to half the cluster)'"
+      - "p.16 §10: 'is able to achieve lower latency than Raft in WAN settings'"
+      - "p.16 §10: 'However, it adds signiﬁcant complexity to Paxos.'"
+
+  - id: s051
+    speaker: narrator
+    scene: outro_invite
+    text: "Złóżmy to w całość. [[cue:recap_problem]]Konsensus to wspólny log na wielu serwerach. [[cue:recap_election]]Losowy timeout szybko rozstrzyga wybory, a większość głosów daje najwyżej jednego leadera na term. [[cue:recap_log]]Wpis jest zatwierdzony, gdy jego leader ma go na większości, a [[cue:recap_safety]]kopie liczy się tylko dla wpisów z bieżącego termu. [[cue:recap_results]]Trzydziestu trzech z czterdziestu trzech studentów wypadło lepiej w quizie z Rafta niż z Paxosa."
+    refs:
+      - "p.2 §2: 'Each log contains the same commands in the same order'"
+      - "p.6 §5.2: 'Raft uses randomized election timeouts to ensure that split votes are rare and that they are resolved quickly.'"
+      - "p.5 §5.1: 'Raft ensures that there is at most one leader in a given term.'"
+      - "p.7 §5.3: 'A log entry is committed once the leader that created the entry has replicated it on a majority of the servers'"
+      - "p.9 §5.4.2: 'Only log entries from the leader’s current term are committed by counting replicas'"
+      - "p.14 Fig. 14: 'Points above the diagonal (33) represent participants who scored higher for Raft.'"
+
+  - id: s052
+    speaker: narrator
+    scene: outro_invite
+    text: "[[cue:next_episode]]Dziękujemy za wspólny odczyt i zapraszamy na kolejny odcinek Głębokiego Odczytu."
+    refs: []

@@ -1,0 +1,681 @@
+{
+  "slug": "73-raft",
+  "number": 73,
+  "title": "Raft",
+  "subtitle": "W poszukiwaniu zrozumiałego algorytmu konsensusu",
+  "authors": "Diego Ongaro, John Ousterhout · Stanford · 2014",
+  "theme": "dark",
+  "fps": 30,
+  "audio": "narration.wav",
+  "audioSeconds": 1069.09,
+  "introSeconds": 5.0,
+  "outroSeconds": 5.0,
+  "thumbnail": null,
+  "chapters": [
+    {
+      "id": "c1",
+      "title": "Problem konsensusu"
+    },
+    {
+      "id": "c2",
+      "title": "Wybór leadera"
+    },
+    {
+      "id": "c3",
+      "title": "Replikacja logu"
+    },
+    {
+      "id": "c4",
+      "title": "Bezpieczeństwo"
+    },
+    {
+      "id": "c5",
+      "title": "Wyniki i granice"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "intro",
+      "chapter": null,
+      "start": 0.0,
+      "cues": {
+        "greeting": 2.8,
+        "teaser_ring": 14.88
+      },
+      "end": 22.64
+    },
+    {
+      "id": "hook",
+      "chapter": "c1",
+      "start": 22.64,
+      "cues": {
+        "s5_offline": 27.12,
+        "write_ok": 40.32,
+        "leader_crash": 44.35,
+        "stale_leader": 50.11,
+        "overwrite": 60.27
+      },
+      "end": 71.78
+    },
+    {
+      "id": "replicated_log",
+      "chapter": "c1",
+      "start": 71.78,
+      "cues": {
+        "client_command": 82.26,
+        "same_order": 89.42,
+        "same_state": 96.85,
+        "two_failures": 105.57,
+        "real_systems": 111.97
+      },
+      "end": 122.93
+    },
+    {
+      "id": "paxos_problem",
+      "chapter": "c1",
+      "start": 122.93,
+      "cues": {
+        "paxos_card": 124.73,
+        "nsdi_survey": 141.21,
+        "year_struggle": 152.64,
+        "chubby_quote": 167.84,
+        "raft_goal": 174.48
+      },
+      "end": 178.64
+    },
+    {
+      "id": "glossary",
+      "chapter": "c1",
+      "start": 178.64,
+      "cues": {
+        "term_leader": 183.12,
+        "term_follower": 187.12,
+        "term_candidate": 191.28,
+        "term_term": 195.2,
+        "term_commit": 200.11
+      },
+      "end": 213.3
+    },
+    {
+      "id": "key_insight",
+      "chapter": "c2",
+      "start": 213.3,
+      "cues": {
+        "strong_leader": 217.3,
+        "one_way_flow": 222.34,
+        "decompose_three": 231.57,
+        "state_space": 242.53
+      },
+      "end": 245.17
+    },
+    {
+      "id": "server_states",
+      "chapter": "c2",
+      "start": 245.17,
+      "cues": {
+        "start_follower": 249.97,
+        "timeout_to_candidate": 254.103,
+        "majority_to_leader": 258.45,
+        "retry_loop": 264.52,
+        "step_down": 269.88
+      },
+      "end": 274.56
+    },
+    {
+      "id": "terms",
+      "chapter": "c2",
+      "start": 274.56,
+      "cues": {
+        "term_ribbon": 276.12,
+        "split_term": 286.56,
+        "term_counters": 292.91,
+        "catch_up": 300.03,
+        "stale_reject": 308.403
+      },
+      "end": 318.74
+    },
+    {
+      "id": "election",
+      "chapter": "c2",
+      "start": 318.74,
+      "cues": {
+        "heartbeats": 324.9,
+        "leader_crash": 338.18,
+        "s3_timeout": 341.49,
+        "request_votes": 350.17,
+        "majority_votes": 355.33,
+        "new_leader": 364.85
+      },
+      "end": 375.64
+    },
+    {
+      "id": "split_vote",
+      "chapter": "c2",
+      "start": 375.64,
+      "cues": {
+        "rewind": 378.56,
+        "double_timeout": 383.88,
+        "split_votes": 390.28,
+        "no_majority": 397.11,
+        "random_retry": 402.99,
+        "s4_wins": 412.31
+      },
+      "end": 425.58
+    },
+    {
+      "id": "log_append",
+      "chapter": "c3",
+      "start": 425.58,
+      "cues": {
+        "client_request": 436.54,
+        "leader_append": 440.82,
+        "append_entries": 445.69,
+        "majority_ack": 456.85,
+        "commit_marker": 461.37,
+        "followers_apply": 469.69
+      },
+      "end": 477.77
+    },
+    {
+      "id": "consistency_check",
+      "chapter": "c3",
+      "start": 477.77,
+      "cues": {
+        "new_entry": 482.01,
+        "message_fields": 488.57,
+        "follower_check": 494.81,
+        "match_ok": 498.92,
+        "log_matching": 512.227
+      },
+      "end": 524.51
+    },
+    {
+      "id": "log_repair",
+      "chapter": "c3",
+      "start": 524.51,
+      "cues": {
+        "s1_returns": 526.83,
+        "next_index_init": 551.19,
+        "reject_4": 562.94,
+        "reject_3": 564.62,
+        "match_2": 572.06,
+        "overwrite_tail": 581.18
+      },
+      "end": 596.61
+    },
+    {
+      "id": "election_restriction",
+      "chapter": "c4",
+      "start": 596.61,
+      "cues": {
+        "s1_candidate": 619.29,
+        "vote_request_fields": 623.73,
+        "compare_last_term": 628.96,
+        "votes_denied": 636.08,
+        "overlap": 648.08
+      },
+      "end": 665.67
+    },
+    {
+      "id": "fig8_trap",
+      "chapter": "c4",
+      "start": 665.67,
+      "cues": {
+        "step_a": 670.79,
+        "step_b": 677.35,
+        "step_c": 688.18,
+        "majority_not_commit": 698.26,
+        "step_d": 702.98,
+        "overwrite": 714.42
+      },
+      "end": 718.82
+    },
+    {
+      "id": "fig8_fix",
+      "chapter": "c4",
+      "start": 718.82,
+      "cues": {
+        "rewind_c": 718.82,
+        "replicate_current": 729.14,
+        "commit_both": 735.22,
+        "s5_blocked": 744.18,
+        "rule_card": 748.37
+      },
+      "end": 757.33
+    },
+    {
+      "id": "joint_consensus",
+      "chapter": "c4",
+      "start": 757.33,
+      "cues": {
+        "grow_cluster": 762.21,
+        "direct_switch": 775.93,
+        "two_leaders": 789.17,
+        "joint_entry": 796.8,
+        "both_majorities": 808.52,
+        "cnew_commit": 820.84
+      },
+      "end": 838.55
+    },
+    {
+      "id": "user_study",
+      "chapter": "c5",
+      "start": 838.55,
+      "cues": {
+        "bars_means": 852.87,
+        "diff_label": 861.03,
+        "participants_count": 866.86,
+        "bias_note": 873.247,
+        "survey": 881.22
+      },
+      "end": 896.26
+    },
+    {
+      "id": "election_timing",
+      "chapter": "c5",
+      "start": 896.26,
+      "cues": {
+        "setup": 900.073,
+        "no_random": 911.86,
+        "five_ms": 917.26,
+        "fifty_ms_worst": 924.77,
+        "short_timeouts": 935.73,
+        "recommendation": 959.59
+      },
+      "end": 966.99
+    },
+    {
+      "id": "limitations",
+      "chapter": "c5",
+      "start": 966.99,
+      "cues": {
+        "rerun_short": 968.71,
+        "spurious_elections": 983.95,
+        "timing_rule": 991.9,
+        "downtime_gap": 1007.26,
+        "epaxos_card": 1023.94
+      },
+      "end": 1033.34
+    },
+    {
+      "id": "outro_invite",
+      "chapter": null,
+      "start": 1033.34,
+      "cues": {
+        "recap_problem": 1035.3,
+        "recap_election": 1039.26,
+        "recap_log": 1046.94,
+        "recap_safety": 1051.26,
+        "recap_results": 1055.3,
+        "next_episode": 1062.41
+      },
+      "end": 1069.09
+    }
+  ],
+  "segments": [
+    {
+      "id": "s001",
+      "speaker": "narrator",
+      "scene": "intro",
+      "start": 0.0,
+      "end": 21.44
+    },
+    {
+      "id": "s002",
+      "speaker": "narrator",
+      "scene": "hook",
+      "start": 22.64,
+      "end": 42.64
+    },
+    {
+      "id": "s003",
+      "speaker": "narrator",
+      "scene": "hook",
+      "start": 42.99,
+      "end": 66.35
+    },
+    {
+      "id": "s004",
+      "speaker": "skeptic",
+      "scene": "hook",
+      "start": 66.9,
+      "end": 70.98
+    },
+    {
+      "id": "s005",
+      "speaker": "narrator",
+      "scene": "replicated_log",
+      "start": 71.78,
+      "end": 93.38
+    },
+    {
+      "id": "s006",
+      "speaker": "narrator",
+      "scene": "replicated_log",
+      "start": 93.73,
+      "end": 122.13
+    },
+    {
+      "id": "s007",
+      "speaker": "narrator",
+      "scene": "paxos_problem",
+      "start": 122.93,
+      "end": 151.25
+    },
+    {
+      "id": "s008",
+      "speaker": "narrator",
+      "scene": "paxos_problem",
+      "start": 151.6,
+      "end": 177.84
+    },
+    {
+      "id": "s009",
+      "speaker": "narrator",
+      "scene": "glossary",
+      "start": 178.64,
+      "end": 199.52
+    },
+    {
+      "id": "s010",
+      "speaker": "narrator",
+      "scene": "glossary",
+      "start": 199.87,
+      "end": 206.11
+    },
+    {
+      "id": "s011",
+      "speaker": "skeptic",
+      "scene": "glossary",
+      "start": 206.66,
+      "end": 212.1
+    },
+    {
+      "id": "s012",
+      "speaker": "narrator",
+      "scene": "key_insight",
+      "start": 213.3,
+      "end": 229.3
+    },
+    {
+      "id": "s013",
+      "speaker": "narrator",
+      "scene": "key_insight",
+      "start": 229.65,
+      "end": 244.37
+    },
+    {
+      "id": "s014",
+      "speaker": "narrator",
+      "scene": "server_states",
+      "start": 245.17,
+      "end": 262.13
+    },
+    {
+      "id": "s015",
+      "speaker": "narrator",
+      "scene": "server_states",
+      "start": 262.48,
+      "end": 273.76
+    },
+    {
+      "id": "s016",
+      "speaker": "narrator",
+      "scene": "terms",
+      "start": 274.56,
+      "end": 291.6
+    },
+    {
+      "id": "s017",
+      "speaker": "narrator",
+      "scene": "terms",
+      "start": 291.95,
+      "end": 311.95
+    },
+    {
+      "id": "s018",
+      "speaker": "skeptic",
+      "scene": "terms",
+      "start": 312.5,
+      "end": 317.94
+    },
+    {
+      "id": "s019",
+      "speaker": "narrator",
+      "scene": "election",
+      "start": 318.74,
+      "end": 340.66
+    },
+    {
+      "id": "s020",
+      "speaker": "narrator",
+      "scene": "election",
+      "start": 341.01,
+      "end": 370.13
+    },
+    {
+      "id": "s021",
+      "speaker": "skeptic",
+      "scene": "election",
+      "start": 370.68,
+      "end": 374.84
+    },
+    {
+      "id": "s022",
+      "speaker": "narrator",
+      "scene": "split_vote",
+      "start": 375.64,
+      "end": 396.6
+    },
+    {
+      "id": "s023",
+      "speaker": "narrator",
+      "scene": "split_vote",
+      "start": 396.95,
+      "end": 418.79
+    },
+    {
+      "id": "s024",
+      "speaker": "skeptic",
+      "scene": "split_vote",
+      "start": 419.34,
+      "end": 424.38
+    },
+    {
+      "id": "s025",
+      "speaker": "narrator",
+      "scene": "log_append",
+      "start": 425.58,
+      "end": 444.78
+    },
+    {
+      "id": "s026",
+      "speaker": "narrator",
+      "scene": "log_append",
+      "start": 445.13,
+      "end": 476.97
+    },
+    {
+      "id": "s027",
+      "speaker": "narrator",
+      "scene": "consistency_check",
+      "start": 477.77,
+      "end": 498.57
+    },
+    {
+      "id": "s028",
+      "speaker": "narrator",
+      "scene": "consistency_check",
+      "start": 498.92,
+      "end": 518.76
+    },
+    {
+      "id": "s029",
+      "speaker": "skeptic",
+      "scene": "consistency_check",
+      "start": 519.31,
+      "end": 523.71
+    },
+    {
+      "id": "s030",
+      "speaker": "narrator",
+      "scene": "log_repair",
+      "start": 524.51,
+      "end": 554.35
+    },
+    {
+      "id": "s031",
+      "speaker": "narrator",
+      "scene": "log_repair",
+      "start": 554.7,
+      "end": 589.58
+    },
+    {
+      "id": "s032",
+      "speaker": "skeptic",
+      "scene": "log_repair",
+      "start": 590.13,
+      "end": 595.41
+    },
+    {
+      "id": "s033",
+      "speaker": "narrator",
+      "scene": "election_restriction",
+      "start": 596.61,
+      "end": 627.89
+    },
+    {
+      "id": "s034",
+      "speaker": "narrator",
+      "scene": "election_restriction",
+      "start": 628.24,
+      "end": 657.84
+    },
+    {
+      "id": "s035",
+      "speaker": "skeptic",
+      "scene": "election_restriction",
+      "start": 658.39,
+      "end": 664.87
+    },
+    {
+      "id": "s036",
+      "speaker": "narrator",
+      "scene": "fig8_trap",
+      "start": 665.67,
+      "end": 687.43
+    },
+    {
+      "id": "s037",
+      "speaker": "narrator",
+      "scene": "fig8_trap",
+      "start": 687.78,
+      "end": 718.02
+    },
+    {
+      "id": "s038",
+      "speaker": "narrator",
+      "scene": "fig8_fix",
+      "start": 718.82,
+      "end": 746.34
+    },
+    {
+      "id": "s039",
+      "speaker": "narrator",
+      "scene": "fig8_fix",
+      "start": 746.69,
+      "end": 756.53
+    },
+    {
+      "id": "s040",
+      "speaker": "narrator",
+      "scene": "joint_consensus",
+      "start": 757.33,
+      "end": 791.89
+    },
+    {
+      "id": "s041",
+      "speaker": "narrator",
+      "scene": "joint_consensus",
+      "start": 792.24,
+      "end": 831.04
+    },
+    {
+      "id": "s042",
+      "speaker": "skeptic",
+      "scene": "joint_consensus",
+      "start": 831.59,
+      "end": 837.35
+    },
+    {
+      "id": "s043",
+      "speaker": "narrator",
+      "scene": "user_study",
+      "start": 838.55,
+      "end": 864.63
+    },
+    {
+      "id": "s044",
+      "speaker": "narrator",
+      "scene": "user_study",
+      "start": 864.98,
+      "end": 895.46
+    },
+    {
+      "id": "s045",
+      "speaker": "narrator",
+      "scene": "election_timing",
+      "start": 896.26,
+      "end": 924.1
+    },
+    {
+      "id": "s046",
+      "speaker": "narrator",
+      "scene": "election_timing",
+      "start": 924.45,
+      "end": 942.85
+    },
+    {
+      "id": "s047",
+      "speaker": "skeptic",
+      "scene": "election_timing",
+      "start": 943.4,
+      "end": 946.28
+    },
+    {
+      "id": "s048",
+      "speaker": "narrator",
+      "scene": "election_timing",
+      "start": 946.83,
+      "end": 966.19
+    },
+    {
+      "id": "s049",
+      "speaker": "narrator",
+      "scene": "limitations",
+      "start": 966.99,
+      "end": 989.23
+    },
+    {
+      "id": "s050",
+      "speaker": "narrator",
+      "scene": "limitations",
+      "start": 989.58,
+      "end": 1032.14
+    },
+    {
+      "id": "s051",
+      "speaker": "narrator",
+      "scene": "outro_invite",
+      "start": 1033.34,
+      "end": 1062.06
+    },
+    {
+      "id": "s052",
+      "speaker": "narrator",
+      "scene": "outro_invite",
+      "start": 1062.41,
+      "end": 1068.49
+    }
+  ]
+}

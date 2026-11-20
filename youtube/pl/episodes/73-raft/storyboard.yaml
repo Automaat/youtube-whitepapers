@@ -1,0 +1,589 @@
+episode: "73-raft"
+
+chapters:
+  - id: c1
+    title: "Problem konsensusu"
+  - id: c2
+    title: "Wybór leadera"
+  - id: c3
+    title: "Replikacja logu"
+  - id: c4
+    title: "Bezpieczeństwo"
+  - id: c5
+    title: "Wyniki i granice"
+
+glossary:
+  - term: Leader
+    color: leader
+    definition: "przyjmuje zapisy i rozsyła log"
+  - term: Follower
+    color: neutral
+    definition: "biernie odpowiada na żądania"
+  - term: Candidate
+    color: candidate
+    definition: "zbiera głosy, by zostać leaderem"
+  - term: Term
+    color: c3
+    definition: "numerowana kadencja, logiczny zegar"
+  - term: Commit
+    color: success
+    definition: "wpis bezpieczny do wykonania"
+
+scenes:
+  # ---------------------------------------------------------------- intro
+  - id: intro
+    chapter: null
+    idea: "Widz wie, jaki artykuł omawiamy i że zobaczy Rafta krok po kroku."
+    visual_form: title
+    continues_from: null
+    visual: >
+      Full-frame episode thumbnail (Thumbnail composition; TitleCard design if no file):
+      "Raft" in Fraunces, subtitle "W poszukiwaniu zrozumiałego algorytmu konsensusu",
+      below in muted "Diego Ongaro, John Ousterhout · Stanford · 2014". No chrome.
+      After the greeting the card dims to 30% and five small RoleNodes (S1–S5) fade in
+      on the ring positions used later in the hook, as a teaser.
+    cues:
+      - name: greeting
+        change: "Miniatura odcinka na pełnym ekranie"
+      - name: teaser_ring
+        change: "Karta przygasa, pojawia się pięć węzłów S1–S5"
+    paper_refs: ["p.1 tytuł i autorzy", "p.3 §4 (zrozumiałość jako cel)"]
+
+  # ---------------------------------------------------------------- c1
+  - id: hook
+    chapter: c1
+    idea: "Naiwna replikacja potrafi zgubić zapis, który klient już uznał za zapisany."
+    visual_form: cluster
+    continues_from: intro
+    visual: >
+      Ring of five RoleNodes, fixed for the whole episode: S1 top-center grid(3,1),
+      S2 upper-right grid(5,2), S3 lower-right grid(4,4), S4 lower-left grid(2,4),
+      S5 upper-left grid(1,2). Under each node a mini log strip of 2 cells.
+      Small tag top-left of the diagram: "naiwny algorytm" (muted). S1 is raspberry (leader).
+      S5 is disconnected: dashed link, muted. A client chip at far right sends "x←5" to S1;
+      S1 copies it to S2 and S3 (message dots), cells turn successSoft with ✓, client chip
+      shows "OK ✓". S1 crashes (dashed outline, ✕ badge). S5 reconnects, turns raspberry
+      and writes "x←9" into the same cell on S2, S3, S4: overwriting "x←5" on S2 and S3,
+      filling the empty cell on S4.
+      Final hold: the overwritten cell on S2 glows with danger outline + ✕,
+      client chip "OK ✓" stays next to it; caption: "Klient dostał OK. Zapis zniknął."
+    cues:
+      - name: s5_offline
+        change: "Połączenie S5 robi się przerywane, S5 gaśnie do 30%"
+      - name: write_ok
+        change: "x←5 trafia na S1, S2, S3; klient dostaje OK ✓"
+      - name: leader_crash
+        change: "S1 gaśnie i dostaje ✕"
+      - name: stale_leader
+        change: "S5 wraca i zostaje leaderem (kolor leader)"
+      - name: overwrite
+        change: "x←9 nadpisuje x←5 na S2 i S3, a na S4 trafia do pustej komórki; komórka na S2 z ✕"
+    paper_refs: ["p.8 §5.4", "p.5 §5.1"]
+
+  - id: replicated_log
+    chapter: c1
+    idea: "Konsensus to utrzymanie identycznego logu poleceń na wielu serwerach."
+    visual_form: cluster
+    continues_from: hook
+    visual: >
+      Same ring, all nodes restored to neutral surface, no roles yet. Each node grows a
+      3-cell log strip and a small state-machine box beneath it. Client chip on the right.
+      The command sequence "x←3", "y←1", "x←2" fills every log in the same order, then each
+      state box shows the same result "x=2, y=1". Then S4 and S5 crash (✕), the other three
+      keep working; label next to the ring: "5 serwerów → przeżywa 2 awarie".
+      Last: a muted row of system chips at the bottom: "Chubby", "ZooKeeper", "GFS", "HDFS",
+      "RAMCloud".
+    cues:
+      - name: client_command
+        change: "Klient wysyła x←3 do klastra"
+      - name: same_order
+        change: "Wszystkie logi wypełniają się tymi samymi poleceniami w tej samej kolejności"
+      - name: same_state
+        change: "Maszyny stanów pokazują ten sam wynik x=2, y=1"
+      - name: two_failures
+        change: "S4 i S5 gasną z ✕, reszta działa; etykieta o 2 awariach"
+      - name: real_systems
+        change: "Pod spodem pojawiają się chipy Chubby, ZooKeeper, GFS, HDFS, RAMCloud"
+    paper_refs: ["p.1 §2", "p.2 §2 Fig. 1", "p.2 §2 (większość, 5 serwerów, 2 awarie)"]
+
+  - id: paxos_problem
+    chapter: c1
+    idea: "Paxos działa, ale prawie nikt go nie rozumie, więc autorzy postawili zrozumiałość na pierwszym miejscu."
+    visual_form: comparison
+    continues_from: null
+    visual: >
+      Two cards side by side. Left card "Paxos" (muted outline): a small diagram of one
+      decision box "single-decree" with an arrow into a stack "multi-Paxos" marked "?".
+      Chips appear on it one by one: "NSDI 2012: mało kto czuje się pewnie",
+      "autorzy: prawie rok nauki", "brak uzgodnionego multi-Paxos".
+      Then a short Quote strip under the left card: "the final system will be based on an
+      unproven protocol" – Chubby, p.3. Right card "Raft" (heading outline) appears last
+      with one line: "Cel nr 1: zrozumiałość".
+    cues:
+      - name: paxos_card
+        change: "Karta Paxos z single-decree i multi-Paxos ze znakiem zapytania"
+      - name: nsdi_survey
+        change: "Chip NSDI 2012"
+      - name: year_struggle
+        change: "Chip 'prawie rok nauki'"
+      - name: chubby_quote
+        change: "Cytat zespołu Chubby pod kartą"
+      - name: raft_goal
+        change: "Wjeżdża karta Raft: 'Cel nr 1: zrozumiałość'"
+    paper_refs: ["p.2 §3", "p.2 §3 (NSDI 2012, prawie rok)", "p.2–3 §3 (multi-Paxos)", "p.3 §3 cytat Chubby", "p.3 §4"]
+
+  - id: glossary
+    chapter: c1
+    idea: "Pięć słów, których użyjemy w całym odcinku, każde z własnym kolorem."
+    visual_form: glossary
+    continues_from: null
+    visual: >
+      Five TermCards in a row across grid rows 2–4, each with a colored icon and the
+      glossary definition: Leader (leader, crown-dot icon), Follower (neutral/muted, dot),
+      Candidate (candidate, raised-hand), Term (c3, numbered chip "term 1"),
+      Commit (success, ✓). Each card enters when named; the named card glows, others at 30%.
+      Final hold: all five at full opacity.
+    cues:
+      - name: term_leader
+        change: "Karta Leader"
+      - name: term_follower
+        change: "Karta Follower"
+      - name: term_candidate
+        change: "Karta Candidate"
+      - name: term_term
+        change: "Karta Term"
+      - name: term_commit
+        change: "Karta Commit"
+    paper_refs: ["p.5 §5.1 (trzy stany, term)", "p.7 §5.3 (committed)", "p.3 §5"]
+
+  # ---------------------------------------------------------------- c2
+  - id: key_insight
+    chapter: c2
+    idea: "Najpierw wybierz jednego silnego leadera, a problem rozpada się na trzy niezależne części."
+    visual_form: cluster
+    continues_from: replicated_log
+    visual: >
+      Same ring and positions. S1 turns raspberry (Leader), others muted (Follower).
+      Arrows from S1 to S2–S5 with message dots, only outward; a crossed-out arrow
+      from S3 back to S1 shows entries never flow to the leader. Then three chips appear in
+      a row under the ring: "Leader election", "Log replication", "Safety", the first glowing.
+      Small label at the right: "log bez dziur".
+    cues:
+      - name: strong_leader
+        change: "S1 zmienia kolor na leader, reszta na follower"
+      - name: one_way_flow
+        change: "Strzałki tylko od S1 na zewnątrz; strzałka odwrotna przekreślona ✕"
+      - name: decompose_three
+        change: "Trzy chipy: Leader election, Log replication, Safety"
+      - name: state_space
+        change: "Etykieta 'log bez dziur'"
+    paper_refs: ["p.1 §1 (strong leader)", "p.3 §5", "p.3 §4 (decomposition, state space)", "p.16 §10"]
+
+  - id: server_states
+    chapter: c2
+    idea: "Każdy serwer jest w jednym z trzech stanów, a przejścia między nimi wyzwalają timeout i głosy."
+    visual_form: state-machine
+    continues_from: null
+    visual: >
+      Three StatePills left to right: Follower (muted) at grid(1,3), Candidate (candidate)
+      at grid(3,3), Leader (leader) at grid(5,3). A start arrow enters Follower from the left.
+      CurvedArrows appear one at a time with short labels: Follower→Candidate "timeout",
+      Candidate self-loop "timeout, nowe wybory", Candidate→Leader "większość głosów",
+      Candidate→Follower and Leader→Follower (lower arcs) "wyższy term".
+      A moving dot travels the path being described.
+    cues:
+      - name: start_follower
+        change: "Strzałka startowa do Follower, kropka w Follower"
+      - name: timeout_to_candidate
+        change: "Łuk Follower→Candidate 'timeout', kropka przechodzi"
+      - name: majority_to_leader
+        change: "Łuk Candidate→Leader 'większość głosów'"
+      - name: retry_loop
+        change: "Pętla na Candidate 'timeout, nowe wybory'"
+      - name: step_down
+        change: "Dolne łuki do Follower 'wyższy term'"
+    paper_refs: ["p.5 §5.1 Fig. 4", "p.4 Fig. 2 (Rules for Servers)"]
+
+  - id: terms
+    chapter: c2
+    idea: "Term to numerowana kadencja; wyższy numer zawsze wygrywa i demaskuje starego leadera."
+    visual_form: swimlane
+    continues_from: null
+    visual: >
+      Five horizontal Lanes S1–S5 (top to bottom, labels on the left at x≈200) spanning the
+      diagram area; this lane geometry is reused by election, split_vote and limitations.
+      Above the lanes a term ribbon (c3): segments "term 1", "term 2", "term 3", "term 4";
+      each segment starts with a short ochre election block, then a raspberry block for
+      normal operation; "term 3" has only the election block and a ✕ "brak leadera".
+      Then each lane gets a c3 term-counter chip. S5's chip shows "term 1"; a message dot
+      carrying "term 2" reaches it and the chip flips to "term 2". Finally a stale S1
+      (raspberry, "term 1") sends a dot that is rejected with ✕ and S1 turns muted (follower).
+    cues:
+      - name: term_ribbon
+        change: "Wstęga termów 1–4 z blokami wyborów i pracy"
+      - name: split_term
+        change: "Term 3 tylko z wyborami i ✕ 'brak leadera'"
+      - name: term_counters
+        change: "Na każdym torze chip z bieżącym termem"
+      - name: catch_up
+        change: "Wiadomość z term 2 podbija licznik S5 z 1 na 2"
+      - name: stale_reject
+        change: "Stary leader S1 z term 1 odrzucony ✕, przechodzi w follower"
+    paper_refs: ["p.5 §5.1 Fig. 5", "p.5 §5.1 (logiczny zegar, stale term)"]
+
+  - id: election
+    chapter: c2
+    idea: "Gdy heartbeaty milkną, pierwszy serwer z wygasłym timerem zostaje candidate i zbiera większość głosów."
+    visual_form: swimlane
+    continues_from: terms
+    visual: >
+      Same five lanes, ribbon reset to "term 1". S1 lane raspberry (leader). S1 sends
+      heartbeats (empty AppendEntries) as dots to S2–S5; each follower lane has a TimerBar
+      that resets on every heartbeat. Timer lengths differ per lane; label at top-right
+      "election timeout: losowo 150–300 ms". S1 crashes (✕). Timers grow in real time;
+      S3's bar fills first. S3 turns ochre, chip "term 2", a self-vote ✓.
+      RequestVote dots go to all lanes; S2 and S4 answer with ✓ dots; counter next to S3
+      "3/5 – większość". S3 turns raspberry and sends heartbeats in term 2.
+    cues:
+      - name: heartbeats
+        change: "S1 wysyła heartbeaty, timery followerów się resetują"
+      - name: leader_crash
+        change: "S1 gaśnie i dostaje ✕; timery zaczynają rosnąć"
+      - name: s3_timeout
+        change: "Timer S3 kończy się pierwszy; S3 = candidate, term 2, głos na siebie"
+      - name: request_votes
+        change: "Kropki RequestVote od S3 do pozostałych torów"
+      - name: majority_votes
+        change: "Głosy ✓ od S2 i S4; licznik 3/5 – większość"
+      - name: new_leader
+        change: "S3 zmienia kolor na leader i wysyła heartbeaty w term 2"
+    paper_refs: ["p.5–6 §5.2", "p.6 §5.2 (150–300 ms)", "p.4 Fig. 2 (Candidates)", "p.6 §5.2 (Election Safety)"]
+
+  - id: split_vote
+    chapter: c2
+    idea: "Gdy dwóch kandydatów startuje naraz, głosy się dzielą, a losowy timeout rozstrzyga kolejną rundę."
+    visual_form: swimlane
+    continues_from: election
+    visual: >
+      Rewind indicator, back to the moment S1 crashed (term 1, S1 ✕). This time S2 and S4
+      timers end at nearly the same moment; both turn ochre with "term 2". S3 votes ✓ for S2,
+      S5 votes ✓ for S4. Tallies "2/5" next to S2 and S4, then ✕ "brak większości" on the
+      ribbon segment "term 2". Both start new randomized timers of different lengths;
+      S4's ends first: "term 3", RequestVote to all, ✓ from S2, S3, S5, S4 turns raspberry.
+    cues:
+      - name: rewind
+        change: "Cofnięcie do awarii S1 w term 1"
+      - name: double_timeout
+        change: "S2 i S4 jednocześnie zostają candidate w term 2"
+      - name: split_votes
+        change: "S3 głosuje na S2, S5 na S4; liczniki 2/5 i 2/5"
+      - name: no_majority
+        change: "✕ 'brak większości' na segmencie term 2"
+      - name: random_retry
+        change: "Nowe losowe timery o różnej długości"
+      - name: s4_wins
+        change: "S4 wygrywa w term 3 i zmienia kolor na leader"
+    paper_refs: ["p.6 §5.2 (split votes, randomized timeouts)", "p.6 §5.2 (jeden głos na term)"]
+
+  # ---------------------------------------------------------------- c3
+  - id: log_append
+    chapter: c3
+    idea: "Wpis jest commit, gdy leader, który go utworzył, ma go na większości serwerów."
+    visual_form: log-grid
+    continues_from: election
+    visual: >
+      Log grid, one row per server S1–S5 (top to bottom, row labels left), IndexRuler 1–5
+      on top. Story continues from election: S3 is leader in term 2 (raspberry row tag),
+      S1 row dashed with ✕ (crashed). Indexes 1–2 are filled on all rows with term 1 cells
+      "x←1", "y←2", successSoft fill, commit marker after index 2.
+      Client chip sends "x←3" to S3; S3 appends cell index 3 "term 2 · x←3".
+      AppendEntries dots go to S2, S4, S5; S2 and S4 get the cell, S5 is slow (dot stalls,
+      label "ponawia"). Ack ✓ from S2 and S4; counter "3/5"; commit marker slides to index 3,
+      cell turns successSoft ✓, S3 replies to client "OK". Next heartbeat carries
+      "leaderCommit=3"; S2 and S4 apply.
+    cues:
+      - name: client_request
+        change: "Klient wysyła x←3 do leadera S3"
+      - name: leader_append
+        change: "S3 dopisuje index 3 z term 2"
+      - name: append_entries
+        change: "AppendEntries do S2, S4, S5; S5 utyka z etykietą 'ponawia'"
+      - name: majority_ack
+        change: "Potwierdzenia ✓ od S2 i S4; licznik 3/5"
+      - name: commit_marker
+        change: "Znacznik commit przesuwa się na index 3, klient dostaje OK"
+      - name: followers_apply
+        change: "Heartbeat z leaderCommit=3; S2 i S4 wykonują wpis"
+    paper_refs: ["p.6 §5.3", "p.6 §5.3 Fig. 6", "p.7 §5.3 (committed, commitIndex)", "p.4 Fig. 2 (AppendEntries)"]
+
+  - id: consistency_check
+    chapter: c3
+    idea: "Każdy AppendEntries niesie index i term poprzedniego wpisu, więc follower przyjmuje tylko pasujący ciąg."
+    visual_form: log-grid
+    continues_from: log_append
+    visual: >
+      Same grid. S3 appends index 4 "term 2 · y←7". The AppendEntries message to S2 is
+      shown enlarged as a small card next to the arrow, mono font:
+      "prevLogIndex=3 · prevLogTerm=2 · entries=[y←7]". On S2's row index 3 is highlighted
+      and compared with the card: term 2 = term 2 ✓; S2 appends index 4. Same for S4.
+      Commit marker moves to index 4. Then a rule card at bottom-right:
+      "Ten sam index i term → identyczne logi do tego miejsca".
+    cues:
+      - name: new_entry
+        change: "S3 dopisuje index 4 y←7"
+      - name: message_fields
+        change: "Karta wiadomości z prevLogIndex=3 i prevLogTerm=2"
+      - name: follower_check
+        change: "Podświetla się index 3 u S2 i porównanie termów"
+      - name: match_ok
+        change: "✓, S2 i S4 dopisują index 4; commit na index 4"
+      - name: log_matching
+        change: "Karta reguły Log Matching"
+    paper_refs: ["p.7 §5.3 (consistency check)", "p.4 Fig. 2 (prevLogIndex, prevLogTerm)", "p.5 Fig. 3 (Log Matching)"]
+
+  - id: log_repair
+    chapter: c3
+    idea: "Leader sprawdza wspólny punkt (a przy odmowie cofa się wpis po wpisie) i nadpisuje rozbieżny ogon followera."
+    visual_form: log-grid
+    continues_from: consistency_check
+    visual: >
+      Same grid. S1 restarts: its row loses the ✕; its log shows index 1–2 term 1 and an
+      extra index 3 "term 1 · z←0" (written as leader in term 1, never replicated; neutral
+      fill, no ✓). A nextIndex pointer (heading) for S1 appears at index 3 (set when S3
+      was elected with entries 1–2). One AppendEntries card: prev (2, term 1).
+      Before the check, a dimmed what-if note (muted, 50%): "gdyby się nie zgadzało: odmowa ✕",
+      then "nextIndex − 1 i ponowienie". Note fades.
+      prev (2, term 1) → ✓. S1's cell "z←0" fades out with ✕ and cells 3–4 from S3 slide in.
+      Final hold: S1 row identical to S3 up to index 4. Small label: "leader nigdy nie
+      nadpisuje własnego logu".
+    cues:
+      - name: s1_returns
+        change: "S1 wraca z dodatkowym wpisem z←0 w term 1 na index 3"
+      - name: next_index_init
+        change: "Wskaźnik nextIndex dla S1 na index 3 (ustawiony przy wyborze S3); karta AppendEntries prev (2, term 1)"
+      - name: reject_4
+        change: "Przyciemniona notka 'gdyby się nie zgadzało: odmowa ✕'"
+      - name: reject_3
+        change: "Notka uzupełnia się: 'nextIndex − 1 i ponowienie'"
+      - name: match_2
+        change: "Zgodność ✓ na prev (2, term 1)"
+      - name: overwrite_tail
+        change: "z←0 znika z ✕, wpisy 3–4 od leadera trafiają do S1"
+    paper_refs: ["p.7 §5.3 Fig. 7", "p.7 §5.3 (nextIndex, decrement and retry)", "p.4 Fig. 2 (AppendEntries receiver 2–4)", "p.8 §5.3 (Leader Append-Only)"]
+
+  # ---------------------------------------------------------------- c4
+  - id: election_restriction
+    chapter: c4
+    idea: "Serwer bez wszystkich commitów nie wygra wyborów, bo każda większość zawiera kogoś, kto je ma."
+    visual_form: log-grid
+    continues_from: log_repair
+    visual: >
+      Same grid, what-if branch: back to the moment S1 restarted with "z←0" (before repair).
+      S5 row is short: only index 1–2 (it was slow). Commit marker at index 4 (on S2, S3, S4).
+      S1 tag turns ochre: candidate "term 3" (its term 2 attempt failed, votes there already
+      went to S3). Small RequestVote card: "lastLogIndex=3 · lastLogTerm=1".
+      Comparison on S2: own last entry "term 2" vs "term 1" → ✕ vote denied; same on S4 ✕.
+      S5's last entry (index 2, term 1) is not newer → ✓ vote granted. Tally next to S1:
+      "2/5" ✕. Finally a pink hull around S2, S3, S4 (holders of index 3–4) and a second hull
+      around any 3 voters; their intersection glows, label "każde dwie większości się przecinają".
+    cues:
+      - name: s1_candidate
+        change: "S1 zostaje candidate w term 3"
+      - name: vote_request_fields
+        change: "Karta RequestVote z lastLogIndex=3, lastLogTerm=1"
+      - name: compare_last_term
+        change: "S2 porównuje termy ostatnich wpisów: 2 > 1"
+      - name: votes_denied
+        change: "S2 i S4 odmawiają ✕, S5 głosuje ✓; licznik 2/5 ✕"
+      - name: overlap
+        change: "Obwiednie dwóch większości i świecące przecięcie"
+    paper_refs: ["p.8 §5.4.1", "p.4 Fig. 2 (RequestVote receiver 2)", "p.9 §5.4.3 Fig. 9", "p.5 Fig. 3 (Leader Completeness)"]
+
+  - id: fig8_trap
+    chapter: c4
+    idea: "Wpis ze starego termu na większości serwerów wciąż może zostać nadpisany."
+    visual_form: log-grid
+    continues_from: null
+    visual: >
+      Fresh log grid redrawn from Fig. 8, same row geometry (S1–S5 top to bottom),
+      IndexRuler 1–3, step counter top-right "(a)…(d)". Index 1 term 1 on all rows.
+      (a) S1 leader term 2, index 2 "term 2" on S1 and S2.
+      (b) S1 ✕; S5 leader in term 3 with votes from S3, S4, itself; S5 writes index 2 "term 3".
+      (c) S5 ✕; S1 restarts and leads in term 4, copies index 2 "term 2" to S3 and writes
+      index 3 "term 4" on itself. Counter "3/5" next to column 2 and a label
+      "większość, ale nie commit".
+      (d) S1 ✕; S5 elected with votes from S2, S3, S4 (its last term 3 > 2), writes
+      index 2 "term 3": on S2 and S3 it overwrites the term 2 entry (those cells flash
+      danger ✕), on S4 it fills the empty cell.
+    cues:
+      - name: step_a
+        change: "(a) S1 leader term 2, index 2 na S1 i S2"
+      - name: step_b
+        change: "(b) S1 ✕; S5 leader term 3 pisze inny wpis na index 2"
+      - name: step_c
+        change: "(c) S1 wraca jako leader, index 2 z term 2 na S1, S2, S3"
+      - name: majority_not_commit
+        change: "Licznik 3/5 i etykieta 'większość, ale nie commit'"
+      - name: step_d
+        change: "(d) S1 ✕; S5 wygrywa z głosami S2, S3, S4"
+      - name: overwrite
+        change: "Index 2 z term 3: nadpisany na S2 i S3 (komórki z ✕), dopisany na S4"
+    paper_refs: ["p.8 Fig. 8 (a)–(d)", "p.8–9 §5.4.2"]
+
+  - id: fig8_fix
+    chapter: c4
+    idea: "Leader liczy repliki tylko dla wpisów z bieżącego termu; starsze zatwierdzają się pośrednio."
+    visual_form: log-grid
+    continues_from: fig8_trap
+    visual: >
+      Rewind to state (c). Step counter "(e)". S1 (leader term 4) copies index 3 "term 4"
+      to S2 and S3 before crashing; counter "3/5" on column 3, commit marker on index 3,
+      cells ✓; index 2 turns successSoft ✓ too ("pośrednio"). S1 ✕; S5 tries to run:
+      S2 and S3 compare last terms 4 > 3 → ✕ vote denied; S5 tally ✕.
+      Rule card at the bottom: "Liczymy repliki tylko dla wpisów z bieżącego termu".
+    cues:
+      - name: rewind_c
+        change: "Cofnięcie do stanu (c)"
+      - name: replicate_current
+        change: "(e) index 3 z term 4 na S1, S2, S3"
+      - name: commit_both
+        change: "Commit na index 3; index 2 zatwierdzony pośrednio ✓"
+      - name: s5_blocked
+        change: "S5 nie dostaje głosów S2 i S3 ✕"
+      - name: rule_card
+        change: "Karta reguły o bieżącym termie"
+    paper_refs: ["p.8 Fig. 8 (e)", "p.9 §5.4.2", "p.4 Fig. 2 (Leaders: log[N].term == currentTerm)"]
+
+  - id: joint_consensus
+    chapter: c4
+    idea: "Zmiana składu klastra przechodzi przez konfigurację pośrednią, która wymaga większości starej i nowej."
+    visual_form: cluster
+    continues_from: null
+    visual: >
+      New cluster: S1, S2, S3 in the left half (old config), S4, S5 fade in on the right.
+      Config hulls drawn as outlines, not role colors: dashed outline "C_old" around S1–S3,
+      solid outline "C_new" around S1–S5. Direct switch: S1, S2 still on C_old elect S1
+      (raspberry, "term 5"), S3, S4, S5 on C_new elect S5 (raspberry, "term 5") → both glow
+      with danger ✕ "dwóch leaderów w jednym termie". Rewind. Joint path: a log entry chip
+      "C_old,new" on the leader; decisions show two tallies at once "C_old 2/3 ✓" and
+      "C_new 3/5 ✓". Then chip "C_new" commits on 3/5 and the dashed outline fades.
+    cues:
+      - name: grow_cluster
+        change: "Do S1–S3 dochodzą S4 i S5; obrys C_old i C_new"
+      - name: direct_switch
+        change: "Bezpośrednie przełączenie: część serwerów na C_old, część na C_new"
+      - name: two_leaders
+        change: "S1 i S5 leaderami w tym samym termie, ✕"
+      - name: joint_entry
+        change: "Cofnięcie; wpis C_old,new w logu leadera"
+      - name: both_majorities
+        change: "Dwa liczniki naraz: C_old 2/3 ✓ i C_new 3/5 ✓"
+      - name: cnew_commit
+        change: "C_new zatwierdzone, przerywany obrys C_old znika"
+    paper_refs: ["p.10 §6 Fig. 10", "p.10–11 §6 (joint consensus)", "p.11 Fig. 11"]
+
+  # ---------------------------------------------------------------- c5
+  - id: user_study
+    chapter: c5
+    idea: "Studenci, którzy uczyli się obu algorytmów, lepiej rozumieli Rafta niż Paxosa."
+    visual_form: bar-chart
+    continues_from: null
+    visual: >
+      Title (takeaway): "Raft zrozumiany lepiej niż Paxos". Two vertical bars, y-axis 0–60
+      points: Raft 25.7 (leader color), Paxos 20.8 (muted). Bracket between them "+4.9 pkt".
+      Then a big number to the right: "33 z 43" with label "lepszy wynik z Rafta".
+      Then a small muted note: "15 z 43 znało Paxos · wykład Paxos 14% dłuższy".
+      Last: second small chart pair for the survey, "33 z 41: Raft łatwiejszy".
+    cues:
+      - name: bars_means
+        change: "Słupki średnich: Raft 25.7, Paxos 20.8 na 60"
+      - name: diff_label
+        change: "Klamra +4.9 pkt"
+      - name: participants_count
+        change: "Duża liczba 33 z 43"
+      - name: bias_note
+        change: "Notka o przewadze Paxosa: 15 z 43, 14% dłuższy wykład"
+      - name: survey
+        change: "Ankieta: 33 z 41 uważa Raft za łatwiejszy"
+    paper_refs: ["p.13 §9.1", "p.14 §9.1 Fig. 14", "p.14 §9.1 (25.7, 20.8, 15 z 43, 14%)", "p.14 §9.1 Fig. 15 (33 z 41)"]
+
+  - id: election_timing
+    chapter: c5
+    idea: "Odrobina losowości w timeoucie wystarcza, by wybory kończyły się w ułamku sekundy."
+    visual_form: bar-chart
+    continues_from: null
+    visual: >
+      Title (takeaway): "5 ms losowości zamiast ponad 10 s przestoju". Setup chip top-left:
+      "5 serwerów · broadcast ≈15 ms · 1000 prób (100 dla 150–150 ms)".Horizontal bars (log scale, ms):
+      "150–150 ms: > 10 000" (muted, labelled "split votes"), "150–155 ms: mediana 287"
+      (leader color). Then annotation "150–200 ms: najgorszy przypadek 513".
+      Then a separate bar "12–24 ms: średnio 35" in leader color with note "krócej łamie
+      wymaganie czasowe". Final chip: "zalecane: 150–300 ms".
+    cues:
+      - name: setup
+        change: "Chip z warunkami testu"
+      - name: no_random
+        change: "Słupek bez losowości: ponad 10 000 ms"
+      - name: five_ms
+        change: "Słupek 150–155 ms: mediana 287 ms"
+      - name: fifty_ms_worst
+        change: "Adnotacja 150–200 ms: najgorszy przypadek 513 ms"
+      - name: short_timeouts
+        change: "Słupek 12–24 ms: średnio 35 ms"
+      - name: recommendation
+        change: "Chip 'zalecane: 150–300 ms'"
+    paper_refs: ["p.15 §9.3 Fig. 16", "p.15 §9.3 (287 ms, 513 ms, 35 ms, 152 ms, 150–300 ms)"]
+
+  - id: limitations
+    chapter: c5
+    idea: "Bezpieczeństwo Rafta nie zależy od czasu, ale dostępność i wydajność płacą za prostotę."
+    visual_form: swimlane
+    continues_from: split_vote
+    visual: >
+      Same five lanes as the election scenes. Re-run with timers much shorter than the
+      heartbeat round-trip: S3 leader sends heartbeats, but S2's timer fills before the dot
+      arrives; S2 becomes candidate, S3 steps down; ribbon shows terms flipping quickly,
+      each flip marked danger ✕ "zbędna zmiana leadera". Then a centered mono label:
+      "broadcastTime ≪ electionTimeout ≪ MTBF", with two chips under it:
+      "bezpieczeństwo: ✓ bez zależności od czasu", "dostępność: zależy od czasu".
+      Leader crash: gray gap on the ribbon "przestój ≈ election timeout".
+      Last: a small card on the right "EPaxos bez leadera: niższa latencja w WAN".
+    cues:
+      - name: rerun_short
+        change: "Ponowny przebieg z bardzo krótkimi timerami"
+      - name: spurious_elections
+        change: "Termy przeskakują, każdy z ✕ 'zbędna zmiana leadera'"
+      - name: timing_rule
+        change: "Nierówność czasowa i dwa chipy: bezpieczeństwo vs dostępność"
+      - name: downtime_gap
+        change: "Szara luka 'przestój ≈ election timeout' po awarii leadera"
+      - name: epaxos_card
+        change: "Karta EPaxos: niższa latencja w WAN"
+    paper_refs: ["p.10 §5.6", "p.2 §2 (timing nie wpływa na spójność)", "p.15 §9.3 (zbyt krótkie timeouty)", "p.16 §10 (EPaxos)"]
+
+  # ---------------------------------------------------------------- outro
+  - id: outro_invite
+    chapter: null
+    idea: "Cały Raft na jednym obrazie i zaproszenie do następnego odcinka."
+    visual_form: recap
+    continues_from: key_insight
+    visual: >
+      Final full diagram: the ring from key_insight on the left half (S3 raspberry leader,
+      others follower, term chip "term 2"), under it a compact 4-cell log strip with commit
+      marker ✓. On the right five recap lines, one per chapter, each lighting up in turn:
+      "Wspólny log", "Losowy timeout", "Większość = commit", "Bieżący term",
+      "33 z 43". Last: the diagram dims and a card "Następny odcinek" slides in from the right.
+    cues:
+      - name: recap_problem
+        change: "Pierścień i log; linia 'Wspólny log'"
+      - name: recap_election
+        change: "Linia 'Losowy timeout', świeci S3"
+      - name: recap_log
+        change: "Linia 'Większość = commit', świeci znacznik commit"
+      - name: recap_safety
+        change: "Linia 'Bieżący term'"
+      - name: recap_results
+        change: "Linia '33 z 43'"
+      - name: next_episode
+        change: "Diagram przygasa, wjeżdża karta 'Następny odcinek'"
+    paper_refs: ["p.2 §2", "p.6 §5.2", "p.7 §5.3", "p.9 §5.4.2", "p.14 §9.1"]
